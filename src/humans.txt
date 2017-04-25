@@ -1,0 +1,10 @@
+# humanstxt.org/
+# The humans responsible & technology colophon
+
+# TEAM
+
+  EHRET Guillaume -- Developer/CEO -- https://twitter.com/guillaumeehret
+
+# TECHNOLOGY COLOPHON
+
+  HTML5, CSS3, Java

@@ -1,0 +1,8 @@
+# www.robotstxt.org/
+Sitemap: https://www.dev-mind.fr/sitemap.xml
+
+# Allow crawling of all content
+User-agent: *
+Disallow:
+
+

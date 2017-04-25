@@ -1,0 +1,91 @@
+# Apache Server Configs v2.14.0 | MIT License
+
+Options -Indexes
+Options -Multiviews
+
+# Follow symbolic links in this directory.
+Options +FollowSymLinks
+
+RewriteEngine On
+RewriteCond %{SERVER_PORT} 80
+RewriteRule ^(.*)$ https://www.dev-mind.fr/$1 [R=301,L]
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://www.dev-mind.fr/$1 [R=301,L]
+
+
+ErrorDocument 404 https://www.dev-mind.fr/404.html
+
+FileETag INode MTime Size
+
+# Rules to correctly serve gzip compressed CSS and JS files.
+# Requires both mod_rewrite and mod_headers to be enabled.
+<IfModule mod_headers.c>
+    # Serve gzip compressed CSS files if they exist and the client accepts gzip.
+    RewriteCond %{HTTP:Accept-encoding} gzip
+    RewriteCond %{REQUEST_FILENAME}\.gz -s
+    RewriteRule ^(.*)\.css $1\.css\.gz [QSA]
+
+    # Serve gzip compressed JS files if they exist and the client accepts gzip.
+    RewriteCond %{HTTP:Accept-encoding} gzip
+    RewriteCond %{REQUEST_FILENAME}\.gz -s
+    RewriteRule ^(.*)\.js $1\.js\.gz [QSA]
+
+    # Serve correct content types, and prevent mod_deflate double gzip.
+    RewriteRule \.css\.gz$ - [T=text/css,E=no-gzip:1]
+    RewriteRule \.js\.gz$ - [T=text/javascript,E=no-gzip:1]
+
+    <FilesMatch "(\.js\.gz|\.css\.gz)$">
+        # Serve correct encoding type.
+        Header set Content-Encoding gzip
+        # Force proxies to cache gzipped & non-gzipped css/js files separately.
+        Header append Vary Accept-Encoding
+    </FilesMatch>
+
+    #Secure Cookie
+    Header edit Set-Cookie ^(.*)$ $1;HttpOnly;Secure;Max-Age=2592000;Domain=dev-mind.fr;
+
+    #Each resource should have a max age
+    Header set Strict-Transport-Security "max-age=31536000" env=HTTPS
+
+    #It is supported by IE (Internet Explorer) and Chrome and prevents them
+    #from MIME-sniffing a response from the declared content-type.
+    Header set X-Content-Type-Options nosniff
+
+    #X-Frame-Options is an HTTP header that allows sites control over how your site may be framed
+    #within an iframe. Clickjacking is a practical attack that allows malicious sites to trick users
+    #into clicking links on your site even though they may appear to not be on your site at all.
+    Header set X-Frame-Options DENY
+
+    #X-XSS-Protection is a feature of Internet Explorer and Chrome that stops pages from loading when
+    #they detect reflected cross-site scripting (XSS) attacks.
+    Header set x-xss-protection "1; mode=block"
+</IfModule>
+
+<IfModule mod_expires.c>
+ ExpiresActive On
+ ExpiresDefault "access plus 7200 seconds"
+ ExpiresByType image/jpg "access plus 172800 seconds"
+ ExpiresByType image/jpeg "access plus 172800 seconds"
+ ExpiresByType image/png "access plus 172800 seconds"
+ ExpiresByType image/gif "access plus 172800 seconds"
+ ExpiresByType image/svg+xm "access plus 172800 seconds"
+ AddType image/x-icon .ico
+ ExpiresByType image/ico "access plus 172800 seconds"
+ ExpiresByType image/icon "access plus 172800 seconds"
+ ExpiresByType image/x-icon "access plus 172800 seconds"
+ #ExpiresByType text/css "access plus 172800 seconds"
+ #ExpiresByType text/javascript "access plus 172800 seconds"
+ #ExpiresByType text/html "access plus 7200 seconds"
+ #ExpiresByType application/xhtml+xml "access plus 7200 seconds"
+ #ExpiresByType application/javascript A2592000
+ #ExpiresByType application/x-javascript "access plus 172800 seconds"
+</IfModule>
+# END Expire headers
+
+#Activation de la compression
+mod_gzip_on On
+
+#Compression active uniquement sur les contenus textuels.
+SetOutputFilter DEFLATE
+AddOutputFilterByType DEFLATE text/html text/xml application/xhtml+xml text/plain application/javascript text/css image/jpg image/png
+
