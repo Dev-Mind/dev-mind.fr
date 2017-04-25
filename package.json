@@ -1,0 +1,9 @@
+{
+  "name": "dev-mind.com",
+  "version": "1.0.0",
+  "description": "Website of Dev-Mind",
+  "main": "index.html",
+  "repository": "https://github.com/Dev-Mind/dev-mind.com.git",
+  "author": "guillaume@dev-mind.fr",
+  "license": "MIT"
+}
