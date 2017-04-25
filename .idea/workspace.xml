@@ -2,110 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c48b0403-11b8-4cb8-b493-dcdb2cc9b64c" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/favicon.ico" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/animation/cloud/cloud1.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/animation/cloud/cloud2.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/animation/cloud/cloud3.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/animation/cloud/cloudb1.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/animation/cloud/cloudb2.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/animation/cloud/cloudb3.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/animation/cloud/cloudb3_inv.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/animation/grass/grass1.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/animation/grass/grass2.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/animation/hills/hills1.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/animation/hills/hills2.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/animation/mountain/mountain1.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/animation/mountain/mountain2.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/blog/agilite.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/blog/agilite_inv.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/blog/android.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/blog/android_inv.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/blog/blogger.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/blog/blogger_inv.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/blog/html.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/blog/html_inv.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/blog/java.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/blog/java_inv.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/chrono.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/chrono.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/chrono1.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/chrono2.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/contact/blogger.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/contact/blogger_inv.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/contact/blogger_inv1.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/contact/cloud.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/contact/googlep.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/contact/googlep_inv.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/contact/googlep_inv1.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/contact/linkedin.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/contact/linkedin_inv.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/contact/twitter.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/contact/twitter_inv.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/contact/twitter_inv1.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/contact/viadeo.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/contact/viadeo_inv.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/experience/conseil.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/experience/conseil_1280.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/experience/conseil_2500.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/experience/conseil_600.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/experience/formation.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/experience/formation_1280.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/experience/formation_2500.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/experience/formation_600.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/experience/realisation.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/experience/realisation_1280.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/experience/realisation_2500.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/experience/realisation_600.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/experience/voeux_1280.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/experience/voeux_2500.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/experience/voeux_600.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/formation/BBL_SaintEtienne.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/formation/angularjs.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/formation/formation_back.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/formation/formation_back_500.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/formation/formation_complet.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/formation/formation_complet_500.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/formation/formation_floue.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/formation/formation_floue_500.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/formation/formation_html.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/formation/formation_javascript.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/formation/formation_moinsfloue.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/formation/formation_moinsfloue_500.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/formation/formation_optimiser.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/formation/kanban.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/logo/logo_1500.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/logo/logo_200.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/logo/logo_450.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/logo/logo_48.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/logo512.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/logo_devoxx_france_150_33.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/logo_new.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/logo_new_small.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/touch/apple-touch-icon.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/touch/chrome-touch-icon.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/touch/icon.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/touch/ms-touch-icon.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.eslintrc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gulpfile.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/blog/article1.adoc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/hamburger.svg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/ic_home_white_24px.svg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/logo/logo.svg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/logo/logo_long.svg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/js/main.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/manifest.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/manifest.webapp" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/sass/common.scss" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/sass/footer.component.scss" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/sass/home.component.scss" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/sass/main.scss" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/sass/navbar.component.scss" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/templates/blog.hbs" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/templates/site.hbs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gulp-extensions/asciidoctor-extensions/include-processor-extension.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gulp-extensions/asciidoctor-extensions/tabs-extension.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gulp-extensions/transformers/apply-template.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gulp-extensions/transformers/asciidoctor-convert.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gulp-extensions/transformers/asciidoctor-read.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gulp-extensions/transformers/highlight-code.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gulpfile.js" afterPath="$PROJECT_DIR$/gulpfile.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/templates/blog.hbs" afterPath="$PROJECT_DIR$/src/templates/blog.hbs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/templates/site.hbs" afterPath="$PROJECT_DIR$/src/templates/site.hbs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/yarn.lock" afterPath="$PROJECT_DIR$/yarn.lock" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -121,8 +29,18 @@
       <file leaf-file-name="gulpfile.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gulpfile.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="828">
-              <caret line="95" column="24" lean-forward="false" selection-start-line="95" selection-start-column="24" selection-end-line="95" selection-end-column="24" />
+            <state relative-caret-position="180">
+              <caret line="44" column="64" lean-forward="false" selection-start-line="44" selection-start-column="64" selection-end-line="44" selection-end-column="64" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="article1.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/build/.tmp/blog/article1.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-2268">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -131,8 +49,18 @@
       <file leaf-file-name="blog.hbs" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/templates/blog.hbs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="369">
-              <caret line="50" column="45" lean-forward="true" selection-start-line="50" selection-start-column="45" selection-end-line="50" selection-end-column="45" />
+            <state relative-caret-position="108">
+              <caret line="3" column="4" lean-forward="false" selection-start-line="3" selection-start-column="4" selection-end-line="3" selection-end-column="4" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="site.hbs" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/templates/site.hbs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="468">
+              <caret line="13" column="4" lean-forward="false" selection-start-line="13" selection-start-column="4" selection-end-line="13" selection-end-column="4" />
               <folding />
             </state>
           </provider>
@@ -158,31 +86,31 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="36">
-              <caret line="1" column="5" lean-forward="false" selection-start-line="1" selection-start-column="5" selection-end-line="1" selection-end-column="5" />
+            <state relative-caret-position="216">
+              <caret line="6" column="5" lean-forward="false" selection-start-line="6" selection-start-column="5" selection-end-line="6" selection-end-column="5" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="humans.txt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/humans.txt">
+      <file leaf-file-name="apply-template.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/gulp-extensions/transformers/apply-template.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="504">
+              <caret line="14" column="5" lean-forward="false" selection-start-line="14" selection-start-column="5" selection-end-line="14" selection-end-column="5" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="robots.txt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/robots.txt">
+      <file leaf-file-name="package.json" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/package.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="583">
+              <caret line="30" column="27" lean-forward="false" selection-start-line="30" selection-start-column="27" selection-end-line="30" selection-end-column="27" />
               <folding />
             </state>
           </provider>
@@ -213,10 +141,12 @@
       <list>
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/src/sass/blog/blog.scss" />
-        <option value="$PROJECT_DIR$/gulpfile.js" />
-        <option value="$PROJECT_DIR$/src/templates/blog.hbs" />
         <option value="$PROJECT_DIR$/src/manifest.json" />
         <option value="$PROJECT_DIR$/src/manifest.webapp" />
+        <option value="$PROJECT_DIR$/package.json" />
+        <option value="$PROJECT_DIR$/gulpfile.js" />
+        <option value="$PROJECT_DIR$/src/templates/blog.hbs" />
+        <option value="$PROJECT_DIR$/src/templates/site.hbs" />
       </list>
     </option>
   </component>
@@ -313,11 +243,25 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
+              <option name="myItemId" value="gulp-extensions" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="blog" />
+              <option name="myItemId" value="transformers" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dev-mind.com" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dev-mind.com" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="gulp-extensions" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -353,6 +297,28 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dev-mind.com" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dev-mind.com" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="build" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value=".tmp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="blog" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="Scope" />
@@ -380,11 +346,11 @@
       <recent name="$PROJECT_DIR$/src/sass/site" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/gulp-extensions" />
       <recent name="$PROJECT_DIR$/src/blog" />
       <recent name="$PROJECT_DIR$/src/templates" />
       <recent name="$PROJECT_DIR$/src" />
       <recent name="$PROJECT_DIR$/src/images" />
-      <recent name="$PROJECT_DIR$/build/.tmp/img" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -826,12 +792,20 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1493142967319</updated>
-      <workItem from="1493142970055" duration="9757000" />
+      <workItem from="1493142970055" duration="11289000" />
     </task>
+    <task id="LOCAL-00001" summary="Adds images, sass files, mustache templates">
+      <created>1493156198035</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1493156198035</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="9757000" />
+    <option name="totallyTimeSpent" value="11289000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1512" y="72" width="2326" height="2088" extended-state="0" />
@@ -848,7 +822,7 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33544305" sideWeight="0.48074296" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3064346" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2295354" sideWeight="0.4793772" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.44524336" sideWeight="0.4793772" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26610017" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -882,6 +856,10 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Adds images, sass files, mustache templates" />
+    <option name="LAST_COMMIT_MESSAGE" value="Adds images, sass files, mustache templates" />
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
     <watches-manager />
@@ -911,21 +889,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="4" column="8" lean-forward="false" selection-start-line="4" selection-start-column="8" selection-end-line="4" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/build/.tmp/js/main.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1012">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1018,22 +986,6 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gulpfile.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="828">
-          <caret line="95" column="24" lean-forward="false" selection-start-line="95" selection-start-column="24" selection-end-line="95" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/templates/blog.hbs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="369">
-          <caret line="50" column="45" lean-forward="true" selection-start-line="50" selection-start-column="45" selection-end-line="50" selection-end-column="45" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/humans.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1076,8 +1028,56 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
-          <caret line="1" column="5" lean-forward="false" selection-start-line="1" selection-start-column="5" selection-end-line="1" selection-end-column="5" />
+        <state relative-caret-position="216">
+          <caret line="6" column="5" lean-forward="false" selection-start-line="6" selection-start-column="5" selection-end-line="6" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gulp-extensions/transformers/apply-template.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="504">
+          <caret line="14" column="5" lean-forward="false" selection-start-line="14" selection-start-column="5" selection-end-line="14" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="583">
+          <caret line="30" column="27" lean-forward="false" selection-start-line="30" selection-start-column="27" selection-end-line="30" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gulpfile.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="44" column="64" lean-forward="false" selection-start-line="44" selection-start-column="64" selection-end-line="44" selection-end-column="64" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build/.tmp/blog/article1.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2268">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/templates/blog.hbs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="3" column="4" lean-forward="false" selection-start-line="3" selection-start-column="4" selection-end-line="3" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/templates/site.hbs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="468">
+          <caret line="13" column="4" lean-forward="false" selection-start-line="13" selection-start-column="4" selection-end-line="13" selection-end-column="4" />
           <folding />
         </state>
       </provider>

@@ -2,12 +2,18 @@
 
 const gulp = require('gulp');
 const del = require('del');
+const path = require('path');
 const browserSync = require('browser-sync');
 const imagemin = require('gulp-imagemin');
 const imageminMozjpeg = require('imagemin-mozjpeg');
 const runSequence = require('run-sequence');
 
 const $ = require('gulp-load-plugins')();
+
+const asciidoctorRead = require('./gulp-extensions/transformers/asciidoctor-read');
+const asciidoctorConvert = require('./gulp-extensions/transformers/asciidoctor-convert');
+const applyTemplate = require('./gulp-extensions/transformers/apply-template');
+const highlightCode = require('./gulp-extensions/transformers/highlight-code');
 
 const AUTOPREFIXER_BROWSERS = [
   'ie >= 10',
@@ -36,8 +42,16 @@ gulp.task('styles', () => gulp.src(['src/sass/main.scss'])
   .pipe(gulp.dest('build/dist/css'))
 );
 
-gulp.task('asciidoctor', () => {
+const handlebarTemplate = path.resolve(__dirname, 'src/templates/blog.hbs');
 
+gulp.task('asciidoctor', () => {
+  gulp
+    .src('src/blog/**/*.adoc')
+    .pipe(asciidoctorRead())
+    .pipe(asciidoctorConvert())
+    .pipe(applyTemplate({ handlebarTemplate }))
+    .pipe(highlightCode({ selector: 'pre.highlight code' }))
+    .pipe(gulp.dest('build/.tmp/blog'));
 });
 
 gulp.task('lint', () => gulp.src('src/js/**/*.js')
