@@ -1,0 +1,20 @@
+image::src/images/logo/logo_1500.png[Dev-Mind]
+
+== Overview
+
+This is the sources of our web site https://dev-mind.fr.
+
+== Browser Support
+
+At present, we officially aim to support the last two versions of the following browsers:
+
+* Chrome
+* Edge
+* Firefox
+* Safari
+* Opera
+* Internet Explorer 9+
+
+== License
+
+MIT
