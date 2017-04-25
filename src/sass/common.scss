@@ -1,0 +1,48 @@
+$color_primary : #186fc6;
+$color_flash : #ff4081;
+$color_dark : #424242;
+$color_dark_txt : #9e9e9e;
+
+$max_width_mobile : 700px;
+$min_width_tablet : 701px;
+$max_width_tablet : 1024px;
+$min_width_desktop : 1025px;
+
+$h1_mobile_fontsize : 28px;
+$h2_mobile_fontsize : 22px;
+
+$h1_screen_fontsize : 45px;
+$h2_screen_fontsize : 35px;
+
+$text_head_mobile : 16px;
+$text_head_screen : 20px;
+
+$header__heigth: 64px;
+
+@mixin dm_box__shadow(){
+  //box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+}
+
+@mixin dm_home_link($linkcolor) {
+  a, a:hover, a:visited  {
+    font-weight: bold;
+    color: $linkcolor;
+    text-decoration: none;
+  }
+}
+
+@mixin dm_container(){
+  display: block;
+  margin:0 auto;
+  max-width: 1600px;
+  padding:80px 40px;
+
+  @media (max-width: $max_width_mobile) {
+    padding:25px 10px;
+  }
+  @media (min-width: $min_width_tablet) and (max-width: $max_width_tablet) {
+    padding:40px 25px;
+  }
+}
+

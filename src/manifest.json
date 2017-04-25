@@ -1,0 +1,25 @@
+{
+  "name": "Dev-Mind",
+  "short_name": "Dev-Mind",
+  "icons": [{
+        "src": "img/touch/icon.png",
+        "sizes": "128x128",
+        "type": "image/png"
+      }, {
+        "src": "img/touch/apple-touch-icon.png",
+        "sizes": "152x152",
+        "type": "image/png"
+      }, {
+        "src": "img/touch/ms-touch-icon.png",
+        "sizes": "144x144",
+        "type": "image/png"
+      }, {
+        "src": "img/touch/chrome-touch-icon.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      }],
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#90CAF9",
+  "theme_color": "#2196f3"
+}

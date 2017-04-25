@@ -1,6 +1,5 @@
 node_modules
-dist
-.tmp
+build
 .idea
 .travis.yml
 *.iws

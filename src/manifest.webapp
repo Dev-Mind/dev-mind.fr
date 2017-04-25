@@ -1,0 +1,26 @@
+{
+  "version": "1.0.0",
+  "name": "Dev-Mind",
+  "launch_path": "/index.html",
+  "description": "Dev-mind : Guillaume EHRET développeur indépendant spécialiste Java, Web, Agilité",
+  "start_url": "/index.html"
+  "icons": {
+    "128": "/images/touch/icon.png"
+  },
+  "developer": {
+    "name": "Guillaume EHRET",
+    "url": "https://www.dev-mind.fr/"
+  },
+  "installs_allowed_from": [
+    "*"
+  ],
+  "default_locale": "fr",
+  "permissions": {
+  },
+  "locales": {
+    "en": {
+      "name": "Dev-Mind",
+      "description": "Dev-Mind : Guillaume EHRET freelance developer Java, Web, Agile methods"
+    }
+  }
+}
