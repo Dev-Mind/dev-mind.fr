@@ -38,6 +38,8 @@
     "merge-stream": "^1.0.1",
     "run-sequence": "^1.2.2",
     "stream-to-array": "^2.3.0",
+    "sw-precache": "^5.1.0",
+    "sw-toolbox": "^3.6.0",
     "vinyl-fs": "^2.4.4"
   }
 }

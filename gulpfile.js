@@ -7,6 +7,7 @@ const browserSync = require('browser-sync');
 const imagemin = require('gulp-imagemin');
 const imageminMozjpeg = require('imagemin-mozjpeg');
 const runSequence = require('run-sequence');
+const swPrecache = require('sw-precache');
 
 const $ = require('gulp-load-plugins')();
 const reload = browserSync.reload;
@@ -119,9 +120,37 @@ gulp.task('copy', () => {
     .pipe(gulp.dest('build/dist/img'))
 });
 
-gulp.task('service-worker', () => {
+gulp.task('generate-service-worker', (callback) => {
+  var config = {
+    cacheId: 'dev-mind',
+    // Determines whether the fetch event handler is included in the generated service worker code. It is useful to
+    // set this to false in development builds, to ensure that features like live reload still work. Otherwise, the content
+    // would always be served from the service worker cache.
+    handleFetch: true,
+    runtimeCaching: [{
+      urlPattern: '/(.*)',
+      handler: 'networkFirst',
+      options : {
+        networkTimeoutSeconds: 3,
+        maxAgeSeconds: 7200
+      }
+    }],
+    staticFileGlobs: [ 'build/dist/**/*.{js,html,css,png,jpg,json,gif,svg,webp,eot,ttf,woff,woff2}'],
+    stripPrefix: 'build/dist/',
+    verbose: true
+  };
 
+  swPrecache.write(`build/.tmp/service-worker.js`, config, callback);
 });
+
+gulp.task('service-worker', ['generate-service-worker'], (callback) => gulp.src(`build/.tmp/service-worker.js`)
+    .pipe($.sourcemaps.init())
+    .pipe($.sourcemaps.write())
+    .pipe($.uglify({preserveComments: 'none'}))
+    .pipe($.size({title: 'scripts'}))
+    .pipe($.sourcemaps.write('.'))
+    .pipe(gulp.dest(`build/dist`))
+);
 
 gulp.task('compress', () => {
 
