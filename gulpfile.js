@@ -42,19 +42,20 @@ const HTMLMIN_OPTIONS = {
   removeOptionalTags: true
 };
 
-gulp.task('styles', () => gulp.src(['src/sass/main.scss'])
-  .pipe($.newer('build/.tmp/css'))
-  .pipe($.sourcemaps.init())
-  .pipe($.sass({
-    precision: 10
-  }).on('error', $.sass.logError))
-  .pipe($.autoprefixer(AUTOPREFIXER_BROWSERS))
-  .pipe(gulp.dest('build/.tmp/css'))
-  // Concatenate and minify styles
-  .pipe($.if('*.css', $.cssnano()))
-  .pipe($.size({title: 'styles'}))
-  .pipe($.sourcemaps.write('./'))
-  .pipe(gulp.dest('build/dist/css'))
+gulp.task('styles', () =>
+  gulp.src(['src/sass/main.scss'])
+    .pipe($.newer('build/.tmp/css'))
+    .pipe($.sourcemaps.init())
+    .pipe($.sass({
+      precision: 10
+    }).on('error', $.sass.logError))
+    .pipe($.autoprefixer(AUTOPREFIXER_BROWSERS))
+    .pipe(gulp.dest('build/.tmp/css'))
+    // Concatenate and minify styles
+    .pipe($.if('*.css', $.cssnano()))
+    .pipe($.size({title: 'styles'}))
+    .pipe($.sourcemaps.write('./'))
+    .pipe(gulp.dest('build/dist/css'))
 );
 
 
@@ -64,17 +65,18 @@ gulp.task('asciidoctor', () => {
     .src('src/blog/**/*.adoc')
     .pipe(asciidoctorRead())
     .pipe(asciidoctorConvert())
-    .pipe(applyTemplate({ handlebarTemplate }))
-    .pipe(highlightCode({ selector: 'pre.highlight code' }))
+    .pipe(applyTemplate({handlebarTemplate}))
+    .pipe(highlightCode({selector: 'pre.highlight code'}))
     .pipe(gulp.dest('build/.tmp/blog'))
     .pipe($.htmlmin(HTMLMIN_OPTIONS))
     .pipe(gulp.dest('build/dist/blog'));
 });
 
-gulp.task('lint', () => gulp.src('src/js/**/*.js')
-  .pipe($.eslint())
-  .pipe($.eslint.format())
-  .pipe($.if(!browserSync.active, $.eslint.failOnError()))
+gulp.task('lint', () =>
+  gulp.src('src/js/**/*.js')
+    .pipe($.eslint())
+    .pipe($.eslint.format())
+    .pipe($.if(!browserSync.active, $.eslint.failOnError()))
 );
 
 gulp.task('html', () => {
@@ -82,28 +84,30 @@ gulp.task('html', () => {
   gulp
     .src('src/partials/**/*.html')
     .pipe(htmlRead())
-    .pipe(applyTemplate({ handlebarTemplate }))
+    .pipe(applyTemplate({handlebarTemplate}))
     .pipe($.size({title: 'html', showFiles: true}))
     .pipe(gulp.dest('build/.tmp'))
     .pipe($.htmlmin(HTMLMIN_OPTIONS))
     .pipe(gulp.dest('build/dist'));
 });
 
-gulp.task('scripts', () => gulp.src(['src/js/main.js'])
-  .pipe($.newer('build/.tmp/js'))
-  .pipe($.sourcemaps.init())
-  .pipe($.babel())
-  .pipe($.sourcemaps.write())
-  .pipe(gulp.dest('build/.tmp/js'))
-  .pipe($.concat('main.js'))
-  .pipe($.uglify({preserveComments: 'some'}))
-  // Output files
-  .pipe($.size({title: 'scripts'}))
-  .pipe($.sourcemaps.write('.'))
-  .pipe(gulp.dest('build/dist/js'))
+gulp.task('scripts', () =>
+  gulp.src(['src/js/main.js'])
+    .pipe($.newer('build/.tmp/js'))
+    .pipe($.sourcemaps.init())
+    .pipe($.babel())
+    .pipe($.sourcemaps.write())
+    .pipe(gulp.dest('build/.tmp/js'))
+    .pipe($.concat('main.js'))
+    .pipe($.uglify({preserveComments: 'some'}))
+    // Output files
+    .pipe($.size({title: 'scripts'}))
+    .pipe($.sourcemaps.write('.'))
+    .pipe(gulp.dest('build/dist/js'))
 );
 
-gulp.task('images', () => gulp.src('src/images/**/*.{svg,png,jpg}')
+gulp.task('images', () =>
+  gulp.src('src/images/**/*.{svg,png,jpg}')
     .pipe(imagemin([imagemin.gifsicle(), imageminMozjpeg(), imagemin.optipng(), imagemin.svgo()], {
       progressive: true,
       interlaced: true,
@@ -116,8 +120,15 @@ gulp.task('images', () => gulp.src('src/images/**/*.{svg,png,jpg}')
 );
 
 gulp.task('copy', () => {
-  gulp.src('build/.tmp/img/**/*.{png,jpg}')
-    .pipe(gulp.dest('build/dist/img'))
+  gulp.src([
+    'build/.tmp/**/*.{png,jpg}',
+    'src/**/*.{ico,html,txt,json,webapp,xml}',
+    'src/.htaccess'
+  ], {
+    dot: true
+  })
+    .pipe($.size({title: 'copy', showFiles: true}))
+    .pipe(gulp.dest('build/dist'));
 });
 
 gulp.task('generate-service-worker', (callback) => {
@@ -130,12 +141,12 @@ gulp.task('generate-service-worker', (callback) => {
     runtimeCaching: [{
       urlPattern: '/(.*)',
       handler: 'networkFirst',
-      options : {
+      options: {
         networkTimeoutSeconds: 3,
         maxAgeSeconds: 7200
       }
     }],
-    staticFileGlobs: [ 'build/dist/**/*.{js,html,css,png,jpg,json,gif,svg,webp,eot,ttf,woff,woff2}'],
+    staticFileGlobs: ['build/dist/**/*.{js,html,css,png,jpg,json,gif,svg,webp,eot,ttf,woff,woff2}'],
     stripPrefix: 'build/dist/',
     verbose: true
   };
@@ -143,7 +154,8 @@ gulp.task('generate-service-worker', (callback) => {
   swPrecache.write(`build/.tmp/service-worker.js`, config, callback);
 });
 
-gulp.task('service-worker', ['generate-service-worker'], (callback) => gulp.src(`build/.tmp/service-worker.js`)
+gulp.task('service-worker', ['generate-service-worker'], (callback) =>
+  gulp.src(`build/.tmp/service-worker.js`)
     .pipe($.sourcemaps.init())
     .pipe($.sourcemaps.write())
     .pipe($.uglify({preserveComments: 'none'}))
@@ -158,11 +170,11 @@ gulp.task('compress-svg', () =>
     .pipe(gulp.dest('build/dist'))
 );
 
-gulp.task('compress', ['compress-svg'], () => {
+gulp.task('compress', ['compress-svg'], () =>
   gulp.src('build/dist/**/*.{js,css,png,webp,jpg,html}')
     .pipe($.gzip())
-    .pipe(gulp.dest('build/dist'));
-});
+    .pipe(gulp.dest('build/dist'))
+);
 
 gulp.task('serve', ['build'], () => {
   browserSync({

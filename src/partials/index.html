@@ -1,403 +1,386 @@
-<header>
-    <nav>
-        <a href="index.html#home" class="mdl-layout__tab is-active" ng-class="{ 'is-active' : active === 'home' }"
-           ng-click="changeMenu('home')"><img src="img/ic_home_white_24px.svg" rel="start"></a>
-        <a href="index.html#blog" class="mdl-layout__tab" ng-class="{ 'is-active' : active === 'blog' }"
-           ng-click="changeMenu('blog')">Blog</a>
-        <a href="index.html#formation" class="mdl-layout__tab" ng-class="{ 'is-active' : active === 'formation' }"
-           ng-click="changeMenu('formation')">Formations</a>
-        <a href="index.html#experience" class="mdl-layout__tab is-large-screen"
-           ng-class="{ 'is-active' : active === 'experience' }"
-           ng-click="changeMenu('experience')">Expérience</a>
-        <a href="index.html#contact" class="mdl-layout__tab" ng-class="{ 'is-active' : active === 'contact' }"
-           ng-click="changeMenu('contact')">Contact</a>
-    </nav>
-</header>
-<main>
-    <div class="home">
-        <div class="dm_home_me" id="home">
-            <devmind-home-me>
-                <p class="dm_logo"><img src="img/logo/logo_long.svg" alt="Dev-Mind" title="Dev-Mind"></p>
+<div class="home">
+    <div class="dm_home_me" id="home">
+        <devmind-home-me>
+            <p class="dm_logo"><img src="img/logo/logo_long.svg" alt="Dev-Mind" title="Dev-Mind"></p>
 
-                <p>&nbsp;</p>
-                <div style="background-color: #90CAF9;padding: 1em;border-radius: 4px;" class="dm_shadow">
-                    <p class="dm_lead is-middle-screen " style="color: #303e5e;font-weight: bold;">
-                        Le jeudi 6 avril 2017 j'ai donné une conférence à
-                        <a style="color: black" href="http://cfp.devoxx.fr/2017/speaker/guillaume_ehret">Devoxx
-                            France</a>
-                        sur
-                        <a style="color: black"
-                           href="http://cfp.devoxx.fr/2017/talk/DOZ-6256/Optimiser_les_performances_d'une_webapp"><i>"Comment
-                            optimiser les performances d'une webapp"</i></a>.
-                        Cette session est une introduction à <a href="formation_optimiser.html" style="color: black">ma
-                        formation</a> sur le sujet.
-                        Prolongez l'expérience en contactant Dev-Mind pour une formation.
+            <p>&nbsp;</p>
+            <div style="background-color: #90CAF9;padding: 1em;border-radius: 4px;" class="dm_shadow">
+                <p class="dm_lead is-middle-screen " style="color: #303e5e;font-weight: bold;">
+                    Le jeudi 6 avril 2017 j'ai donné une conférence à
+                    <a style="color: black" href="http://cfp.devoxx.fr/2017/speaker/guillaume_ehret">Devoxx
+                        France</a>
+                    sur
+                    <a style="color: black"
+                       href="http://cfp.devoxx.fr/2017/talk/DOZ-6256/Optimiser_les_performances_d'une_webapp"><i>"Comment
+                        optimiser les performances d'une webapp"</i></a>.
+                    Cette session est une introduction à <a href="formation_optimiser.html" style="color: black">ma
+                    formation</a> sur le sujet.
+                    Prolongez l'expérience en contactant Dev-Mind pour une formation.
+                </p>
+            </div>
+
+            <h1>Développeur indépendant</h1>
+
+            <p class="dm_lead is-middle-screen">Je propose mes services
+                pour aider les entreprises qui souhaitent
+                créer de nouveaux logiciels ou s'organiser pour réussir leurs défis. Je peux intervenir en tant
+                que
+                développeur expérimenté pour du conseil, de la programmation et de la formation. </p>
+
+            <p class="dm_lead is-large-screen">
+                Bonjour, je me nomme <a href="https://twitter.com/guillaumeehret">Guillaume EHRET</a> et je suis
+                passionné par le développement de logiciels. Je participe à la mise en place de projets depuis
+                2001 principalement sur des technologies Java et Web. Depuis que je suis tombé dans l'agilité en
+                2003 j'ai découvert une manière de travailler
+                qui mêle humanité et efficacité.
+            </p>
+
+            <p class="dm_lead is-large-screen">Au delà de plusieurs expériences en sociétés de services, j'ai
+                travaillé 6 ans pour le groupe Casino Restauration, filiale du groupe Casino en
+                tant que chef de projet fonctionnel et technique, et 4 ans en tant qu'architecte applicatif pour
+                le compte des laboratoires Boiron. Aujourd'hui je propose mes services
+                pour aider les entreprises qui souhaitent créer de nouveaux logiciels ou s'organiser pour réussir
+                leurs défis.
+                Je peux intervenir en tant que développeur expérimenté pour du conseil,
+                de la programmation et de la formation.
+            </p>
+
+            <p class="dm_lead">Je fais par ailleurs partie des organisateurs de la conférence <a
+                    href="https://www.mix-it.fr/">Mix-IT</a> qui a lieu tous
+                les ans à Lyon qui regroupe plus de 600 personnes pendant 2 jours autour de conférences
+                et d'ateliers.</p>
+
+            <p>
+                <a href="https://twitter.com/guillaumeehret" target="_blank">
+                    <img src="img/contact/twitter.png"
+                         alt="Twitter"
+                         onmouseover="this.src='img/contact/twitter_inv.png'"
+                         onmouseout="this.src='img/contact/twitter.png'"/></a>
+                <a href="https://plus.google.com/+GuillaumeEhret" target="_blank">
+                    <img src="img/contact/googlep.png"
+                         alt="Google+"
+                         onmouseover="this.src='img/contact/googlep_inv.png'"
+                         onmouseout="this.src='img/contact/googlep.png'"/></a>
+                <a href="http://javamind-fr.blogspot.fr/" target="_blank">
+                    <img src="img/contact/blogger.png"
+                         alt="Mon blog"
+                         onmouseover="this.src='img/contact/blogger_inv.png'"
+                         onmouseout="this.src='img/contact/blogger.png'"/></a>
+                <a href="https://www.linkedin.com/pub/guillaume-ehret/7/668/999" target="_blank">
+                    <img src="img/contact/linkedin.png" class="social"
+                         alt="Mon profil linkedin"
+                         onmouseover="this.src='img/contact/linkedin_inv.png'"
+                         onmouseout="this.src='img/contact/linkedin.png'"/></a>
+                <a href="http://fr.viadeo.com/fr/profile/guillaume.ehret1" target="_blank">
+                    <img src="img/contact/viadeo.png"
+                         alt="Mon profil Viadeo"
+                         onmouseover="this.src='img/contact/viadeo_inv.png'"
+                         onmouseout="this.src='img/contact/viadeo.png'"/></a>
+            </p>
+        </devmind-home-me>
+    </div>
+
+    <div id="dm_transition_cloud"></div>
+
+    <div class="dm_home_blog" id="blog">
+        <devmind-home-blog>
+            <h1>Mon blog</h1>
+
+            <h2><a href="http://javamind-fr.blogspot.fr/" target="javamind">Javamind</a> un blog sur les outils et
+                les méthodes de développement </h2>
+
+            <p class="dm_lead">
+                Selon moi, le savoir est fait pour être transmis et j'essaye de me conformer au maximum à cet
+                adage, en partageant mes retours sur les sujets
+                que j'étudie, sur les conférences auxquelles j’assiste régulièrement...
+            </p>
+
+            <p class="dm_lead is-large-screen">
+                En tant qu'artisan du développement je suis suis sans cesse à l’affût de tout changement dans
+                l'évolution des systèmes
+                d'informations, des pratiques de développement, des langages... Selon moi, le savoir est fait
+                pour
+                être transmis et j'essaye de me conformer au maximum à cet
+                adage, en partageant mes retours sur les sujets
+                que j'étudie, sur les conférences auxquelles j’assiste régulièrement...
+            </p>
+
+            <div class="dm_grid">
+                <div class="dm_grid__element">
+                    <p class="dm_lead">Java</p>
+                    <a href="http://javamind-fr.blogspot.fr/search/label/Java">
+                        <img src="img/blog/java.png"
+                             alt="Mes articles sur Java"
+                             onmouseover="this.src='img/blog/java_inv.png'"
+                             onmouseout="this.src='img/blog/java.png'"></a>
+                </div>
+                <div class="dm_grid__element">
+                    <p class="dm_lead">Android</p>
+                    <a href="http://javamind-fr.blogspot.fr/search/label/Android">
+                        <img src="img/blog/android.png"
+                             alt="Mes articles sur Android"
+                             onmouseover="this.src='img/blog/android_inv.png'"
+                             onmouseout="this.src='img/blog/android.png'"></a>
+                </div>
+                <div class="dm_grid__element">
+                    <p class="dm_lead">Web</p>
+                    <a href="http://javamind-fr.blogspot.fr/search/label/Web">
+                        <img src="img/blog/html.png"
+                             alt="Mes articles sur le Web"
+                             onmouseover="this.src='img/blog/html_inv.png'"
+                             onmouseout="this.src='img/blog/html.png'"></a>
+                </div>
+                <div class="dm_grid__element">
+                    <p class="dm_lead">Agilité</p>
+                    <a href="http://javamind-fr.blogspot.fr/search/label/Agilite">
+                        <img src="img/blog/agilite.png"
+                             alt="Mes articles sur les méthodes agiles"
+                             onmouseover="this.src='img/blog/agilite_inv.png'"
+                             onmouseout="this.src='img/blog/agilite.png'"></a>
+                </div>
+            </div>
+
+            <p class="dm_lead">
+                Sur <a href="http://javamind-fr.blogspot.fr/" target="javamind">Javamind</a> vous pouvez lire des
+                articles sur les différents sujets qui me passionnent : le
+                développement Java, Web, Android et les différentes méthodes agiles.
+            </p>
+        </devmind-home-blog>
+    </div>
+
+    <div id="dm_transition_mountain"></div>
+
+    <div class="dm_home_formation" id="formation">
+        <devmind-home-formation>
+            <h1>Formation</h1>
+            <p class="dm_lead">
+                Dev-Mind propose <a href="formation_web.html">plusieurs formations sur la programmation web</a> que
+                nous pouvons personnaliser en fonction de vos besoins, de votre contexte,
+                de votre degré de connaissance... Ces formations mettent l'accent sur les travaux pratiques pour
+                vous permettre d'appliquer au plus vite ce que nous
+                apprenons ensemble
+            </p>
+            <div class="dm_grid__flexible">
+                <div class="dm_grid__element dm_formation__detail"
+                     onclick="document.location.href='formation_optimiser.html'">
+                    <h3><a href="formation_optimiser.html">Optimiser une application web</a></h3>
+                    <p>Le but de cette formation est d'aborder les différentes mécaniques pour améliorer les
+                        performances de votre site web (HTTP2, service workers, asynchrone...).
+                        Vous apprendrez comment optimiser le loadtime, le firstload... <a
+                                href="formation_optimiser.html">en savoir plus...</a></p>
+                    <picture alt="Reprendre les bases">
+                        <source srcset="img/formation/formation_back_500.webp" type="image/webp"/>
+                        <source srcset="img/formation/formation_back_500.png"/>
+                        <img src="img/formation/formation_back_500.png" alt="Reprendre les bases">
+                    </picture>
+                </div>
+                <div class="dm_grid__element dm_formation__detail"
+                     onclick="document.location.href='formation_web.html'">
+                    <h3><a href="formation_web.html">Développer un client web</a></h3>
+                    <p>
+                        Le langage JavaScript a beaucoup évolué depuis ses débuts. Il en est de même de HTML et CSS.
+                        Le but de cette formation est de refaire un parcours personnalisé
+                        de ces langages pour vous aider
+                        à développer selon les derniers standards <a href="formation_web.html">en savoir plus...</a>
+                    </p>
+                    <picture alt="Reprendre les bases">
+                        <source srcset="img/formation/formation_moinsfloue_500.webp" type="image/webp"/>
+                        <source srcset="img/formation/formation_moinsfloue_500.png"/>
+                        <img src="img/formation/formation_moinsfloue_500.png" alt="Reprendre les bases">
+                    </picture>
+                </div>
+                <div class="dm_grid__element dm_formation__detail"
+                     onclick="document.location.href='formation_web.html'">
+                    <h3><a href="formation_web.html">Développez la partie serveur</a></h3>
+                    <p>
+                        Nous verrons au cours de cette formation comment mettre en place une application écrite en
+                        Java via Spring Boot
+                        pour interagir avec votre partie cliente développée en HTML / CSS / JS
+                        <b class="dm_formation_soon"><a href="formation_web.html">en savoir plus...</a></b>
+                    </p>
+                    <picture alt="Reprendre les bases">
+                        <source srcset="img/formation/formation_complet_500.webp" type="image/webp"/>
+                        <source srcset="img/formation/formation_complet_500.png"/>
+                        <img src="img/formation/formation_complet_500.png" alt="Reprendre les bases">
+                    </picture>
+                </div>
+            </div>
+            <div class="dm_grid__flexible">
+                <div class="dm_grid__element">
+                    <h2>Brownbaglunch</h2>
+                    <p class="is-large-screen">
+                        Vous ne connaissez pas le Brownbag lunch ? Aux Etats Unis les pauses déjeuners sont courtes
+                        et
+                        pour éviter de perdre du temps, les
+                        américains préfèrent s'orienter vers la restauration rapide qui est emballée dans ce sac
+                        papier
+                        marron. Pour optimiser cette pause, des experts viennent dans les entreprises pour parler de
+                        différents sujets. La même initiative a été montée <a href="http://www.brownbaglunch.fr/">en
+                        France</a>.
+                    </p>
+                    <p class="is-small-screen">
+                        Pour optimiser la pause de midi,
+                        des experts viennent dans les entreprises pour parler de différents sujets autour d'un
+                        sandwich
+                        <a href="http://www.brownbaglunch.fr/">en France</a>.
+                    </p>
+                    <p class="">
+                        Vous pouvez me retrouver sur les <a
+                            href="http://www.brownbaglunch.fr/baggers.html#Guillaume_EHRET_Lyon">lunchers de Lyon et
+                        Saint
+                        Etienne</a> et je
+                        peux venir vous parler de tests (Junit, DbSetup...), développement web (Yeoman, AngularJS),
+                        intégration continue (Jenkins),
+                        agilité (généralités, Kanban, Scrum), mouvement devops
                     </p>
                 </div>
-
-                <h1>Développeur indépendant</h1>
-
-                <p class="dm_lead is-middle-screen">Je propose mes services
-                    pour aider les entreprises qui souhaitent
-                    créer de nouveaux logiciels ou s'organiser pour réussir leurs défis. Je peux intervenir en tant
-                    que
-                    développeur expérimenté pour du conseil, de la programmation et de la formation. </p>
-
-                <p class="dm_lead is-large-screen">
-                    Bonjour, je me nomme <a href="https://twitter.com/guillaumeehret">Guillaume EHRET</a> et je suis
-                    passionné par le développement de logiciels. Je participe à la mise en place de projets depuis
-                    2001 principalement sur des technologies Java et Web. Depuis que je suis tombé dans l'agilité en
-                    2003 j'ai découvert une manière de travailler
-                    qui mêle humanité et efficacité.
-                </p>
-
-                <p class="dm_lead is-large-screen">Au delà de plusieurs expériences en sociétés de services, j'ai
-                    travaillé 6 ans pour le groupe Casino Restauration, filiale du groupe Casino en
-                    tant que chef de projet fonctionnel et technique, et 4 ans en tant qu'architecte applicatif pour
-                    le compte des laboratoires Boiron. Aujourd'hui je propose mes services
-                    pour aider les entreprises qui souhaitent créer de nouveaux logiciels ou s'organiser pour réussir
-                    leurs défis.
-                    Je peux intervenir en tant que développeur expérimenté pour du conseil,
-                    de la programmation et de la formation.
-                </p>
-
-                <p class="dm_lead">Je fais par ailleurs partie des organisateurs de la conférence <a
-                        href="https://www.mix-it.fr/">Mix-IT</a> qui a lieu tous
-                    les ans à Lyon qui regroupe plus de 600 personnes pendant 2 jours autour de conférences
-                    et d'ateliers.</p>
-
-                <p>
-                    <a href="https://twitter.com/guillaumeehret" target="_blank">
-                        <img src="img/contact/twitter.png"
-                             alt="Twitter"
-                             onmouseover="this.src='img/contact/twitter_inv.png'"
-                             onmouseout="this.src='img/contact/twitter.png'"/></a>
-                    <a href="https://plus.google.com/+GuillaumeEhret" target="_blank">
-                        <img src="img/contact/googlep.png"
-                             alt="Google+"
-                             onmouseover="this.src='img/contact/googlep_inv.png'"
-                             onmouseout="this.src='img/contact/googlep.png'"/></a>
-                    <a href="http://javamind-fr.blogspot.fr/" target="_blank">
-                        <img src="img/contact/blogger.png"
-                             alt="Mon blog"
-                             onmouseover="this.src='img/contact/blogger_inv.png'"
-                             onmouseout="this.src='img/contact/blogger.png'"/></a>
-                    <a href="https://www.linkedin.com/pub/guillaume-ehret/7/668/999" target="_blank">
-                        <img src="img/contact/linkedin.png" class="social"
-                             alt="Mon profil linkedin"
-                             onmouseover="this.src='img/contact/linkedin_inv.png'"
-                             onmouseout="this.src='img/contact/linkedin.png'"/></a>
-                    <a href="http://fr.viadeo.com/fr/profile/guillaume.ehret1" target="_blank">
-                        <img src="img/contact/viadeo.png"
-                             alt="Mon profil Viadeo"
-                             onmouseover="this.src='img/contact/viadeo_inv.png'"
-                             onmouseout="this.src='img/contact/viadeo.png'"/></a>
-                </p>
-            </devmind-home-me>
-        </div>
-
-        <div id="dm_transition_cloud"></div>
-
-        <div class="dm_home_blog" id="blog">
-            <devmind-home-blog>
-                <h1>Mon blog</h1>
-
-                <h2><a href="http://javamind-fr.blogspot.fr/" target="javamind">Javamind</a> un blog sur les outils et
-                    les méthodes de développement </h2>
-
-                <p class="dm_lead">
-                    Selon moi, le savoir est fait pour être transmis et j'essaye de me conformer au maximum à cet
-                    adage, en partageant mes retours sur les sujets
-                    que j'étudie, sur les conférences auxquelles j’assiste régulièrement...
-                </p>
-
-                <p class="dm_lead is-large-screen">
-                    En tant qu'artisan du développement je suis suis sans cesse à l’affût de tout changement dans
-                    l'évolution des systèmes
-                    d'informations, des pratiques de développement, des langages... Selon moi, le savoir est fait
-                    pour
-                    être transmis et j'essaye de me conformer au maximum à cet
-                    adage, en partageant mes retours sur les sujets
-                    que j'étudie, sur les conférences auxquelles j’assiste régulièrement...
-                </p>
-
-                <div class="dm_grid">
-                    <div class="dm_grid__element">
-                        <p class="dm_lead">Java</p>
-                        <a href="http://javamind-fr.blogspot.fr/search/label/Java">
-                            <img src="img/blog/java.png"
-                                 alt="Mes articles sur Java"
-                                 onmouseover="this.src='img/blog/java_inv.png'"
-                                 onmouseout="this.src='img/blog/java.png'"></a>
-                    </div>
-                    <div class="dm_grid__element">
-                        <p class="dm_lead">Android</p>
-                        <a href="http://javamind-fr.blogspot.fr/search/label/Android">
-                            <img src="img/blog/android.png"
-                                 alt="Mes articles sur Android"
-                                 onmouseover="this.src='img/blog/android_inv.png'"
-                                 onmouseout="this.src='img/blog/android.png'"></a>
-                    </div>
-                    <div class="dm_grid__element">
-                        <p class="dm_lead">Web</p>
-                        <a href="http://javamind-fr.blogspot.fr/search/label/Web">
-                            <img src="img/blog/html.png"
-                                 alt="Mes articles sur le Web"
-                                 onmouseover="this.src='img/blog/html_inv.png'"
-                                 onmouseout="this.src='img/blog/html.png'"></a>
-                    </div>
-                    <div class="dm_grid__element">
-                        <p class="dm_lead">Agilité</p>
-                        <a href="http://javamind-fr.blogspot.fr/search/label/Agilite">
-                            <img src="img/blog/agilite.png"
-                                 alt="Mes articles sur les méthodes agiles"
-                                 onmouseover="this.src='img/blog/agilite_inv.png'"
-                                 onmouseout="this.src='img/blog/agilite.png'"></a>
-                    </div>
+                <div class="dm_grid__element">
+                    <p class="bbl">
+                        <a href="http://www.brownbaglunch.fr/baggers.html#Guillaume_EHRET_Lyon" target="_blank">
+                            <picture alt="Brownbaglunch Saint Etienne">
+                                <source srcset="img/formation/BBL_SaintEtienne.webp" type="image/webp"/>
+                                <source srcset="img/formation/BBL_SaintEtienne.png"/>
+                                <img src="img/formation/BBL_SaintEtienne.png" alt="Brownbaglunch Saint Etienne">
+                            </picture>
+                        </a>
+                    </p>
                 </div>
+            </div>
 
-                <p class="dm_lead">
-                    Sur <a href="http://javamind-fr.blogspot.fr/" target="javamind">Javamind</a> vous pouvez lire des
-                    articles sur les différents sujets qui me passionnent : le
-                    développement Java, Web, Android et les différentes méthodes agiles.
-                </p>
-            </devmind-home-blog>
-        </div>
-
-        <div id="dm_transition_mountain"></div>
-
-        <div class="dm_home_formation" id="formation">
-            <devmind-home-formation>
-                <h1>Formation</h1>
-                <p class="dm_lead">
-                    Dev-Mind propose <a href="formation_web.html">plusieurs formations sur la programmation web</a> que
-                    nous pouvons personnaliser en fonction de vos besoins, de votre contexte,
-                    de votre degré de connaissance... Ces formations mettent l'accent sur les travaux pratiques pour
-                    vous permettre d'appliquer au plus vite ce que nous
-                    apprenons ensemble
-                </p>
-                <div class="dm_grid__flexible">
-                    <div class="dm_grid__element dm_formation__detail"
-                         onclick="document.location.href='formation_optimiser.html'">
-                        <h3><a href="formation_optimiser.html">Optimiser une application web</a></h3>
-                        <p>Le but de cette formation est d'aborder les différentes mécaniques pour améliorer les
-                            performances de votre site web (HTTP2, service workers, asynchrone...).
-                            Vous apprendrez comment optimiser le loadtime, le firstload... <a
-                                    href="formation_optimiser.html">en savoir plus...</a></p>
-                        <picture alt="Reprendre les bases">
-                            <source srcset="img/formation/formation_back_500.webp" type="image/webp"/>
-                            <source srcset="img/formation/formation_back_500.png"/>
-                            <img src="img/formation/formation_back_500.png" alt="Reprendre les bases">
-                        </picture>
-                    </div>
-                    <div class="dm_grid__element dm_formation__detail"
-                         onclick="document.location.href='formation_web.html'">
-                        <h3><a href="formation_web.html">Développer un client web</a></h3>
-                        <p>
-                            Le langage JavaScript a beaucoup évolué depuis ses débuts. Il en est de même de HTML et CSS.
-                            Le but de cette formation est de refaire un parcours personnalisé
-                            de ces langages pour vous aider
-                            à développer selon les derniers standards <a href="formation_web.html">en savoir plus...</a>
-                        </p>
-                        <picture alt="Reprendre les bases">
-                            <source srcset="img/formation/formation_moinsfloue_500.webp" type="image/webp"/>
-                            <source srcset="img/formation/formation_moinsfloue_500.png"/>
-                            <img src="img/formation/formation_moinsfloue_500.png" alt="Reprendre les bases">
-                        </picture>
-                    </div>
-                    <div class="dm_grid__element dm_formation__detail"
-                         onclick="document.location.href='formation_web.html'">
-                        <h3><a href="formation_web.html">Développez la partie serveur</a></h3>
-                        <p>
-                            Nous verrons au cours de cette formation comment mettre en place une application écrite en
-                            Java via Spring Boot
-                            pour interagir avec votre partie cliente développée en HTML / CSS / JS
-                            <b class="dm_formation_soon"><a href="formation_web.html">en savoir plus...</a></b>
-                        </p>
-                        <picture alt="Reprendre les bases">
-                            <source srcset="img/formation/formation_complet_500.webp" type="image/webp"/>
-                            <source srcset="img/formation/formation_complet_500.png"/>
-                            <img src="img/formation/formation_complet_500.png" alt="Reprendre les bases">
-                        </picture>
-                    </div>
-                </div>
-                <div class="dm_grid__flexible">
-                    <div class="dm_grid__element">
-                        <h2>Brownbaglunch</h2>
-                        <p class="is-large-screen">
-                            Vous ne connaissez pas le Brownbag lunch ? Aux Etats Unis les pauses déjeuners sont courtes
-                            et
-                            pour éviter de perdre du temps, les
-                            américains préfèrent s'orienter vers la restauration rapide qui est emballée dans ce sac
-                            papier
-                            marron. Pour optimiser cette pause, des experts viennent dans les entreprises pour parler de
-                            différents sujets. La même initiative a été montée <a href="http://www.brownbaglunch.fr/">en
-                            France</a>.
-                        </p>
-                        <p class="is-small-screen">
-                            Pour optimiser la pause de midi,
-                            des experts viennent dans les entreprises pour parler de différents sujets autour d'un
-                            sandwich
-                            <a href="http://www.brownbaglunch.fr/">en France</a>.
-                        </p>
-                        <p class="">
-                            Vous pouvez me retrouver sur les <a
-                                href="http://www.brownbaglunch.fr/baggers.html#Guillaume_EHRET_Lyon">lunchers de Lyon et
-                            Saint
-                            Etienne</a> et je
-                            peux venir vous parler de tests (Junit, DbSetup...), développement web (Yeoman, AngularJS),
-                            intégration continue (Jenkins),
-                            agilité (généralités, Kanban, Scrum), mouvement devops
-                        </p>
-                    </div>
-                    <div class="dm_grid__element">
-                        <p class="bbl">
-                            <a href="http://www.brownbaglunch.fr/baggers.html#Guillaume_EHRET_Lyon" target="_blank">
-                                <picture alt="Brownbaglunch Saint Etienne">
-                                    <source srcset="img/formation/BBL_SaintEtienne.webp" type="image/webp"/>
-                                    <source srcset="img/formation/BBL_SaintEtienne.png"/>
-                                    <img src="img/formation/BBL_SaintEtienne.png" alt="Brownbaglunch Saint Etienne">
-                                </picture>
-                            </a>
-                        </p>
-                    </div>
-                </div>
-
-            </devmind-home-formation>
-        </div>
-
-        <div id="dm_transition_hills"></div>
-
-        <div class="dm_home_experience" id="experience">
-            <devmind-home-experience>
-                <h1>Expérience</h1>
-
-                <p class="dm_lead">
-                    Je travaille dans l'informatique depuis 2001. J'ai eu la chance pendant cette période de travailler
-                    pour
-                    différentes entreprises, dans des secteurs
-                    différents, à des postes multiples fonctionnels ou techniques et sur des projets de différentes
-                    envergures
-                    (quelques centaines à quelques milliers de jour).
-                </p>
-
-                <div align="mdl-center" class="is-large-screen">
-                    <img src="img/chrono.png" alt="Mes expériences professsionnelles">
-                </div>
-                <div align="mdl-center" class="is-small-screen">
-                    <img src="img/chrono1.png" alt="Mes expériences professsionnelles (1)"><br>
-                    <img src="img/chrono2.png" alt="Mes expériences professsionnelles (2)">
-                </div>
-
-                <p class="lead">
-                    Ce parcours m'a permis de voir toutes les facettes permettant de réaliser un projet de développement
-                    et
-                    c'est pour cette raison
-                    que je me définis aujourd'hui comme un artisan de la programmation. Je peux intervenir à la fois sur
-                    de la
-                    réalisation, de la formation ou du conseil.
-                </p>
-
-                <p class="dm_lead">
-                    Contactez moi si vous avez besoin d'un renfort dans les domaines suivants
-                </p>
-
-                <div class="dm_grid">
-                    <div class="dm_grid__element">
-                        <picture>
-                            <source srcset="img/experience/conseil_600.webp 640w, img/experience/conseil_1280.webp 1280w, img/experience/conseil_2500.webp"
-                                    type="image/webp"/>
-                            <source srcset="img/experience/conseil_600.png 640w, img/experience/conseil_1280.png 1280w, img/experience/conseil_2500.png"/>
-                            <img src="img/experience/conseil_600.png" alt="Conseil">
-                        </picture>
-                        <h2>Conseil</h2>
-                    </div>
-                    <div class="dm_grid__element">
-                        <picture>
-                            <source srcset="img/experience/formation_600.webp 640w, img/experience/formation_1280.webp 1280w, img/experience/formation_2500.webp"
-                                    type="image/webp"/>
-                            <source srcset="img/experience/formation_600.png 640w, img/experience/formation_1280.png 1280w, img/experience/formation_2500.png"/>
-                            <img src="img/experience/formation_600.png" alt="Formation">
-                        </picture>
-                        <h2>Formation</h2>
-                    </div>
-                    <div class="dm_grid__element">
-                        <picture>
-                            <source srcset="img/experience/realisation_600.webp 640w, img/experience/realisation_1280.webp 1280w, img/experience/realisation_2500.webp"
-                                    type="image/webp"/>
-                            <source srcset="img/experience/realisation_600.png 640w, img/experience/realisation_1280.png 1280w, img/experience/realisation_2500.png"/>
-                            <img src="img/experience/realisation_600.png" alt="Réalisation">
-                        </picture>
-                        <h2>Réalisation</h2>
-                    </div>
-
-                </div>
-
-                <p class="dm_lead">
-                    <br>
-                    Vous pouvez voir certaines <a
-                        href="https://www.hopwork.com/profile/541be334e4b01245a80d52ab?q=ehret">recommandations</a>
-                    faites par mes anciens clients sur mon
-                    profil
-                    <a href="https://www.hopwork.com/profile/541be334e4b01245a80d52ab?q=ehret">Hopwork</a>.
-                </p>
-                <p class="dm_lead">Je participe également à des projets Open Source. Vous pouvez consulter mon <a
-                        href="https://github.com/javamind">Github</a> pour plus d'inftomations.
-                    J'interviens également régulièrement dans des conférences et voici mon <a
-                            href="https://speakerdeck.com/javamind">Speaker Deck</a>
-                </p>
-            </devmind-home-experience>
-        </div>
-
-        <div id="dm_transition_grass"></div>
-
-        <div class="dm_home_contact" id="contact">
-            <devmind-home-contact>
-                <div class="dm_grid__flexible">
-                    <div class="dm_grid__element">
-                        <h1>Contact</h1>
-
-                        <p class="dm_lead">
-                            N'hésitez pas à me contacter si vous souhaitez plus d'informations<br>
-                        </p>
-
-                        <p class="dm_lead">
-                            <b>Guillaume EHRET</b><br>
-                            <a>guillaume (@) dev-mind.fr</a>
-                        </p>
-                        <address class="dm_lead">
-                            <b>Dev-Mind</b><br>
-                            17 rue de la Vivaraize<br>
-                            42100 St Etienne<br>
-                            France
-                        </address>
-                        <p>&nbsp;</p>
-                        <p>
-                            <a href="https://twitter.com/guillaumeehret" target="_blank">
-                                <img src="img/contact/twitter.png"
-                                     class="social"
-                                     alt="Twitter"
-                                     onmouseover="this.src='img/contact/twitter_inv1.png'"
-                                     onmouseout="this.src='img/contact/twitter.png'"/></a>
-                            <a href="https://plus.google.com/+GuillaumeEhret" target="_blank">
-                                <img src="img/contact/googlep.png"
-                                     alt="Google+"
-                                     class="social"
-                                     onmouseover="this.src='img/contact/googlep_inv1.png'"
-                                     onmouseout="this.src='img/contact/googlep.png'"/></a>
-                            <a href="http://javamind-fr.blogspot.fr/" target="_blank">
-                                <img src="img/contact/blogger.png"
-                                     alt="Mon blog"
-                                     class="social"
-                                     onmouseover="this.src='img/contact/blogger_inv1.png'"
-                                     onmouseout="this.src='img/contact/blogger.png'"/></a>
-                        </p>
-                    </div>
-                    <div class="dm_grid__element">
-                        <img src="img/contact/cloud.png" alt="Mes compétences">
-                    </div>
-                </div>
-            </devmind-home-contact>
-        </div>
+        </devmind-home-formation>
     </div>
-</main>
+
+    <div id="dm_transition_hills"></div>
+
+    <div class="dm_home_experience" id="experience">
+        <devmind-home-experience>
+            <h1>Expérience</h1>
+
+            <p class="dm_lead">
+                Je travaille dans l'informatique depuis 2001. J'ai eu la chance pendant cette période de travailler
+                pour
+                différentes entreprises, dans des secteurs
+                différents, à des postes multiples fonctionnels ou techniques et sur des projets de différentes
+                envergures
+                (quelques centaines à quelques milliers de jour).
+            </p>
+
+            <div align="mdl-center" class="is-large-screen">
+                <img src="img/chrono.png" alt="Mes expériences professsionnelles">
+            </div>
+            <div align="mdl-center" class="is-small-screen">
+                <img src="img/chrono1.png" alt="Mes expériences professsionnelles (1)"><br>
+                <img src="img/chrono2.png" alt="Mes expériences professsionnelles (2)">
+            </div>
+
+            <p class="lead">
+                Ce parcours m'a permis de voir toutes les facettes permettant de réaliser un projet de développement
+                et
+                c'est pour cette raison
+                que je me définis aujourd'hui comme un artisan de la programmation. Je peux intervenir à la fois sur
+                de la
+                réalisation, de la formation ou du conseil.
+            </p>
+
+            <p class="dm_lead">
+                Contactez moi si vous avez besoin d'un renfort dans les domaines suivants
+            </p>
+
+            <div class="dm_grid">
+                <div class="dm_grid__element">
+                    <picture>
+                        <source srcset="img/experience/conseil_600.webp 640w, img/experience/conseil_1280.webp 1280w, img/experience/conseil_2500.webp"
+                                type="image/webp"/>
+                        <source srcset="img/experience/conseil_600.png 640w, img/experience/conseil_1280.png 1280w, img/experience/conseil_2500.png"/>
+                        <img src="img/experience/conseil_600.png" alt="Conseil">
+                    </picture>
+                    <h2>Conseil</h2>
+                </div>
+                <div class="dm_grid__element">
+                    <picture>
+                        <source srcset="img/experience/formation_600.webp 640w, img/experience/formation_1280.webp 1280w, img/experience/formation_2500.webp"
+                                type="image/webp"/>
+                        <source srcset="img/experience/formation_600.png 640w, img/experience/formation_1280.png 1280w, img/experience/formation_2500.png"/>
+                        <img src="img/experience/formation_600.png" alt="Formation">
+                    </picture>
+                    <h2>Formation</h2>
+                </div>
+                <div class="dm_grid__element">
+                    <picture>
+                        <source srcset="img/experience/realisation_600.webp 640w, img/experience/realisation_1280.webp 1280w, img/experience/realisation_2500.webp"
+                                type="image/webp"/>
+                        <source srcset="img/experience/realisation_600.png 640w, img/experience/realisation_1280.png 1280w, img/experience/realisation_2500.png"/>
+                        <img src="img/experience/realisation_600.png" alt="Réalisation">
+                    </picture>
+                    <h2>Réalisation</h2>
+                </div>
+
+            </div>
+
+            <p class="dm_lead">
+                <br>
+                Vous pouvez voir certaines <a
+                    href="https://www.hopwork.com/profile/541be334e4b01245a80d52ab?q=ehret">recommandations</a>
+                faites par mes anciens clients sur mon
+                profil
+                <a href="https://www.hopwork.com/profile/541be334e4b01245a80d52ab?q=ehret">Hopwork</a>.
+            </p>
+            <p class="dm_lead">Je participe également à des projets Open Source. Vous pouvez consulter mon <a
+                    href="https://github.com/javamind">Github</a> pour plus d'inftomations.
+                J'interviens également régulièrement dans des conférences et voici mon <a
+                        href="https://speakerdeck.com/javamind">Speaker Deck</a>
+            </p>
+        </devmind-home-experience>
+    </div>
+
+    <div id="dm_transition_grass"></div>
+
+    <div class="dm_home_contact" id="contact">
+        <devmind-home-contact>
+            <div class="dm_grid__flexible">
+                <div class="dm_grid__element">
+                    <h1>Contact</h1>
+
+                    <p class="dm_lead">
+                        N'hésitez pas à me contacter si vous souhaitez plus d'informations<br>
+                    </p>
+
+                    <p class="dm_lead">
+                        <b>Guillaume EHRET</b><br>
+                        <a>guillaume (@) dev-mind.fr</a>
+                    </p>
+                    <address class="dm_lead">
+                        <b>Dev-Mind</b><br>
+                        17 rue de la Vivaraize<br>
+                        42100 St Etienne<br>
+                        France
+                    </address>
+                    <p>&nbsp;</p>
+                    <p>
+                        <a href="https://twitter.com/guillaumeehret" target="_blank">
+                            <img src="img/contact/twitter.png"
+                                 class="social"
+                                 alt="Twitter"
+                                 onmouseover="this.src='img/contact/twitter_inv1.png'"
+                                 onmouseout="this.src='img/contact/twitter.png'"/></a>
+                        <a href="https://plus.google.com/+GuillaumeEhret" target="_blank">
+                            <img src="img/contact/googlep.png"
+                                 alt="Google+"
+                                 class="social"
+                                 onmouseover="this.src='img/contact/googlep_inv1.png'"
+                                 onmouseout="this.src='img/contact/googlep.png'"/></a>
+                        <a href="http://javamind-fr.blogspot.fr/" target="_blank">
+                            <img src="img/contact/blogger.png"
+                                 alt="Mon blog"
+                                 class="social"
+                                 onmouseover="this.src='img/contact/blogger_inv1.png'"
+                                 onmouseout="this.src='img/contact/blogger.png'"/></a>
+                    </p>
+                </div>
+                <div class="dm_grid__element">
+                    <img src="img/contact/cloud.png" alt="Mes compétences">
+                </div>
+            </div>
+        </devmind-home-contact>
+    </div>
+</div>

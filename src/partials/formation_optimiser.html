@@ -1,193 +1,185 @@
-<header>
-    <nav>
-        <a href="index.html" class="mdl-layout__tab is-active" ng-class="{ 'is-active' : active === 'home' }"
-           ng-click="changeMenu('home')"><img src="img/ic_home_white_24px.svg" rel="start"></a>
-    </nav>
-</header>
-<main>
-    <div class="home">
-        <div class="dm_home_me" id="home">
-            <devmind-home-me>
-                <p class="dm_logo">
-                    <img src="img/logo/logo_long.svg" alt="Dev-Mind" title="Dev-Mind"><br>
-                </p>
-            </devmind-home-me>
-        </div>
-
-        <div id="dm_transition_cloud"></div>
-
-        <div class="dm_home_blog" id="blog">
-            <devmind-home-blog>
-                <h1>Formation : optimiser les performances d'une application Web</h1>
-
-                <p class="dm_lead">
-                    De nos jours, développer une application web est très rapide avec la multitude d'outils mis à
-                    notre disposition. Les premiers problèmes
-                    peuvent arriver quand vous mettez cette même application en production. La performance est un
-                    aspect primordial de votre application, de votre site
-                    car dans le cas contraire, vous pouvez perdre des points dans les classements effectués par les
-                    moteurs de recherche.
-                </p>
-
-                <p class="dm_lead">
-                    Afin d'améliorer le web et l'expérience utilisateur, les différents moteurs de recherche
-                    prennent en compte les critères
-                    de performance dans l'élaboration du page rank (la note qui détermine votre classement). Quand
-                    on parle performance vous
-                    devez penser Sécurité et Rapidité. Dans cette formation je vous propose de nous focaliser sur ce
-                    second point et <b>voir
-                    comment rendre votre site plus rapide</b> quelque soit son contexte d'utilisation (mobilité,
-                    problème de réseaux...)
-                </p>
-                <p align="center">
-                    <picture alt="Chaine complète">
-                        <source srcset="img/formation/formation_back_500.png 640w, img/formation/formation_back.png"/>
-                        <img src="img/formation/formation_back_500.png" alt="Chaine complète">
-                    </picture>
-                </p>
-                <p>
-                    <a href="https://twitter.com/guillaumeehret" target="_blank">
-                        <img src="img/contact/twitter.png"
-                             alt="Twitter"
-                             onmouseover="this.src='img/contact/twitter_inv.png'"
-                             onmouseout="this.src='img/contact/twitter.png'"/></a>
-                    <a href="https://plus.google.com/+GuillaumeEhret" target="_blank">
-                        <img src="img/contact/googlep.png"
-                             alt="Google+"
-                             onmouseover="this.src='img/contact/googlep_inv.png'"
-                             onmouseout="this.src='img/contact/googlep.png'"/></a>
-                    <a href="http://javamind-fr.blogspot.fr/" target="_blank">
-                        <img src="img/contact/blogger.png"
-                             alt="Mon blog"
-                             onmouseover="this.src='img/contact/blogger_inv.png'"
-                             onmouseout="this.src='img/contact/blogger.png'"/></a>
-                    <a href="https://www.linkedin.com/pub/guillaume-ehret/7/668/999" target="_blank">
-                        <img src="img/contact/linkedin.png" class="social"
-                             alt="Mon profil linkedin"
-                             onmouseover="this.src='img/contact/linkedin_inv.png'"
-                             onmouseout="this.src='img/contact/linkedin.png'"/></a>
-                    <a href="http://fr.viadeo.com/fr/profile/guillaume.ehret1" target="_blank">
-                        <img src="img/contact/viadeo.png"
-                             alt="Mon profil Viadeo"
-                             onmouseover="this.src='img/contact/viadeo_inv.png'"
-                             onmouseout="this.src='img/contact/viadeo.png'"/></a>
-                </p>
-            </devmind-home-blog>
-        </div>
-
-        <div id="dm_transition_mountain"></div>
-
-        <div class="dm_home_formation" id="formation">
-            <devmind-home-formation>
-                <h1>Le programme</h1>
-
-                <p class="dm_lead">Au cours de cette formation nous aborderons les points suivants. Chaque point
-                    sera <b>illustré par des travaux pratiques</b> pour vous
-                    aider à mieux comprendre l'intérêt de chaque étape</p>
-
-                <p class="dm_lead">Mesurer les performances</p>
-                <ul class="dm_lead">
-                    <li>Présentation des Chrome Dev Tools</li>
-                    <li>Sites intéressants pour mesurer vos performances</li>
-                </ul>
-
-                <p class="dm_lead">Agir au niveau du protocole de communication HTTP2</p>
-
-                <p class="dm_lead">Améliorer le temps de chargement initial (loadtime)</p>
-                <ul class="dm_lead">
-                    <li>Limiter les ressources envoyées</li>
-                    <li>Les images</li>
-                    <li>Les feuilles de styles</li>
-                    <li>Les fonts</li>
-                </ul>
-
-                <p class="dm_lead">Améliorer les temps pour le deuxième chargement (refresh / offline)</p>
-                <ul class="dm_lead">
-                    <li>Mise en cache</li>
-                    <li>Services workers</li>
-                </ul>
-
-                <p class="dm_lead">Améliorer le rendu et le premier affichage (first load)</p>
-                <ul class="dm_lead">
-                    <li>Chargement de vos scripts</li>
-                    <li>Chargement asynchrone</li>
-                </ul>
-
-                <h1>Prix de la formation</h1>
-                <p class="dm_lead">
-                    N'hésitez pas à me contacter pour plus de renseignements. Chaque formation Dev-Mind peut être
-                    adaptée à votre contexte.
-                    Je propose 2 modes de formation :
-                </p>
-                <ul class="dm_lead">
-                    <li>mode INTRA <b>1250 € HT</b> : la formation vous est réservée et vous pouvez proposer jusqu'à 6
-                        stagiaires
-                    </li>
-                    <li>mode INTER <b>500 € HT par stagiaire</b> : formation d'un stagiaire</li>
-                </ul>
-
-                <p class="center">
-                    <picture>
-                        <source srcset="img/experience/formation_600.webp 640w, img/experience/formation_1280.webp 1280w, img/experience/formation_2500.webp"
-                                type="image/webp"/>
-                        <source srcset="img/experience/formation_600.png 640w, img/experience/formation_1280.png 1280w, img/experience/formation_2500.png"/>
-                        <img src="img/experience/formation_600.png" alt="Formation">
-                    </picture>
-                </p>
-            </devmind-home-formation>
-        </div>
-
-        <div id="dm_transition_hills"></div>
-
-        <div id="dm_transition_grass"></div>
-
-        <div class="dm_home_contact" id="contact">
-            <devmind-home-contact>
-                <div class="dm_grid__flexible">
-                    <div class="dm_grid__element">
-                        <h1>Contact</h1>
-
-                        <p class="dm_lead">
-                            N'hésitez pas à me contacter si vous souhaitez plus d'informations<br>
-                        </p>
-
-                        <p class="dm_lead">
-                            <b>Guillaume EHRET</b><br>
-                            <a>guillaume (@) dev-mind.fr</a>
-                        </p>
-                        <address class="dm_lead">
-                            <b>Dev-Mind</b><br>
-                            17 rue de la Vivaraize<br>
-                            42100 St Etienne<br>
-                            France
-                        </address>
-                        <p>&nbsp;</p>
-                        <p>
-                            <a href="https://twitter.com/guillaumeehret" target="_blank">
-                                <img src="img/contact/twitter.png"
-                                     class="social"
-                                     alt="Twitter"
-                                     onmouseover="this.src='img/contact/twitter_inv1.png'"
-                                     onmouseout="this.src='img/contact/twitter.png'"/></a>
-                            <a href="https://plus.google.com/+GuillaumeEhret" target="_blank">
-                                <img src="img/contact/googlep.png"
-                                     alt="Google+"
-                                     class="social"
-                                     onmouseover="this.src='img/contact/googlep_inv1.png'"
-                                     onmouseout="this.src='img/contact/googlep.png'"/></a>
-                            <a href="http://javamind-fr.blogspot.fr/" target="_blank">
-                                <img src="img/contact/blogger.png"
-                                     alt="Mon blog"
-                                     class="social"
-                                     onmouseover="this.src='img/contact/blogger_inv1.png'"
-                                     onmouseout="this.src='img/contact/blogger.png'"/></a>
-                        </p>
-                    </div>
-                    <div class="dm_grid__element">
-                        <img src="img/contact/cloud.png" alt="Mes compétences">
-                    </div>
-                </div>
-            </devmind-home-contact>
-        </div>
+<div class="home">
+    <div class="dm_home_me" id="home">
+        <devmind-home-me>
+            <p class="dm_logo">
+                <img src="img/logo/logo_long.svg" alt="Dev-Mind" title="Dev-Mind"><br>
+            </p>
+        </devmind-home-me>
     </div>
-</main>
+
+    <div id="dm_transition_cloud"></div>
+
+    <div class="dm_home_blog" id="blog">
+        <devmind-home-blog>
+            <h1>Formation : optimiser les performances d'une application Web</h1>
+
+            <p class="dm_lead">
+                De nos jours, développer une application web est très rapide avec la multitude d'outils mis à
+                notre disposition. Les premiers problèmes
+                peuvent arriver quand vous mettez cette même application en production. La performance est un
+                aspect primordial de votre application, de votre site
+                car dans le cas contraire, vous pouvez perdre des points dans les classements effectués par les
+                moteurs de recherche.
+            </p>
+
+            <p class="dm_lead">
+                Afin d'améliorer le web et l'expérience utilisateur, les différents moteurs de recherche
+                prennent en compte les critères
+                de performance dans l'élaboration du page rank (la note qui détermine votre classement). Quand
+                on parle performance vous
+                devez penser Sécurité et Rapidité. Dans cette formation je vous propose de nous focaliser sur ce
+                second point et <b>voir
+                comment rendre votre site plus rapide</b> quelque soit son contexte d'utilisation (mobilité,
+                problème de réseaux...)
+            </p>
+            <p align="center">
+                <picture alt="Chaine complète">
+                    <source srcset="img/formation/formation_back_500.png 640w, img/formation/formation_back.png"/>
+                    <img src="img/formation/formation_back_500.png" alt="Chaine complète">
+                </picture>
+            </p>
+            <p>
+                <a href="https://twitter.com/guillaumeehret" target="_blank">
+                    <img src="img/contact/twitter.png"
+                         alt="Twitter"
+                         onmouseover="this.src='img/contact/twitter_inv.png'"
+                         onmouseout="this.src='img/contact/twitter.png'"/></a>
+                <a href="https://plus.google.com/+GuillaumeEhret" target="_blank">
+                    <img src="img/contact/googlep.png"
+                         alt="Google+"
+                         onmouseover="this.src='img/contact/googlep_inv.png'"
+                         onmouseout="this.src='img/contact/googlep.png'"/></a>
+                <a href="http://javamind-fr.blogspot.fr/" target="_blank">
+                    <img src="img/contact/blogger.png"
+                         alt="Mon blog"
+                         onmouseover="this.src='img/contact/blogger_inv.png'"
+                         onmouseout="this.src='img/contact/blogger.png'"/></a>
+                <a href="https://www.linkedin.com/pub/guillaume-ehret/7/668/999" target="_blank">
+                    <img src="img/contact/linkedin.png" class="social"
+                         alt="Mon profil linkedin"
+                         onmouseover="this.src='img/contact/linkedin_inv.png'"
+                         onmouseout="this.src='img/contact/linkedin.png'"/></a>
+                <a href="http://fr.viadeo.com/fr/profile/guillaume.ehret1" target="_blank">
+                    <img src="img/contact/viadeo.png"
+                         alt="Mon profil Viadeo"
+                         onmouseover="this.src='img/contact/viadeo_inv.png'"
+                         onmouseout="this.src='img/contact/viadeo.png'"/></a>
+            </p>
+        </devmind-home-blog>
+    </div>
+
+    <div id="dm_transition_mountain"></div>
+
+    <div class="dm_home_formation" id="formation">
+        <devmind-home-formation>
+            <h1>Le programme</h1>
+
+            <p class="dm_lead">Au cours de cette formation nous aborderons les points suivants. Chaque point
+                sera <b>illustré par des travaux pratiques</b> pour vous
+                aider à mieux comprendre l'intérêt de chaque étape</p>
+
+            <p class="dm_lead">Mesurer les performances</p>
+            <ul class="dm_lead">
+                <li>Présentation des Chrome Dev Tools</li>
+                <li>Sites intéressants pour mesurer vos performances</li>
+            </ul>
+
+            <p class="dm_lead">Agir au niveau du protocole de communication HTTP2</p>
+
+            <p class="dm_lead">Améliorer le temps de chargement initial (loadtime)</p>
+            <ul class="dm_lead">
+                <li>Limiter les ressources envoyées</li>
+                <li>Les images</li>
+                <li>Les feuilles de styles</li>
+                <li>Les fonts</li>
+            </ul>
+
+            <p class="dm_lead">Améliorer les temps pour le deuxième chargement (refresh / offline)</p>
+            <ul class="dm_lead">
+                <li>Mise en cache</li>
+                <li>Services workers</li>
+            </ul>
+
+            <p class="dm_lead">Améliorer le rendu et le premier affichage (first load)</p>
+            <ul class="dm_lead">
+                <li>Chargement de vos scripts</li>
+                <li>Chargement asynchrone</li>
+            </ul>
+
+            <h1>Prix de la formation</h1>
+            <p class="dm_lead">
+                N'hésitez pas à me contacter pour plus de renseignements. Chaque formation Dev-Mind peut être
+                adaptée à votre contexte.
+                Je propose 2 modes de formation :
+            </p>
+            <ul class="dm_lead">
+                <li>mode INTRA <b>1250 € HT</b> : la formation vous est réservée et vous pouvez proposer jusqu'à 6
+                    stagiaires
+                </li>
+                <li>mode INTER <b>500 € HT par stagiaire</b> : formation d'un stagiaire</li>
+            </ul>
+
+            <p class="center">
+                <picture>
+                    <source srcset="img/experience/formation_600.webp 640w, img/experience/formation_1280.webp 1280w, img/experience/formation_2500.webp"
+                            type="image/webp"/>
+                    <source srcset="img/experience/formation_600.png 640w, img/experience/formation_1280.png 1280w, img/experience/formation_2500.png"/>
+                    <img src="img/experience/formation_600.png" alt="Formation">
+                </picture>
+            </p>
+        </devmind-home-formation>
+    </div>
+
+    <div id="dm_transition_hills"></div>
+
+    <div id="dm_transition_grass"></div>
+
+    <div class="dm_home_contact" id="contact">
+        <devmind-home-contact>
+            <div class="dm_grid__flexible">
+                <div class="dm_grid__element">
+                    <h1>Contact</h1>
+
+                    <p class="dm_lead">
+                        N'hésitez pas à me contacter si vous souhaitez plus d'informations<br>
+                    </p>
+
+                    <p class="dm_lead">
+                        <b>Guillaume EHRET</b><br>
+                        <a>guillaume (@) dev-mind.fr</a>
+                    </p>
+                    <address class="dm_lead">
+                        <b>Dev-Mind</b><br>
+                        17 rue de la Vivaraize<br>
+                        42100 St Etienne<br>
+                        France
+                    </address>
+                    <p>&nbsp;</p>
+                    <p>
+                        <a href="https://twitter.com/guillaumeehret" target="_blank">
+                            <img src="img/contact/twitter.png"
+                                 class="social"
+                                 alt="Twitter"
+                                 onmouseover="this.src='img/contact/twitter_inv1.png'"
+                                 onmouseout="this.src='img/contact/twitter.png'"/></a>
+                        <a href="https://plus.google.com/+GuillaumeEhret" target="_blank">
+                            <img src="img/contact/googlep.png"
+                                 alt="Google+"
+                                 class="social"
+                                 onmouseover="this.src='img/contact/googlep_inv1.png'"
+                                 onmouseout="this.src='img/contact/googlep.png'"/></a>
+                        <a href="http://javamind-fr.blogspot.fr/" target="_blank">
+                            <img src="img/contact/blogger.png"
+                                 alt="Mon blog"
+                                 class="social"
+                                 onmouseover="this.src='img/contact/blogger_inv1.png'"
+                                 onmouseout="this.src='img/contact/blogger.png'"/></a>
+                    </p>
+                </div>
+                <div class="dm_grid__element">
+                    <img src="img/contact/cloud.png" alt="Mes compétences">
+                </div>
+            </div>
+        </devmind-home-contact>
+    </div>
+</div>

@@ -1,392 +1,384 @@
-<header>
-    <nav>
-        <a href="index.html" class="mdl-layout__tab is-active" ng-class="{ 'is-active' : active === 'home' }"
-           ng-click="changeMenu('home')"><img src="img/ic_home_white_24px.svg" rel="start"></a>
-    </nav>
-</header>
-<main>
-    <div class="home">
-        <div class="dm_home_me" id="home">
-            <devmind-home-me>
-                <p class="dm_logo">
-                    <img src="img/logo/logo_long.svg" alt="Dev-Mind" title="Dev-Mind"><br>
-                </p>
-            </devmind-home-me>
-        </div>
-
-        <div id="dm_transition_cloud"></div>
-
-        <div class="dm_home_blog" id="blog">
-
-            <devmind-home-blog>
-                <h1>Vous voulez programmer pour le web ?</h1>
-                <p class="dm_lead">
-                    Par où commencer ? Au départ le monde du web peut paraître obscure. On me parle de Javascript,
-                    de feuilles de
-                    styles, de HTML... Chaque semaine de nouvelles solutions apparaissent. Faut il partir sur une
-                    application Angular, React
-                    ou Ember... Comment communiquer avec un serveur distant ?
-                </p>
-                <p class="dm_lead">
-                    On se retrouve souvent comme un enfant devant un ensemble de cube
-                </p>
-                <p align="center">
-                    <picture alt="Au départ c'est flou">
-                        <source srcset="img/formation/formation_floue_500.png 640w, img/formation/formation_floue.png"/>
-                        <img src="img/formation/formation_floue_500.png" alt="Au départ c'est flou">
-                    </picture>
-                </p>
-
-                <h1>Dev-Mind est là pour vous aider</h1>
-                <p class="dm_lead">
-                    Via un programme à la carte que nous construisons ensemble je vous propose de reprendre les
-                    bases. Toutes les parties sont optionnelles et
-                    nous les adapterons en fonction de vos compétences. Le but est de reprendre brique par brique.
-                </p>
-                <p align="center">
-                    <picture alt="Reprendre les bases">
-                        <source srcset="img/formation/formation_moinsfloue_500.png 640w, img/formation/formation_moinsfloue.png"/>
-                        <img src="img/formation/formation_moinsfloue_500.png" alt="Reprendre les bases">
-                    </picture>
-                </p>
-
-                <p class="dm_lead">
-                    Pour comprendre comment fonctionne les technologies du web je vous propose de nous focaliser
-                    dans un premier temps sur les briques clientes. Ces technologies s'exécutent dans un navigateur
-                    Internet...
-                </p>
-                <p>
-                <ul>
-                    <li>Historique d'Internet, du web</li>
-                    <li>Définir du contenu en HTML</li>
-                    <li>Mettre en forme ce contenu avec CSS</li>
-                    <li>Le Javascript pour dynamiser tout ça</li>
-                </ul>
-                </p>
-
-                <p class="dm_lead">
-                    Je ne vous parlerai pas de frameworks dans cette formation mais seulement de standard du web :
-                    HTML, CSS et JS. Avec ces fondamentaux vous pourrez ensuite appréhender
-                    les frameworks de plus haut niveau tel que
-                </p>
-
-                <p>
-                <ul>
-                    <li>CSS : Boostrap, Foundation, Material...</li>
-                    <li>JavaScript : Ember, Angular, React</li>
-                </ul>
-                </p>
-                <p class="dm_lead">
-                    Vous ne savez pas gérer un bloc en CSS ? Connaissez vous les FlexBox ? <br>
-                    Côté JavaScript maîtriser vous les arrow functions, les appels asynchrones, les promesses, les
-                    modules...</p>
-                <p>
-                    Les formations Dev-Mind permettent de répondre à toutes ces questions.
-                </p>
-
-                <p>&nbsp;</p>
-                <h1>Des formations sur le front et le back</h1>
-                <p class="dm_lead">Une application cliente interagit avec un serveur.
-                    Vous pouvez mettre en place un simple serveur HTTP qui
-                    renvoie des ressources statiques sur les postes clients, ou alors vous pouvez créer une
-                    application qui expose des API (généralement en REST)
-                    accessibles via JavaScript.</p>
-
-                <p align="center">
-                    <picture alt="Chaine complète">
-                        <source srcset="img/formation/formation_complet_500.png 640w, img/formation/formation_complet.png"/>
-                        <img src="img/formation/formation_complet_500.png" alt="Chaine complète">
-                    </picture>
-                </p>
-
-                <h1>Comment écrire une application ?</h1>
-                <p class="dm_lead">
-                    Quand vous avez besoin d'avoir une interaction entre le poste client et le serveur : envoi de
-                    données, envoi de commandes, vous devez écrire côté serveur
-                    une application capable de recevoir et de traiter ces données, ces interactions. </p>
-                <p>
-                    Je suis
-                    développeur Java full stack depuis des années et pendant longtemps il était difficile d'écrire
-                    des
-                    applications simples en Java. Mais ce n'est plus le cas aujourd'hui depuis l'arrivée de <a
-                        href="https://projects.spring.io/spring-boot/">Sring Boot</a>.
-                </p>
-                <p class="dm_lead">
-                    Côté backend je vous propose de voir comment Spring Boot fonctionne
-
-                <ul>
-                    <li>Comment écrire une application Spring Boot en 5 lignes</li>
-                    <li>Exposer des services REST accessible ensuite via JavaScript</li>
-                    <li>Interagir avec une base de données SQL</li>
-                    <li>Interagir avec une base de données NoSQL (mongoDb)</li>
-                    <li>Gérer des appels synchrones via SpringWeb ou asynchrone via WebFlux</li>
-                </ul>
-                </p>
-
-                <p align="center">
-                    <picture alt="Chaine complète">
-                        <source srcset="img/formation/formation_back_500.png 640w, img/formation/formation_back.png"/>
-                        <img src="img/formation/formation_back_500.png" alt="Chaine complète">
-                    </picture>
-                </p>
-
-                <h1>Optimiser votre webapp pour améliorer les performances</h1>
-                <p class="dm_lead">
-                    Une fois que votre application est en production on observe souvent des temps assez longs
-                    pour charger vos écrans</p>
-                <p class="dm_lead">
-                    Je vous propose une session expert pendant laquelle nous pouvons voir la marche à suivre pour
-                    que votre site soit plus rapide. Aujourd'hui les utilisateurs
-                    supportent de moins en moins les sites longs à charger. Au delà de 3sec de chargement vous avez
-                    perdu 57% des visiteurs... Il est donc primordial
-                    d'otimiser les temps de chargements. Cette formation axée sur la pratique propose différentes étapes
-                    d'optimisation.
-                </p>
-                <ul>
-                    <li>Comment améliorer le temps de premier chargement de votre site ?</li>
-                    <li>Comment améliorer le temps du deuxième chargement (quand vous faites un refresh) ?</li>
-                    <li>Comment optimiser le premier affichage (critical rendering) ?</li>
-                    <li>Comment faire fonctionner votre site en offline quand l'utiliateur a déjà visité votre
-                        site...?
-                    </li>
-                </ul>
-            </devmind-home-blog>
-        </div>
-
-        <div id="dm_transition_mountain"></div>
-
-        <div class="dm_home_formation" id="formation">
-            <devmind-home-formation>
-
-                <h1>Prix de la formation</h1>
-
-                <p class="dm_lead">Dev-Mind est enregistré sous le numéro 84 42 02955 42 en tant que prestataire de
-                    formation conformément aux dispositions de l'article R. 6351-6 du code du travail.<br> Cet
-                    enregistrement ne vaut pas agrément de l'état.
-                <p>
-                <p class="dm_lead">
-                    N'hésitez pas à me contacter pour plus de renseignements. Chaque formation Dev-Mind peut être
-                    adaptée à votre contexte.
-                    Je propose 2 modes de formation :
-                </p>
-                <ul class="dm_lead">
-                    <li>mode INTRA <b>1250 € HT/jour</b> : la formation vous est réservée et vous pouvez proposer
-                        jusqu'à 6 stagiaires
-                    </li>
-                    <li>mode INTER <b>500 € HT par stagiaire et par jour</b> : formation d'un stagiaire</li>
-                </ul>
-
-                <p class="center">
-                    <picture>
-                        <source srcset="img/experience/formation_600.webp 640w, img/experience/formation_1280.webp 1280w, img/experience/formation_2500.webp"
-                                type="image/webp"/>
-                        <source srcset="img/experience/formation_600.png 640w, img/experience/formation_1280.png 1280w, img/experience/formation_2500.png"/>
-                        <img src="img/experience/formation_600.png" alt="Formation">
-                    </picture>
-                </p>
-            </devmind-home-formation>
-        </div>
-
-        <div id="dm_transition_hills"></div>
-
-        <div class="dm_home_experience" id="experience">
-            <devmind-home-experience>
-                <div class="dm_grid__flexible">
-                    <div class="dm_grid__element dm_formation__detail">
-                        <h1>Le langage HTML</h1>
-
-                        <p class="dm_lead">Introduction au langage</p>
-
-                        <p class="dm_lead">Les différentes balises</p>
-                        <ul class="dm_lead">
-                            <li>Les éléments dépréciés</li>
-                            <li>Les éléments de base</li>
-                            <li>Ajouter des métadonnées</li>
-                            <li>Découper le document</li>
-                            <li>Découper le document</li>
-                            <li>Disposer des éléments dans la page</li>
-                            <li>Liens et utilisations d’autres ressources</li>
-                            <li>Sémantique et formatage du texte</li>
-                            <li>Les tableaux</li>
-                            <li>Les formulaires</li>
-                        </ul>
-
-                        <p class="dm_lead">Les attributs des balises HTML</p>
-
-                        <p class="dm_lead">Démarrer un nouveau projet avec un starter</p>
-
-                    </div>
-                    <div class="dm_grid__element dm_formation__detail">
-                        <h1>Le langage CSS</h1>
-
-                        <p class="dm_lead">Les principes de base</p>
-
-                        <p class="dm_lead">Définir des styles</p>
-
-                        <p class="dm_lead">Les sélecteurs</p>
-
-                        <p class="dm_lead">Le modèle de boîtes</p>
-
-                        <p class="dm_lead">Les flexbox</p>
-
-                        <p class="dm_lead">Industrialisation</p>
-                        <ul class="dm_lead">
-                            <li>Les Préprocesseurs (LESS, Sass)</li>
-                            <li>Les Postprocesseurs (autoprefixer, minify, concat, uncss)</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="dm_grid__flexible">
-                    <div class="dm_grid__element dm_formation__detail">
-                        <h1>Le langage JavaScript</h1>
-
-                        <p class="dm_lead">Introduction au langage</p>
-
-                        <p class="dm_lead">Données</p>
-
-                        <p class="dm_lead">Instructions</p>
-
-                        <p class="dm_lead">Les fonctions</p>
-                        <ul class="dm_lead">
-                            <li>Définir une fonction</li>
-                            <li>Arrow function</li>
-                            <li>Generator function</li>
-                            <li>Fonctions internes</li>
-                        </ul>
-
-                        <p class="dm_lead">Les objets</p>
-                        <ul class="dm_lead">
-                            <li>Programmation objet orientée prototype</li>
-                            <li>Programmation objet orientée classe</li>
-                        </ul>
-
-                        <p class="dm_lead">Les collections</p>
-
-                        <p class="dm_lead">Gestion d’erreur</p>
-
-
-                        <p class="dm_lead">Chaîne de caractères, nombres, dates</p>
-
-
-                        <p class="dm_lead">Gestion des évènements</p>
-
-                        <p class="dm_lead">Stocker des données (cookies, Local storage...)</p>
-
-                        <p class="dm_lead">Tests unitaires</p>
-
-                        <p class="dm_lead">Récupérer des données</p>
-                        <ul class="dm_lead">
-                            <li>Les promesses</li>
-                            <li>L’API XMLHttpRequest requête XHR</li>
-                            <li>L’API fetch</li>
-                        </ul>
-                    </div>
-                    <div class="dm_grid__element dm_formation__detail">
-                        <h1>Optimisez les performances de votre site</h1>
-
-                        <p class="dm_lead">Au cours de cette formation nous aborderons les points suivants. Chaque
-                            point
-                            sera <b>illustré par des travaux pratiques</b> pour vous
-                            aider à mieux comprendre l'intérêt de chaque étape</p>
-
-                        <p class="dm_lead">Mesurer les performances</p>
-                        <ul class="dm_lead">
-                            <li>Présentation des Chrome Dev Tools</li>
-                            <li>Sites intéressants pour mesurer vos performances</li>
-                        </ul>
-
-                        <p class="dm_lead">Agir au niveau du protocole de communication HTTP2</p>
-
-                        <p class="dm_lead">Améliorer le temps de chargement initial (loadtime)</p>
-                        <ul class="dm_lead">
-                            <li>Limiter les ressources envoyées</li>
-                            <li>Les images</li>
-                            <li>Les feuilles de styles</li>
-                            <li>Les fonts</li>
-                        </ul>
-
-                        <p class="dm_lead">Améliorer les temps pour le deuxième chargement (refresh / offline)</p>
-                        <ul class="dm_lead">
-                            <li>Mise en cache</li>
-                            <li>Services workers</li>
-                        </ul>
-
-                        <p class="dm_lead">Améliorer le rendu et le premier affichage (first load)</p>
-                        <ul class="dm_lead">
-                            <li>Chargement de vos scripts</li>
-                            <li>Chargement asynchrone</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="dm_grid__flexible">
-                    <div class="dm_grid__element dm_formation__detail">
-                        <h1>Spring Boot</h1>
-
-                        <p class="dm_lead">Comment écrire rapidement un backend en Java</p>
-                        <p class="dm_lead">Exposer des services REST accessible ensuite via JavaScript</p>
-                        <p class="dm_lead">Interagir avec une base de données</p>
-                        <ul class="dm_lead">
-                            <li>base de données SQL</li>
-                            <li>base de données noSQL (mongoDb)</li>
-                        </ul>
-                        <p class="dm_lead">Gérer des appels synchrones via SpringWeb</p>
-                        <p class="dm_lead">Gérer des appels asynchrone via WebFlux</p>
-                    </div>
-                    <div class="dm_grid__element">
-                    </div>
-                </div>
-            </devmind-home-experience>
-        </div>
-
-        <div id="dm_transition_grass"></div>
-
-        <div class="dm_home_contact" id="contact">
-            <devmind-home-contact>
-                <div class="dm_grid__flexible">
-                    <div class="dm_grid__element">
-                        <h1>Contact</h1>
-
-                        <p class="dm_lead">
-                            N'hésitez pas à me contacter si vous souhaitez plus d'informations<br>
-                        </p>
-
-                        <p class="dm_lead">
-                            <b>Guillaume EHRET</b><br>
-                            <a>guillaume (@) dev-mind.fr</a>
-                        </p>
-                        <address class="dm_lead">
-                            <b>Dev-Mind</b><br>
-                            17 rue de la Vivaraize<br>
-                            42100 St Etienne<br>
-                            France
-                        </address>
-                        <p>&nbsp;</p>
-                        <p>
-                            <a href="https://twitter.com/guillaumeehret" target="_blank">
-                                <img src="img/contact/twitter.png"
-                                     class="social"
-                                     alt="Twitter"
-                                     onmouseover="this.src='img/contact/twitter_inv1.png'"
-                                     onmouseout="this.src='img/contact/twitter.png'"/></a>
-                            <a href="https://plus.google.com/+GuillaumeEhret" target="_blank">
-                                <img src="img/contact/googlep.png"
-                                     alt="Google+"
-                                     class="social"
-                                     onmouseover="this.src='img/contact/googlep_inv1.png'"
-                                     onmouseout="this.src='img/contact/googlep.png'"/></a>
-                            <a href="http://javamind-fr.blogspot.fr/" target="_blank">
-                                <img src="img/contact/blogger.png"
-                                     alt="Mon blog"
-                                     class="social"
-                                     onmouseover="this.src='img/contact/blogger_inv1.png'"
-                                     onmouseout="this.src='img/contact/blogger.png'"/></a>
-                        </p>
-                    </div>
-                    <div class="dm_grid__element">
-                        <img src="img/contact/cloud.png" alt="Mes compétences">
-                    </div>
-                </div>
-            </devmind-home-contact>
-        </div>
+<div class="home">
+    <div class="dm_home_me" id="home">
+        <devmind-home-me>
+            <p class="dm_logo">
+                <img src="img/logo/logo_long.svg" alt="Dev-Mind" title="Dev-Mind"><br>
+            </p>
+        </devmind-home-me>
     </div>
-</main>
+
+    <div id="dm_transition_cloud"></div>
+
+    <div class="dm_home_blog" id="blog">
+
+        <devmind-home-blog>
+            <h1>Vous voulez programmer pour le web ?</h1>
+            <p class="dm_lead">
+                Par où commencer ? Au départ le monde du web peut paraître obscure. On me parle de Javascript,
+                de feuilles de
+                styles, de HTML... Chaque semaine de nouvelles solutions apparaissent. Faut il partir sur une
+                application Angular, React
+                ou Ember... Comment communiquer avec un serveur distant ?
+            </p>
+            <p class="dm_lead">
+                On se retrouve souvent comme un enfant devant un ensemble de cube
+            </p>
+            <p align="center">
+                <picture alt="Au départ c'est flou">
+                    <source srcset="img/formation/formation_floue_500.png 640w, img/formation/formation_floue.png"/>
+                    <img src="img/formation/formation_floue_500.png" alt="Au départ c'est flou">
+                </picture>
+            </p>
+
+            <h1>Dev-Mind est là pour vous aider</h1>
+            <p class="dm_lead">
+                Via un programme à la carte que nous construisons ensemble je vous propose de reprendre les
+                bases. Toutes les parties sont optionnelles et
+                nous les adapterons en fonction de vos compétences. Le but est de reprendre brique par brique.
+            </p>
+            <p align="center">
+                <picture alt="Reprendre les bases">
+                    <source srcset="img/formation/formation_moinsfloue_500.png 640w, img/formation/formation_moinsfloue.png"/>
+                    <img src="img/formation/formation_moinsfloue_500.png" alt="Reprendre les bases">
+                </picture>
+            </p>
+
+            <p class="dm_lead">
+                Pour comprendre comment fonctionne les technologies du web je vous propose de nous focaliser
+                dans un premier temps sur les briques clientes. Ces technologies s'exécutent dans un navigateur
+                Internet...
+            </p>
+            <p>
+            <ul>
+                <li>Historique d'Internet, du web</li>
+                <li>Définir du contenu en HTML</li>
+                <li>Mettre en forme ce contenu avec CSS</li>
+                <li>Le Javascript pour dynamiser tout ça</li>
+            </ul>
+            </p>
+
+            <p class="dm_lead">
+                Je ne vous parlerai pas de frameworks dans cette formation mais seulement de standard du web :
+                HTML, CSS et JS. Avec ces fondamentaux vous pourrez ensuite appréhender
+                les frameworks de plus haut niveau tel que
+            </p>
+
+            <p>
+            <ul>
+                <li>CSS : Boostrap, Foundation, Material...</li>
+                <li>JavaScript : Ember, Angular, React</li>
+            </ul>
+            </p>
+            <p class="dm_lead">
+                Vous ne savez pas gérer un bloc en CSS ? Connaissez vous les FlexBox ? <br>
+                Côté JavaScript maîtriser vous les arrow functions, les appels asynchrones, les promesses, les
+                modules...</p>
+            <p>
+                Les formations Dev-Mind permettent de répondre à toutes ces questions.
+            </p>
+
+            <p>&nbsp;</p>
+            <h1>Des formations sur le front et le back</h1>
+            <p class="dm_lead">Une application cliente interagit avec un serveur.
+                Vous pouvez mettre en place un simple serveur HTTP qui
+                renvoie des ressources statiques sur les postes clients, ou alors vous pouvez créer une
+                application qui expose des API (généralement en REST)
+                accessibles via JavaScript.</p>
+
+            <p align="center">
+                <picture alt="Chaine complète">
+                    <source srcset="img/formation/formation_complet_500.png 640w, img/formation/formation_complet.png"/>
+                    <img src="img/formation/formation_complet_500.png" alt="Chaine complète">
+                </picture>
+            </p>
+
+            <h1>Comment écrire une application ?</h1>
+            <p class="dm_lead">
+                Quand vous avez besoin d'avoir une interaction entre le poste client et le serveur : envoi de
+                données, envoi de commandes, vous devez écrire côté serveur
+                une application capable de recevoir et de traiter ces données, ces interactions. </p>
+            <p>
+                Je suis
+                développeur Java full stack depuis des années et pendant longtemps il était difficile d'écrire
+                des
+                applications simples en Java. Mais ce n'est plus le cas aujourd'hui depuis l'arrivée de <a
+                    href="https://projects.spring.io/spring-boot/">Sring Boot</a>.
+            </p>
+            <p class="dm_lead">
+                Côté backend je vous propose de voir comment Spring Boot fonctionne
+
+            <ul>
+                <li>Comment écrire une application Spring Boot en 5 lignes</li>
+                <li>Exposer des services REST accessible ensuite via JavaScript</li>
+                <li>Interagir avec une base de données SQL</li>
+                <li>Interagir avec une base de données NoSQL (mongoDb)</li>
+                <li>Gérer des appels synchrones via SpringWeb ou asynchrone via WebFlux</li>
+            </ul>
+            </p>
+
+            <p align="center">
+                <picture alt="Chaine complète">
+                    <source srcset="img/formation/formation_back_500.png 640w, img/formation/formation_back.png"/>
+                    <img src="img/formation/formation_back_500.png" alt="Chaine complète">
+                </picture>
+            </p>
+
+            <h1>Optimiser votre webapp pour améliorer les performances</h1>
+            <p class="dm_lead">
+                Une fois que votre application est en production on observe souvent des temps assez longs
+                pour charger vos écrans</p>
+            <p class="dm_lead">
+                Je vous propose une session expert pendant laquelle nous pouvons voir la marche à suivre pour
+                que votre site soit plus rapide. Aujourd'hui les utilisateurs
+                supportent de moins en moins les sites longs à charger. Au delà de 3sec de chargement vous avez
+                perdu 57% des visiteurs... Il est donc primordial
+                d'otimiser les temps de chargements. Cette formation axée sur la pratique propose différentes étapes
+                d'optimisation.
+            </p>
+            <ul>
+                <li>Comment améliorer le temps de premier chargement de votre site ?</li>
+                <li>Comment améliorer le temps du deuxième chargement (quand vous faites un refresh) ?</li>
+                <li>Comment optimiser le premier affichage (critical rendering) ?</li>
+                <li>Comment faire fonctionner votre site en offline quand l'utiliateur a déjà visité votre
+                    site...?
+                </li>
+            </ul>
+        </devmind-home-blog>
+    </div>
+
+    <div id="dm_transition_mountain"></div>
+
+    <div class="dm_home_formation" id="formation">
+        <devmind-home-formation>
+
+            <h1>Prix de la formation</h1>
+
+            <p class="dm_lead">Dev-Mind est enregistré sous le numéro 84 42 02955 42 en tant que prestataire de
+                formation conformément aux dispositions de l'article R. 6351-6 du code du travail.<br> Cet
+                enregistrement ne vaut pas agrément de l'état.
+            <p>
+            <p class="dm_lead">
+                N'hésitez pas à me contacter pour plus de renseignements. Chaque formation Dev-Mind peut être
+                adaptée à votre contexte.
+                Je propose 2 modes de formation :
+            </p>
+            <ul class="dm_lead">
+                <li>mode INTRA <b>1250 € HT/jour</b> : la formation vous est réservée et vous pouvez proposer
+                    jusqu'à 6 stagiaires
+                </li>
+                <li>mode INTER <b>500 € HT par stagiaire et par jour</b> : formation d'un stagiaire</li>
+            </ul>
+
+            <p class="center">
+                <picture>
+                    <source srcset="img/experience/formation_600.webp 640w, img/experience/formation_1280.webp 1280w, img/experience/formation_2500.webp"
+                            type="image/webp"/>
+                    <source srcset="img/experience/formation_600.png 640w, img/experience/formation_1280.png 1280w, img/experience/formation_2500.png"/>
+                    <img src="img/experience/formation_600.png" alt="Formation">
+                </picture>
+            </p>
+        </devmind-home-formation>
+    </div>
+
+    <div id="dm_transition_hills"></div>
+
+    <div class="dm_home_experience" id="experience">
+        <devmind-home-experience>
+            <div class="dm_grid__flexible">
+                <div class="dm_grid__element dm_formation__detail">
+                    <h1>Le langage HTML</h1>
+
+                    <p class="dm_lead">Introduction au langage</p>
+
+                    <p class="dm_lead">Les différentes balises</p>
+                    <ul class="dm_lead">
+                        <li>Les éléments dépréciés</li>
+                        <li>Les éléments de base</li>
+                        <li>Ajouter des métadonnées</li>
+                        <li>Découper le document</li>
+                        <li>Découper le document</li>
+                        <li>Disposer des éléments dans la page</li>
+                        <li>Liens et utilisations d’autres ressources</li>
+                        <li>Sémantique et formatage du texte</li>
+                        <li>Les tableaux</li>
+                        <li>Les formulaires</li>
+                    </ul>
+
+                    <p class="dm_lead">Les attributs des balises HTML</p>
+
+                    <p class="dm_lead">Démarrer un nouveau projet avec un starter</p>
+
+                </div>
+                <div class="dm_grid__element dm_formation__detail">
+                    <h1>Le langage CSS</h1>
+
+                    <p class="dm_lead">Les principes de base</p>
+
+                    <p class="dm_lead">Définir des styles</p>
+
+                    <p class="dm_lead">Les sélecteurs</p>
+
+                    <p class="dm_lead">Le modèle de boîtes</p>
+
+                    <p class="dm_lead">Les flexbox</p>
+
+                    <p class="dm_lead">Industrialisation</p>
+                    <ul class="dm_lead">
+                        <li>Les Préprocesseurs (LESS, Sass)</li>
+                        <li>Les Postprocesseurs (autoprefixer, minify, concat, uncss)</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="dm_grid__flexible">
+                <div class="dm_grid__element dm_formation__detail">
+                    <h1>Le langage JavaScript</h1>
+
+                    <p class="dm_lead">Introduction au langage</p>
+
+                    <p class="dm_lead">Données</p>
+
+                    <p class="dm_lead">Instructions</p>
+
+                    <p class="dm_lead">Les fonctions</p>
+                    <ul class="dm_lead">
+                        <li>Définir une fonction</li>
+                        <li>Arrow function</li>
+                        <li>Generator function</li>
+                        <li>Fonctions internes</li>
+                    </ul>
+
+                    <p class="dm_lead">Les objets</p>
+                    <ul class="dm_lead">
+                        <li>Programmation objet orientée prototype</li>
+                        <li>Programmation objet orientée classe</li>
+                    </ul>
+
+                    <p class="dm_lead">Les collections</p>
+
+                    <p class="dm_lead">Gestion d’erreur</p>
+
+
+                    <p class="dm_lead">Chaîne de caractères, nombres, dates</p>
+
+
+                    <p class="dm_lead">Gestion des évènements</p>
+
+                    <p class="dm_lead">Stocker des données (cookies, Local storage...)</p>
+
+                    <p class="dm_lead">Tests unitaires</p>
+
+                    <p class="dm_lead">Récupérer des données</p>
+                    <ul class="dm_lead">
+                        <li>Les promesses</li>
+                        <li>L’API XMLHttpRequest requête XHR</li>
+                        <li>L’API fetch</li>
+                    </ul>
+                </div>
+                <div class="dm_grid__element dm_formation__detail">
+                    <h1>Optimisez les performances de votre site</h1>
+
+                    <p class="dm_lead">Au cours de cette formation nous aborderons les points suivants. Chaque
+                        point
+                        sera <b>illustré par des travaux pratiques</b> pour vous
+                        aider à mieux comprendre l'intérêt de chaque étape</p>
+
+                    <p class="dm_lead">Mesurer les performances</p>
+                    <ul class="dm_lead">
+                        <li>Présentation des Chrome Dev Tools</li>
+                        <li>Sites intéressants pour mesurer vos performances</li>
+                    </ul>
+
+                    <p class="dm_lead">Agir au niveau du protocole de communication HTTP2</p>
+
+                    <p class="dm_lead">Améliorer le temps de chargement initial (loadtime)</p>
+                    <ul class="dm_lead">
+                        <li>Limiter les ressources envoyées</li>
+                        <li>Les images</li>
+                        <li>Les feuilles de styles</li>
+                        <li>Les fonts</li>
+                    </ul>
+
+                    <p class="dm_lead">Améliorer les temps pour le deuxième chargement (refresh / offline)</p>
+                    <ul class="dm_lead">
+                        <li>Mise en cache</li>
+                        <li>Services workers</li>
+                    </ul>
+
+                    <p class="dm_lead">Améliorer le rendu et le premier affichage (first load)</p>
+                    <ul class="dm_lead">
+                        <li>Chargement de vos scripts</li>
+                        <li>Chargement asynchrone</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="dm_grid__flexible">
+                <div class="dm_grid__element dm_formation__detail">
+                    <h1>Spring Boot</h1>
+
+                    <p class="dm_lead">Comment écrire rapidement un backend en Java</p>
+                    <p class="dm_lead">Exposer des services REST accessible ensuite via JavaScript</p>
+                    <p class="dm_lead">Interagir avec une base de données</p>
+                    <ul class="dm_lead">
+                        <li>base de données SQL</li>
+                        <li>base de données noSQL (mongoDb)</li>
+                    </ul>
+                    <p class="dm_lead">Gérer des appels synchrones via SpringWeb</p>
+                    <p class="dm_lead">Gérer des appels asynchrone via WebFlux</p>
+                </div>
+                <div class="dm_grid__element">
+                </div>
+            </div>
+        </devmind-home-experience>
+    </div>
+
+    <div id="dm_transition_grass"></div>
+
+    <div class="dm_home_contact" id="contact">
+        <devmind-home-contact>
+            <div class="dm_grid__flexible">
+                <div class="dm_grid__element">
+                    <h1>Contact</h1>
+
+                    <p class="dm_lead">
+                        N'hésitez pas à me contacter si vous souhaitez plus d'informations<br>
+                    </p>
+
+                    <p class="dm_lead">
+                        <b>Guillaume EHRET</b><br>
+                        <a>guillaume (@) dev-mind.fr</a>
+                    </p>
+                    <address class="dm_lead">
+                        <b>Dev-Mind</b><br>
+                        17 rue de la Vivaraize<br>
+                        42100 St Etienne<br>
+                        France
+                    </address>
+                    <p>&nbsp;</p>
+                    <p>
+                        <a href="https://twitter.com/guillaumeehret" target="_blank">
+                            <img src="img/contact/twitter.png"
+                                 class="social"
+                                 alt="Twitter"
+                                 onmouseover="this.src='img/contact/twitter_inv1.png'"
+                                 onmouseout="this.src='img/contact/twitter.png'"/></a>
+                        <a href="https://plus.google.com/+GuillaumeEhret" target="_blank">
+                            <img src="img/contact/googlep.png"
+                                 alt="Google+"
+                                 class="social"
+                                 onmouseover="this.src='img/contact/googlep_inv1.png'"
+                                 onmouseout="this.src='img/contact/googlep.png'"/></a>
+                        <a href="http://javamind-fr.blogspot.fr/" target="_blank">
+                            <img src="img/contact/blogger.png"
+                                 alt="Mon blog"
+                                 class="social"
+                                 onmouseover="this.src='img/contact/blogger_inv1.png'"
+                                 onmouseout="this.src='img/contact/blogger.png'"/></a>
+                    </p>
+                </div>
+                <div class="dm_grid__element">
+                    <img src="img/contact/cloud.png" alt="Mes compétences">
+                </div>
+            </div>
+        </devmind-home-contact>
+    </div>
+</div>

@@ -54,7 +54,31 @@
     <link rel="stylesheet" href="css/main.css">
 </head>
 <body class="dev-mind">
-<devmind-app ng-controller="MainCtrl">
+
+<header>
+    {{#single}}
+    <nav>
+        <a href="index.html#home" class="mdl-layout__tab is-active" ng-class="{ 'is-active' : active === 'home' }"
+           ng-click="changeMenu('home')"><img src="img/ic_home_white_24px.svg" rel="start"></a>
+        <a href="index.html#blog" class="mdl-layout__tab" ng-class="{ 'is-active' : active === 'blog' }"
+           ng-click="changeMenu('blog')">Blog</a>
+        <a href="index.html#formation" class="mdl-layout__tab" ng-class="{ 'is-active' : active === 'formation' }"
+           ng-click="changeMenu('formation')">Formations</a>
+        <a href="index.html#experience" class="mdl-layout__tab is-large-screen"
+           ng-class="{ 'is-active' : active === 'experience' }"
+           ng-click="changeMenu('experience')">Expérience</a>
+        <a href="index.html#contact" class="mdl-layout__tab" ng-class="{ 'is-active' : active === 'contact' }"
+           ng-click="changeMenu('contact')">Contact</a>
+    </nav>
+    {{/single}}
+    {{^single}}
+    <nav>
+        <a href="index.html" class="mdl-layout__tab is-active" ng-class="{ 'is-active' : active === 'home' }"
+           ng-click="changeMenu('home')"><img src="img/ic_home_white_24px.svg" rel="start"></a>
+    </nav>
+    {{/single}}
+</header>
+<main>
     {{{ contents }}}
     <footer>
         <div class="dm_footer">
@@ -80,7 +104,7 @@
             </div>
         </div>
     </footer>
-</devmind-app>
+</main>
 
 <!-- build:js(app/) ../../js/main.js -->
 <script src="js/main.js"></script>

@@ -9,7 +9,8 @@ module.exports = function () {
     'index.html' : {
       keywords: 'Dev-mind Guillaume EHRET développeur indépendant spécialiste Java, Web',
       title: 'Dev-Mind',
-      description : 'Dev-Mind aide les entreprises qui souhaitent créer de nouveaux logiciels ou s\'organiser pour réussir leurs défis, en proposant des prestations de développement, du conseil et de la formation.'
+      description : 'Dev-Mind aide les entreprises qui souhaitent créer de nouveaux logiciels ou s\'organiser pour réussir leurs défis, en proposant des prestations de développement, du conseil et de la formation.',
+      single: true
     },
     'formation_javascript.html' : {
       keywords: 'JavaScript Formation Adapté ',
@@ -38,6 +39,7 @@ module.exports = function () {
       title: () => pageMetadata[file.fileName].title,
       description: () => pageMetadata[file.fileName].description,
       contents: () => new Buffer(html),
+      single: () => pageMetadata[file.fileName].single,
       'canonical-url': () => file.fileName
     };
 
