@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c48b0403-11b8-4cb8-b493-dcdb2cc9b64c" name="Default" comment="">
+    <list default="true" id="c48b0403-11b8-4cb8-b493-dcdb2cc9b64c" name="Default" comment="Adds service worker generation">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gulpfile.js" afterPath="$PROJECT_DIR$/gulpfile.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
@@ -22,8 +22,8 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/partials/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="655">
-              <caret line="402" column="7" lean-forward="false" selection-start-line="402" selection-start-column="7" selection-end-line="402" selection-end-column="7" />
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding>
                 <element signature="n#devmind-home-me#0;n#div#0;n#div#0;n#main#0;n#!!top" expanded="false" />
                 <element signature="n#div#2;n#div#0;n#main#0;n#!!top" expanded="false" />
@@ -37,34 +37,9 @@
       <file leaf-file-name="gulpfile.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gulpfile.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="216">
-              <caret line="155" column="0" lean-forward="false" selection-start-line="155" selection-start-column="0" selection-end-line="155" selection-end-column="0" />
+            <state relative-caret-position="36">
+              <caret line="162" column="0" lean-forward="false" selection-start-line="162" selection-start-column="0" selection-end-line="162" selection-end-column="0" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="service-worker.js.map" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/build/dist/service-worker.js.map">
-          <provider editor-type-id="sourcemapFileViewerProvider">
-            <state />
-          </provider>
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="service-worker.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/build/.tmp/service-worker.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="522">
-              <caret line="285" column="82" lean-forward="false" selection-start-line="285" selection-start-column="78" selection-end-line="285" selection-end-column="82" />
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -82,38 +57,28 @@
       <file leaf-file-name="site.hbs" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/templates/site.hbs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="504">
-              <caret line="86" column="28" lean-forward="false" selection-start-line="86" selection-start-column="28" selection-end-line="86" selection-end-column="28" />
+            <state relative-caret-position="324">
+              <caret line="9" column="73" lean-forward="false" selection-start-line="9" selection-start-column="73" selection-end-line="9" selection-end-column="73" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="formation_javascript.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/build/dist/formation_javascript.html">
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="216">
+              <caret line="6" column="5" lean-forward="true" selection-start-line="6" selection-start-column="5" selection-end-line="6" selection-end-column="5" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/build/.tmp/index.html">
+      <file leaf-file-name="home.component.scss" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/sass/home.component.scss">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="913">
-              <caret line="39" column="34" lean-forward="false" selection-start-line="39" selection-start-column="34" selection-end-line="39" selection-end-column="34" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="formation_optimiser.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/build/.tmp/formation_optimiser.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="10" column="16" lean-forward="false" selection-start-line="10" selection-start-column="16" selection-end-line="10" selection-end-column="16" />
+            <state relative-caret-position="625">
+              <caret line="166" column="65" lean-forward="false" selection-start-line="166" selection-start-column="65" selection-end-line="166" selection-end-column="65" />
               <folding />
             </state>
           </provider>
@@ -146,9 +111,9 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>images/</find>
-      <find>precache</find>
       <find>maxA</find>
+      <find>precache</find>
+      <find>images/</find>
     </findStrings>
     <replaceStrings>
       <replace>img/</replace>
@@ -177,13 +142,13 @@
         <option value="$PROJECT_DIR$/build/dist/index.html" />
         <option value="$PROJECT_DIR$/src/templates/blog.hbs" />
         <option value="$PROJECT_DIR$/src/partials/index.html" />
-        <option value="$PROJECT_DIR$/src/sass/home.component.scss" />
         <option value="$PROJECT_DIR$/src/partials/formation_javascript.html" />
         <option value="$PROJECT_DIR$/src/partials/formation_web.html" />
         <option value="$PROJECT_DIR$/src/partials/formation_optimiser.html" />
-        <option value="$PROJECT_DIR$/src/templates/site.hbs" />
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/gulpfile.js" />
+        <option value="$PROJECT_DIR$/src/sass/home.component.scss" />
+        <option value="$PROJECT_DIR$/src/templates/site.hbs" />
       </list>
     </option>
   </component>
@@ -318,46 +283,6 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="gulp-extensions" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="transformers" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dev-mind.com" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dev-mind.com" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="gulp-extensions" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dev-mind.com" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dev-mind.com" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="build" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dist" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="service-worker.js" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NestingTreeNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -870,7 +795,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1493142967319</updated>
-      <workItem from="1493142970055" duration="17549000" />
+      <workItem from="1493142970055" duration="18435000" />
     </task>
     <task id="LOCAL-00001" summary="Adds images, sass files, mustache templates">
       <created>1493156198035</created>
@@ -907,14 +832,22 @@
       <option name="project" value="LOCAL" />
       <updated>1493191166329</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Adds service worker generation">
+      <created>1493223331051</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1493223331051</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="17549000" />
+    <option name="totallyTimeSpent" value="18435000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="89" y="-6" width="3751" height="2166" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24792139" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -927,7 +860,7 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33544305" sideWeight="0.48074296" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3064346" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.42682928" sideWeight="0.4793772" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.42682928" sideWeight="0.4793772" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15760721" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -967,7 +900,8 @@
     <MESSAGE value="Adds a README in asciidoc" />
     <MESSAGE value="Adds a HTML generation page from partials with handdlebar" />
     <MESSAGE value="Cleans partials after the refactoring on CSS transitions" />
-    <option name="LAST_COMMIT_MESSAGE" value="Cleans partials after the refactoring on CSS transitions" />
+    <MESSAGE value="Adds service worker generation" />
+    <option name="LAST_COMMIT_MESSAGE" value="Adds service worker generation" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -1111,114 +1045,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="6" column="5" lean-forward="false" selection-start-line="6" selection-start-column="5" selection-end-line="6" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/build/.tmp/blog/article1.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-2268">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <marker date="1493222791725" expanded="true" signature="1851:9503" ph="..." />
-            <marker date="1493222791725" expanded="true" signature="1883:1947" ph="..." />
-            <marker date="1493222791725" expanded="true" signature="1981:9442" ph="..." />
-            <marker date="1493222791725" expanded="true" signature="2043:2686" ph="..." />
-            <marker date="1493222791725" expanded="true" signature="2069:2679" ph="..." />
-            <marker date="1493222791725" expanded="true" signature="2093:2515" ph="..." />
-            <marker date="1493222791725" expanded="true" signature="2225:2232" ph="&amp;##8217;" />
-            <marker date="1493222791725" expanded="true" signature="2256:2263" ph="&amp;##8217;" />
-            <marker date="1493222791725" expanded="true" signature="2322:2329" ph="&amp;##8217;" />
-            <marker date="1493222791725" expanded="true" signature="2539:2672" ph="..." />
-            <marker date="1493222791725" expanded="true" signature="2561:2568" ph="&amp;##8217;" />
-            <marker date="1493222791725" expanded="true" signature="2599:2606" ph="&amp;##8217;" />
-            <marker date="1493222791725" expanded="true" signature="2706:3527" ph="..." />
-            <marker date="1493222791725" expanded="true" signature="2795:3520" ph="..." />
-            <marker date="1493222791725" expanded="true" signature="2819:3224" ph="..." />
-            <marker date="1493222791725" expanded="true" signature="2827:2834" ph="&amp;##8217;" />
-            <marker date="1493222791725" expanded="true" signature="2931:2938" ph="&amp;##8217;" />
-            <marker date="1493222791725" expanded="true" signature="3013:3020" ph="&amp;##8217;" />
-            <marker date="1493222791725" expanded="true" signature="3110:3117" ph="&amp;##8217;" />
-            <marker date="1493222791725" expanded="true" signature="3248:3513" ph="..." />
-            <marker date="1493222791725" expanded="true" signature="3306:3313" ph="&amp;##8217;" />
-            <marker date="1493222791725" expanded="true" signature="3491:3498" ph="&amp;##8217;" />
-            <marker date="1493222791725" expanded="true" signature="3547:4090" ph="..." />
-            <marker date="1493222791725" expanded="true" signature="3638:4083" ph="..." />
-            <marker date="1493222791725" expanded="true" signature="3662:3843" ph="..." />
-            <marker date="1493222791725" expanded="true" signature="3674:3681" ph="&amp;##8217;" />
-            <marker date="1493222791725" expanded="true" signature="3788:3795" ph="&amp;##8230;" />
-            <marker date="1493222791725" expanded="true" signature="3795:3802" ph="&amp;##8203;" />
-            <marker date="1493222791725" expanded="true" signature="3810:3817" ph="&amp;##8217;" />
-            <marker date="1493222791725" expanded="true" signature="3867:4076" ph="..." />
-            <marker date="1493222791725" expanded="true" signature="3913:3920" ph="&amp;##8217;" />
-            <marker date="1493222791725" expanded="true" signature="3987:3994" ph="&amp;##8217;" />
-            <marker date="1493222791725" expanded="true" signature="4110:9073" ph="..." />
-            <marker date="1493222791725" expanded="true" signature="4199:9066" ph="..." />
-            <marker date="1493222791725" expanded="true" signature="4281:4355" ph="..." />
-            <marker date="1493222791725" expanded="true" signature="4382:9059" ph="..." />
-            <marker date="1493222791725" expanded="true" signature="4404:9052" ph="..." />
-            <marker date="1493222791725" expanded="true" signature="4586:4592" ph="&amp;nbsp;" />
-            <marker date="1493222791725" expanded="true" signature="4970:4976" ph="&amp;nbsp;" />
-            <marker date="1493222791725" expanded="true" signature="5195:5201" ph="&amp;nbsp;" />
-            <marker date="1493222791725" expanded="true" signature="5201:5207" ph="&amp;nbsp;" />
-            <marker date="1493222791725" expanded="true" signature="5340:5346" ph="&amp;nbsp;" />
-            <marker date="1493222791725" expanded="true" signature="5351:5357" ph="&amp;nbsp;" />
-            <marker date="1493222791725" expanded="true" signature="5365:5371" ph="&amp;nbsp;" />
-            <marker date="1493222791725" expanded="true" signature="5373:5379" ph="&amp;nbsp;" />
-            <marker date="1493222791725" expanded="true" signature="5380:5386" ph="&amp;nbsp;" />
-            <marker date="1493222791725" expanded="true" signature="5406:5412" ph="&amp;nbsp;" />
-            <marker date="1493222791725" expanded="true" signature="5487:5493" ph="&amp;nbsp;" />
-            <marker date="1493222791725" expanded="true" signature="5493:5499" ph="&amp;nbsp;" />
-            <marker date="1493222791725" expanded="true" signature="5504:5510" ph="&amp;nbsp;" />
-            <marker date="1493222791725" expanded="true" signature="5589:5595" ph="&amp;nbsp;" />
-            <marker date="1493222791725" expanded="true" signature="5600:5606" ph="&amp;nbsp;" />
-            <marker date="1493222791725" expanded="true" signature="5683:5689" ph="&amp;nbsp;" />
-            <marker date="1493222791725" expanded="true" signature="5820:5826" ph="&amp;nbsp;" />
-            <marker date="1493222791725" expanded="true" signature="5826:5832" ph="&amp;nbsp;" />
-            <marker date="1493222791725" expanded="true" signature="6327:6333" ph="&amp;nbsp;" />
-            <marker date="1493222791725" expanded="true" signature="6392:6396" ph="&amp;gt;" />
-            <marker date="1493222791725" expanded="true" signature="6423:6429" ph="&amp;nbsp;" />
-            <marker date="1493222791725" expanded="true" signature="6898:6903" ph="&amp;##39;" />
-            <marker date="1493222791725" expanded="true" signature="6928:6934" ph="&amp;nbsp;" />
-            <marker date="1493222791725" expanded="true" signature="7004:7009" ph="&amp;##39;" />
-            <marker date="1493222791725" expanded="true" signature="7205:7211" ph="&amp;nbsp;" />
-            <marker date="1493222791725" expanded="true" signature="7216:7222" ph="&amp;nbsp;" />
-            <marker date="1493222791725" expanded="true" signature="7290:7296" ph="&amp;nbsp;" />
-            <marker date="1493222791725" expanded="true" signature="7681:7687" ph="&amp;nbsp;" />
-            <marker date="1493222791725" expanded="true" signature="8146:8152" ph="&amp;nbsp;" />
-            <marker date="1493222791725" expanded="true" signature="8278:8284" ph="&amp;nbsp;" />
-            <marker date="1493222791725" expanded="true" signature="8285:8289" ph="&amp;gt;" />
-            <marker date="1493222791725" expanded="true" signature="8289:8295" ph="&amp;nbsp;" />
-            <marker date="1493222791725" expanded="true" signature="8296:8302" ph="&amp;nbsp;" />
-            <marker date="1493222791725" expanded="true" signature="8309:8315" ph="&amp;nbsp;" />
-            <marker date="1493222791725" expanded="true" signature="8321:8327" ph="&amp;nbsp;" />
-            <marker date="1493222791725" expanded="true" signature="8327:8333" ph="&amp;quot;" />
-            <marker date="1493222791725" expanded="true" signature="8338:8344" ph="&amp;nbsp;" />
-            <marker date="1493222791725" expanded="true" signature="8350:8356" ph="&amp;quot;" />
-            <marker date="1493222791725" expanded="true" signature="8369:8375" ph="&amp;nbsp;" />
-            <marker date="1493222791725" expanded="true" signature="8778:8784" ph="&amp;nbsp;" />
-            <marker date="1493222791725" expanded="true" signature="8784:8790" ph="&amp;nbsp;" />
-            <marker date="1493222791725" expanded="true" signature="8916:8922" ph="&amp;nbsp;" />
-            <marker date="1493222791725" expanded="true" signature="8923:8927" ph="&amp;gt;" />
-            <marker date="1493222791725" expanded="true" signature="8927:8933" ph="&amp;nbsp;" />
-            <marker date="1493222791725" expanded="true" signature="8934:8940" ph="&amp;nbsp;" />
-            <marker date="1493222791725" expanded="true" signature="8947:8953" ph="&amp;nbsp;" />
-            <marker date="1493222791725" expanded="true" signature="8959:8965" ph="&amp;nbsp;" />
-            <marker date="1493222791725" expanded="true" signature="8965:8971" ph="&amp;quot;" />
-            <marker date="1493222791725" expanded="true" signature="8976:8982" ph="&amp;nbsp;" />
-            <marker date="1493222791725" expanded="true" signature="8988:8994" ph="&amp;quot;" />
-            <marker date="1493222791725" expanded="true" signature="9007:9013" ph="&amp;nbsp;" />
-            <marker date="1493222791725" expanded="true" signature="9093:9257" ph="..." />
-            <marker date="1493222791725" expanded="true" signature="9242:9250" ph="..." />
-            <marker date="1493222791725" expanded="true" signature="9277:9431" ph="..." />
-            <marker date="1493222791725" expanded="true" signature="9342:9424" ph="..." />
-            <marker date="1493222791725" expanded="true" signature="9366:9417" ph="..." />
-            <marker date="1493222791725" expanded="true" signature="9474:9495" ph="..." />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1332,14 +1163,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/sass/home.component.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="138" column="0" lean-forward="false" selection-start-line="138" selection-start-column="0" selection-end-line="138" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/build/dist/blog/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-5014">
@@ -1388,27 +1211,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/partials/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="655">
-          <caret line="402" column="7" lean-forward="false" selection-start-line="402" selection-start-column="7" selection-end-line="402" selection-end-column="7" />
-          <folding>
-            <element signature="n#devmind-home-me#0;n#div#0;n#div#0;n#main#0;n#!!top" expanded="false" />
-            <element signature="n#div#2;n#div#0;n#main#0;n#!!top" expanded="false" />
-            <element signature="n#div#4;n#div#0;n#main#0;n#!!top" expanded="false" />
-            <element signature="n#div#6;n#div#0;n#main#0;n#!!top" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/templates/site.hbs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="504">
-          <caret line="86" column="28" lean-forward="false" selection-start-line="86" selection-start-column="28" selection-end-line="86" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/build/dist/formation_javascript.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1441,14 +1243,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gulpfile.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="155" column="0" lean-forward="false" selection-start-line="155" selection-start-column="0" selection-end-line="155" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/build/dist/service-worker.js.map">
       <provider editor-type-id="sourcemapFileViewerProvider">
         <state />
@@ -1465,8 +1259,53 @@
         <state relative-caret-position="522">
           <caret line="285" column="82" lean-forward="false" selection-start-line="285" selection-start-column="78" selection-end-line="285" selection-end-column="82" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
+            <element signature="n#!!doc" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gulpfile.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="36">
+          <caret line="162" column="0" lean-forward="false" selection-start-line="162" selection-start-column="0" selection-end-line="162" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sass/home.component.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="625">
+          <caret line="166" column="65" lean-forward="false" selection-start-line="166" selection-start-column="65" selection-end-line="166" selection-end-column="65" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/partials/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="n#devmind-home-me#0;n#div#0;n#div#0;n#main#0;n#!!top" expanded="false" />
+            <element signature="n#div#2;n#div#0;n#main#0;n#!!top" expanded="false" />
+            <element signature="n#div#4;n#div#0;n#main#0;n#!!top" expanded="false" />
+            <element signature="n#div#6;n#div#0;n#main#0;n#!!top" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/templates/site.hbs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="9" column="73" lean-forward="false" selection-start-line="9" selection-start-column="73" selection-end-line="9" selection-end-column="73" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="6" column="5" lean-forward="true" selection-start-line="6" selection-start-column="5" selection-end-line="6" selection-end-column="5" />
+          <folding />
         </state>
       </provider>
     </entry>

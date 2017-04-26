@@ -152,8 +152,16 @@ gulp.task('service-worker', ['generate-service-worker'], (callback) => gulp.src(
     .pipe(gulp.dest(`build/dist`))
 );
 
-gulp.task('compress', () => {
+gulp.task('compress-svg', () =>
+  gulp.src('build/dist/**/*.svg')
+    .pipe($.svg2z())
+    .pipe(gulp.dest('build/dist'))
+);
 
+gulp.task('compress', ['compress-svg'], () => {
+  gulp.src('build/dist/**/*.{js,css,png,webp,jpg,html}')
+    .pipe($.gzip())
+    .pipe(gulp.dest('build/dist'));
 });
 
 gulp.task('serve', ['build'], () => {
