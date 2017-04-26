@@ -9,9 +9,11 @@ const imageminMozjpeg = require('imagemin-mozjpeg');
 const runSequence = require('run-sequence');
 
 const $ = require('gulp-load-plugins')();
+const reload = browserSync.reload;
 
 const asciidoctorRead = require('./gulp-extensions/transformers/asciidoctor-read');
 const asciidoctorConvert = require('./gulp-extensions/transformers/asciidoctor-convert');
+const htmlRead = require('./gulp-extensions/transformers/html-read');
 const applyTemplate = require('./gulp-extensions/transformers/apply-template');
 const highlightCode = require('./gulp-extensions/transformers/highlight-code');
 
@@ -26,6 +28,18 @@ const AUTOPREFIXER_BROWSERS = [
   'android >= 4.4',
   'bb >= 10'
 ];
+
+const HTMLMIN_OPTIONS = {
+  removeComments: true,
+  collapseWhitespace: true,
+  collapseBooleanAttributes: true,
+  removeAttributeQuotes: true,
+  removeRedundantAttributes: true,
+  removeEmptyAttributes: true,
+  removeScriptTypeAttributes: true,
+  removeStyleLinkTypeAttributes: true,
+  removeOptionalTags: true
+};
 
 gulp.task('styles', () => gulp.src(['src/sass/main.scss'])
   .pipe($.newer('build/.tmp/css'))
@@ -42,16 +56,18 @@ gulp.task('styles', () => gulp.src(['src/sass/main.scss'])
   .pipe(gulp.dest('build/dist/css'))
 );
 
-const handlebarTemplate = path.resolve(__dirname, 'src/templates/blog.hbs');
 
 gulp.task('asciidoctor', () => {
+  const handlebarTemplate = path.resolve(__dirname, 'src/templates/blog.hbs');
   gulp
     .src('src/blog/**/*.adoc')
     .pipe(asciidoctorRead())
     .pipe(asciidoctorConvert())
     .pipe(applyTemplate({ handlebarTemplate }))
     .pipe(highlightCode({ selector: 'pre.highlight code' }))
-    .pipe(gulp.dest('build/.tmp/blog'));
+    .pipe(gulp.dest('build/.tmp/blog'))
+    .pipe($.htmlmin(HTMLMIN_OPTIONS))
+    .pipe(gulp.dest('build/dist/blog'));
 });
 
 gulp.task('lint', () => gulp.src('src/js/**/*.js')
@@ -61,7 +77,15 @@ gulp.task('lint', () => gulp.src('src/js/**/*.js')
 );
 
 gulp.task('html', () => {
-
+  const handlebarTemplate = path.resolve(__dirname, 'src/templates/site.hbs');
+  gulp
+    .src('src/partials/**/*.html')
+    .pipe(htmlRead())
+    .pipe(applyTemplate({ handlebarTemplate }))
+    .pipe($.size({title: 'html', showFiles: true}))
+    .pipe(gulp.dest('build/.tmp'))
+    .pipe($.htmlmin(HTMLMIN_OPTIONS))
+    .pipe(gulp.dest('build/dist'));
 });
 
 gulp.task('scripts', () => gulp.src(['src/js/main.js'])
@@ -85,8 +109,8 @@ gulp.task('images', () => gulp.src('src/images/**/*.{svg,png,jpg}')
       arithmetic: true,
     }))
     .pipe(gulp.dest('build/.tmp/img'))
-    .pipe($.if('*.{jpg,png}', $.webp()))
-    .pipe($.size({title: 'images', showFiles: true}))
+    .pipe($.if('**/*.{jpg,png}', $.webp()))
+    .pipe($.size({title: 'images', showFiles: false}))
     .pipe(gulp.dest('build/dist/img'))
 );
 
@@ -116,6 +140,7 @@ gulp.task('serve', ['build'], () => {
   gulp.watch(['src/**/*.adoc'], ['asciidoctor', reload]);
   gulp.watch(['src/js/**/*.js'], ['lint', 'scripts']);
   gulp.watch(['src/images/**/*'], ['images', reload]);
+  gulp.watch(['src/templates/**/*.hbs'], ['asciidoctor', 'html', reload]);
 });
 
 

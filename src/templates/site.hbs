@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <link rel="preload" href="images/animation/cloud/cloud3.png" as="image">
-    <link rel="preload" href="images/animation/cloud/cloud2.png" as="image">
-    <link rel="preload" href="images/animation/mountain/mountain2.png" as="image">
-    <link rel="preload" href="images/animation/mountain/mountain1.png" as="image">
-    <link rel="preload" href="images/animation/hills/hills1.png" as="image">
-    <link rel="preload" href="images/animation/hills/hills2.png" as="image">
-    <link rel="preload" href="images/animation/grass/grass1.png" as="image">
-    <link rel="preload" href="images/animation/grass/grass2.png" as="image">
+    <link rel="preload" href="img/animation/cloud/cloud3.png" as="image">
+    <link rel="preload" href="img/animation/cloud/cloud2.png" as="image">
+    <link rel="preload" href="img/animation/mountain/mountain2.png" as="image">
+    <link rel="preload" href="img/animation/mountain/mountain1.png" as="image">
+    <link rel="preload" href="img/animation/hills/hills1.png" as="image">
+    <link rel="preload" href="img/animation/hills/hills2.png" as="image">
+    <link rel="preload" href="img/animation/grass/grass1.png" as="image">
+    <link rel="preload" href="img/animation/grass/grass2.png" as="image">
 
 
     <meta charset="UTF-8">
@@ -17,7 +17,7 @@
     <meta name="keywords" content="{{ keywords }}">
     <meta name="description" content="{{ description }}">
 
-    <link rel="canonical" href="https://www.dev-mind.fr/">
+    <link rel="canonical" href="https://www.dev-mind.fr/{{ canonical-url }}">
 
     <title>{{ title }}</title>
 
@@ -53,18 +53,40 @@
     <meta name="theme-color" content="#2196f3">
 
     <!-- Your styles -->
-    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="css/main.css">
 </head>
 <body class="dev-mind">
-<header class="header-wrapper">
-    <div class="header">Exemple de header</div>
-</header>
-<article class="article-wrapper">
-    <h1>{{ title }}</h1>
+<devmind-app ng-controller="MainCtrl">
     {{{ contents }}}
-</article>
-<footer class="footer-wrapper">
-    footer
-</footer>
+    <footer>
+        <div class="dm_footer">
+            <div class="is-small-screen">
+                <p>
+                    SARL au capital de <i>5000€</i><br>
+                    SIREN : 808 720 759, au RCS de Saint-Etienne<br>
+                    All right reserved - @2016 Guillaume EHRET
+                </p>
+            </div>
+            <div class="is-large-screen">
+                <div class="dm_footer__middle">
+                    <div class="dm_society">
+                        Dev-Mind
+                    </div>
+                    <div>SARL au capital de <i>5000€</i></div>
+                    <div>SIREN : 808 720 759, au RCS de Saint-Etienne</div>
+                </div>
+
+                <div class="dm_footer__right">
+                    All right reserved - @2016 Guillaume EHRET
+                </div>
+            </div>
+        </div>
+    </footer>
+</devmind-app>
+
+<!-- build:js(app/) ../../scripts/main.js -->
+<script src="scripts/main.js"></script>
+<!-- endbuild -->
+
 </body>
 </html>

@@ -140,14 +140,14 @@ devmind-home-me, devmind-home-blog, devmind-home-formation, devmind-home-experie
 #dm_transition_cloud{
   @include  dm_transition(#2196f3, 60px);
   height: 7em;
-  background: url('../images/animation/cloud/cloud3.png') top space, url('../images/animation/cloud/cloud2.png') center space;
+  background: url('../img/animation/cloud/cloud3.png') top space, url('../img/animation/cloud/cloud2.png') center space;
   background-position: -2em 4em;
 }
 
 #dm_transition_mountain{
   @include  dm_transition(#90CAF9, 60px);
   height: 7em;
-  background: url('../images/animation/mountain/mountain2.png') top space, url('../images/animation/mountain/mountain1.png') center space;
+  background: url('../img/animation/mountain/mountain2.png') top space, url('../img/animation/mountain/mountain1.png') center space;
   background-color:#90CAF9;
   background-position: -3em 2em;
 }
@@ -155,7 +155,7 @@ devmind-home-me, devmind-home-blog, devmind-home-formation, devmind-home-experie
 #dm_transition_hills{
   @include  dm_transition(#9e8779, 50px);
   height: 4em;
-  background: url('../images/animation/hills/hills2.png') bottom space, url('../images/animation/hills/hills1.png') top space;
+  background: url('../img/animation/hills/hills2.png') bottom space, url('../img/animation/hills/hills1.png') top space;
   background-color:#9e8779;
   background-position: 0 1em;
 
@@ -164,7 +164,7 @@ devmind-home-me, devmind-home-blog, devmind-home-formation, devmind-home-experie
 #dm_transition_grass{
   @include  dm_transition(#b6db49, 50px);
   height: 3em;
-  background: url('../images/animation/grass/grass1.png') top round;
+  background: url('../img/animation/grass/grass1.png') top round;
   background-color:#b6db49;
 }
 
