@@ -4,7 +4,7 @@
 :author: Guillaume EHRET - Dev-Mind
 :notitle:
 :revdate: 2017/04/12
-
+:category: Java
 
 Je suis rédacteur du blog http://javamind-fr.blogspot.fr[JavaMind] depuis maintenant 7 ans et initialement quand j'ai décidé de me lancer j'ai choisi une plateforme qui me laissait la souplesse que j'attendais pour la publication de mes articles. Vous trouverez dorénavant mes articles directement sur le site https://dev-mind.fr
 

@@ -34,7 +34,8 @@ module.exports = function ({ includes } = {}) {
       'canonical-url': () => 'dummy-canonical-url',
     };
 
-    next(null, file)
+    next(null, file);
   })
 }
+
 

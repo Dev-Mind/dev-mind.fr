@@ -18,7 +18,9 @@ module.exports = function (filename) {
       revdate: file.attributes.revdate,
       description: file.attributes.description,
       doctitle: file.attributes.doctitle,
-      keywords: file.attributes.keywords
+      keywords: file.attributes.keywords,
+      filename: file.path.substring(file.path.lastIndexOf("/") + 1, file.path.length),
+      category: file.attributes.category
     };
 
     json += `${json.length ===0 ? '' : ','}${JSON.stringify(metadata)}`;
