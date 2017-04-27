@@ -43,18 +43,46 @@
     <meta name="theme-color" content="#2196f3">
 
     <!-- Your styles -->
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="../css/blog.css">
+    <link rel="stylesheet" href="../css/main.css">
 </head>
 <body class="dev-mind">
 <header class="header-wrapper">
-    <div class="header">Exemple de header INDEX</div>
+    <nav>
+        <a href="index.html" class="mdl-layout__tab is-active" ng-class="{ 'is-active' : active === 'home' }"
+           ng-click="changeMenu('home')"><img src="../img/ic_home_white_24px.svg" rel="start"></a>
+    </nav>
 </header>
-<article class="article-wrapper">
-    <h1>{{ title }}</h1>
-    {{{ contents }}}
-</article>
-<footer class="footer-wrapper">
-    footer
-</footer>
+<main>
+    <article class="article-wrapper">
+        <h1>{{ title }}</h1>
+        <div>{{ revdate }}</div>
+        {{{ contents }}}
+    </article>
+    <footer class="footer-wrapper">
+        <div class="dm_footer">
+            <div class="is-small-screen">
+                <p>
+                    SARL au capital de <i>5000€</i><br>
+                    SIREN : 808 720 759, au RCS de Saint-Etienne<br>
+                    All right reserved - @2016 Guillaume EHRET
+                </p>
+            </div>
+            <div class="is-large-screen">
+                <div class="dm_footer__middle">
+                    <div class="dm_society">
+                        Dev-Mind
+                    </div>
+                    <div>SARL au capital de <i>5000€</i></div>
+                    <div>SIREN : 808 720 759, au RCS de Saint-Etienne</div>
+                </div>
+
+                <div class="dm_footer__right">
+                    All right reserved - @2016 Guillaume EHRET
+                </div>
+            </div>
+        </div>
+    </footer>
+</main>
 </body>
 </html>
