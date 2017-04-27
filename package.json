@@ -38,6 +38,7 @@
     "map-stream": "^0.0.7",
     "merge-stream": "^1.0.1",
     "run-sequence": "^1.2.2",
+    "stream-reduce": "^1.0.3",
     "stream-to-array": "^2.3.0",
     "sw-precache": "^5.1.0",
     "sw-toolbox": "^3.6.0",

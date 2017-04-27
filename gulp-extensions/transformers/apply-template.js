@@ -3,10 +3,12 @@
 const map = require('map-stream');
 const handlebars = require('handlebars');
 const fs = require('fs');
+const path = require('path');
 
-module.exports = function ({ handlebarTemplate }) {
+module.exports = function (handlebarTemplate) {
 
-  const template = handlebars.compile(fs.readFileSync(handlebarTemplate, 'utf8'));
+  const handleBarTemplateFile =  path.resolve(__dirname, '../..', handlebarTemplate);
+  const template = handlebars.compile(fs.readFileSync(handleBarTemplateFile, 'utf8'));
 
   return map(async (file, next) => {
     file.contents = Buffer(template(file.templateModel));
