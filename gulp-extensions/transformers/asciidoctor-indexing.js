@@ -14,7 +14,7 @@ module.exports = function (filename) {
 
   const json = [];
 
-  function collect(file) {
+  function iterateOnStream(file) {
     json.push({
       revdate: file.attributes.revdate,
       description: file.attributes.description,
@@ -25,11 +25,6 @@ module.exports = function (filename) {
       teaser: file.attributes.teaser,
       imgteaser: file.attributes.imgteaser,
     });
-    return json;
-  }
-
-  function iterateOnStream(file) {
-    collect(file);
   }
 
   function endStream() {
