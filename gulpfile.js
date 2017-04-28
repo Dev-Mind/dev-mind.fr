@@ -64,10 +64,10 @@ gulp.task('blog-indexing', () =>
     .pipe(asciidoctorRead())
     .pipe(asciidoctorConvert())
     .pipe(asciidoctorIndexing('blog-index.json'))
-    .pipe(gulp.dest('build/.tmp/blog'))
+    .pipe(gulp.dest('build/dist/blog'))
 );
 
-gulp.task('asciidoctor', ['blog-indexing'], () =>
+gulp.task('blog', ['blog-indexing'], () =>
   gulp.src('src/blog/**/*.adoc')
     .pipe(asciidoctorRead())
     .pipe(asciidoctorConvert())
@@ -203,7 +203,7 @@ gulp.task('clean', () => del('build', {dot: true}));
 gulp.task('build', cb =>
   runSequence(
     'styles',
-    'asciidoctor',
+    'blog',
     ['lint', 'html', 'scripts', 'copy', 'images'],
     'service-worker',
     'compress',
