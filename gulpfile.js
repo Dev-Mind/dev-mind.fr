@@ -97,17 +97,14 @@ gulp.task('html', () =>
 );
 
 gulp.task('scripts', () =>
-  gulp.src(['src/js/main.js'])
-    .pipe($.newer('build/.tmp/js'))
+  gulp.src(['src/js/*.js'])
     .pipe($.sourcemaps.init())
-    .pipe($.babel())
+    .pipe($.babel({
+      presets: ['es2015']
+    }))
     .pipe($.sourcemaps.write())
-    .pipe(gulp.dest('build/.tmp/js'))
-    .pipe($.concat('main.js'))
     .pipe($.uglify({preserveComments: 'some'}))
-    // Output files
     .pipe($.size({title: 'scripts'}))
-    .pipe($.sourcemaps.write('.'))
     .pipe(gulp.dest('build/dist/js'))
 );
 
@@ -127,7 +124,7 @@ gulp.task('images', () =>
 gulp.task('copy', () => {
   gulp.src([
     'build/.tmp/**/*.{png,jpg}',
-    'src/**/*.{ico,html,txt,json,webapp,xml}',
+    'src/*.{ico,html,txt,json,webapp,xml}',
     'src/.htaccess'
   ], {
     dot: true
@@ -191,10 +188,10 @@ gulp.task('serve', ['build'], () => {
 
   gulp.watch(['src/**/*.html'], ['html', reload]);
   gulp.watch(['src/sass/**/*.{scss,css}'], ['styles', reload]);
-  gulp.watch(['src/**/*.adoc'], ['asciidoctor', reload]);
+  gulp.watch(['src/**/*.adoc'], ['blog', reload]);
   gulp.watch(['src/js/**/*.js'], ['lint', 'scripts']);
   gulp.watch(['src/images/**/*'], ['images', reload]);
-  gulp.watch(['src/**/*.hbs'], ['asciidoctor', 'html', reload]);
+  gulp.watch(['src/**/*.hbs'], ['blog', 'html', reload]);
 });
 
 
