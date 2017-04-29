@@ -63,12 +63,14 @@ window.app = (function() {
   }
 
   function changeMenu(section){
-    document.getElementById(lastActiveSection).classList.remove("is-active");
+    if(lastActiveSection){
+      document.getElementById(lastActiveSection).classList.remove("is-active");
+    }
     document.getElementById(section).classList.add("is-active");
     lastActiveSection = section;
   }
-  var lastActiveSection = window.location.hash ? window.location.hash : '#home';
-  changeMenu(lastActiveSection);
+  var lastActiveSection = window.location.hash;
+  changeMenu(lastActiveSection ? lastActiveSection : window.location.href.indexOf('blog') > 0 ? '#blog' : '#home');
 
   return {
     "changeMenu" : changeMenu

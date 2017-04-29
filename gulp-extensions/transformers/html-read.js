@@ -10,7 +10,11 @@ module.exports = function () {
       keywords: 'Dev-mind Guillaume EHRET développeur indépendant spécialiste Java, Web',
       title: 'Dev-Mind',
       description : 'Dev-Mind aide les entreprises qui souhaitent créer de nouveaux logiciels ou s\'organiser pour réussir leurs défis, en proposant des prestations de développement, du conseil et de la formation.',
-      single: true
+    },
+    'blog.html' : {
+      keywords: 'Dev-mind blog Java Agilité programmation Spring Web JavaScript',
+      title: 'Le blog Dev-Mind',
+      description : 'Le blog Dev-Mind regroupe des articles des interviews sur des sujets divers allant de la programmation Java JavaScript aux méthodes agiles',
     },
     'formation_javascript.html' : {
       keywords: 'JavaScript Formation Adapté ',
