@@ -3,14 +3,13 @@
 const gulp = require('gulp');
 const del = require('del');
 const path = require('path');
-const browserSync = require('browser-sync');
+const browserSync = require('browser-sync').create();
 const imagemin = require('gulp-imagemin');
 const imageminMozjpeg = require('imagemin-mozjpeg');
 const runSequence = require('run-sequence');
 const swPrecache = require('sw-precache');
 
 const $ = require('gulp-load-plugins')();
-const reload = browserSync.reload;
 
 const asciidoctorRead = require('./gulp-extensions/transformers/asciidoctor-read');
 const asciidoctorConvert = require('./gulp-extensions/transformers/asciidoctor-convert');
@@ -179,19 +178,20 @@ gulp.task('compress', ['compress-svg'], () =>
 );
 
 gulp.task('serve', ['build'], () => {
-  browserSync({
+  browserSync.init({
+    server: {
+      baseDir: "./build/dist/"
+    },
     notify: false,
-    logPrefix: 'WSK',
-    server: ['build/dist'],
     port: 3000
   });
 
-  gulp.watch(['src/**/*.html'], ['html', reload]);
-  gulp.watch(['src/sass/**/*.{scss,css}'], ['styles', reload]);
-  gulp.watch(['src/**/*.adoc'], ['blog', reload]);
-  gulp.watch(['src/js/**/*.js'], ['lint', 'scripts']);
-  gulp.watch(['src/images/**/*'], ['images', reload]);
-  gulp.watch(['src/**/*.hbs'], ['blog', 'html', reload]);
+  gulp.watch('src/**/*.html', ['html', browserSync.reload]);
+  gulp.watch('src/**/*.{scss,css}', ['styles', browserSync.reload]);
+  gulp.watch('src/**/*.adoc', ['blog', browserSync.reload]);
+  gulp.watch('src/**/*.js', ['lint', 'scripts', browserSync.reload]);
+  gulp.watch('src/images/**/*', ['images', browserSync.reload]);
+  gulp.watch('src/**/*.hbs', ['blog', 'html', browserSync.reload]);
 });
 
 
