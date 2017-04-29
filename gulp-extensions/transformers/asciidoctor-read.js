@@ -31,7 +31,10 @@ module.exports = function ({ includes } = {}) {
       revdate: () => file.attributes.revdate,
       contents: () => file.contents,
       'github-edit-url': () => file.git.githubEditUrl,
-      'canonical-url': () => 'dummy-canonical-url',
+      filename: file.path.substring(file.path.lastIndexOf("/") + 1, file.path.lastIndexOf(".")),
+      category: file.attributes.category,
+      teaser: file.attributes.teaser,
+      imgteaser: file.attributes.imgteaser
     };
 
     next(null, file);

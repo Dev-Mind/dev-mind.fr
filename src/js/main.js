@@ -1,5 +1,5 @@
 /* eslint-env browser */
-(function() {
+var app = (function() {
   'use strict';
 
   // Check to make sure service workers are supported in the current browser,
@@ -15,7 +15,7 @@
     )
   );
 
-  if ('serviceWorker' in navigator &&
+  if (false && 'serviceWorker' in navigator &&
     (window.location.protocol === 'https:' || isLocalhost)) {
     navigator.serviceWorker.register('service-worker.js')
       .then(function(registration) {

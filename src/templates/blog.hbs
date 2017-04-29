@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+    <link rel="prefetch" href="https://fonts.googleapis.com/css?family=Roboto" onload="this.rel='stylesheet'">
+
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,7 +15,7 @@
 
     <meta property="og:title" content="{{ title }}">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://www.dev-mind.fr/">
+    <meta property="og:url" content="https://www.dev-mind.fr/blog/{{dir}}/{{filename}}.html">
     <meta property="og:description" content="{{ description }}">
 
     <link rel="icon" href="favicon.ico" type="image/x-icon">
@@ -43,22 +45,27 @@
     <meta name="theme-color" content="#2196f3">
 
     <!-- Your styles -->
-    <link rel="stylesheet" href="../css/blog.css">
-    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../../css/blog.css">
+    <link rel="stylesheet" href="../../css/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 </head>
 <body class="dev-mind">
 <header class="header-wrapper">
     <nav>
-        <a href="index.html" class="mdl-layout__tab is-active" ng-class="{ 'is-active' : active === 'home' }"
-           ng-click="changeMenu('home')"><img src="../img/ic_home_white_24px.svg" rel="start"></a>
+        <a href="../../index.html" class="mdl-layout__tab is-active"><img src="../../img/ic_home_white_24px.svg" rel="start"></a>
     </nav>
 </header>
 <main>
     <article class="article-wrapper">
         <h1>{{ title }}</h1>
-        <div>{{ revdate }}</div>
+        <div>{{ category }} /{{ revdate }} / {{filename}}</div>
+        <div></div>
         {{{ contents }}}
     </article>
+    <div>
+        Test naviguer article précédent
+        <div id="previous-blogpost"></div>
+    </div>
     <footer class="footer-wrapper">
         <div class="dm_footer">
             <div class="is-small-screen">
@@ -84,5 +91,11 @@
         </div>
     </footer>
 </main>
+<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+<script src="../../js/main.js"></script>
+<script src="../../js/blog.js"></script>
+<script>
+    setTimeout(blog.findPreviousBlogpost('{{filename}}'), 500);
+</script>
 </body>
 </html>
