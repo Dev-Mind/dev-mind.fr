@@ -1,5 +1,11 @@
 @import "atom-light";
+@import "../common";
 
 article {
   padding: 1em;
 }
+
+devmind-article {
+  @include dm_container_closest();
+}
+

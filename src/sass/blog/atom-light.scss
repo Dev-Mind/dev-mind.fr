@@ -1,8 +1,12 @@
+@import "../common";
+
 .editor {
   padding: 1em;
 }
 .editor,
 .editor .gutter {
+  border-radius: 4px;
+  @include dm_box__shadow;
   background-color: #ffffff;
   color: #555555;
 }

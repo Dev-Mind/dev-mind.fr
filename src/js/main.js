@@ -62,15 +62,13 @@ window.app = (function() {
       });
   }
 
-  var lastActiveSection = 'home';
   function changeMenu(section){
-    console.log(section)
-    if(lastActiveSection !== section){
-      document.getElementById(lastActiveSection).classList.remove("is-active");
-      document.getElementById(section).classList.add("is-active");
-      lastActiveSection = section;
-    }
+    document.getElementById(lastActiveSection).classList.remove("is-active");
+    document.getElementById(section).classList.add("is-active");
+    lastActiveSection = section;
   }
+  var lastActiveSection = window.location.hash ? window.location.hash : '#home';
+  changeMenu(lastActiveSection);
 
   return {
     "changeMenu" : changeMenu

@@ -52,20 +52,45 @@
 <body class="dev-mind">
 <header class="header-wrapper">
     <nav>
-        <a href="../../index.html" class="mdl-layout__tab is-active"><img src="../../img/ic_home_white_24px.svg" rel="start"></a>
+        <a href="../../index.html" class="mdl-layout__tab"
+           id="#home" onclick="app.changeMenu('#home')"><img src="../../img/ic_home_white_24px.svg" rel="start"></a>
+        <a href="../../index.html#blog" class="mdl-layout__tab"
+           id="#blog" onclick="app.changeMenu('#blog')">Blog</a>
+        <a href="../../index.html#formation" class="mdl-layout__tab"
+           id="#formation" onclick="app.changeMenu('#formation')">Formations</a>
+        <a href="../../index.html#experience" class="mdl-layout__tab is-large-screen"
+           id="#experience" onclick="app.changeMenu('#experience')">Expérience</a>
+        <a href="../../index.html#contact" class="mdl-layout__tab"
+           id="#contact" onclick="app.changeMenu('#contact')">Contact</a>
     </nav>
 </header>
 <main>
-    <article class="article-wrapper">
-        <h1>{{ title }}</h1>
-        <div>{{ category }} /{{ revdate }} / {{filename}}</div>
-        <div></div>
-        {{{ contents }}}
-    </article>
-    <div>
+    <div class="dm_head" id="home">
+        <devmind-header>
+            <p class="dm_logo"><img src="../../img/logo/logo_long.svg" alt="Dev-Mind" title="Dev-Mind"></p>
+        </devmind-header>
+    </div>
+
+    <div id="dm_transition_cloud"></div>
+
+    <div class="dm_home_blog" id="blog">
+        <devmind-article>
+            <article>
+                <h1>{{ title }}</h1>
+                <div>{{ category }} /{{ revdate }} / {{filename}}</div>
+                <div></div>
+                {{{ contents }}}
+            </article>
+        </devmind-article>
+    </div>
+
+    <div id="dm_transition_mountain"></div>
+
+    <div class="dm_home_formation" id="formation">
         Test naviguer article précédent
         <div id="previous-blogpost"></div>
     </div>
+
     <footer class="footer-wrapper">
         <div class="dm_footer">
             <div class="is-small-screen">

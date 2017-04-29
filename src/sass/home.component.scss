@@ -14,8 +14,26 @@
   margin: 0;
 }
 
+.dm_head {
+  @include dm_home_row(#2196f3, white);
+
+  @include dm_home_link(#BBDEFB);
+
+  .dm_logo{
+    text-align: center;
+    img{
+      width:40%;
+      height:auto;
+    }
+  }
+}
+
 devmind-home-me, devmind-home-blog, devmind-home-formation, devmind-home-experience, devmind-home-contact {
   @include dm_container();
+}
+
+devmind-header {
+  @include dm_container_closest();
 }
 
 .dm_error{
@@ -140,9 +158,9 @@ devmind-home-me, devmind-home-blog, devmind-home-formation, devmind-home-experie
 
 #dm_transition_cloud{
   @include  dm_transition(#2196f3, 60px);
-  height: 7em;
+  height: 3em;
   background: url('../img/animation/cloud/cloud3.png') top space, url('../img/animation/cloud/cloud2.png') center space;
-  background-position: -2em 4em;
+  background-position: -3em 0em;
 }
 
 #dm_transition_mountain{
