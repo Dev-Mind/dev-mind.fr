@@ -1,5 +1,5 @@
 /* eslint-env browser */
-var blog = (function() {
+window.blog = (function() {
   'use strict';
 
   /**

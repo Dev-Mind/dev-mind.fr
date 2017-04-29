@@ -60,17 +60,21 @@
 <header>
     {{#single}}
     <nav>
-        <a href="index.html#home" class="mdl-layout__tab is-active" ng-click="changeMenu('home')"><img src="img/ic_home_white_24px.svg" rel="start"></a>
-        <a href="index.html#blog" class="mdl-layout__tab" ng-click="changeMenu('blog')">Blog</a>
-        <a href="index.html#formation" class="mdl-layout__tab" ng-click="changeMenu('formation')">Formations</a>
-        <a href="index.html#experience" class="mdl-layout__tab is-large-screen" ng-click="changeMenu('experience')">Expérience</a>
-        <a href="index.html#contact" class="mdl-layout__tab" ng-click="changeMenu('contact')">Contact</a>
+        <a href="index.html#home" class="mdl-layout__tab is-active"
+           id="home" onclick="app.changeMenu('home')"><img src="img/ic_home_white_24px.svg" rel="start"></a>
+        <a href="index.html#blog" class="mdl-layout__tab"
+           id="blog" onclick="app.changeMenu('blog')">Blog</a>
+        <a href="index.html#formation" class="mdl-layout__tab"
+           id="formation" onclick="app.changeMenu('formation')">Formations</a>
+        <a href="index.html#experience" class="mdl-layout__tab is-large-screen"
+           id="experience" onclick="app.changeMenu('experience')">Expérience</a>
+        <a href="index.html#contact" class="mdl-layout__tab"
+           id="contact" onclick="app.changeMenu('contact')">Contact</a>
     </nav>
     {{/single}}
     {{^single}}
     <nav>
-        <a href="index.html" class="mdl-layout__tab is-active" ng-class="{ 'is-active' : active === 'home' }"
-           ng-click="changeMenu('home')"><img src="img/ic_home_white_24px.svg" rel="start"></a>
+        <a href="index.html" class="mdl-layout__tab is-active"><img src="img/ic_home_white_24px.svg" rel="start"></a>
     </nav>
     {{/single}}
 </header>

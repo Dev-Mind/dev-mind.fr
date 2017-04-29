@@ -1,5 +1,5 @@
 /* eslint-env browser */
-var app = (function() {
+window.app = (function() {
   'use strict';
 
   // Check to make sure service workers are supported in the current browser,
@@ -60,5 +60,19 @@ var app = (function() {
       .catch(function(e) {
         console.error('Error during service worker registration:', e);
       });
+  }
+
+  var lastActiveSection = 'home';
+  function changeMenu(section){
+    console.log(section)
+    if(lastActiveSection !== section){
+      document.getElementById(lastActiveSection).classList.remove("is-active");
+      document.getElementById(section).classList.add("is-active");
+      lastActiveSection = section;
+    }
+  }
+
+  return {
+    "changeMenu" : changeMenu
   }
 })();
