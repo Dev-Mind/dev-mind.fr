@@ -187,3 +187,67 @@ devmind-header {
   background-color:#b6db49;
 }
 
+.dm-blog--container{
+  display: flex;
+  flex-wrap: wrap;
+
+  @media (max-width: $max_width_mobile) {
+    flex-direction: column;
+  }
+}
+.dm-blog--button{
+  display: block;
+  padding: 1em;
+  text-align: center;
+
+  > button{
+    border-radius: 4px;
+    font-size: 13px;
+    border: none;
+    background-color: $color_flash;
+    color: white;
+    padding: 0.5em 1em;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    vertical-align: middle;
+    @include dm_box__shadow;
+
+    &:hover {
+      background-color: #F06292;
+    }
+  }
+}
+.dm-blog--article{
+  background-color: white;
+  border-radius: 4px;
+  padding: 1em;
+  margin: 1em;
+  flex-basis: 45%;
+  @include dm_box__shadow;
+  cursor: pointer;
+
+  @media (max-width: $max_width_mobile) {
+    flex-basis: 100%;
+  }
+}
+.dm-blog--keyword{
+  border-radius: 4px;
+  padding: 0.5em;
+  background-color: #90CAF9;
+}
+.dm-blog--info{
+
+}
+.dm-blog--imgteaser{
+  margin-top: 0.5em;
+  > img{
+    text-align: center;
+    min-width: 100%;
+  }
+}
+
+.dm-blog--teaser{
+  font-style: italic;
+}
+

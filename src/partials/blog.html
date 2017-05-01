@@ -2,9 +2,9 @@
     <devmind-home-me>
         <p class="dm_logo"><img src="../../img/logo/logo_long.svg" alt="Dev-Mind" title="Dev-Mind"></p>
 
-        <div>
+        <div align="center">
             Mon blog initial <a href="http://javamind-fr.blogspot.fr/">JavaMind</a> ne sera plus maintenu. Mais les articles restent en ligne et
-            vous retrouverez maintenant le nouveau contenu directement à l'adresse <a href="blog.html">https://www.dev-mind.fr/blog.html</a>
+            le nouveau contenu sera directement disponible sur cette page.
         </div>
     </devmind-home-me>
 </div>
@@ -13,8 +13,21 @@
 
 <div class="dm_home_blog" id="blog">
     <devmind-home-blog>
-        <div id="last-article">
-            zzz
+        <div class="dm-blog--container" id="last-article">
+        </div>
+        <div class="dm-blog--button">
+            <button onclick="blog.findMoreBlogpost()" id="more-article">Plus d'articles...</button>
         </div>
     </devmind-home-blog>
 </div>
+
+<div id="dm_transition_mountain"></div>
+
+<div class="dm_home_formation" id="formation">
+    &nbsp;
+</div>
+
+<script src="js/blog.js"></script>
+<script>
+  setTimeout(blog.findLastBlogpost(), 500);
+</script>

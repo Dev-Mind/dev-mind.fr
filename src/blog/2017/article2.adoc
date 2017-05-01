@@ -1,10 +1,12 @@
 :doctitle: Blogger vers Asciidoctor
 :description: Migrer son blog de blogger vers un blog généré via Asciidoctor
-:keywords: Web Blogger Asciidoctor example
+:keywords: Web,Blogger,Asciidoctor
 :author: Guillaume EHRET - Dev-Mind
 :notitle:
 :revdate: 2017/04/18
 :category: Java
+:teaser: Je vais essayer d'expliquer pourquoi et comment j'ai choisi de changer ma manière de publier mes articles.
+:imgteaser: ../../img/blog/unknown.png
 
 Je suis rédacteur du blog http://javamind-fr.blogspot.fr[JavaMind] depuis maintenant 7 ans et initialement quand j'ai décidé de me lancer j'ai choisi une plateforme qui me laissait la souplesse que j'attendais pour la publication de mes articles. Vous trouverez dorénavant mes articles directement sur le site https://dev-mind.fr
 
