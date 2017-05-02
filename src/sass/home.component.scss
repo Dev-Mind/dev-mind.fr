@@ -65,12 +65,6 @@ devmind-header {
       height:70%
     }
   }
-
-  a > img  {
-    max-width: 3em;
-    width: 3em;
-  }
-
   .dm_formation_orga{
     color: #303e5e;
     font-weight: 300;
@@ -139,11 +133,6 @@ devmind-header {
 
 .dm_home_contact {
   @include dm_home_row(#5f5346, white);
-
-  a > img  {
-    max-width: 3em;
-    width: 3em;
-  }
 }
 
 @mixin dm_transition($bgcolor, $height) {
@@ -261,3 +250,9 @@ devmind-header {
   text-align: justify;
 }
 
+.dm-social {
+  min-width: 2em;
+  max-width: 2em;
+  width: 2em;
+  height: 2em;
+}
