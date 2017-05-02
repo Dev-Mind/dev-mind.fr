@@ -255,4 +255,8 @@ devmind-header {
   max-width: 2em;
   width: 2em;
   height: 2em;
+
+  &:hover{
+    opacity: 0.8;
+  }
 }

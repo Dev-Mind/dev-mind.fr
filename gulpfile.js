@@ -201,7 +201,8 @@ gulp.task('build', cb =>
   runSequence(
     'styles',
     'blog',
-    ['lint', 'html', 'scripts', 'images', 'copy'],
+    ['lint', 'html', 'scripts', 'images'],
+    'copy',
     'service-worker',
     'compress',
     cb
