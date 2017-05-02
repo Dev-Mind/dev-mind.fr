@@ -1,0 +1,161 @@
+:doctitle: Scripts Gradle : Kotlin vs Groovy
+:description:  Différences entre un script Groovy et Kotlin en essayant de paramétrer le plugin gradle-node-plugin
+:keywords: Java, Gradle, Kotlin
+:author: Guillaume EHRET - Dev-Mind
+:notitle:
+:revdate: 2017/01/12
+:category: Gradle Kotlin
+:teaser: En mai 2016 Gradle annonçait qu’il était maintenant possible d’écrire des scripts (build.gradle) et des plugins en Kotlin. Ce choix pouvait paraître étonnant alors que Gradle avait depuis ces débuts beaucoup investi sur le langage Groovy.
+:imgteaser: ../../img/blog/2017/ecrire_ses_scripts_gradle_en_kotlin_00.png
+
+En mai 2016 Gradle annonçait qu’il était maintenant possible d’écrire des scripts (build.gradle) et des plugins en Kotlin. Ce choix pouvait paraître étonnant alors que Gradle avait depuis ces débuts beaucoup investi sur le langage Groovy.
+
+image::../../img/blog/2017/ecrire_ses_scripts_gradle_en_kotlin_01.png[Gradle Kotlin]
+
+Le langage Kotlin à l’avantage d’être statique et typé et son utilisation permet de considérablement enrichir l’expérience des développeurs dans les IDE
+
+* Auto-complétion et aide contextuel
+* Navigation à la source
+* Refactoring
+* ...
+
+Je vous conseille de lire le très bon article de blog de Cédric Champeau (ancien de la core team Groovy embauché par Gradle) qui explique beaucoup mieux que moi les avantages.
+
+Ce qui m’intéresse dans cet article c’est plutôt vous montrer comment paramétrer un cas concret. Je vous conseille pour cela d’utiliser la dernière version de Gradle (3.3). Le repo Github contenant les sources du projet “Gradle Script Kotlin” comprend plusieurs exemples.
+
+Dans cet article je me base sur le script de construction build.gradle.kts du site Mix-IT 2017. Ce script permet de construire une application Spring Boot écrite en Kotlin et ce qui est plutôt sympa c’est que Kotlin est du coup utilisé sur toute la chaîne. Vous pouvez comparer ce script avec celui utilisé dans l’ancienne version du site.
+
+Mon objectif est d'essayer de vous montrer les différences entre un script Groovy et Kotlin en essayant de paramétrer le plugin gradle-node-plugin. Ce plugin permet de piloter Gulp (appli node.js) via Gradle pour avoir une seule manière de construire notre application Java ou Kotlin. A noter que ce plugin permet l'utilisation de npm ou yarn pour gérer vos dépendances JavaScript. Dans notre cas nous avons opté pour yarn.
+
+== Paramétrage du build
+
+Dans un script Gradle nous avons une partie utilisée pour paramétrer le build lui même. En Groovy on écrit
+
+[source, kotlin, subs="none"]
+----
+buildscript {
+    ext {
+        nodePluginVersion = '1.0.1'
+    }
+    repositories {
+        mavenCentral()
+        jcenter()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "com.moowork.gradle:gradle-node-plugin:${nodePluginVersion}"
+    }
+}
+----
+
+En Kotlin
+
+[source, groovy, subs="none"]
+----
+buildscript {
+    ext {
+        nodePluginVersion = '1.0.1'
+    }
+    repositories {
+        mavenCentral()
+        jcenter()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "com.moowork.gradle:gradle-node-plugin:${nodePluginVersion}"
+    }
+}
+----
+
+Vous me direz jusque là pas beaucoup de changement. Déclarons maintenant les plugins utilisés par notre projet
+
+En Groovy
+
+[source, groovy, subs="none"]
+----
+apply plugin: 'idea'
+apply plugin: 'com.moowork.node'
+apply plugin: 'com.moowork.gulp'
+----
+En Kotlin
+
+[source, kotlin, subs="none"]
+----
+apply {
+    plugin("idea")
+    plugin("kotlin")
+    plugin("kotlin-noarg")
+    plugin("com.moowork.node")
+    plugin("com.moowork.gulp")
+}
+----
+
+== Configuraion du plugin gradle-node-plugin
+
+Les plugins (c’est le cas de gradle-gulp-plugin) peuvent avoir une partie configuration (les points d’extensions)
+
+En Groovy
+
+[source, groovy, subs="none"]
+----
+node {
+    version = '6.9.2'
+    download = true
+}
+----
+
+En Kotlin
+
+[source, kotlin, subs="none"]
+----
+import com.moowork.gradle.node.NodeExtension
+
+configure<NodeExtension> {
+    version = "6.9.2"
+    download = true
+}
+----
+
+Notez que vous devez importer le point d’extension pour être capable de surcharger les paramètres par défaut d’un plugin. Ceci demande de connaître un peu le fonctionnement de Gradle et de ces plugins (voir mon article ou encore mieux la doc :-) ).
+
+== Définir une tâche
+
+Regardons maintenant comment configurer une tâche et l’intégrer dans le cycle de vie Gradle
+
+[source, groovy, subs="none"]
+----
+task gulpBuild(type: GulpTask, dependsOn: yarnInstall) {
+  inputs.dir 'src/main/sass'  inputs.files(npmInstall.outputs)
+  outputs.dir "src/main/static/css"  args = ["default"]
+}
+
+processResources {
+  dependsOn gulpBuild
+}
+----
+
+En Kotlin
+
+[source, kotlin, subs="none"]
+----
+import com.moowork.gradle.gulp.GulpTask
+import com.moowork.gradle.node.yarn.YarnInstallTask
+
+task<GulpTask>("gulpBuild") {
+  dependsOn(YarnInstallTask.NAME)
+  inputs.dir("src/main/sass")
+  inputs.dir("build/.tmp")
+  outputs.dir("src/main/static/css")
+  args = listOf("default")
+}
+
+tasks.getByName("processResources").dependsOn("gulpBuild")
+----
+
+Je n’ai exposé ici que les cas les plus courants utilisés dans Gradle. Vous pouvez toujours programmer vos tâches en Groovy ou Kotlin dans vos scripts. Pour plus d’info je vous réoriente vers les exemples officiels et la page Stackoverflow (qui n’est pas encore très riche sur le sujet).
+
+Nous verrons dans les mois qui viennent si Kotlin prend la main sur Groovy dans les scripts de configuration Gradle. Pour le moment le manque de documentation sur Gradle Script Kotlin est vraiment problématique.

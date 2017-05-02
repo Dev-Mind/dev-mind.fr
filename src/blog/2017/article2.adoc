@@ -3,7 +3,7 @@
 :keywords: Web,Blogger,Asciidoctor
 :author: Guillaume EHRET - Dev-Mind
 :notitle:
-:revdate: 2017/04/18
+:revdate: 2016/04/16
 :category: Java
 :teaser: Je vais essayer d'expliquer pourquoi et comment j'ai choisi de changer ma manière de publier mes articles.
 :imgteaser: ../../img/blog/unknown.png

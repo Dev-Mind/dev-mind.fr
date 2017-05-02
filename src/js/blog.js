@@ -30,13 +30,27 @@ window.blog = (function() {
       .forEach((elt, index, array) => {
         if(elt.filename === filename){
           previous = index < array.length ? array[index + 1] : undefined;
+          document.getElementById('blog-keywords').innerHTML= `${_getHtmlKeyword(elt, '-detail')}`;
         }
       });
 
     if(previous){
       document.getElementById('previous-blogpost').innerHTML=
-        `<a href="../${previous.dir}/${previous.filename}.html">${previous.doctitle}</a>`;
+        `<div class="dm-blog--previous">Article précédent : <a href="../${previous.dir}/${previous.filename}.html">${previous.doctitle}</a></div>`;
     }
+
+  }
+
+  /**
+   * Formats the keywords
+   * @param blogspot
+   * @returns {*}
+   */
+  function _getHtmlKeyword(blogpost, suffix){
+    return blogpost.keywords
+      .split(',')
+      .map(keyword => `<span class="dm-blog--keyword${suffix}"><small>${keyword}</small></span>&nbsp;`)
+      .reduce((a, b) => a + b);
   }
 
   /**
@@ -44,25 +58,21 @@ window.blog = (function() {
    * @param blogIndex
    * @private
    */
-  var nbElementDisplayed = 2;
+  var nbElementDisplayed = 4;
 
   function findLastBlogpost(blogIndex){
     document.getElementById('last-article').innerHTML= blogIndex
       .filter((e, index) => index < nbElementDisplayed)
-      .map((blogpost) => {
-        const keywords = blogpost.keywords
-          .split(',')
-          .map(keyword => `<span class="dm-blog--keyword">${keyword}</span>&nbsp;`)
-          .reduce((a, b) => a + b);
-
-        return `
+      .map((blogpost) => `
          <article class="dm-blog--article" onclick="document.location.href='blog/${blogpost.dir}/${blogpost.filename}.html'">
-              <h2>${blogpost.doctitle}</h2>
-              <div class="dm-blog--info">${blogpost.revdate} ${keywords}</div>
+              <h2><a href="blog/${blogpost.dir}/${blogpost.filename}.html">${blogpost.doctitle}</a></h2>
+              <div class="dm-blog--info">
+                <div class="dm-blog--info-date"><small>${blogpost.revdate}</small></div>
+                <div class="dm-blog--info-keyword">${_getHtmlKeyword(blogpost)}</div>
+              </div>
               <div class="dm-blog--imgteaser"><img src="${blogpost.imgteaser}"/></div>
               <p class="dm-blog--teaser">${blogpost.teaser}</p>
-         </article>`;
-      })
+         </article>`)
       .reduce((a,b) => a + b);
 
     if(nbElementDisplayed >= blogIndex.length){

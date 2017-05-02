@@ -3,7 +3,7 @@
 :keywords: Web
 :author: Guillaume EHRET - Dev-Mind
 :notitle:
-:revdate: 2017/02/18
+:revdate: 2016/02/16
 :category: Web
 :teaser: Je vais essayer d'expliquer pourquoi et comment j'ai choisi de changer ma manière de publier mes articles.
 :imgteaser: ../../img/blog/unknown.png

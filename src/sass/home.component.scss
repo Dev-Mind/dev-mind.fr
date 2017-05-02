@@ -229,14 +229,24 @@ devmind-header {
 
   @media (max-width: $max_width_mobile) {
     flex-basis: 100%;
+    padding: 0.5em;
+    margin: 0.3em 0;
   }
 }
 .dm-blog--keyword{
   border-radius: 4px;
-  padding: 0.5em;
+  padding: 0.2em;
   background-color: #90CAF9;
 }
-.dm-blog--info{
+.dm-blog--keyword-detail{
+  border-radius: 4px;
+  padding: 0.2em;
+  background-color: white;
+}
+.dm-blog--info-date{
+  padding-bottom: 0.3em;
+}
+.dm-blog--info-keyword{
 
 }
 .dm-blog--imgteaser{
@@ -248,6 +258,6 @@ devmind-header {
 }
 
 .dm-blog--teaser{
-  font-style: italic;
+  text-align: justify;
 }
 

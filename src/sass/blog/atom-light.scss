@@ -9,6 +9,7 @@
   @include dm_box__shadow;
   background-color: #ffffff;
   color: #555555;
+  overflow: auto;
 }
 .editor .invisible-character {
   color: rgba(85, 85, 85, 0.2);

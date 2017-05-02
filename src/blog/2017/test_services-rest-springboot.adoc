@@ -1,0 +1,192 @@
+:doctitle: Des tests simples de vos services REST avec SpringBoot
+:description:  SpringBoot pour écrire des tests simples, lisibles et rapides de vos services REST
+:keywords: Java, Spring, SpringB
+:author: Guillaume EHRET - Dev-Mind
+:revdate: 2017/03/15
+:category: Java
+:teaser: Je voulais faire un focus dans cet article sur les possibilités offertes par SpringBoot (version 1.4.x) pour écrire des tests simples, lisibles et rapides de vos services REST.
+:imgteaser: ../../img/blog/2017/test_services-rest-springboot_00.png
+
+Je voulais faire un focus dans cet article sur les possibilités offertes par SpringBoot (version 1.4.x) pour écrire des tests simples, lisibles et rapides de vos services REST. Niveau performance, le chargement du contexte est encore un peu long mais ceci devrait être encore amélioré dans les futures versions.
+
+image::../../img/blog/2017/test_services-rest-springboot_01.png[Test avec SpringBoot]
+
+Prenons un exemple de controller REST.
+
+[source, java, subs="none"]
+----
+@RestController
+@RequestMapping("/api/session")
+public class SessionController {
+
+    @Autowired
+    private SessionService sessionService;
+
+    @GetMapping
+    public List<Session> findAll() {
+        return sessionService.findAll();
+    }
+
+    @GetMapping(("/{id}"))
+    public ResponseEntity<Session> findOne(@PathVariable("id") String id) {
+        Session session = sessionService.findOne(id);
+
+        if (session == null) {
+            return notFound().build();
+        }
+        return ok(session);
+    }
+
+
+    @PostMapping
+        public ResponseEntity<Session> save(@Valid @RequestBody Session session) {
+        return ok(sessionService.save(session));
+    }
+}
+----
+
+Vous pouvez noter qu’au lieu d’utiliser des annotations `_@RequestMapping_` sur toutes vos méthodes vous pouvez maintenant utilisez les annotations propres à chacun des verbes HTTP : `_@GetMapping_`, `_@PostMapping_` ...
+
+== Valider la validité des arguments
+
+On veut souvent automatiser les contrôles de premier niveau des objets que nous envoyons à nos services REST. Pour celà vous pouvez utiliser la norme Bean Validation. Pour rappel vous avez besoin de rajouter 2 dépendances (une vers l’API, une vers une implémentation de cette dernière)
+
+[source, java, subs="none"]
+----
+compile "javax.validation:validation-api:1.1.0.Final"
+compile "org.hibernate:hibernate-validator:1.1.0.Final"
+----
+
+Concrètement vous pouvez ensuite utiliser l’annotation `_@Valid_` devant les paramètres de votre service (voir la méthode save) et annoter votre DTO.
+
+[source, java, subs="none"]
+----
+public static class Session {
+    private String id;
+    @NotEmpty
+    private String title;
+    @NotNull
+    @Min(1)
+    @Max(500)
+    private Integer maxAttendees;
+    // ...
+}
+----
+
+== Ecrire un test
+
+Oups...Je voulais faire un article sur les tests et je n’en ai encore pas parlé… allez c’est parti nous allons créer une classe de test
+
+[source, java, subs="none"]
+----
+@RunWith(SpringRunner.class)
+@WebMvcTest(SessionController.class)
+public class SessionControllerTest {
+    @Autowired
+    private MockMvc mvc;
+
+    @MockBean
+    private SessionService sessionService;
+
+    private ObjectMapper mapper = new ObjectMapper();
+
+}
+----
+
+Vous pouvez noter que vous pouvez maintenant utiliser l’annotation `_@WebMvcTest(SessionController.class)_` pour ne tester qu’un seul controller sans à avoir à charger toute l’application Spring Boot et donc gagner en rapidité d'exécution.
+
+L’objet MockMvc du projet spring-test va nous permettre d’invoquer notre API Rest tout en moquant les collaborateurs. Les mocks vont être créés par spring-boot-test qui apporte une encapsulation de Mockito (annotation `_@MockBean_`).
+
+Le dernier élément est le mapper qui va permettre de convertir nos données en JSON lorsque nous voulons invoquer notre API comme le ferait par exemple un client JavaScript.
+
+== Un premier exemple de test méthode GET
+
+[source, java, subs="none"]
+----
+@Test
+public void shouldFindAllSessions() throws Exception {
+
+    given(this.sessionService.findAll())
+            .willReturn(asList(
+                    new Session().withId("1").withTitle("title1"),
+                    new Session().withId("2").withTitle("title2")));
+
+    this.mvc.perform(get("/api/session"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.length()", is(2)))
+            .andExpect(jsonPath("$.[0].title", is("title1")));
+}
+----
+
+Dans ce test nous commençons par définir le comportement de notre collaborateur (sessionService) via Mockito (j’utilise la syntaxe BDD qui est poussée par l’équipe de Mockito).
+
+La fluent API de mockMVC et les différents builders permettent d’écrire des tests concis et clairs. En gros ici j’appelle via un GET l’URL `_/api/session_` et j’attends en retour un code statut à 200 (`_status().isOk()_`)
+
+Vous pouvez utiliser différents matchers pour vérifier le contenu de la réponse. Ici j’utilise JsonPath qui me permet de parser le résultat de l’appel.
+
+Une petite astuce si vous utilisez SpringSecurity. Vous pouvez utiliser un `_RequestPostProcessor_` mis à disposition dans le projet `_spring-security-test_`. Mon appel devient
+
+[source, java, subs="none"]
+----
+this.mvc.perform(get("/api/session").with(httpBasic("admin", "password")))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.length()", is(2)))
+            .andExpect(jsonPath("$.[0].title", is("title1")));
+----
+
+Vous pouvez aussi choisir de désactiver la sécurité en utilisant la propriété secure de l'annotation `_@WebMvcTest_` :
+
+[source, java, subs="none"]
+----
+@WebMvcTest(value = SessionController.class, secure = false)
+----
+
+Nous avons vu comment tester un GET. Tester une méthode POST n’est pas très différent.
+
+== Exemple de test méthode POST
+
+[source, java, subs="none"]
+----
+@Test
+public void shouldCreateSession() throws Exception {
+
+    Session session = new Session().withTitle("My Spring session").withMaxAttendees(10);
+
+    given(this.sessionService.save(any(Session.class)))
+           .willReturn(session.withId("id"));
+
+    this.mvc.perform(
+            post("/api/session")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(mapper.writeValueAsString(session))
+    )
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.id", is("id")))
+            .andExpect(jsonPath("$.title", is("My Spring session")));
+}
+----
+
+Quand vous envoyez vos données via un POST à un service REST vous devez spécifier le content type et sérialiser vos données en JSON sous forme d’une chaine de caractère.
+
+== Exemple de test avec validation
+
+Regardons maintenant ce qu’il se passe si les données ne correspondent pas aux contraintes spécifiées par Bean Validation (voir plus haut). Si tout va bien une erreur 400 est retournée
+
+[source, java, subs="none"]
+----
+@Test
+public void shouldNotCreateSessionWhenBeanInvalid() throws Exception {
+
+    Session session = new Session();
+
+    this.mvc.perform(
+            post("/api/session")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(mapper.writeValueAsString(session))
+                    .with(httpBasic("admin", "password"))
+    )
+            .andExpect(status().isBadRequest());
+}
+----
+
+Voila j’espère vous avoir montré par cet exemple que les tests de vos services REST peuvent être simples à écrire.

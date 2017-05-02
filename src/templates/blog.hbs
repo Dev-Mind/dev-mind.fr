@@ -77,7 +77,8 @@
         <devmind-article>
             <article>
                 <h1>{{ title }}</h1>
-                <div>{{ category }} /{{ revdate }} / {{filename}}</div>
+                <div class="dm-blog--info-date"><small>{{ revdate }}</small></div>
+                <div id="blog-keywords"></div>
                 <div></div>
                 {{{ contents }}}
             </article>
@@ -87,8 +88,9 @@
     <div id="dm_transition_mountain"></div>
 
     <div class="dm_home_formation" id="formation">
-        Test naviguer article précédent
-        <div id="previous-blogpost"></div>
+        <devmind-header>
+            <div id="previous-blogpost"></div>
+        </devmind-header>
     </div>
 
     <footer class="footer-wrapper">

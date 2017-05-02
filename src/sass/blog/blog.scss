@@ -9,3 +9,10 @@ devmind-article {
   @include dm_container_closest();
 }
 
+.imageblock{
+  text-align: center;
+}
+
+.dm-blog--previous{
+  padding: 2em;
+}
