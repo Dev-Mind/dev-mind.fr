@@ -15,6 +15,32 @@ At present, we officially aim to support the last two versions of the following 
 * Opera
 * Internet Explorer 9+
 
+== Build site
+
+You need to use https://nodejs.org/en/[Node] > 7.0. The lifecycle of the dependencies is managed by https://yarnpkg.com/en/[Yarn] and the lifecycle of the app by http://gulpjs.com/[Gulp].
+
+To install the project use
+
+[source, shell, subs="none"]
+----
+yarn install
+----
+
+
+To build the project launch
+
+[source, shell, subs="none"]
+----
+gulp
+----
+
+To launch the website locally use this command line
+
+[source, shell, subs="none"]
+----
+gulp serve
+----
+
 == License
 
 MIT
