@@ -2,6 +2,8 @@
 
 const map = require('map-stream')
 const fs = require('fs');
+const gutil = require('gulp-util');
+const PluginError = gutil.PluginError;
 
 module.exports = function () {
 
@@ -15,6 +17,11 @@ module.exports = function () {
       keywords: 'Dev-mind blog Java Agilité programmation Spring Web JavaScript',
       title: 'Le blog Dev-Mind',
       description : 'Le blog Dev-Mind regroupe des articles des interviews sur des sujets divers allant de la programmation Java JavaScript aux méthodes agiles',
+    },
+    'experience.html' : {
+      keywords: 'Dev-mind,Java,JavaScript,HTML,CSS',
+      title: 'Expérience de Guillaume EHRET',
+      description : 'CV numérique de Guillaume EHRET fondateur de Dev-Mind',
     },
     'formation_javascript.html' : {
       keywords: 'JavaScript Formation Adapté ',
@@ -37,6 +44,8 @@ module.exports = function () {
 
     const html = fs.readFileSync(file.path, 'utf8');
     file.fileName = file.path.substring(file.path.lastIndexOf('/') + 1, file.path.length);
+
+    if (!pageMetadata[file.fileName]) throw new PluginError('html-read', `Missing index definition for ${file.path} in the build script html-read`);
 
     file.templateModel = {
       keywords: () => pageMetadata[file.fileName].keywords,

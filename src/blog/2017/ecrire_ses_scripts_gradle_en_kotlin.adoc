@@ -2,7 +2,6 @@
 :description:  Différences entre un script Groovy et Kotlin en essayant de paramétrer le plugin gradle-node-plugin
 :keywords: Java, Gradle, Kotlin
 :author: Guillaume EHRET - Dev-Mind
-:notitle:
 :revdate: 2017/01/12
 :category: Gradle Kotlin
 :teaser: En mai 2016 Gradle annonçait qu’il était maintenant possible d’écrire des scripts (build.gradle) et des plugins en Kotlin. Ce choix pouvait paraître étonnant alors que Gradle avait depuis ces débuts beaucoup investi sur le langage Groovy.

@@ -5,6 +5,7 @@ window.blog = (function() {
   /**
    * Loads the blog file index
    * @param cb
+   * @param dirpath
    * @returns {Array}
    * @private
    */
@@ -43,7 +44,8 @@ window.blog = (function() {
 
   /**
    * Formats the keywords
-   * @param blogspot
+   * @param blogpost
+   * @param suffix
    * @returns {*}
    */
   function _getHtmlKeyword(blogpost, suffix){
@@ -58,7 +60,7 @@ window.blog = (function() {
    * @param blogIndex
    * @private
    */
-  var nbElementDisplayed = 4;
+  let nbElementDisplayed = 4;
 
   function findLastBlogpost(blogIndex){
     document.getElementById('last-article').innerHTML= blogIndex
@@ -68,7 +70,7 @@ window.blog = (function() {
               <h2><a href="blog/${blogpost.dir}/${blogpost.filename}.html">${blogpost.doctitle}</a></h2>
               <div class="dm-blog--info">
                 <div class="dm-blog--info-date"><small>${blogpost.revdate}</small></div>
-                <div class="dm-blog--info-keyword">${_getHtmlKeyword(blogpost)}</div>
+                <div class="dm-blog--info-keyword">${_getHtmlKeyword(blogpost, '')}</div>
               </div>
               <div class="dm-blog--imgteaser"><img src="${blogpost.imgteaser}"/></div>
               <p class="dm-blog--teaser">${blogpost.teaser}</p>
