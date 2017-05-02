@@ -2,18 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c48b0403-11b8-4cb8-b493-dcdb2cc9b64c" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/blog/2017/ecrire_ses_scripts_gradle_en_kotlin.adoc" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/blog/2017/article1.adoc" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/blog/2017/article4.adoc" afterPath="$PROJECT_DIR$/src/blog/2017/test_services-rest-springboot.adoc" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gulpfile.js" afterPath="$PROJECT_DIR$/gulpfile.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/blog/2017/article2.adoc" afterPath="$PROJECT_DIR$/src/blog/2017/article2.adoc" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/blog/2017/article3.adoc" afterPath="$PROJECT_DIR$/src/blog/2017/article3.adoc" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/js/blog.js" afterPath="$PROJECT_DIR$/src/js/blog.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sass/blog/atom-light.scss" afterPath="$PROJECT_DIR$/src/sass/blog/atom-light.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sass/blog/blog.scss" afterPath="$PROJECT_DIR$/src/sass/blog/blog.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sass/home.component.scss" afterPath="$PROJECT_DIR$/src/sass/home.component.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/templates/blog.hbs" afterPath="$PROJECT_DIR$/src/templates/blog.hbs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/partials/index.html" afterPath="$PROJECT_DIR$/src/partials/index.html" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -82,7 +72,7 @@
         <entry file="file://$PROJECT_DIR$/src/js/blog.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="612">
-              <caret line="38" column="59" lean-forward="true" selection-start-line="38" selection-start-column="59" selection-end-line="38" selection-end-column="59" />
+              <caret line="38" column="59" lean-forward="false" selection-start-line="38" selection-start-column="59" selection-end-line="38" selection-end-column="59" />
               <folding>
                 <marker date="1493707932436" expanded="true" signature="1515:1521" ph="&amp;nbsp;" />
                 <marker date="1493707932436" expanded="true" signature="1971:2485" ph="..." />
@@ -96,7 +86,7 @@
         <entry file="file://$PROJECT_DIR$/src/partials/blog.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="373">
-              <caret line="18" column="99" lean-forward="true" selection-start-line="18" selection-start-column="12" selection-end-line="18" selection-end-column="99" />
+              <caret line="18" column="99" lean-forward="false" selection-start-line="18" selection-start-column="12" selection-end-line="18" selection-end-column="99" />
               <folding />
             </state>
           </provider>
@@ -112,21 +102,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="blog.hbs" pinned="false" current-in-tab="true">
+      <file leaf-file-name="blog.hbs" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/templates/blog.hbs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="530">
-              <caret line="49" column="81" lean-forward="true" selection-start-line="49" selection-start-column="4" selection-end-line="49" selection-end-column="81" />
+            <state relative-caret-position="350">
+              <caret line="44" column="47" lean-forward="false" selection-start-line="44" selection-start-column="47" selection-end-line="44" selection-end-column="47" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/partials/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="972">
-              <caret line="153" column="32" lean-forward="false" selection-start-line="153" selection-start-column="8" selection-end-line="153" selection-end-column="32" />
+            <state relative-caret-position="962">
+              <caret line="205" column="20" lean-forward="false" selection-start-line="205" selection-start-column="20" selection-end-line="205" selection-end-column="20" />
               <folding>
                 <element signature="n#div#6;n#div#0;n#!!top" expanded="false" />
               </folding>
@@ -137,8 +127,8 @@
       <file leaf-file-name="site.hbs" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/templates/site.hbs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="795">
-              <caret line="97" column="0" lean-forward="false" selection-start-line="97" selection-start-column="0" selection-end-line="97" selection-end-column="45" />
+            <state relative-caret-position="926">
+              <caret line="53" column="0" lean-forward="true" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -200,7 +190,6 @@
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/src/.htaccess" />
         <option value="$PROJECT_DIR$/src/sass/main.scss" />
-        <option value="$PROJECT_DIR$/src/partials/index.html" />
         <option value="$PROJECT_DIR$/src/partials/formation_javascript.html" />
         <option value="$PROJECT_DIR$/gulp-extensions/transformers/apply-template.js" />
         <option value="$PROJECT_DIR$/build/.tmp/blog/indexing.json" />
@@ -236,6 +225,7 @@
         <option value="$PROJECT_DIR$/src/sass/blog/blog.scss" />
         <option value="$PROJECT_DIR$/src/js/blog.js" />
         <option value="$PROJECT_DIR$/src/templates/blog.hbs" />
+        <option value="$PROJECT_DIR$/src/partials/index.html" />
       </list>
     </option>
   </component>
@@ -320,46 +310,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="templates" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dev-mind.com" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dev-mind.com" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sass" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dev-mind.com" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dev-mind.com" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sass" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="blog" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -905,7 +855,7 @@
       <option name="presentableId" value="Default" />
       <updated>1493142967319</updated>
       <workItem from="1493142970055" duration="56211000" />
-      <workItem from="1493395204440" duration="32018000" />
+      <workItem from="1493395204440" duration="32366000" />
     </task>
     <task id="LOCAL-00001" summary="Adds images, sass files, mustache templates">
       <created>1493156198035</created>
@@ -1068,11 +1018,18 @@
       <option name="project" value="LOCAL" />
       <updated>1493621226757</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="Formats blog post detail">
+      <created>1493708023676</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1493708023676</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="88229000" />
+    <option name="totallyTimeSpent" value="88577000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="89" y="-6" width="3751" height="2166" extended-state="6" />
@@ -1186,14 +1143,15 @@
     <MESSAGE value="Adds a new page for Dev-Mind blog" />
     <MESSAGE value="Adds analytics to trace traffic" />
     <MESSAGE value="Adds page to list blog article and change blog style" />
-    <option name="LAST_COMMIT_MESSAGE" value="Adds page to list blog article and change blog style" />
+    <MESSAGE value="Formats blog post detail" />
+    <option name="LAST_COMMIT_MESSAGE" value="Formats blog post detail" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/partials/index.html</url>
-          <line>164</line>
+          <line>166</line>
           <properties />
         </line-breakpoint>
       </breakpoints>
@@ -1602,28 +1560,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/templates/site.hbs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="795">
-          <caret line="97" column="0" lean-forward="false" selection-start-line="97" selection-start-column="0" selection-end-line="97" selection-end-column="45" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/partials/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="972">
-          <caret line="153" column="32" lean-forward="false" selection-start-line="153" selection-start-column="8" selection-end-line="153" selection-end-column="32" />
-          <folding>
-            <element signature="n#div#6;n#div#0;n#!!top" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/partials/blog.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="373">
-          <caret line="18" column="99" lean-forward="true" selection-start-line="18" selection-start-column="12" selection-end-line="18" selection-end-column="99" />
+          <caret line="18" column="99" lean-forward="false" selection-start-line="18" selection-start-column="12" selection-end-line="18" selection-end-column="99" />
           <folding />
         </state>
       </provider>
@@ -1631,7 +1571,7 @@
     <entry file="file://$PROJECT_DIR$/src/js/blog.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="612">
-          <caret line="38" column="59" lean-forward="true" selection-start-line="38" selection-start-column="59" selection-end-line="38" selection-end-column="59" />
+          <caret line="38" column="59" lean-forward="false" selection-start-line="38" selection-start-column="59" selection-end-line="38" selection-end-column="59" />
           <folding>
             <marker date="1493707932436" expanded="true" signature="1515:1521" ph="&amp;nbsp;" />
             <marker date="1493707932436" expanded="true" signature="1971:2485" ph="..." />
@@ -1650,9 +1590,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/templates/blog.hbs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="530">
-          <caret line="49" column="81" lean-forward="true" selection-start-line="49" selection-start-column="4" selection-end-line="49" selection-end-column="81" />
+        <state relative-caret-position="350">
+          <caret line="44" column="47" lean-forward="false" selection-start-line="44" selection-start-column="47" selection-end-line="44" selection-end-column="47" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/templates/site.hbs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="926">
+          <caret line="53" column="0" lean-forward="true" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/partials/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="962">
+          <caret line="205" column="20" lean-forward="false" selection-start-line="205" selection-start-column="20" selection-end-line="205" selection-end-column="20" />
+          <folding>
+            <element signature="n#div#6;n#div#0;n#!!top" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
