@@ -16,7 +16,8 @@ module.exports = function (filename) {
 
   function iterateOnStream(file) {
     json.push({
-      revdate: file.attributes.revdate,
+      strdate: file.attributes.revdate,
+      revdate: moment(file.attributes.revdate, 'YYYY-mm-DD').format('DD/mm/YYYY'),
       description: file.attributes.description,
       doctitle: file.attributes.doctitle,
       keywords: file.attributes.keywords,
@@ -31,11 +32,7 @@ module.exports = function (filename) {
   function endStream() {
 
     const comparator = (a, b) => {
-      let momentA = moment(a.revdate, 'yyyy/mm/DD');
-      let momentB = moment(b.revdate, 'yyyy/mm/DD');
-      if (momentA.isAfter(momentB)) return -1;
-      if (momentA.isBefore(momentB)) return 1;
-      return 0;
+      return -1 * a.strdate.localeCompare(b.strdate);
     };
 
     //We need to sort the different articles by dates

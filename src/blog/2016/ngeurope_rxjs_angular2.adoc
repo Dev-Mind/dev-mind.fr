@@ -1,0 +1,125 @@
+:doctitle: Angular 2 et RxJS à ng-europe 2016
+:description: Ng-europe Paris du 24 au 26 octobre 2016 retour sur les talks sur RxJS
+:keywords: Web,Angular,RxJs
+:author: Guillaume EHRET - Dev-Mind
+:revdate: 2016-10-24
+:category: Java
+:teaser: Cet article fait partie de mes compte-rendus écrits à la suite de ng-europe ayant eu lieu à Paris du 24 au 26 octobre 2016. Retour ici sur les talks sur RxJS.
+:imgteaser: ../../img/blog/2016/ngeurope_rxjs_angular2_00.jpg
+:figure-caption!:
+
+RxJS s’est retrouvé dans plusieurs conférences. Comme pour le backend la programmation reactive est très présente dans les conférences JavaScript
+
+== Angular & RxJS Slides
+`_by https://twitter.com/robwormald[Rob Wormald] : javascripter. googler. developer advocate for angular._`
+
+Rob nous a parlé de RxJS et comment l’utiliser dans Angular avec les Observables. Ce sujet pourtant assez complexe pour mon oeil de novice est devenu beaucoup plus clair au fur et à mesure de la journée.
+
+.photo de Philippe Chatel
+image::../../img/blog/2016/ngeurope_rxjs_angular2_01.jpg[Rob Wormald]
+
+Les librairies Rx (reactive extensions) permettent de faire de la programmation asynchrone basée sur des événements. Les données peuvent être assez diverses. On peut retrouver un flux de données transmis par un fichier, un appel REST, une série d’événement utilisateurs, des notifications du système.
+
+Avec Rx ces données apparaissent comme des données observables. Votre application peut ensuite s’abonner à ces séquences observables afin de pouvoir exécuter un traitement quand de nouvelles informations arrivent (en asynchrone donc).
+
+RxJS est une implémentation en JS (sans dépendance) qui peut à la fois interagir avec des flux de données synchrones (objets Iterable) ou des données asynchrones (objets Promise). Vous pouvez utiliser l’extension rx.angular pour bénéficier de ces possibilités dans Angular 1.
+
+Voici un exemple Angular utilisant les observables pour récupérer des données
+
+[source, javascript, subs="none"]
+----
+export class AppComponent {
+  myControl = new FormControl();
+  constructor(http:Http){
+    this.myControl.valueChanges
+      .map(text => `http://api.com?q=${text}`)
+      .flatMap(url => http.get(url), (req, res) => res.json())
+      .subscribe(results => console.log(results));
+  }
+}
+----
+
+.Le talk de Rob en vidéo
+video::WWR9nxVx1ec[youtube]
+
+== You will learn RxJS
+`_by https://twitter.com/andrestaltz[André Staltz] : Reactive programming expert, https://twitter.com/cyclejs[@cyclejs] creator and https://twitter.com/reactivex[@reactivex] addict.._`
+
+Alors cette conférence était pour moi une des meilleures. Live coding oblige… André est arrivé pour nous parler de RxJS et des Observables que l’on retrouve aussi maintenant dans Angular. Son but était de repartir de 0 pour montrer les concepts de base qui sont parfois mal appréhendés.
+
+.photo de Philippe Chatel
+image::../../img/blog/2016/ngeurope_rxjs_angular2_02.jpg[André Staltz]
+
+Aujourd’hui quand vous manipulez une collection en mode synchrone vous utilisez un callback (ici j’affiche les éléments du tableau `_[1, 2, 3]_`)
+
+[source, javascript, subs="none"]
+----
+[1, 2, 3].forEach(elt => console.log(elt));
+----
+
+Quand vous faites un appel distant asynchrone vous utilisez 2 callbacks
+
+[source, javascript, subs="none"]
+----
+fetch('api/sponsors').then(
+  response => console.log(response.json()),
+  error => console.log(error)
+);
+----
+
+D’autres fonctions peuvent avoir 3 callbacks. Mais en gros nous sommes toujours sur le même schéma
+
+* un callback pour savoir quoi faire après (next)
+* un callback à exécuter en ca d’erreur (error)
+* un callback à exécuter quand tout est terminé (complete)
+
+Tout peut être considéré comme un stream (un flux en français mais je préfère garder le terme anglais dans mon article), un tableau, des événements pouvant survenir dans le temps (par exemple clic sur un bouton), une vidéo en streaming, une API Rest…
+
+Un stream peut être vu comme l’objet qui va être scruté de près quand il changera (objet Observable). Les observables peuvent être surveillés par un ou plusieurs observateurs (Observer que nous avons vu avant et qui prend trois méthodes next, error et complete).
+
+Un Observable peut se créer de cette manière
+
+[source, javascript, subs="none"]
+----
+myEventStream = new Observable(observer => {
+  setTimeout(() => {
+    observer.next(42);
+  }, 1000);
+
+  setTimeout(() => {
+    observer.next(43);
+  }, 2000);
+
+  setTimeout(() => {
+    observer.complete();
+  }, 3000);
+});
+----
+
+En gros je vais recevoir de manière asynchrone des données toutes les secondes. Le stream sera terminé au bout de 3. Cet observable va ensuite être lié à un Observer via la méthode suscribe. Un Observer implémentera en gros les 3 callbacks de tout à l'heure
+
+[source, javascript, subs="none"]
+----
+let values = [];
+let subscription = myEventStream.subscribe(
+  val => values.push(val),
+  error => console.error(error),
+  () => console.log('done')
+);
+----
+
+André nous a ensuite expliqué comment rajouter des opérateurs sur les Observable (map, filter...). Je vous conseille https://gist.github.com/staltz/868e7e9bc2a7b8c1f754[un de ces articles] qui est très bien pour expliquer le fonctionnement de Rx.
+
+.Le talk de André en vidéo
+video::uQ1zhJHclvs[youtube]
+
+== Reactive Music Apps in Angular and RxJS
+`_by https://twitter.com/teropa[Tero Parviainen] : Independent contractor, programmer, writer._`
+
+Certainement la conférence arrivant en tête à l’applaudimètre. C’était très bien mais mieux qu’un résumé écrit par mes soins voici http://teropa.info/blog/2016/07/28/javascript-systems-music.html[un article de Tero] qui explique ce qu’il a montré
+
+.photo de Philippe Chatel
+image::../../img/blog/2016/ngeurope_rxjs_angular2_03.jpg[Tero Parviainen]
+
+.Le talk de Tero en vidéo
+video::-fPyfSAEZgk[youtube]

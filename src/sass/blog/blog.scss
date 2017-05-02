@@ -9,8 +9,27 @@ devmind-article {
   @include dm_container_closest();
 }
 
-.imageblock{
+.imageblock, .videoblock{
   text-align: center;
+}
+.cesar-intro__video-container{
+  width: 80%;
+  margin:0 auto;
+}
+
+.cesar-intro__video-content{
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 56.25%;
+}
+
+object {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
 .dm-blog--previous{

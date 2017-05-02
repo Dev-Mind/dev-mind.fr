@@ -2,7 +2,7 @@
 :description: Migrer son blog de blogger vers un blog généré via Asciidoctor
 :keywords: Web
 :author: Guillaume EHRET - Dev-Mind
-:revdate: 2016/02/16
+:revdate: 2016-02-16
 :category: Web
 :teaser: Je vais essayer d'expliquer pourquoi et comment j'ai choisi de changer ma manière de publier mes articles.
 :imgteaser: ../../img/blog/unknown.png

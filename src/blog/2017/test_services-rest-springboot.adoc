@@ -2,7 +2,7 @@
 :description:  SpringBoot pour écrire des tests simples, lisibles et rapides de vos services REST
 :keywords: Java, Spring, SpringB
 :author: Guillaume EHRET - Dev-Mind
-:revdate: 2017/03/15
+:revdate: 2017-03-15
 :category: Java
 :teaser: Je voulais faire un focus dans cet article sur les possibilités offertes par SpringBoot (version 1.4.x) pour écrire des tests simples, lisibles et rapides de vos services REST.
 :imgteaser: ../../img/blog/2017/test_services-rest-springboot_00.png
