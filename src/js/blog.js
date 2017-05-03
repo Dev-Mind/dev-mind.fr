@@ -56,26 +56,23 @@ window.blog = (function() {
   }
 
   function _getArticle(blogpost, first){
-    return first ? `
-         <article class="dm-blog--article-head" onclick="document.location.href='blog/${blogpost.dir}/${blogpost.filename}.html'">
-              <h1><a href="blog/${blogpost.dir}/${blogpost.filename}.html">${blogpost.doctitle}</a></h1>
+    return `
+         <article class="dm-blog--article${first ? '-head' : ''}" onclick="document.location.href='blog/${blogpost.dir}/${blogpost.filename}.html'">
+              <${first ? 'h1' : 'h2'}><a href="blog/${blogpost.dir}/${blogpost.filename}.html">${blogpost.doctitle}</a></${first ? 'h1' : 'h2'}>
               <div class="dm-blog--info">
                 <div class="dm-blog--info-date"><small>${blogpost.revdate}</small></div>
                 <div class="dm-blog--info-keyword">${_getHtmlKeyword(blogpost, '')}</div>
               </div>
               <div class="dm-blog--imgteaser"><img src="${blogpost.imgteaser}"/></div>
               <p class="dm-blog--teaser">${blogpost.teaser}</p>
-         </article>` : `
-         <article class="dm-blog--article" onclick="document.location.href='blog/${blogpost.dir}/${blogpost.filename}.html'">
-              <h2><a href="blog/${blogpost.dir}/${blogpost.filename}.html">${blogpost.doctitle}</a></h2>
-              <div class="dm-blog--info">
-                <div class="dm-blog--info-date"><small>${blogpost.revdate}</small></div>
-                <div class="dm-blog--info-keyword">${_getHtmlKeyword(blogpost, '')}</div>
-              </div>
-              <div class="dm-blog--imgteaser"><img src="${blogpost.imgteaser}"/></div>           
-              <p class="dm-blog--teaser">${blogpost.teaser}</p>
          </article>`;
   }
+
+  function _getArticleList(blogpost, first){
+    return `
+        <div class="dm-blog--shortcutlist"><a href="blog/${blogpost.dir}/${blogpost.filename}.html">${blogpost.doctitle}</a></div>
+        `;
+    }
 
   /**
    * Find the last
@@ -89,7 +86,13 @@ window.blog = (function() {
       .map((blogpost) => _getArticle(blogpost))
       .reduce((a,b) => a + b);
 
+    let lastTenArticles = blogIndex
+      .filter((e, index) => index < 10)
+      .map((blogpost) => _getArticleList(blogpost))
+      .reduce((a,b) => a + b);
+
     document.getElementById('last-article').innerHTML = _getArticle(blogIndex[0], true) + articles;
+    document.getElementById('last-articles').innerHTML = lastTenArticles;
 
     if(nbElementDisplayed >= blogIndex.length){
       document.getElementById('more-article').style.display = 'none';
