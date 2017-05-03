@@ -8,6 +8,7 @@ const imagemin = require('gulp-imagemin');
 const imageminMozjpeg = require('imagemin-mozjpeg');
 const runSequence = require('run-sequence');
 const swPrecache = require('sw-precache');
+const moment = require('moment');
 
 const $ = require('gulp-load-plugins')();
 
@@ -133,8 +134,8 @@ gulp.task('copy', () => {
 });
 
 gulp.task('generate-service-worker', (callback) => {
-  var config = {
-    cacheId: 'dev-mind',
+  let config = {
+    cacheId: `dev-mind${moment().format('YYYY-MM-DD_ss')}`,
     // Determines whether the fetch event handler is included in the generated service worker code. It is useful to
     // set this to false in development builds, to ensure that features like live reload still work. Otherwise, the content
     // would always be served from the service worker cache.
