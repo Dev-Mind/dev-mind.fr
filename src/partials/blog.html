@@ -1,5 +1,5 @@
 <div class="dm_head" id="home">
-    <devmind-home-me>
+    <devmind-header>
         <p class="dm_logo"><img src="../../img/logo/logo_long.svg" alt="Dev-Mind" title="Dev-Mind"></p>
 
         <div align="center">
@@ -7,15 +7,20 @@
             Le but est toujours le même : écrire et partager des articles sur différents sujets qui me passionnent : le
             développement (Java, Web, ...) et différents sujets liés aux méthodes agiles.
         </div>
-    </devmind-home-me>
+    </devmind-header>
 </div>
 
 <div id="dm_transition_cloud"></div>
 
 <div class="dm_home_blog" id="blog">
     <devmind-home-blog>
-        <div class="dm-blog--container" id="last-article">
+        <div class="dm-blog--container">
+            <div class="dm-blog--container-article" id="last-article"></div>
+            <div class="dm-blog--container-right">
+                Les 10 derniers articles
+            </div>
         </div>
+
         <div class="dm-blog--button">
             <button onclick="blog.findMoreBlogpost()" id="more-article">Plus d'articles...</button>
         </div>

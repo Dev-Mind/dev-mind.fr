@@ -55,27 +55,41 @@ window.blog = (function() {
       .reduce((a, b) => a + b);
   }
 
-  /**
-   * Find the last
-   * @param blogIndex
-   * @private
-   */
-  let nbElementDisplayed = 4;
-
-  function findLastBlogpost(blogIndex){
-    document.getElementById('last-article').innerHTML= blogIndex
-      .filter((e, index) => index < nbElementDisplayed)
-      .map((blogpost) => `
-         <article class="dm-blog--article" onclick="document.location.href='blog/${blogpost.dir}/${blogpost.filename}.html'">
-              <h2><a href="blog/${blogpost.dir}/${blogpost.filename}.html">${blogpost.doctitle}</a></h2>
+  function _getArticle(blogpost, first){
+    return first ? `
+         <article class="dm-blog--article-head" onclick="document.location.href='blog/${blogpost.dir}/${blogpost.filename}.html'">
+              <h1><a href="blog/${blogpost.dir}/${blogpost.filename}.html">${blogpost.doctitle}</a></h1>
               <div class="dm-blog--info">
                 <div class="dm-blog--info-date"><small>${blogpost.revdate}</small></div>
                 <div class="dm-blog--info-keyword">${_getHtmlKeyword(blogpost, '')}</div>
               </div>
               <div class="dm-blog--imgteaser"><img src="${blogpost.imgteaser}"/></div>
               <p class="dm-blog--teaser">${blogpost.teaser}</p>
-         </article>`)
+         </article>` : `
+         <article class="dm-blog--article" onclick="document.location.href='blog/${blogpost.dir}/${blogpost.filename}.html'">
+              <h2><a href="blog/${blogpost.dir}/${blogpost.filename}.html">${blogpost.doctitle}</a></h2>
+              <div class="dm-blog--info">
+                <div class="dm-blog--info-date"><small>${blogpost.revdate}</small></div>
+                <div class="dm-blog--info-keyword">${_getHtmlKeyword(blogpost, '')}</div>
+              </div>
+              <div class="dm-blog--imgteaser"><img src="${blogpost.imgteaser}"/></div>           
+              <p class="dm-blog--teaser">${blogpost.teaser}</p>
+         </article>`;
+  }
+
+  /**
+   * Find the last
+   * @param blogIndex
+   * @private
+   */
+  let nbElementDisplayed = 4;
+  function findLastBlogpost(blogIndex){
+    let articles = blogIndex
+      .filter((e, index) => index < nbElementDisplayed && index > 0)
+      .map((blogpost) => _getArticle(blogpost))
       .reduce((a,b) => a + b);
+
+    document.getElementById('last-article').innerHTML = _getArticle(blogIndex[0], true) + articles;
 
     if(nbElementDisplayed >= blogIndex.length){
       document.getElementById('more-article').style.display = 'none';
