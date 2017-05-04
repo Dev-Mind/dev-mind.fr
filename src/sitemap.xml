@@ -11,6 +11,11 @@
         <priority>0.9</priority>
     </url>
     <url>
+        <loc>https://www.dev-mind.fr/blog.html</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
         <loc>https://www.dev-mind.fr/formation_web.html</loc>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
@@ -19,5 +24,25 @@
         <loc>https://www.dev-mind.fr/formation_optimiser.html</loc>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://www.dev-mind.fr/blog/2017/test_services-rest-springboot.html</loc>
+        <priority>0.3</priority>
+    </url>
+    <url>
+        <loc>https://www.dev-mind.fr/blog/2017/ecrire_ses_scripts_gradle_en_kotlin.html</loc>
+        <priority>0.3</priority>
+    </url>
+    <url>
+        <loc>https://www.dev-mind.fr/blog/2016/ngeurope_rxjs_angular2.html</loc>
+        <priority>0.3</priority>
+    </url>
+    <url>
+        <loc>https://www.dev-mind.fr/blog/2016/flexbox_layouts_faciles.html</loc>
+        <priority>0.3</priority>
+    </url>
+    <url>
+        <loc>https://www.dev-mind.fr/2016/communication_et_neuroscience.html</loc>
+        <priority>0.3</priority>
     </url>
 </urlset>
