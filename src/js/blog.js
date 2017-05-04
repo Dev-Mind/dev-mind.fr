@@ -59,10 +59,6 @@ window.blog = (function() {
     return `
          <article class="dm-blog--article${first ? '-head' : ''}" onclick="document.location.href='blog/${blogpost.dir}/${blogpost.filename}.html'">
               <${first ? 'h1' : 'h2'}><a href="blog/${blogpost.dir}/${blogpost.filename}.html">${blogpost.doctitle}</a></${first ? 'h1' : 'h2'}>
-              <div class="dm-blog--info">
-                <div class="dm-blog--info-date"><small>${blogpost.revdate}</small></div>
-                <div class="dm-blog--info-keyword">${_getHtmlKeyword(blogpost, '')}</div>
-              </div>
               <div class="dm-blog--imgteaser"><img src="${blogpost.imgteaser}"/></div>
               <p class="dm-blog--teaser">${blogpost.teaser}</p>
          </article>`;
@@ -70,7 +66,7 @@ window.blog = (function() {
 
   function _getArticleList(blogpost, first){
     return `
-        <div class="dm-blog--shortcutlist"><a href="blog/${blogpost.dir}/${blogpost.filename}.html">${blogpost.doctitle}</a></div>
+        <tr><td class="dm-blog--shortcutlist"><a href="blog/${blogpost.dir}/${blogpost.filename}.html">${blogpost.doctitle}</a></td></tr>
         `;
     }
 
@@ -79,7 +75,7 @@ window.blog = (function() {
    * @param blogIndex
    * @private
    */
-  let nbElementDisplayed = 4;
+  let nbElementDisplayed = 5;
   function findLastBlogpost(blogIndex){
     let articles = blogIndex
       .filter((e, index) => index < nbElementDisplayed && index > 0)
@@ -92,7 +88,16 @@ window.blog = (function() {
       .reduce((a,b) => a + b);
 
     document.getElementById('last-article').innerHTML = _getArticle(blogIndex[0], true) + articles;
-    document.getElementById('last-articles').innerHTML = lastTenArticles;
+    document.getElementById('last-articles').innerHTML = `
+      <table class="dm-blog--tenlastarticles">
+        <thead>
+            <tr><th>Derniers articles</th></tr>    
+        </thead>
+        <tbody>
+            ${lastTenArticles}
+        </tbody>
+      </table>
+      `;
 
     if(nbElementDisplayed >= blogIndex.length){
       document.getElementById('more-article').style.display = 'none';

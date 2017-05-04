@@ -193,8 +193,8 @@ devmind-header {
   }
 }
 .dm-blog--container-right{
-  flex: 0.5 1 1rem;
-  padding: 1em;
+  flex: 0.5 0 2rem;
+  padding-left: 1em;
   border: 2px solid red;
   @media (max-width: $max_width_tablet) {
     display: none;
@@ -296,6 +296,27 @@ devmind-header {
   text-align: justify;
 }
 
+.dm-blog--tenlastarticles{
+  @include dm_box__shadow;
+  background-color: white;
+  border-radius: 4px;
+  border-collapse: collapse;
+  a {
+    font-size: small;
+  }
+  td{
+    padding: 0.2em;
+
+    &:hover{
+      color: white;
+      background-color: #90CAF9;
+    }
+  }
+  th{
+    background-color: #2196f3;
+    color: white;
+  }
+}
 .dm-social {
   min-width: 2em;
   max-width: 2em;

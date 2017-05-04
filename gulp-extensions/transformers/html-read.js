@@ -17,6 +17,7 @@ module.exports = function () {
       keywords: 'Dev-mind blog Java Agilité programmation Spring Web JavaScript',
       title: 'Le blog Dev-Mind',
       description : 'Le blog Dev-Mind regroupe des articles des interviews sur des sujets divers allant de la programmation Java JavaScript aux méthodes agiles',
+      blog: true
     },
     'experience.html' : {
       keywords: 'Dev-mind,Java,JavaScript,HTML,CSS',
@@ -52,7 +53,7 @@ module.exports = function () {
       title: () => pageMetadata[file.fileName].title,
       description: () => pageMetadata[file.fileName].description,
       contents: () => new Buffer(html),
-      single: () => pageMetadata[file.fileName].single,
+      blog: () => pageMetadata[file.fileName].blog,
       'canonical-url': () => file.fileName
     };
 

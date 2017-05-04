@@ -1,0 +1,182 @@
+:doctitle: Flexbox et la simplification des layouts
+:description: Utiliser les flexbox pour disposer les éléments dans votre page
+:keywords: Web, CSS, Flexbox
+:author: Guillaume EHRET - Dev-Mind
+:revdate: 2016-05-18
+:category: Web
+:teaser: En CSS le plus gros problème reste la disposition des éléments les uns par rapport aux autres. Vous devez connaître quelques astuces pour arriver à vos fins. Les flexbox vont nous aider à simplifier tout ça.
+:imgteaser: ../../img/blog/2016/flexbox_layouts_faciles_00.png
+
+Etes vous plus https://www.google.com/design/spec/material-design/introduction.html[Material Design], http://getbootstrap.com/[Boostrap], http://purecss.io/[Pure CSS], http://foundation.zurb.com/sites.html[Fundation] ? Pourquoi passez-vous par un framework CSS ?
+
+Je pensais au début qu’ils allaient me faire gagner du temps mais au final je suis toujours obligé d’apprendre de nouvelles classes de style. Si j’avais investi autant de temps dans l’apprentissage de CSS j’aurai perdu moins de temps. Aujourd’hui nous pouvons faire beaucoup plus simple avec de simples notions basiques de CSS. Certes j'accentue le trait pour vous faire réagir car les frameworks CSS peuvent avoir un intérêt lorsque nous construisons une application d'entreprise.
+
+En CSS le plus gros problème reste la disposition des éléments. Vous devez connaître quelques astuces pour arriver à vos fins. C’est pourquoi la grosse majorité des développeurs (et moi le premier) galèrent parfois à placer les éléments les uns par rapport aux autres.
+
+image::../../img/blog/2016/flexbox_layouts_faciles_01.png[Flexbox]
+
+== Les flexbox
+
+Nous allons voir dans cet article comment nous pouvons disposer simplement des éléments dans une page web avec quelques propriétés CSS. Et pour celà je vais m’appuyer sur les https://www.w3.org/TR/2012/CR-css3-flexbox-20120918/[flexbox]. Si vous regardez les navigateurs supportant cette feature, je pense que vous pouvez maintenant l’utiliser dans la plupart des cas.
+
+image::../../img/blog/2016/flexbox_layouts_faciles_02.png[Can i use Flexbox ?]
+
+Mon but est de montrer comment répondre à 2 problématiques
+
+* Mettre en place un layout avec un header et un footer fixes, et un corps de page qui prend le reste de l’espace et permet de scroller si besoin
+* Disposer des éléments sous forme de grille avec potentiellement des zones plus grandes que d’autres
+
+Les flexbox (flexible box) permettent via quelques règles de disposer des élements dans un élément parent (position, alignment, espacement…). Le but de cette spécification est d’essayer d’optimiser l’espace disponible dans l’élément parent. Nous pouvons définir via quelques propriétés le comportement lors d’un redimensionnement (extension des box ou réduction).
+
+Quand on utilise les flexbox nous n’avons pas de notion de droite/gauche, haut/bas. Nous pouvons définir une disposition selon un axe : ligne ou colonne.
+
+Pour disposer les éléments sous forme de grille, une autre spécification, https://www.w3.org/TR/css-grid-1/[Grid] est en cours d’adoption mais elle loin d’être utilisable sous tous les devices. C’est pourquoi j’utiliserai aussi les flexbox pour apporter une réponse à ce problème
+
+image::../../img/blog/2016/flexbox_layouts_faciles_03.png[Can i use Grid ?]
+
+Il est temps de prendre un exemple. Nous allons construire cette page
+
+image::../../img/blog/2016/flexbox_layouts_faciles_04.png[Exemple de page,width=50%,height=auto]
+
+[source, html, subs="none"]
+----
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Exemple de flexbox</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+    <header>
+        <a href="#">Link 1 </a>
+        <a href="#">Link 2 </a>
+        <a href="#">Link 3 </a>
+    </header>
+    <main>
+        <p class="logo">
+            <img src="assets/img/logo_1500.png" class="img-responsive">
+        </p>
+
+        <grid>
+            <div id="extended">Column 1</div>
+            <div>Column 2</div>
+            <div>Column 3</div>
+            <div>Column 4</div>
+        </grid>
+    </main>
+    <footer>
+        All right reserved - @2016 Guillaume EHRET
+    </footer>
+</body>
+</html>
+----
+
+Pour le moment le rendu est assez basique
+
+image::../../img/blog/2016/flexbox_layouts_faciles_05.png[Page au début,width=50%,height=auto]
+
+Pas très responsive tout ça…. Nous allons compléter au fur et à mesure notre feuille de style
+
+== Définir un layout principal
+
+Pour commencer nous devons dire que notre page occupera 100% de l’espace. Vous pouvez le faire en définissant le code ci dessous (on le déclare à la fois pour la balise `_html_` et `_body_` car tous les navigateurs ne gèrent pas cette définitition de la même manière)
+
+[source, html, subs="none"]
+----
+html, body {
+    min-height: 100vh;
+    max-height: 100vh;
+    margin: 0;
+}
+----
+
+Nous indiquons que notre espace principal est une flexbox via l’attribut `_display_`. Nous définissons aussi la direction de l’axe via la propriété `_flex-direction_` (la propriété par défaut est en ligne mais là nous voulons une orientation en colonne)
+
+[source, html, subs="none"]
+----
+display: flex;
+flex-direction: column;
+----
+
+Nous pouvons également indiquer comment les élements sont affichés
+
+* Au niveau de notre axe x via la propriété `_justify-content_` (`_flex-start_` [défaut], `_flex-end_`, `_center_`)
+* Au niveau de l’axe y via la proprité `_align-items_`
+* Au niveau du contenu des éléments, propriété `_align-content_`
+
+Si vous voulez tester les différentes possibilités je vous conseille le site http://flexbox.help/ ou http://codepen.io/osublake/pen/dMLQJr/
+
+Dans notre header on veut afficher les élements à droite de l’axe x et au milieu de l’axe y. Nous commençons par dire que notre header est elle même une flexbox
+
+[source, html, subs="none"]
+----
+header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+----
+
+Les 3 principales propriétés pour les éléments d’une flexbox sont
+
+* `_flex-grow_` : on indique comment un élément occupe l’espace en définissant un poids (par défaut 0). Si tous les éléments ont le même poids l’espace est découpé équitablement
+* `_flex-shrink_` : indique si un élément peut se réduire quand la place vient à manquer. Par défaut la valeur est 1 pour indiquer que oui.
+* `_flex-basis_` : permet de définir la taille par défaut d’un élément avant que les 2 autres propriétés soient appliquées avant de répartir l’espace restant
+
+Ces 3 propriétés peuvent être jumelées dans la propriété `_flex_`. Tous les élements d’une flexbox ont par défaut une propriété `_flex : 0 1 auto_`
+
+Maintenant que nous savons tout ça nous pouvons indiquer comment l’espace se répartit entre le header, la zone main et le footer. Le header et le footer ne doivent pas bouger en cas de redimensionnement et nous pouvons imposer une taille de 64px à notre header
+
+[source, html, subs="none"]
+----
+header {
+    flex: 0 0 64px;
+}
+main {
+    flex: 1 1 auto;
+}
+footer {
+    flex: 0 1;
+}
+----
+
+== Définir une grille
+
+Pour mes besoins de grille nous avons déjà tout vu plus haut et au final notre code CSS ressemblera à ça
+
+[source, html, subs="none"]
+----
+grid {
+    display: flex;
+}
+
+grid > div {
+    flex: 1;
+    margin: 10px;
+    padding: 1em;
+    text-align: center;
+}
+----
+
+Notre page commence à prendre forme
+
+== Au final
+
+Les éléments sont disposés correctement mais notre page n’est pas très jolie. On peut rajouter rapidement quelques propriétés pour embellir notre page et la rendre plus harmonieuse
+
+* Une font un peu plus sympa
+* Des couleurs pour distinguer le footer et le header
+* Une ombre sur le header pour montrer qu’il est surélevé et fixe
+* Une scrollbar dans la partie centrale
+* Rendre l’image responsive
+
+Les flexbox permettent vraiment de nous simplifier la vie lorsque l’on veut disposer nos élements les uns par rapport aux autres. Sur le sujet je vous conseille le site https://css-tricks.com/snippets/css/a-guide-to-flexbox/[css-tricks] ou la https://www.youtube.com/watch?v=5F_ngjHDcJQ[vidéo] dans laquelle https://twitter.com/hsablonniere[Hubert Sablonnière] explique comment marche les flexbox à Devoxx France 2016.
+
+Vous pouvez retrouver les sources complètes sous Github
+
+.La vidéo de Hubert sur les Flexbox
+video::5F_ngjHDcJQ[youtube]
