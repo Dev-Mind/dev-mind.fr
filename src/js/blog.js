@@ -109,13 +109,21 @@ window.blog = (function() {
     findLastBlogpost(blogIndex);
   }
 
+  function sendMessage(target, page, title){
+    if('twitter' === target){
+      document.location.href=`https://twitter.com/intent/tweet?original_referer=${encodeURI(page)}&text=${encodeURI(title) + '@DevMindFr'}&tw_p=tweetbutton&url=${encodeURI(page)}`;
+    }
+  }
+
   return {
     // Find and update the page to display a link to the previous blogpost
     "findPreviousBlogpost": (filename) => _loadBlogIndex((blogIndex) => findPreviousBlogpost(blogIndex, filename)),
     // Display the last written blogpost
     "findLastBlogpost": () => _loadBlogIndex((blogIndex) => findLastBlogpost(blogIndex), 'blog'),
     // Display more Blogsposts
-    "findMoreBlogpost": () => _loadBlogIndex((blogIndex) => findMoreBlogpost(blogIndex), 'blog')
+    "findMoreBlogpost": () => _loadBlogIndex((blogIndex) => findMoreBlogpost(blogIndex), 'blog'),
+    // Send a message
+    "sendSocial": sendMessage
   };
 })();
 

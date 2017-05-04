@@ -89,7 +89,13 @@
 
     <div class="dm_home_formation" id="formation">
         <devmind-header>
-            <div id="previous-blogpost"></div>
+            <div class="dm-blog--button">
+                <p>Partagez cet article</p>
+                <button onclick="blog.sendSocial('twitter', 'https://www.dev-mind.fr/blog/{{dir}}/{{filename}}.html', '{{ title }}')">Twitter</button>
+                <br>
+                <div id="previous-blogpost"></div>
+            </div>
+
         </devmind-header>
     </div>
 
