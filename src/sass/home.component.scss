@@ -200,6 +200,15 @@ devmind-header {
   @media (max-width: $max_width_tablet) {
     display: none;
   }
+
+  .dm_formation__detail{
+    background-color: #2196f3;
+    border-color: #2196f3;
+    color: white;
+    a {
+      color: white;
+    }
+  }
 }
 .dm-blog--button{
   display: block;
