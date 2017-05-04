@@ -66,7 +66,7 @@ window.blog = (function() {
 
   function _getArticleList(blogpost, first){
     return `
-        <tr><td class="dm-blog--shortcutlist"><a href="blog/${blogpost.dir}/${blogpost.filename}.html">${blogpost.doctitle}</a></td></tr>
+        <tr><td class="dm-blog--shortcutlist"><a title="${blogpost.doctitle}" href="blog/${blogpost.dir}/${blogpost.filename}.html">${blogpost.doctitle}</a></td></tr>
         `;
     }
 

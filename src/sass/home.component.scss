@@ -186,16 +186,17 @@ devmind-header {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  flex: 2 0 0;
+  flex: 2 1 0;
   @media (max-width: $max_width_mobile) {
     flex-direction: column;
     flex-basis: auto;
   }
 }
 .dm-blog--container-right{
-  flex: 0.5 0 2rem;
+  flex: 1 0 0;
   padding-left: 1em;
-  border: 2px solid red;
+  min-width:0;
+
   @media (max-width: $max_width_tablet) {
     display: none;
   }
@@ -301,15 +302,25 @@ devmind-header {
   background-color: white;
   border-radius: 4px;
   border-collapse: collapse;
-  a {
-    font-size: small;
-  }
+  width: 100% !important;
+  table-layout: fixed;
+
   td{
     padding: 0.2em;
 
+    a {
+      display: inherit;
+      font-size: small;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
     &:hover{
-      color: white;
       background-color: #90CAF9;
+      a {
+        color: black;
+      }
     }
   }
   th{
