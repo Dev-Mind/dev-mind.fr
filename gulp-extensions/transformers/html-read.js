@@ -8,6 +8,11 @@ const PluginError = gutil.PluginError;
 module.exports = function () {
 
   const pageMetadata = {
+    '404.html' : {
+      keywords: 'Dev-mind Guillaume EHRET développeur indépendant spécialiste Java, Web',
+      title: 'Dev-Mind 404',
+      description : 'Page non trouvée sur le serveur',
+    },
     'index.html' : {
       keywords: 'Dev-mind Guillaume EHRET développeur indépendant spécialiste Java, Web',
       title: 'Dev-Mind',
