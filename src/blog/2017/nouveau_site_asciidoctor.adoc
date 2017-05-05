@@ -1,0 +1,76 @@
+:doctitle: Blogger vers Asciidoctor
+:description: Migrer son blog de blogger vers un blog généré via Asciidoctor
+:keywords: Web, Blog, Asciidoctor
+:author: Guillaume EHRET - Dev-Mind
+:revdate: 2017-05-09
+:category: Web
+:teaser: Pourquoi et comment j'ai choisi de changer ma manière de publier mes articles en passant de Blogger à un blog généré via Asciidoctor.
+:imgteaser: ../../img/blog/unknown.png
+
+Je suis rédacteur du blog http://javamind-fr.blogspot.fr[JavaMind] depuis maintenant 7 ans. Quand j'ai décidé de me lancer je voulais quelque chose qui aille vite. J'ai choisi une plateforme (Blogger) qui me laissait de la souplesse mais qui n'était pas très personnalisable. Je voulais changer depuis un bon moment mais je cherchais une solution simple et intégrable facilement dans mon site web.
+
+Je suis très heureux d'annoncer que vous retrouverez dorénavant mes articles directement sur le site https://www.dev-mind.fr. Je vais essayer d'expliquer pourquoi et comment j'ai choisi de changer ma manière de publier mes articles pour passer d'un blog sous Blogger à un blog généré via node et Asciidoctor.
+
+== Remontons dans le temps
+
+J'ai toujours eu du mal à retenir les choses si je ne les écrivais pas. Dès la fin de mes études j'ai essayé de mettre au format numérique mes notes pour les retrouver plus facilement. Je n'ai pas retrouvé les sources de mon premier site perso mis en ligne en 1999.  En 2001 j'ai lancé mon site `_nainformaticien.fr_` pour expliquer comment fonctionnait Internet, parler de programmation, et exposer mes photos de vacance...
+
+image::../../img/blog/2017/nouveau_site_asciidoctor_02.png[Nainformaticien, width=50%]
+
+Bon forcément peu de personne ont lu ces pages hormis moi :-) Mais elles avaient le mérite d'être mon pense bête en ligne. C'est vrai qu'à cette époque le site https://www.developpez.com[developpez.com] lancé en 1999 avait plus de succès et mes photos de vacances n'intéressaient que moi.
+
+Après cette prise de conscience, j'ai beaucoup moins publié sur Internet. Je souffrais un peu du syndrôme de l'imposteur et mes seuls écrits était pour le compte de l'entreprise où je travaillais à l'époque.
+
+== Et d'un point de vue technique
+
+=== Premiers essais
+Au départ mon blog était constitué d'une suite de pages. A chaque modification de structure il fallait repasser sur toutes les pages. Je suis passé par les iframes, la génération de code en JavaScript... Mais je n'étais pas satisfait.
+
+=== Non pas de CMS...
+Les premiers CMS sont apparus mais en tant que développeur je n'avais pas envie d'aller vers des solutions toute prêtes. Avec les hébergements PHP gratuits, je me suis créé un petit framework MVC en PHP utilisant des templates et qui me facilitait la création de pages. Je ne dénigre pas le langage PHP mais je n'ai jamais été vraiment fan. J'ai donc essayé de générer mon blog en Java. En fait des langages comme PHP ou Java ne simplifient rien du tout, et avoir une usine à gaz pour servir quelques pages statiques, a peu d'intérêt.
+
+=== Eh ben si un CMS...
+Comme mes différents essais étaient non concluants je me suis résigné à utiliser un CMS en 2010. J'aurai pu mettre en place un site https://fr.wordpress.org/[WordPress] mais je voulais aller vite. J'ai donc choisi de publier mes articles sur un CMS en ligne et je me suis rabattu sur https://www.blogger.com. Certes la personnalisation est limitée mais ces outils visuels permettent de vite publier du contenu, de faciliter le référencement, de générer les liens pour relayer les articles sur les réseaux sociaux...
+
+=== Mais je veux mieux faire
+Ce cadre imposé par les CMS m'a laissé insatisfait. Je préfère coder que paramétrer. J'ai donc continué d'expérimenter. J'ai créé des maquettes de blog écrites en Angular qui avaient le mérité d'être full stack web, de proposer des templates... Mais là je me suis heurté aux problèmes de référencements...
+
+J'ai testé https://jekyllrb.com/[Jekyll] notamment via l'intégration sous https://pages.github.com/[Github pages]. Ecrire des articles au format markdown est sympa, on se rapproche d'une solution qui me plait. Mais j'aimerai une solution que je puisse intégrer facilement à mon site institutionnel en modifiant simplement mon process de build existant...
+
+=== Ma solution idéale
+Toutes ces expérimentations m'ont en fait permis de savoir ce que je voulais, qu'elle était ma solution idéale. Je dis ma solution idéale car vous avez le droit de ne pas être d'accord avec moi.
+
+En gros pour moi une solution idéale pour mettre en place un blog ou un site perso doit proposer les choses suivantes
+
+* ne suivre que les technos standards du Web : HTML, JS et CSS. Si vous voulez un contenu indexé, lisible par tous, rapide à charger il est préférable d'implémenter des choses simples
+* avoir une solution de templating pour avoir la possibilité de changer facilement. Quand vous faites un site marketing le visuel doit évoluer pour montrer votre dynamisme
+* gérer le cycle de vie du site comme on gère un projet JS en 2017 avec un task builder. Pour ma part Gulp
+* écrire mes articles au format texte car c'est à mon sens le mieux pour pouvoir éditer, corriger, ajouter du contenu en ligne notamment via github. Par contre je souhaite que le formatage du contenu soit simple (texte, exemple de code, vidéos, images, tableau...)
+* ne pas avoir de bases de données mais être capable d'indexer les articles afin de créer un écran de recherche de navigation entre mes articles
+* pouvoir héberger mon site sur un environnement mutualisé peu coûteux
+* être capable de dupliquer facilement le concept pour les différents sites associatifs que je gère (gestion technique et non éditoriale)
+
+En 2015 la keynote de https://mixitconf.org/2015/dan-allen-write-in-asciidoc--publish-everywhere-[Dan Allen à MiXiT] m'a inspiré. Mais comme beaucoup de personnes qui font de la veille technique j'ai incrit http://asciidoctor.org/[Asciidoctor] tout en bas de ma liste des choses à creuser et comme ce sujet n'était pas prioritaire, je l'ai un peu oublié. En 2016 je me suis réveillé lors de l'intervention de https://twitter.com/hsablonniere[Hubert Sablonière] au http://www.lyonjug.org/evenements/asciidoc[Lyon Jug]. Il était venu présenter l'écosystème Asciidoctor et il a réveillé mon besoin de mettre à jour mon site et mon blog. Je dois dire que j'ai eu un peu de mal pour démarrer car je ne pouvais facilement mettre en place mes templates avec Asciidoctor ni exploiter les métadonnées des documents.
+
+Et là c'est la magie d'avoir des gens hyper réactifs et motivés sur des projets Open Source comme http://asciidoctor.org/[Asciidoctor]. On branche un membre de la team
+
+image::../../img/blog/2017/nouveau_site_asciidoctor_03.png[Twitter, width=50%]
+
+En quelques jour j'avais tout pour démarrer à implémenter le blog de mes rêves dans mon site https://www.dev-mind.fr
+
+== Mon blog en Asciidoctor
+
+Maintenant que j'ai expliqué le cheminement (le "pourquoi") je vais pouvoir parler un peu plus du "comment" arriver à ce résultat. Vous pouvez consulter les sources de mon site sur https://github.com/Dev-Mind/dev-mind.com[Github]
+
+
+[source, javascript, subs="none"]
+----
+function sayHello(delay) {
+  // delay defaults to 5 seconds
+  delay = delay || 5
+  setTimeout(() => console.log('Hello World!'), delay * 1000)
+}
+
+sayHello(2) // => 2 seconds later: "Hello World!"
+sayHello()  // => 5 seconds later: "Hello World!"
+----
