@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="75160365-90bd-48ab-9a00-63681a7b8447" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/blog/2017/nouveau_site_asciidoctor.adoc" afterPath="$PROJECT_DIR$/src/blog/2017/nouveau_site_asciidoctor.adoc" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -372,7 +371,7 @@
       <workItem from="1494000210809" duration="3032000" />
       <workItem from="1494264129763" duration="1340000" />
       <workItem from="1494347643032" duration="599000" />
-      <workItem from="1494359868025" duration="5924000" />
+      <workItem from="1494359868025" duration="6547000" />
     </task>
     <task id="LOCAL-00001" summary="Adds cotent for article about asciidoctor">
       <created>1494007815190</created>
@@ -388,11 +387,18 @@
       <option name="project" value="LOCAL" />
       <updated>1494007849821</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Updates article about asciidoctor">
+      <created>1494399058774</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1494399058774</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="10895000" />
+    <option name="totallyTimeSpent" value="11518000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="89" y="33" width="3751" height="2127" extended-state="6" />
@@ -447,7 +453,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Adds cotent for article about asciidoctor" />
     <MESSAGE value="Adds more sharing on social network" />
-    <option name="LAST_COMMIT_MESSAGE" value="Adds more sharing on social network" />
+    <MESSAGE value="Updates article about asciidoctor" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updates article about asciidoctor" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
