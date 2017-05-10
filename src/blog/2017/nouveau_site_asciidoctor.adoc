@@ -1,25 +1,25 @@
-:doctitle: Blogger vers Asciidoctor
-:description: Migrer son blog de blogger vers un blog généré via Asciidoctor
-:keywords: Web, Blog, Asciidoctor
+:doctitle: Créer son blog en Asciidoc via Asciidoctor
+:description: Migrer son blog de blogger vers un blog généré en Asciidoc via Asciidoctor
+:keywords: Web, Blog, Asciidoc, Asciidoctor, CMS
 :author: Guillaume EHRET - Dev-Mind
 :revdate: 2017-05-09
 :category: Web
 :teaser: Pourquoi et comment j'ai choisi de changer ma manière de publier mes articles en passant de Blogger à un blog généré via Asciidoctor.
 :imgteaser: ../../img/blog/unknown.png
 
-Je suis rédacteur du blog http://javamind-fr.blogspot.fr[JavaMind] depuis maintenant 7 ans. Quand j'ai décidé de me lancer je voulais quelque chose qui aille vite. J'ai choisi une plateforme (Blogger) qui me laissait de la souplesse mais qui n'était pas très personnalisable. Je voulais changer depuis un bon moment mais je cherchais une solution simple et intégrable facilement dans mon site web.
+Je suis rédacteur du blog http://javamind-fr.blogspot.fr[JavaMind] depuis maintenant 7 ans. Quand j'ai lancé le blog, j'ai choisi un CMS en ligne (Blogger) qui m'offrait de la souplesse mais qui n'était pas très personnalisable. Depuis un bon moment maintenant je cherchais une solution de remplacement simple et intégrable facilement dans mon site web.
 
 Je suis très heureux d'annoncer que vous retrouverez dorénavant mes articles directement sur le site https://www.dev-mind.fr. Je vais essayer d'expliquer pourquoi et comment j'ai choisi de changer ma manière de publier mes articles pour passer d'un blog sous Blogger à un blog généré via node et Asciidoctor.
 
 == Remontons dans le temps
 
-J'ai toujours eu du mal à retenir les choses si je ne les écrivais pas. Dès la fin de mes études j'ai essayé de mettre au format numérique mes notes pour les retrouver plus facilement. Je n'ai pas retrouvé les sources de mon premier site perso mis en ligne en 1999.  En 2001 j'ai lancé mon site `_nainformaticien.fr_` pour expliquer comment fonctionnait Internet, parler de programmation, et exposer mes photos de vacance...
+J'ai toujours eu du mal à retenir les choses si je ne les écrivais pas. Dès la fin de mes études, j'ai essayé de mettre au format numérique mes notes pour les retrouver plus facilement. Je n'ai pas retrouvé les sources de mon premier site perso mis en ligne en 1999 (merci Free).  En 2001 j'ai lancé mon site `_nainformaticien.fr_` pour expliquer comment fonctionnait Internet, parler de programmation, et exposer mes photos de vacances...
 
-image::../../img/blog/2017/nouveau_site_asciidoctor_02.png[Nainformaticien, width=50%]
+image::../../img/blog/2017/nouveau_site_asciidoctor_02.png[Nainformaticien, width=400px]
 
-Bon forcément peu de personne ont lu ces pages hormis moi :-) Mais elles avaient le mérite d'être mon pense bête en ligne. C'est vrai qu'à cette époque le site https://www.developpez.com[developpez.com] lancé en 1999 avait plus de succès et mes photos de vacances n'intéressaient que moi.
+Bon forcément peu de personne ont lu ces pages hormis moi :-) Mais elles avaient le mérite d'être mon pense bête en ligne. C'est vrai qu'à cette époque, le site https://www.developpez.com[developpez.com] lancé en même temps en 1999 avait déjà beaucoup plus de succès et mes photos de vacances n'intéressaient que moi.
 
-Après cette prise de conscience, j'ai beaucoup moins publié sur Internet. Je souffrais un peu du syndrôme de l'imposteur et mes seuls écrits était pour le compte de l'entreprise où je travaillais à l'époque.
+Après cette prise de conscience, j'ai beaucoup moins publié sur Internet. Je souffrais un peu du syndrôme de l'imposteur. Je n'ai pas pour autant arrêté de documenter les sujets techniques que j'explorais mais je le faisais en interne pour le compte de l'entreprise où je travaillais à l'époque.
 
 == Et d'un point de vue technique
 
@@ -27,7 +27,7 @@ Après cette prise de conscience, j'ai beaucoup moins publié sur Internet. Je s
 Au départ mon blog était constitué d'une suite de pages. A chaque modification de structure il fallait repasser sur toutes les pages. Je suis passé par les iframes, la génération de code en JavaScript... Mais je n'étais pas satisfait.
 
 === Non pas de CMS...
-Les premiers CMS sont apparus mais en tant que développeur je n'avais pas envie d'aller vers des solutions toute prêtes. Avec les hébergements PHP gratuits, je me suis créé un petit framework MVC en PHP utilisant des templates et qui me facilitait la création de pages. Je ne dénigre pas le langage PHP mais je n'ai jamais été vraiment fan. J'ai donc essayé de générer mon blog en Java. En fait des langages comme PHP ou Java ne simplifient rien du tout, et avoir une usine à gaz pour servir quelques pages statiques, a peu d'intérêt.
+Les premiers CMS sont apparus mais en tant que développeur je n'avais pas envie d'aller vers des solutions toute prêtes. Avec les hébergements PHP gratuits, je me suis créé un petit framework MVC en PHP utilisant des templates, et qui me facilitait la création de pages. Je ne dénigre pas le langage PHP mais je n'ai jamais été vraiment fan. J'ai donc essayé de générer mon blog en Java. Mais je me suis rendu compte que des langages comme PHP ou Java ne simplifiaient pas grand chose et que mes solutions étaient un peu lourde pour servir quelques pages statiques...
 
 === Eh ben si un CMS...
 Comme mes différents essais étaient non concluants je me suis résigné à utiliser un CMS en 2010. J'aurai pu mettre en place un site https://fr.wordpress.org/[WordPress] mais je voulais aller vite. J'ai donc choisi de publier mes articles sur un CMS en ligne et je me suis rabattu sur https://www.blogger.com. Certes la personnalisation est limitée mais ces outils visuels permettent de vite publier du contenu, de faciliter le référencement, de générer les liens pour relayer les articles sur les réseaux sociaux...
@@ -38,9 +38,9 @@ Ce cadre imposé par les CMS m'a laissé insatisfait. Je préfère coder que par
 J'ai testé https://jekyllrb.com/[Jekyll] notamment via l'intégration sous https://pages.github.com/[Github pages]. Ecrire des articles au format markdown est sympa, on se rapproche d'une solution qui me plait. Mais j'aimerai une solution que je puisse intégrer facilement à mon site institutionnel en modifiant simplement mon process de build existant...
 
 === Ma solution idéale
-Toutes ces expérimentations m'ont en fait permis de savoir ce que je voulais, qu'elle était ma solution idéale. Je dis ma solution idéale car vous avez le droit de ne pas être d'accord avec moi.
+Toutes ces expérimentations m'ont en fait permis de savoir ce que je voulais, qu'elle était ma solution idéale. Je parle de MA solution idéale car vous avez le droit de ne pas être d'accord avec moi.
 
-En gros pour moi une solution idéale pour mettre en place un blog ou un site perso doit proposer les choses suivantes
+Une solution idéale pour mettre en place un blog ou un site perso doit à mon sens proposer les choses suivantes
 
 * ne suivre que les technos standards du Web : HTML, JS et CSS. Si vous voulez un contenu indexé, lisible par tous, rapide à charger il est préférable d'implémenter des choses simples
 * avoir une solution de templating pour avoir la possibilité de changer facilement. Quand vous faites un site marketing le visuel doit évoluer pour montrer votre dynamisme
@@ -54,23 +54,101 @@ En 2015 la keynote de https://mixitconf.org/2015/dan-allen-write-in-asciidoc--pu
 
 Et là c'est la magie d'avoir des gens hyper réactifs et motivés sur des projets Open Source comme http://asciidoctor.org/[Asciidoctor]. On branche un membre de la team
 
-image::../../img/blog/2017/nouveau_site_asciidoctor_03.png[Twitter, width=50%]
+image::../../img/blog/2017/nouveau_site_asciidoctor_03.png[Twitter, width=300px]
 
 En quelques jour j'avais tout pour démarrer à implémenter le blog de mes rêves dans mon site https://www.dev-mind.fr
 
-== Mon blog en Asciidoctor
+== Mon blog via Asciidoctor
 
-Maintenant que j'ai expliqué le cheminement (le "pourquoi") je vais pouvoir parler un peu plus du "comment" arriver à ce résultat. Vous pouvez consulter les sources de mon site sur https://github.com/Dev-Mind/dev-mind.com[Github]
+Maintenant que j'ai expliqué le cheminement (le "pourquoi") je vais pouvoir parler un peu plus du "comment" arriver à ce résultat. Vous pouvez consulter les sources de mon site sur https://github.com/Dev-Mind/dev-mind.com[Github].
 
+=== Ecrire les articles
+
+Voici un exemple d'article en Asciidoc
+
+[source, asciidoctor, subs="none"]
+----
+:doctitle: Créer son blog via Asciidoctor
+:description: Migrer son blog de blogger vers un blog généré via Asciidoctor
+:keywords: Web, Blog, Asciidoctor, CMS
+:revdate: 2017-05-09
+:teaser: Pourquoi et comment j\'ai choisi de changer ma manière de publier mes articles en passant de Blogger à un blog généré via Asciidoctor.
+:imgteaser: ../../img/blog/unknown.png
+
+Je suis rédacteur du blog http://javamind-fr.blogspot.fr[JavaMind] depuis maintenant 7 ans. Quand j'ai lancé le blog, j'ai choisi un CMS en ligne (Blogger) qui m'offrait de la souplesse mais qui n'était pas très personnalisable. Depuis un bon moment maintenant je cherchais une solution de remplacement simple et intégrable facilement dans mon site web.
+
+== Remontons dans le temps
+
+...
+----
+
+Si vous voulez en savoir plus sur la syntaxe Asciidoc vous pouvez consulter la http://asciidoctor.org/docs/asciidoc-syntax-quick-reference/[documentation].
+
+=== Cycle de vie de mon site
+
+Pour comprendre le cycle de vie de mon site web vous pouvez consulter le fichier de description du https://raw.githubusercontent.com/Dev-Mind/dev-mind.com/master/gulpfile.js[build Gulp]. Les principales tâches sont
+
+* *styles* : compilation Sass en CSS, utilisaton de autoprefixer et minification des feuilles de styles
+* *blog* : compilation des fichiers Asciidoc et indexation des différents fichiers (je reviens plus tard sur le détail)
+* *html* : parsing des fichiers HTML de l'application (fichiers n'ayant pas un format article comme la page d'accueil) et utilisation de Handlebar pour appliquer des templates et générer le HTML
+* *scripts* : transpilation des scripts en ES5 puis minification
+* *images* : amélioration des images et convertion en format alternatif comme webp
+* *service-worker* : génération d'un service worker avec sw-precache et sw-toolbox pour les connexions dégradées ou le mode offline
+* *compress* : compression au format gzip des ressources statiques
+
+=== Génération du blog
+
+Regardons un peu plus en détail la partie de génération du blog
 
 [source, javascript, subs="none"]
 ----
-function sayHello(delay) {
-  // delay defaults to 5 seconds
-  delay = delay || 5
-  setTimeout(() => console.log('Hello World!'), delay * 1000)
-}
+gulp.task('blog-indexing', () =>
+  gulp.src('src/blog/**/*.adoc')
+    .pipe(asciidoctorRead())
+    .pipe(asciidoctorConvert())
+    .pipe(asciidoctorIndexing('blog-index.json'))
+    .pipe(gulp.dest('build/dist/blog'))
+);
 
-sayHello(2) // => 2 seconds later: "Hello World!"
-sayHello()  // => 5 seconds later: "Hello World!"
+gulp.task('blog', ['blog-indexing'], () =>
+  gulp.src('src/blog/**/*.adoc')
+    .pipe(asciidoctorRead())
+    .pipe(asciidoctorConvert())
+    .pipe(applyTemplate('src/templates/blog.hbs'))
+    .pipe(highlightCode({selector: 'pre.highlight code'}))
+    .pipe(gulp.dest('build/.tmp/blog'))
+    .pipe($.htmlmin(HTMLMIN_OPTIONS))
+    .pipe(gulp.dest('build/dist/blog'))
+);
 ----
+
+La tâche `_blog-indexing_` permet de construire un index au format Json qui sera interrogeable via un simple https://raw.githubusercontent.com/Dev-Mind/dev-mind.com/master/src/js/blog.js[fichier JS] pour naviguer ou retrouver facilement un article de blog. La tâche `_blog_` convertit quand à elle, les articles Asccidoctor en HTML en utilisant les templates Handlebar.
+
+`_asciidoctorRead_`, `_asciidoctorConvert_`, `_asciidoctorIndexing_`, ... sont des extensions à notre build Gulp ou des scripts permettant de transformer les flux de données lus.
+
+image::../../img/blog/2017/nouveau_site_asciidoctor_04.png[Gulp extension, width=50%]
+
+Si le code JS de ces extensions vous intéresse je vous laisse consulter les sources sous https://github.com/Dev-Mind/dev-mind.com/tree/master/gulp-extensions[Github]. Le plus intéressant à exposer est la philosophie derrière
+
+* `_asciidoctorRead_` lit le stream des documents asciidoctor et interprète ces documents pour extraire le contenu HTML et les différentes metadata. Ce qui est super intéressant c'est que vous pouvez facilement ajouter vos propres métadonnées à vos documents.
+* `_asciidoctorConvert_` convertit les documents `_adoc_` en `_html_`
+* `_asciidoctorIndexing_` écrit les métadonnées dans un fichier (ici `_blog-index.json_`). Si votre site grossis vous pourriez par exemple mettre ces informations en base de données
+* `_applyTemplate_` utilisation de handlebar pour insérer le contenu et les métadata dans un template de page
+* `_highlightCode_` mise en forme des blocs de code dans les pages avec highlight
+* ...
+
+Les principales technologies utilisées sont les suivantes
+
+* Asciidoctor `_1.5.6-preview.1_` (en cours de développement)
+* Node > 7
+* Yarn
+* Gulp
+* Handlebar pour les templates
+* Sass pour la définition des styles
+* Babel pour la transpilation ES5
+* highlights pour la mise en forme du code
+* ...
+
+== Pour finir
+
+La solution que j'ai mise en place peut être encore améliorée notamment au niveau de la recherche de mes articles, de l'ajout de commentaires, ... Mais Asciidoctor JS m'a permis de résoudre ma problématique assez facilement. Si vous avez des questions vous pouvez me contacter directement.
