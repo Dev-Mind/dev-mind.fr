@@ -5,11 +5,14 @@
 :revdate: 2017-05-09
 :category: Web
 :teaser: Pourquoi et comment j'ai choisi de changer ma manière de publier mes articles en passant de Blogger à un blog généré via Asciidoctor.
-:imgteaser: ../../img/blog/unknown.png
+:imgteaser: ../../img/blog/2017/nouveau_site_asciidoctor_00.png
 
 Je suis rédacteur du blog http://javamind-fr.blogspot.fr[JavaMind] depuis maintenant 7 ans. Quand j'ai lancé le blog, j'ai choisi un CMS en ligne (Blogger) qui m'offrait de la souplesse mais qui n'était pas très personnalisable. Depuis un bon moment maintenant je cherchais une solution de remplacement simple et intégrable facilement dans mon site web.
 
 Je suis très heureux d'annoncer que vous retrouverez dorénavant mes articles directement sur le site https://www.dev-mind.fr. Je vais essayer d'expliquer pourquoi et comment j'ai choisi de changer ma manière de publier mes articles pour passer d'un blog sous Blogger à un blog généré via node et Asciidoctor.
+
+image::../../img/blog/2017/nouveau_site_asciidoctor_001.png[Nainformaticien, width=800px]
+
 
 == Remontons dans le temps
 
