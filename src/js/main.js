@@ -65,6 +65,20 @@ window.app = (function() {
   }
 
   function changeMenu(section){
+    if(!section){
+      if(window.location.href.indexOf('blog') > 0){
+        section = '#blog';
+      }
+      else if(window.location.href.indexOf('experience') > 0){
+        section = '#experience';
+      }
+      else{
+        section = '#home';
+      }
+    }
+    if(section === '#casino' || section === '#iorga' || section === '#boiron' || section === '#solutec'){
+      section = '#experience';
+    }
     if(lastActiveSection && document.getElementById(lastActiveSection)){
       document.getElementById(lastActiveSection).classList.remove("is-active");
     }
@@ -74,7 +88,7 @@ window.app = (function() {
     lastActiveSection = section;
   }
   var lastActiveSection = window.location.hash;
-  changeMenu(lastActiveSection ? lastActiveSection : window.location.href.indexOf('blog') > 0 ? '#blog' : '#home');
+  changeMenu(lastActiveSection);
 
   return {
     "changeMenu" : changeMenu
