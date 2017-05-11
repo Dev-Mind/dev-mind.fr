@@ -15,7 +15,7 @@ window.app = (function() {
     )
   );
 
-  if (false && 'serviceWorker' in navigator &&
+  if ('serviceWorker' in navigator &&
     (window.location.protocol === 'https:' || isLocalhost)) {
     navigator.serviceWorker.register('service-worker.js')
       .then(function(registration) {
@@ -38,12 +38,14 @@ window.app = (function() {
             var installingWorker = registration.installing;
 
             installingWorker.onstatechange = function() {
+              console.log('Service worker : ' + installingWorker.state);
               switch (installingWorker.state) {
                 case 'installed':
                   // At this point, the old content will have been purged and the
                   // fresh content will have been added to the cache.
                   // It's the perfect time to display a "New content is
                   // available; please refresh." message in the page's interface.
+                  console.log('The new service worker is installed');
                   break;
 
                 case 'redundant':
@@ -63,10 +65,12 @@ window.app = (function() {
   }
 
   function changeMenu(section){
-    if(lastActiveSection){
+    if(lastActiveSection && document.getElementById(lastActiveSection)){
       document.getElementById(lastActiveSection).classList.remove("is-active");
     }
-    document.getElementById(section).classList.add("is-active");
+    if(document.getElementById(section)){
+      document.getElementById(section).classList.add("is-active");
+    }
     lastActiveSection = section;
   }
   var lastActiveSection = window.location.hash;
