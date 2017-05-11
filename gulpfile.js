@@ -73,7 +73,6 @@ gulp.task('blog-rss', () =>
         .pipe(asciidoctorRead())
         .pipe(asciidoctorConvert())
         .pipe(asciidoctorRss('blog.xml'))
-        .pipe($.htmlmin(HTMLMIN_OPTIONS))
         .pipe(gulp.dest('build/dist/rss'))
 );
 
