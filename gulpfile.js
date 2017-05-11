@@ -15,18 +15,19 @@ const $ = require('gulp-load-plugins')();
 const asciidoctorRead = require('./gulp-extensions/transformers/asciidoctor-read');
 const asciidoctorConvert = require('./gulp-extensions/transformers/asciidoctor-convert');
 const asciidoctorIndexing = require('./gulp-extensions/transformers/asciidoctor-indexing');
+const asciidoctorRss = require('./gulp-extensions/transformers/asciidoctor-rss');
 const htmlRead = require('./gulp-extensions/transformers/html-read');
 const applyTemplate = require('./gulp-extensions/transformers/apply-template');
 const highlightCode = require('./gulp-extensions/transformers/highlight-code');
 
 const AUTOPREFIXER_BROWSERS = [
-  'ie >= 10',
-  'ie_mob >= 10',
-  'ff >= 30',
-  'chrome >= 34',
+  'ie >= 11',
+  'ie_mob >= 11',
+  'ff >= 45',
+  'chrome >= 45',
   'safari >= 7',
   'opera >= 23',
-  'ios >= 7',
+  'ios >= 9',
   'android >= 4.4',
   'bb >= 10'
 ];
@@ -67,7 +68,16 @@ gulp.task('blog-indexing', () =>
     .pipe(gulp.dest('build/dist/blog'))
 );
 
-gulp.task('blog', ['blog-indexing'], () =>
+gulp.task('blog-rss', () =>
+    gulp.src('src/blog/**/*.adoc')
+        .pipe(asciidoctorRead())
+        .pipe(asciidoctorConvert())
+        .pipe(asciidoctorRss('blog.xml'))
+        .pipe($.htmlmin(HTMLMIN_OPTIONS))
+        .pipe(gulp.dest('build/dist/rss'))
+);
+
+gulp.task('blog', ['blog-indexing', 'blog-rss'], () =>
   gulp.src('src/blog/**/*.adoc')
     .pipe(asciidoctorRead())
     .pipe(asciidoctorConvert())
