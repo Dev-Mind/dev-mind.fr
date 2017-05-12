@@ -76,7 +76,7 @@ window.app = (function() {
         section = '#home';
       }
     }
-    if(section === '#casino' || section === '#iorga' || section === '#boiron' || section === '#solutec'){
+    if(section === '#casino' || section === '#iorga' || section === '#boiron' || section === '#solutec' || section ==='#conferences'){
       section = '#experience';
     }
     if(lastActiveSection && document.getElementById(lastActiveSection)){
