@@ -59,27 +59,41 @@ FileETag INode MTime Size
     #X-XSS-Protection is a feature of Internet Explorer and Chrome that stops pages from loading when
     #they detect reflected cross-site scripting (XSS) attacks.
     Header set x-xss-protection "1; mode=block"
+
+
+    <FilesMatch "\.(ico|jpe?g|png|gif|swf|css|webp|svg|svgz)$">
+       Header set Cache-Control "max-age=86400, public"
+    </FilesMatch>
+    <FilesMatch "\.(js)$">
+       Header set Cache-Control "max-age=14400, private"
+    </FilesMatch>
+    <filesMatch "\.(html|htm)$">
+       Header set Cache-Control "max-age=7200, public"
+    </filesMatch>
+    <FilesMatch "\.(pl|php|cgi|spl|scgi|fcgi)$">
+       Header unset Cache-Control
+    </FilesMatch>
 </IfModule>
 
 <IfModule mod_expires.c>
  ExpiresActive On
  ExpiresDefault "access plus 7200 seconds"
- ExpiresByType image/webp "access plus 28800 seconds"
- ExpiresByType image/jpg "access plus 28800 seconds"
- ExpiresByType image/jpeg "access plus 28800 seconds"
- ExpiresByType image/png "access plus 28800 seconds"
- ExpiresByType image/gif "access plus 28800 seconds"
- ExpiresByType image/svg+xm "access plus 28800 seconds"
+ ExpiresByType image/webp "access plus 86400 seconds"
+ ExpiresByType image/jpg "access plus 86400 seconds"
+ ExpiresByType image/jpeg "access plus 86400 seconds"
+ ExpiresByType image/png "access plus 86400 seconds"
+ ExpiresByType image/gif "access plus 86400 seconds"
+ ExpiresByType image/svg+xml "access plus 86400 seconds"
  AddType image/x-icon .ico
- ExpiresByType image/ico "access plus 28800 seconds"
- ExpiresByType image/icon "access plus 28800 seconds"
- ExpiresByType image/x-icon "access plus 28800 seconds"
- #ExpiresByType text/css "access plus 14400 seconds"
- #ExpiresByType text/javascript "access plus 14400 seconds"
- #ExpiresByType text/html "access plus 7200 seconds"
- #ExpiresByType application/xhtml+xml "access plus 7200 seconds"
- #ExpiresByType application/javascript A2592000
- #ExpiresByType application/x-javascript "access plus 14400 seconds"
+ ExpiresByType image/ico "access plus 86400 seconds"
+ ExpiresByType image/icon "access plus 86400 seconds"
+ ExpiresByType image/x-icon "access plus 86400 seconds"
+ ExpiresByType text/css "access plus 14400 seconds"
+ ExpiresByType text/javascript "access plus 14400 seconds"
+ ExpiresByType text/html "access plus 7200 seconds"
+ ExpiresByType application/xhtml+xml "access plus 7200 seconds"
+ ExpiresByType application/javascript "access plus 7200 seconds"
+ ExpiresByType application/x-javascript "access plus 14400 seconds"
 </IfModule>
 # END Expire headers
 
