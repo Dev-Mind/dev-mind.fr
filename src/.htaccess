@@ -15,7 +15,11 @@ RewriteRule ^(.*)$ https://www.dev-mind.fr/$1 [R=301,L]
 
 ErrorDocument 404 https://www.dev-mind.fr/404.html
 
-FileETag INode MTime Size
+#FileETag INode MTime Size
+<IfModule mod_headers.c>
+    Header unset ETag
+</IfModule>
+FileETag None
 
 # Rules to correctly serve gzip compressed CSS and JS files.
 # Requires both mod_rewrite and mod_headers to be enabled.

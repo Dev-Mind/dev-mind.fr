@@ -41,7 +41,8 @@ const HTMLMIN_OPTIONS = {
   removeEmptyAttributes: true,
   removeScriptTypeAttributes: true,
   removeStyleLinkTypeAttributes: true,
-  removeOptionalTags: true
+  removeOptionalTags: true,
+  minifyCSS: true
 };
 
 gulp.task('styles', () =>
@@ -117,6 +118,13 @@ gulp.task('scripts', () =>
     .pipe(gulp.dest('build/dist/js'))
 );
 
+gulp.task('vendors', () =>
+  gulp.src(['node_modules/fg-loadcss/src/*.js'])
+    .pipe($.uglify({preserveComments: 'some'}))
+    .pipe($.size({title: 'scripts'}))
+    .pipe(gulp.dest('build/dist/js'))
+);
+
 gulp.task('images', () =>
   gulp.src('src/images/**/*.{svg,png,jpg}')
     .pipe(imagemin([imagemin.gifsicle(), imageminMozjpeg(), imagemin.optipng(), imagemin.svgo()], {
@@ -148,7 +156,7 @@ gulp.task('generate-service-worker', (callback) => {
     // Determines whether the fetch event handler is included in the generated service worker code. It is useful to
     // set this to false in development builds, to ensure that features like live reload still work. Otherwise, the content
     // would always be served from the service worker cache.
-    handleFetch: true,
+    handleFetch: false,
     runtimeCaching: [{
       urlPattern: '/(.*)',
       handler: 'networkFirst',
@@ -211,7 +219,7 @@ gulp.task('build', cb =>
   runSequence(
     'styles',
     'blog',
-    ['lint', 'html', 'scripts', 'images'],
+    ['lint', 'html', 'vendors', 'scripts', 'images'],
     'copy',
     'service-worker',
     'compress',

@@ -921,6 +921,10 @@ cache-swap@^0.3.0:
     object-assign "^4.0.1"
     rimraf "^2.4.0"
 
+callasync@^1.0.0:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/callasync/-/callasync-1.0.2.tgz#091d2c82c228bff69ba9b61a2d668281127ed350"
+
 caller-path@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/caller-path/-/caller-path-0.1.0.tgz#94085ef63581ecd3daa92444a8fe94e82577751f"
@@ -2137,6 +2141,10 @@ fd-slicer@~1.0.1:
   resolved "https://registry.yarnpkg.com/fd-slicer/-/fd-slicer-1.0.1.tgz#8b5bcbd9ec327c5041bf9ab023fd6750f1177e65"
   dependencies:
     pend "~1.2.0"
+
+fg-loadcss@^1.3.1:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/fg-loadcss/-/fg-loadcss-1.3.1.tgz#8930e820959faafbb242850eeec4f2d0259430cb"
 
 figures@^1.3.5:
   version "1.7.0"
@@ -3743,6 +3751,12 @@ load-json-file@^1.0.0:
     pify "^2.0.0"
     pinkie-promise "^2.0.0"
     strip-bom "^2.0.0"
+
+loadcss@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/loadcss/-/loadcss-0.0.2.tgz#7939a44916cd26d8d03babaea5350af9c53ce5cd"
+  dependencies:
+    callasync "^1.0.0"
 
 localtunnel@1.8.2:
   version "1.8.2"

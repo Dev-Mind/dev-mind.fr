@@ -1,39 +1,40 @@
 @import "common";
 
-nav {
-  display: flex;
-
-  @media screen and (min-width: $min_width_desktop) {
-    padding-left: 1em;
-  }
-
-  a {
-    padding: 0 12px;
-    color: hsla(0,0%,100%,.6);;
-    line-height: 64px;
-    height: 60px;
-    border-bottom: 4px solid $color_primary;
-    text-decoration: none;
-    text-transform: uppercase;
-    font-weight: 500;
-    font-size: 13px;
-
-    @media screen and (min-width: $min_width_desktop) {
-      padding: 0 24px;
-    }
-  }
-
-  a:hover{
-    background-color: $color_dark;
-  }
-
-  .is-active{
-    border-bottom: 4px solid white;
-    color: white;
-  }
-
-  a > img {
-    padding-top: 16px;
-  }
-}
+// This code is now inlined directly in tjhe HTML
+//nav {
+//  display: flex;
+//
+//  @media screen and (min-width: $min_width_desktop) {
+//    padding-left: 1em;
+//  }
+//
+//  a {
+//    padding: 0 12px;
+//    color: hsla(0,0%,100%,.6);;
+//    line-height: 64px;
+//    height: 60px;
+//    border-bottom: 4px solid $color_primary;
+//    text-decoration: none;
+//    text-transform: uppercase;
+//    font-weight: 500;
+//    font-size: 13px;
+//
+//    @media screen and (min-width: $min_width_desktop) {
+//      padding: 0 24px;
+//    }
+//  }
+//
+//  a:hover{
+//    background-color: $color_dark;
+//  }
+//
+//  .is-active{
+//    border-bottom: 4px solid white;
+//    color: white;
+//  }
+//
+//  a > img {
+//    padding-top: 16px;
+//  }
+//}
 

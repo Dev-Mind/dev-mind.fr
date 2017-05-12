@@ -26,6 +26,10 @@
         <priority>0.6</priority>
     </url>
     <url>
+        <loc>https://www.dev-mind.fr/blog/2017/nouveau_site_asciidoctor.html</loc>
+        <priority>0.3</priority>
+    </url>
+    <url>
         <loc>https://www.dev-mind.fr/blog/2017/test_services-rest-springboot.html</loc>
         <priority>0.3</priority>
     </url>

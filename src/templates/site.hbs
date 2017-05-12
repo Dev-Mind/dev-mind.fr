@@ -2,11 +2,15 @@
 <html lang="fr">
 <head>
     <link rel="prefetch" href="https://fonts.googleapis.com/css?family=Roboto" onload="this.rel='stylesheet'">
+    <link rel="preload" href="css/main.css" as="style" onload="this.rel='stylesheet'">
+
     <link rel="preload" href="img/animation/cloud/cloud3.png" as="image">
     <link rel="preload" href="img/animation/cloud/cloud2.png" as="image">
     {{#if blog}}
     <link rel="preload" href="blog/blog-index.json" as="image">
     {{/if}}
+    <link rel="preload" href="js/main.js" as="script">
+
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -48,9 +52,81 @@
     <!-- Color the status bar on mobile devices -->
     <meta name="theme-color" content="#2196f3">
 
-    <!-- Your styles -->
-    <link rel="stylesheet" href="css/main.css">
-    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <style>
+        html {
+            display: -webkit-flex;
+            display: flex;
+            -webkit-flex-direction: column;
+            flex-direction: column; }
+
+        body {
+            display: -webkit-flex;
+            display: flex;
+            -webkit-flex-direction: column;
+            flex-direction: column;
+            min-height: 100vh;
+            max-height: 100vh;
+            font-family: "Roboto", "Helvetica", "Arial", "sans-serif";
+            padding: 0;
+            margin: 0; }
+
+        header {
+            min-height: 64px;
+            box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+            background-color: #186fc6;
+            display: -webkit-flex;
+            display: flex;
+            box-sizing: border-box;
+            z-index: 99;
+            transition-duration: 0.2s;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-property: max-height, box-shadow; }
+
+        main {
+            -webkit-flex: 1 1 auto;
+            flex: 1 1 auto;
+            overflow-x: hidden;
+            overflow-y: scroll;
+            background-color: #2196f3; }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        * {
+            box-sizing: border-box; /* pour maîtriser width et flex-basis */
+        }
+        .dm-social {
+            min-width: 2em;
+            max-width: 2em;
+            width: 2em;
+            height: 2em; }
+        nav {
+            display: -webkit-flex;
+            display: flex; }
+        @media screen and (min-width: 901px) {
+            nav {
+                padding-left: 1em; } }
+        nav a {
+            padding: 0 12px;
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 64px;
+            height: 60px;
+            border-bottom: 4px solid #186fc6;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-weight: 500;
+            font-size: 13px; }
+        @media screen and (min-width: 901px) {
+            nav a {
+                padding: 0 24px; } }
+        nav a:hover {
+            background-color: #424242; }
+        nav .is-active {
+            border-bottom: 4px solid white;
+            color: white; }
+        nav a > img {
+            padding-top: 16px; }
+    </style>
 </head>
 <body class="dev-mind">
 
@@ -95,8 +171,10 @@
         </div>
     </footer>
 </main>
-<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
-<script src="js/main.js"></script>
-<script async src="js/analytics.js"></script>
+<script async defer src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+<script async defer src="js/main.js"></script>
+<script async defer src="js/analytics.js"></script>
+<script async defer src="js/loadCSS.js"></script>
+<script async defer src="js/cssrelpreload.js"></script>
 </body>
 </html>
