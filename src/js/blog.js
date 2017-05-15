@@ -14,7 +14,7 @@ window.blog = (function() {
       console.error("This website use the fetch API. You have to update your browser to be able to use this feature");
       return [];
     }
-    fetch(`${dirpath ? dirpath : '..'}/blog-index.json`)
+    fetch(`${dirpath ? dirpath : '..'}/blog-index.js`)
       .then((response) => response.json())
       .then((json) => cb(json));
   }

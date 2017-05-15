@@ -921,10 +921,6 @@ cache-swap@^0.3.0:
     object-assign "^4.0.1"
     rimraf "^2.4.0"
 
-callasync@^1.0.0:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/callasync/-/callasync-1.0.2.tgz#091d2c82c228bff69ba9b61a2d668281127ed350"
-
 caller-path@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/caller-path/-/caller-path-0.1.0.tgz#94085ef63581ecd3daa92444a8fe94e82577751f"
@@ -2797,6 +2793,26 @@ gulp-rename@^1.2.0:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/gulp-rename/-/gulp-rename-1.2.2.tgz#3ad4428763f05e2764dec1c67d868db275687817"
 
+gulp-rev-replace@^0.4.3:
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/gulp-rev-replace/-/gulp-rev-replace-0.4.3.tgz#72b51848f5f093ad4b77b1d2411081eb78acd46e"
+  dependencies:
+    gulp-util "^3.0.7"
+    through2 "^2.0.0"
+
+gulp-rev@^7.1.2:
+  version "7.1.2"
+  resolved "https://registry.yarnpkg.com/gulp-rev/-/gulp-rev-7.1.2.tgz#5e17cc229f6b45c74256f88ad3f2d3e9a3305829"
+  dependencies:
+    gulp-util "^3.0.0"
+    modify-filename "^1.1.0"
+    object-assign "^4.0.1"
+    rev-hash "^1.0.0"
+    rev-path "^1.0.0"
+    sort-keys "^1.0.0"
+    through2 "^2.0.0"
+    vinyl-file "^1.1.0"
+
 gulp-sass@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/gulp-sass/-/gulp-sass-3.1.0.tgz#53dc4b68a1f5ddfe4424ab4c247655269a8b74b7"
@@ -3752,12 +3768,6 @@ load-json-file@^1.0.0:
     pinkie-promise "^2.0.0"
     strip-bom "^2.0.0"
 
-loadcss@^0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/loadcss/-/loadcss-0.0.2.tgz#7939a44916cd26d8d03babaea5350af9c53ce5cd"
-  dependencies:
-    callasync "^1.0.0"
-
 localtunnel@1.8.2:
   version "1.8.2"
   resolved "https://registry.yarnpkg.com/localtunnel/-/localtunnel-1.8.2.tgz#913051e8328b51f75ad8a22ad1f5c5b8c599a359"
@@ -4289,6 +4299,10 @@ modify-error-event@^1.0.0:
 modify-event@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/modify-event/-/modify-event-1.0.1.tgz#ea1314e13ff6e79389f20ad74192f621de658ad6"
+
+modify-filename@^1.0.0, modify-filename@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/modify-filename/-/modify-filename-1.1.0.tgz#9a2dec83806fbb2d975f22beec859ca26b393aa1"
 
 moment@^2.18.1:
   version "2.18.1"
@@ -5518,6 +5532,16 @@ restore-cursor@^1.0.1:
     exit-hook "^1.0.0"
     onetime "^1.0.0"
 
+rev-hash@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/rev-hash/-/rev-hash-1.0.0.tgz#96993959ea9bfb1c59b13adf02ac2e34bb373603"
+
+rev-path@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/rev-path/-/rev-path-1.0.0.tgz#d4ccb436ac3370c4607175ce88eafc5c65c5d653"
+  dependencies:
+    modify-filename "^1.0.0"
+
 right-align@^0.1.1:
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/right-align/-/right-align-0.1.3.tgz#61339b722fe6a3515689210d24e14c96148613ef"
@@ -6466,6 +6490,15 @@ vinyl-assign@^1.0.1:
   dependencies:
     object-assign "^4.0.1"
     readable-stream "^2.0.0"
+
+vinyl-file@^1.1.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/vinyl-file/-/vinyl-file-1.3.0.tgz#aa05634d3a867ba91447bedbb34afcb26f44f6e7"
+  dependencies:
+    graceful-fs "^4.1.2"
+    strip-bom "^2.0.0"
+    strip-bom-stream "^1.0.0"
+    vinyl "^1.1.0"
 
 vinyl-fs@^0.3.0:
   version "0.3.14"

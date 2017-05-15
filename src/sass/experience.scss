@@ -11,3 +11,56 @@
 .dm_experience__section{
   padding-bottom: 1em;
 }
+
+.dm_experience__graph{
+  display: flex
+}
+
+@mixin dm_experience__elt(){
+  border: 2px solid white;
+  padding: 0 1em 1em 1em;
+  color: white;
+  font-weight: bold;
+  a{
+    text-decoration: none;
+  }
+}
+
+.dm_experience__step{
+  text-align: center;
+}
+
+.dm_experience__date{
+  position:relative;
+  top: -1.2em;
+  left:-2em;
+}
+
+.dm_experience__before{
+  @include dm_experience__elt;
+  border-left: none;
+}
+.dm_experience__after{
+  @include dm_experience__elt;
+  border-right: none;
+}
+.dm_experience__solutec{
+  @include dm_experience__elt;
+  flex: 2;
+}
+.dm_experience__casino{
+  @include dm_experience__elt;
+  flex:6;
+}
+.dm_experience__iorga{
+  @include dm_experience__elt;
+  flex:1;
+}
+.dm_experience__boiron{
+  @include dm_experience__elt;
+  flex:4;
+}
+.dm_experience__devmind{
+  @include dm_experience__elt;
+  flex:3;
+}

@@ -57,7 +57,10 @@ gulp.task('styles', () =>
     // Concatenate and minify styles
     .pipe($.if('*.css', $.cssnano()))
     .pipe($.size({title: 'styles'}))
+    .pipe($.rev())
     .pipe($.sourcemaps.write('./'))
+    .pipe(gulp.dest('build/dist/css'))
+    .pipe($.rev.manifest())
     .pipe(gulp.dest('build/dist/css'))
 );
 
@@ -65,16 +68,16 @@ gulp.task('blog-indexing', () =>
   gulp.src('src/blog/**/*.adoc')
     .pipe(asciidoctorRead())
     .pipe(asciidoctorConvert())
-    .pipe(asciidoctorIndexing('blog-index.json'))
+    .pipe(asciidoctorIndexing('blog-index.js'))
     .pipe(gulp.dest('build/dist/blog'))
 );
 
 gulp.task('blog-rss', () =>
-    gulp.src('src/blog/**/*.adoc')
-        .pipe(asciidoctorRead())
-        .pipe(asciidoctorConvert())
-        .pipe(asciidoctorRss('blog.xml'))
-        .pipe(gulp.dest('build/dist/rss'))
+  gulp.src('src/blog/**/*.adoc')
+    .pipe(asciidoctorRead())
+    .pipe(asciidoctorConvert())
+    .pipe(asciidoctorRss('blog.xml'))
+    .pipe(gulp.dest('build/dist/rss'))
 );
 
 gulp.task('blog', ['blog-indexing', 'blog-rss'], () =>
@@ -106,26 +109,33 @@ gulp.task('html', () =>
     .pipe(gulp.dest('build/dist'))
 );
 
-gulp.task('scripts', () =>
+gulp.task('local-js', () =>
   gulp.src(['src/js/*.js'])
     .pipe($.sourcemaps.init())
     .pipe($.babel({
       presets: ['es2015']
     }))
+    .pipe($.rev())
     .pipe($.sourcemaps.write())
     .pipe($.uglify({preserveComments: 'some'}))
     .pipe($.size({title: 'scripts'}))
     .pipe(gulp.dest('build/dist/js'))
+    .pipe($.rev.manifest())
+    .pipe(gulp.dest('build/dist/js'))
 );
 
-gulp.task('vendors', () =>
+gulp.task('vendor-js', () =>
   gulp.src(['node_modules/fg-loadcss/src/*.js'])
     .pipe($.uglify({preserveComments: 'some'}))
     .pipe($.size({title: 'scripts'}))
     .pipe(gulp.dest('build/dist/js'))
 );
 
-gulp.task('images', () =>
+gulp.task('scripts', () =>
+  runSequence('local-js', 'vendor-js')
+);
+
+gulp.task('images-min', () =>
   gulp.src('src/images/**/*.{svg,png,jpg}')
     .pipe(imagemin([imagemin.gifsicle(), imageminMozjpeg(), imagemin.optipng(), imagemin.svgo()], {
       progressive: true,
@@ -135,12 +145,23 @@ gulp.task('images', () =>
     .pipe(gulp.dest('build/.tmp/img'))
     .pipe($.if('**/*.{jpg,png}', $.webp()))
     .pipe($.size({title: 'images', showFiles: false}))
+    .pipe(gulp.dest('build/.tmp/img'))
+);
+
+gulp.task('images-copy', [], () =>
+  gulp.src('build/.tmp/img/**/*.{svg,png,jpg,webp}')
+    .pipe($.rev())
     .pipe(gulp.dest('build/dist/img'))
+    .pipe($.rev.manifest())
+    .pipe(gulp.dest('build/dist/img'))
+);
+
+gulp.task('images', [], () =>
+  runSequence('images-min', 'images-copy')
 );
 
 gulp.task('copy', () => {
   gulp.src([
-    'build/.tmp/**/*.{png,jpg}',
     'src/*.{ico,html,txt,json,webapp,xml}',
     'src/.htaccess'
   ], {
@@ -179,9 +200,27 @@ gulp.task('service-worker', ['generate-service-worker'], (callback) =>
     .pipe($.sourcemaps.write())
     .pipe($.uglify({preserveComments: 'none'}))
     .pipe($.size({title: 'scripts'}))
+    .pipe($.rev())
     .pipe($.sourcemaps.write('.'))
     .pipe(gulp.dest(`build/dist`))
+    .pipe($.rev.manifest())
+    .pipe(gulp.dest(`build/dist`))
 );
+
+gulp.task('cache-busting', () => {
+  const replaceInExtensions = ['.js', '.css', '.html', '.xml'];
+  const manifestImg = gulp.src('build/dist/img/rev-manifest.json');
+  const manifestCss = gulp.src('build/dist/css/rev-manifest.json');
+  const manifestJs = gulp.src('build/dist/js/rev-manifest.json');
+  const manifestSw = gulp.src('build/dist/rev-manifest.json');
+
+  gulp.src(['build/dist/**/*.{html,js,css,xml}'])
+    .pipe($.revReplace({manifest: manifestImg, replaceInExtensions: replaceInExtensions}))
+    .pipe($.revReplace({manifest: manifestCss}))
+    .pipe($.revReplace({manifest: manifestJs}))
+    .pipe($.revReplace({manifest: manifestSw}))
+    .pipe(gulp.dest('build/dist'));
+});
 
 gulp.task('compress-svg', () =>
   gulp.src('build/dist/**/*.svg')
@@ -219,9 +258,10 @@ gulp.task('build', cb =>
   runSequence(
     'styles',
     'blog',
-    ['lint', 'html', 'vendors', 'scripts', 'images'],
+    ['lint', 'html', 'scripts', 'images'],
     'copy',
     'service-worker',
+    'cache-busting',
     'compress',
     cb
   )

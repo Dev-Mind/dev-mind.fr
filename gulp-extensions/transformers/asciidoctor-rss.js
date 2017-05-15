@@ -39,9 +39,9 @@ module.exports = function (filename) {
             https://www.dev-mind.fr/blog/${dir}/${file.path.substring(file.path.lastIndexOf("/") + 1, file.path.lastIndexOf("."))}.html
         </link>
         <title>${file.attributes.doctitle}</title>
-        <description>${file.attributes.description}</description>
+        <description>${file.attributes.teaser}</description>
         <pubDate>${moment(file.attributes.revdate, 'YYYY-mm-DD').format('DD/mm/YYYY')}</pubDate>
-        <enclosure url="https://www.dev-mind.fr/img/blog/${dir}/${file.attributes.teaser}" type="image/jpeg" length="76851"/>
+        <enclosure url="https://www.dev-mind.fr/img/blog/${dir}/${file.attributes.imgteaser}"/>
       </item>
       `;
   }

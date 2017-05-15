@@ -15,9 +15,11 @@ window.app = (function() {
     )
   );
 
+  let swFile = 'service-worker.js';
+
   if ('serviceWorker' in navigator &&
     (window.location.protocol === 'https:' && !isLocalhost)) {
-    navigator.serviceWorker.register('https://www.dev-mind.fr/service-worker.js')
+    navigator.serviceWorker.register(`https://www.dev-mind.fr/${swFile}`)
       .then(function(registration) {
         // Check to see if there's an updated version of service-worker.js with
         // new files to cache:
