@@ -28,9 +28,9 @@
   }
 }
 
-devmind-home-me, devmind-home-blog, devmind-home-formation, devmind-home-experience, devmind-home-contact {
-  @include dm_container();
-}
+//devmind-home-me, devmind-home-blog, devmind-home-formation, devmind-home-experience, devmind-home-contact {
+//  @include dm_container();
+//}
 
 devmind-header {
   @include dm_container_closest();

@@ -45,9 +45,6 @@
 //  background-color: #2196f3;
 //}
 //
-//footer {
-//  background-color: $color_dark;
-//}
 //* {
 //  box-sizing: border-box; /* pour maîtriser width et flex-basis */
 //}
@@ -55,7 +52,9 @@
 //  max-width: 100%;
 //  height: auto;
 //}
-
+footer {
+  background-color: $color_dark;
+}
 .dm_loader{
   margin-top: 2em;
   display: flex;

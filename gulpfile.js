@@ -244,10 +244,10 @@ gulp.task('serve', ['build'], () => {
   });
 
   gulp.watch('src/**/*.html', ['html', browserSync.reload]);
-  gulp.watch('src/**/*.{scss,css}', ['styles', browserSync.reload]);
+  gulp.watch('src/**/*.{scss,css}', ['styles', 'cache-busting', browserSync.reload]);
   gulp.watch('src/**/*.adoc', ['blog', browserSync.reload]);
-  gulp.watch('src/**/*.js', ['lint', 'scripts', browserSync.reload]);
-  gulp.watch('src/images/**/*', ['images', browserSync.reload]);
+  gulp.watch('src/**/*.js', ['lint', 'scripts', 'cache-busting', browserSync.reload]);
+  gulp.watch('src/images/**/*', ['images', 'cache-busting', browserSync.reload]);
   gulp.watch('src/**/*.hbs', ['blog', 'html', browserSync.reload]);
 });
 
@@ -261,6 +261,8 @@ gulp.task('build', cb =>
     ['lint', 'html', 'scripts', 'images'],
     'copy',
     'service-worker',
+    'cache-busting',
+    'compress',
     cb
   )
 );
@@ -270,8 +272,6 @@ gulp.task('default', cb =>
   runSequence(
     'clean',
     'build',
-    'cache-busting',
-    'compress',
     cb
   )
 );
