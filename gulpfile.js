@@ -261,8 +261,6 @@ gulp.task('build', cb =>
     ['lint', 'html', 'scripts', 'images'],
     'copy',
     'service-worker',
-    'cache-busting',
-    'compress',
     cb
   )
 );
@@ -272,6 +270,8 @@ gulp.task('default', cb =>
   runSequence(
     'clean',
     'build',
+    'cache-busting',
+    'compress',
     cb
   )
 );
