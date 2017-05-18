@@ -1,4 +1,5 @@
 /* eslint-env browser */
+
 window.blog = (function() {
   'use strict';
 
@@ -14,6 +15,10 @@ window.blog = (function() {
       console.error("This website use the fetch API. You have to update your browser to be able to use this feature");
       return [];
     }
+      console.log('rrrrrrrrrrrrrr', firebase)
+    //limit nbElementDisplayed
+    database.ref('/blogs').on('value', (snapshot) => console.log(snapshot.val()));
+
     fetch(`${dirpath ? dirpath : '..'}/blog-index.js`)
       .then((response) => response.json())
       .then((json) => cb(json));
@@ -75,7 +80,7 @@ window.blog = (function() {
    * @param blogIndex
    * @private
    */
-  let nbElementDisplayed = 5;
+  let nbElementDisplayed = 2;
   function findLastBlogpost(blogIndex){
     let articles = blogIndex
       .filter((e, index) => index < nbElementDisplayed && index > 0)
@@ -129,7 +134,21 @@ window.blog = (function() {
     }
   }
 
+  let database;
+  function _intializeFirebase(apiKey){
+    console.log("connect")
+    firebase.initializeApp({
+      apiKey: apiKey,
+      authDomain: "devmindblog.firebaseapp.com",
+      databaseURL: "https://devmindblog.firebaseio.com",
+      storageBucket: "devmindblog.appspot.com"
+    });
+    database = firebase.database();
+  }
+
   return {
+    // Initialize the database
+    "intializeFirebase": _intializeFirebase,
     // Find and update the page to display a link to the previous blogpost
     "findPreviousBlogpost": (filename) => _loadBlogIndex((blogIndex) => findPreviousBlogpost(blogIndex, filename)),
     // Display the last written blogpost

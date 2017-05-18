@@ -45,6 +45,8 @@ const HTMLMIN_OPTIONS = {
   minifyCSS: true
 };
 
+let serve = false;
+
 gulp.task('styles', () =>
   gulp.src(['src/sass/main.scss', 'src/sass/blog/blog.scss'])
     .pipe($.newer('build/.tmp/css'))
@@ -64,13 +66,20 @@ gulp.task('styles', () =>
     .pipe(gulp.dest('build/dist/css'))
 );
 
-gulp.task('blog-indexing', () =>
+gulp.task('blog-indexing', (cb) => {
+  // Hack to be able to stop the task when the async firebase requests are complete
+  gulp.on('stop', () => {
+      if(!serve) {
+        process.nextTick(() => process.exit(0));
+      }
+  });
   gulp.src('src/blog/**/*.adoc')
     .pipe(asciidoctorRead())
     .pipe(asciidoctorConvert())
-    .pipe(asciidoctorIndexing('blog-index.js'))
-    .pipe(gulp.dest('build/dist/blog'))
-);
+    .pipe(asciidoctorIndexing())
+    .on('end', () => cb())
+    .on('error', (e) => cb(e))
+});
 
 gulp.task('blog-rss', () =>
   gulp.src('src/blog/**/*.adoc')
@@ -230,6 +239,7 @@ gulp.task('compress', ['compress-svg'], () =>
 );
 
 gulp.task('serve', ['build'], () => {
+  serve = true;
   browserSync.init({
     server: {
       baseDir: "./build/dist/"
