@@ -93,7 +93,7 @@ apply {
 }
 ----
 
-== Configuraion du plugin gradle-node-plugin
+== Configuration du plugin gradle-node-plugin
 
 Les plugins (c’est le cas de gradle-gulp-plugin) peuvent avoir une partie configuration (les points d’extensions)
 
