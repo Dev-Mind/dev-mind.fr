@@ -81,23 +81,23 @@ FileETag None
 
 <IfModule mod_expires.c>
  ExpiresActive On
- ExpiresDefault "access plus 14400 seconds"
- ExpiresByType image/webp "access plus 86410 seconds"
- ExpiresByType image/jpg "access plus 86410 seconds"
- ExpiresByType image/jpeg "access plus 86410 seconds"
- ExpiresByType image/png "access plus 86410 seconds"
- ExpiresByType image/gif "access plus 86410 seconds"
- ExpiresByType image/svg+xml "access plus 86410 seconds"
+ ExpiresDefault "access 1 day"
+ ExpiresByType image/webp "access 1 month"
+ ExpiresByType image/jpg "access 1 month"
+ ExpiresByType image/jpeg "access 1 month"
+ ExpiresByType image/png "access 1 month"
+ ExpiresByType image/gif "access 1 month"
+ ExpiresByType image/svg+xml "access 1 month"
  AddType image/x-icon .ico
- ExpiresByType image/ico "access plus 86410 seconds"
- ExpiresByType image/icon "access plus 86410 seconds"
- ExpiresByType image/x-icon "access plus 86410 seconds"
- ExpiresByType text/css "access plus 14400 seconds"
- ExpiresByType text/javascript "access plus 14400 seconds"
+ ExpiresByType image/ico "access 1 month"
+ ExpiresByType image/icon "access 1 month"
+ ExpiresByType image/x-icon "access 1 month"
+ ExpiresByType text/css "access 1 month"
+ ExpiresByType text/javascript "access 1 month"
  ExpiresByType text/html "access plus 7200 seconds"
- ExpiresByType application/xhtml+xml "access plus 7200 seconds"
- ExpiresByType application/javascript "access plus 7200 seconds"
- ExpiresByType application/x-javascript "access plus 14400 seconds"
+ ExpiresByType application/xhtml+xml "access 1 month"
+ ExpiresByType application/javascript "access 1 month"
+ ExpiresByType application/x-javascript "access 1 month"
 </IfModule>
 # END Expire headers
 
