@@ -49,4 +49,8 @@
         <loc>https://www.dev-mind.fr/2016/communication_et_neuroscience.html</loc>
         <priority>0.3</priority>
     </url>
+    <url>
+        <loc>https://www.dev-mind.fr/2017/highcharts_stackedarea.html</loc>
+        <priority>0.3</priority>
+    </url>
 </urlset>

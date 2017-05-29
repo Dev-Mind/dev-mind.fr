@@ -128,5 +128,5 @@ image::../../img/blog/2017/highcharts_stackedarea_05.png[plus de valeurs]
 
 L'autre solution est de ne pas utiliser ce type de graphique si vous voulez cumuler des valeurs positives et négatives. Vous pouvez par exemple utiliser le type `_column_`
 
-image::../../img/blog/2017/highcharts_stackedarea_06.png.png[type column]
+image::../../img/blog/2017/highcharts_stackedarea_06.png[type column]
 
