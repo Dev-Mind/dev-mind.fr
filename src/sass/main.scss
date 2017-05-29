@@ -4,54 +4,6 @@
 @import "home.component";
 @import "footer.component";
 
-// This code is now inlined directly in tjhe HTML
-//html {
-//  display: flex;
-//  flex-direction: column;
-//}
-//body {
-//  display: flex;
-//  flex-direction: column;
-//  min-height: 100vh;
-//  max-height: 100vh;
-//  font-family: "Roboto", "Helvetica", "Arial", "sans-serif";
-//  padding: 0;
-//  margin: 0;
-//}
-
-//devmind-app{
-//  display: flex;
-//  flex-direction: column;
-//  min-height: 100vh;
-//  max-height: 100vh;
-//}
-
-//header {
-//  min-height: $header__heigth;
-//  @include dm_box__shadow();
-//  background-color: $color_primary;
-//  display: flex;
-//  box-sizing: border-box;
-//  z-index: 99;
-//  transition-duration: 0.2s;
-//  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-//  transition-property: max-height, box-shadow;
-//}
-//
-//main {
-//  flex: 1 1 auto;
-//  overflow-x: hidden;
-//  overflow-y: scroll;
-//  background-color: #2196f3;
-//}
-//
-//* {
-//  box-sizing: border-box; /* pour maîtriser width et flex-basis */
-//}
-//img{
-//  max-width: 100%;
-//  height: auto;
-//}
 footer {
   background-color: $color_dark;
 }

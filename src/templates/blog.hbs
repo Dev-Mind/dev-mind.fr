@@ -49,17 +49,7 @@
     <meta name="theme-color" content="#2196f3">
 
     <style>
-        html {
-            display: -webkit-flex;
-            display: flex;
-            -webkit-flex-direction: column;
-            flex-direction: column; }
-
         body {
-            display: -webkit-flex;
-            display: flex;
-            -webkit-flex-direction: column;
-            flex-direction: column;
             min-height: 100vh;
             max-height: 100vh;
             font-family: "Helvetica", "Arial", "sans-serif";
@@ -79,11 +69,11 @@
             transition-property: max-height, box-shadow; }
 
         main {
-            -webkit-flex: 1 1 auto;
-            flex: 1 1 auto;
+            height: calc(100vh - 64px);
             overflow-x: hidden;
             overflow-y: scroll;
             background-color: #2196f3; }
+
         img {
             max-width: 100%;
             height: auto;
