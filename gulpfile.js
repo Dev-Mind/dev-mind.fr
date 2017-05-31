@@ -186,8 +186,8 @@ gulp.task('generate-service-worker', (callback) => {
         maxAgeSeconds: 7200
       }
     }],
-    staticFileGlobs: ['build/dist/**/*.{js,html,css,png,jpg,json,gif,svg,webp,eot,ttf,woff,woff2}'],
-    stripPrefix: 'build/dist/',
+    staticFileGlobs: ['build/dist/**/*.{js,html,css,png,jpg,json,gif,svg,webp,eot,ttf,woff,woff2,gz}'],
+    stripPrefix: 'build/dist',
     verbose: true
   };
 
