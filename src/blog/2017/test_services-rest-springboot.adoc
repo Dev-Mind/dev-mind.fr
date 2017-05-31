@@ -190,3 +190,4 @@ public void shouldNotCreateSessionWhenBeanInvalid() throws Exception {
 ----
 
 Voila j’espère vous avoir montré par cet exemple que les tests de vos services REST peuvent être simples à écrire.
+

@@ -200,10 +200,7 @@ gulp.task('service-worker', ['generate-service-worker'], (callback) =>
     .pipe($.sourcemaps.write())
     .pipe($.uglify({preserveComments: 'none'}))
     .pipe($.size({title: 'scripts'}))
-    .pipe($.rev())
     .pipe($.sourcemaps.write('.'))
-    .pipe(gulp.dest(`build/dist`))
-    .pipe($.rev.manifest())
     .pipe(gulp.dest(`build/dist`))
 );
 
@@ -212,13 +209,11 @@ gulp.task('cache-busting', () => {
   const manifestImg = gulp.src('build/dist/img/rev-manifest.json');
   const manifestCss = gulp.src('build/dist/css/rev-manifest.json');
   const manifestJs = gulp.src('build/dist/js/rev-manifest.json');
-  const manifestSw = gulp.src('build/dist/rev-manifest.json');
 
   gulp.src(['build/dist/**/*.{html,js,css,xml}'])
     .pipe($.revReplace({manifest: manifestImg, replaceInExtensions: replaceInExtensions}))
     .pipe($.revReplace({manifest: manifestCss}))
     .pipe($.revReplace({manifest: manifestJs}))
-    .pipe($.revReplace({manifest: manifestSw}))
     .pipe(gulp.dest('build/dist'));
 });
 
@@ -243,12 +238,12 @@ gulp.task('serve', ['build'], () => {
     port: 3000
   });
 
-  gulp.watch('src/**/*.html', ['html', browserSync.reload]);
+  gulp.watch('src/**/*.html', ['html', 'cache-busting', browserSync.reload]);
   gulp.watch('src/**/*.{scss,css}', ['styles', 'cache-busting', browserSync.reload]);
-  gulp.watch('src/**/*.adoc', ['blog', browserSync.reload]);
+  gulp.watch('src/**/*.adoc', ['blog', 'cache-busting', browserSync.reload]);
   gulp.watch('src/**/*.js', ['lint', 'scripts', 'cache-busting', browserSync.reload]);
   gulp.watch('src/images/**/*', ['images', 'cache-busting', browserSync.reload]);
-  gulp.watch('src/**/*.hbs', ['blog', 'html', browserSync.reload]);
+  gulp.watch('src/**/*.hbs', ['blog', 'html', 'cache-busting', browserSync.reload]);
 });
 
 

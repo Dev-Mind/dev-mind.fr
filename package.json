@@ -45,7 +45,7 @@
     "run-sequence": "^1.2.2",
     "stream-reduce": "^1.0.3",
     "stream-to-array": "^2.3.0",
-    "sw-precache": "^5.1.0",
+    "sw-precache": "^5.1.1",
     "sw-toolbox": "^3.6.0",
     "vinyl-fs": "^2.4.4"
   }

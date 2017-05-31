@@ -41,7 +41,6 @@ image::../../img/blog/2016/flexbox_layouts_faciles_04.png[Exemple de page,width=
 [source, html, subs="none"]
 ----
 <html>
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -49,7 +48,6 @@ image::../../img/blog/2016/flexbox_layouts_faciles_04.png[Exemple de page,width=
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
 </head>
-
 <body>
     <header>
         <a href="#">Link 1 </a>
@@ -58,7 +56,7 @@ image::../../img/blog/2016/flexbox_layouts_faciles_04.png[Exemple de page,width=
     </header>
     <main>
         <p class="logo">
-            <img src="assets/img/logo_1500.png" class="img-responsive">
+            <img src="assets/img/logo_1500.png" class="img-responsive"/>
         </p>
 
         <grid>
@@ -85,7 +83,7 @@ Pas très responsive tout ça…. Nous allons compléter au fur et à mesure not
 
 Pour commencer nous devons dire que notre page occupera 100% de l’espace. Vous pouvez le faire en définissant le code ci dessous (on le déclare à la fois pour la balise `_html_` et `_body_` car tous les navigateurs ne gèrent pas cette définitition de la même manière)
 
-[source, html, subs="none"]
+[source, css, subs="none"]
 ----
 html, body {
     min-height: 100vh;
@@ -96,7 +94,7 @@ html, body {
 
 Nous indiquons que notre espace principal est une flexbox via l’attribut `_display_`. Nous définissons aussi la direction de l’axe via la propriété `_flex-direction_` (la propriété par défaut est en ligne mais là nous voulons une orientation en colonne)
 
-[source, html, subs="none"]
+[source, css, subs="none"]
 ----
 display: flex;
 flex-direction: column;
@@ -176,7 +174,8 @@ Les éléments sont disposés correctement mais notre page n’est pas très jol
 
 Les flexbox permettent vraiment de nous simplifier la vie lorsque l’on veut disposer nos élements les uns par rapport aux autres. Sur le sujet je vous conseille le site https://css-tricks.com/snippets/css/a-guide-to-flexbox/[css-tricks] ou la https://www.youtube.com/watch?v=5F_ngjHDcJQ[vidéo] dans laquelle https://twitter.com/hsablonniere[Hubert Sablonnière] explique comment marche les flexbox à Devoxx France 2016.
 
-Vous pouvez retrouver les sources complètes sous Github
-
 .La vidéo de Hubert sur les Flexbox
 video::5F_ngjHDcJQ[youtube]
+
+Vous pouvez retrouver les sources complètes sous Github
+

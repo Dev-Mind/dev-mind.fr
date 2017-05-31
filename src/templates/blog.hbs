@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <!--<link rel="prefetch" href="https://fonts.googleapis.com/css?family=Roboto" onload="this.rel='stylesheet'">-->
     <link rel="preload" href="../../css/main.css" as="style" onload="this.rel='stylesheet'">
     <link rel="preload" href="../../css/blog.css" as="style" onload="this.rel='stylesheet'">
     <link rel="preload" href="../../js/main.js" as="script">
@@ -209,7 +208,10 @@
 <script async defer src="../../js/loadCSS.js"></script>
 <script async defer src="../../js/cssrelpreload.js"></script>
 <script>
-    setTimeout(blog.findPreviousBlogpost('{{filename}}'), 500);
+    window.addEventListener("load", function(){
+        blog.findPreviousBlogpost('{{filename}}');
+        app.initSw('../../');
+    });
 </script>
 <script async defer src="../../js/dmanalytics.js"></script>
 </body>

@@ -158,3 +158,4 @@ tasks.getByName("processResources").dependsOn("gulpBuild")
 Je n’ai exposé ici que les cas les plus courants utilisés dans Gradle. Vous pouvez toujours programmer vos tâches en Groovy ou Kotlin dans vos scripts. Pour plus d’info je vous réoriente vers les exemples officiels et la page Stackoverflow (qui n’est pas encore très riche sur le sujet).
 
 Nous verrons dans les mois qui viennent si Kotlin prend la main sur Groovy dans les scripts de configuration Gradle. Pour le moment le manque de documentation sur Gradle Script Kotlin est vraiment problématique.
+

@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <!--<link rel="prefetch" href="https://fonts.googleapis.com/css?family=Roboto" onload="this.rel='stylesheet'">-->
     <link rel="preload" href="css/main.css" as="style" onload="this.rel='stylesheet'">
 
     <link rel="preload" href="img/animation/cloud/cloud3.png" as="image">
@@ -171,10 +170,22 @@
         </div>
     </footer>
 </main>
+
 <script async defer src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
 <script async defer src="js/main.js"></script>
 <script async defer src="js/loadCSS.js"></script>
 <script async defer src="js/cssrelpreload.js"></script>
 <script async defer src="js/dmanalytics.js"></script>
+{{#if blog}}
+<script src="js/blog.js"></script>
+{{/if}}
+<script>
+    window.addEventListener("load", function(){
+      {{#if blog}}
+        blog.findLastBlogpost()
+      {{/if}}
+      app.initSw();
+    });
+</script>
 </body>
 </html>
