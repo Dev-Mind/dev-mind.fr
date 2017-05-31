@@ -49,7 +49,7 @@ FileETag None
     Header edit Set-Cookie ^(.*)$ $1;HttpOnly;Secure;Max-Age=2592000;Domain=dev-mind.fr;
 
     #Each resource should have a max age
-    Header set Strict-Transport-Security "max-age=31536000" env=HTTPS
+    Header set Strict-Transport-Security "max-age=604800" env=HTTPS
 
     #It is supported by IE (Internet Explorer) and Chrome and prevents them
     #from MIME-sniffing a response from the declared content-type.
@@ -71,6 +71,9 @@ FileETag None
     <FilesMatch "\.(js)$">
        Header set Cache-Control "max-age=14400, private"
     </FilesMatch>
+    <Files "service-worker.js">
+       Header set Cache-Control "max-age=14400, private"
+    </Files>
     <filesMatch "\.(html|htm)$">
        Header set Cache-Control "max-age=7200, public"
     </filesMatch>
