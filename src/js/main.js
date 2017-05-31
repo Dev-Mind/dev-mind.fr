@@ -31,6 +31,8 @@ window.app = (function() {
 
           // updatefound is fired if service-worker.js changes.
           registration.onupdatefound = function() {
+
+            console.log('updatefound')
             // updatefound is also fired the very first time the SW is installed,
             // and there's no need to prompt for a reload at that point.
             // So check here to see if the page is already controlled,

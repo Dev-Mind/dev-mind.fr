@@ -177,7 +177,7 @@ gulp.task('generate-service-worker', (callback) => {
     // Determines whether the fetch event handler is included in the generated service worker code. It is useful to
     // set this to false in development builds, to ensure that features like live reload still work. Otherwise, the content
     // would always be served from the service worker cache.
-    handleFetch: false,
+    handleFetch: true,
     runtimeCaching: [{
       urlPattern: '/(.*)',
       handler: 'networkFirst',
