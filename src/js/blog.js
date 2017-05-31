@@ -87,8 +87,12 @@ window.blog = (function() {
       .map((blogpost) => _getArticleList(blogpost))
       .reduce((a,b) => a + b);
 
-    document.getElementById('last-article').innerHTML = _getArticle(blogIndex[0], true) + articles;
-    document.getElementById('last-articles').innerHTML = `
+    let headArticle = document.getElementById('last-article');
+    let otherArticles = document.getElementById('last-articles');
+
+    headArticle.innerHTML = _getArticle(blogIndex[0], true) + articles;
+    headArticle.style.webkitTransform = 'scale(1)';
+    otherArticles.innerHTML = `
       <table class="dm-blog--tenlastarticles">
         <thead>
             <tr><th>Derniers articles</th></tr>    
@@ -98,6 +102,7 @@ window.blog = (function() {
         </tbody>
       </table>
       `;
+    otherArticles.style.webkitTransform = 'scale(1)';
 
     if(nbElementDisplayed >= blogIndex.length){
       document.getElementById('more-article').style.display = 'none';
