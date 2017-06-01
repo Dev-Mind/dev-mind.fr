@@ -12,7 +12,6 @@ RewriteRule ^(.*)$ https://www.dev-mind.fr/$1 [R=301,L]
 RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://www.dev-mind.fr/$1 [R=301,L]
 
-
 ErrorDocument 404 https://www.dev-mind.fr/404.html
 
 #FileETag INode MTime Size
@@ -46,10 +45,13 @@ FileETag None
     </FilesMatch>
 
     #Secure Cookie
-    Header edit Set-Cookie ^(.*)$ $1;HttpOnly;Secure;Max-Age=2592000;Domain=dev-mind.fr;
+    Header edit Set-Cookie ^(.*)$ $1;HttpOnly;Max-Age=2592000;Domain=dev-mind.fr;Secure;
+
+    # Disable unsafe inline/eval, only allow loading of resources (images, fonts, scripts, etc.) over https
+    Header set Content-Security-Policy "upgrade-insecure-requests"
 
     #Each resource should have a max age
-    Header set Strict-Transport-Security "max-age=604800" env=HTTPS
+    Header set Strict-Transport-Security "max-age=604800; includeSubDomains" env=HTTPS
 
     #It is supported by IE (Internet Explorer) and Chrome and prevents them
     #from MIME-sniffing a response from the declared content-type.
@@ -66,7 +68,7 @@ FileETag None
 
 
     <FilesMatch "\.(ico|jpe?g|png|gif|swf|css|webp|svg|svgz)$">
-       Header set Cache-Control "max-age=86400, public"
+       Header set Cache-Control "max-age=691200, public"
     </FilesMatch>
     <FilesMatch "\.(js)$">
        Header set Cache-Control "max-age=14400, private"
