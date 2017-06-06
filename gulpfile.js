@@ -19,6 +19,7 @@ const asciidoctorRss = require('./gulp-extensions/transformers/asciidoctor-rss')
 const htmlRead = require('./gulp-extensions/transformers/html-read');
 const applyTemplate = require('./gulp-extensions/transformers/apply-template');
 const highlightCode = require('./gulp-extensions/transformers/highlight-code');
+const firebaseImgCacheBusting = require('./gulp-extensions/transformers/firebase-img-cache-busting');
 
 const AUTOPREFIXER_BROWSERS = [
   'ie >= 11',
@@ -219,6 +220,9 @@ gulp.task('cache-busting', () => {
   const manifestCss = gulp.src('build/dist/css/rev-manifest.json');
   const manifestJs = gulp.src('build/dist/js/rev-manifest.json');
 
+  gulp.src(['build/dist/blog/**/*.html'])
+    .pipe(firebaseImgCacheBusting('build/dist/img/rev-manifest.json'))
+
   gulp.src(['build/dist/**/*.{html,js,css,xml}'])
     .pipe($.revReplace({manifest: manifestImg, replaceInExtensions: replaceInExtensions}))
     .pipe($.revReplace({manifest: manifestCss}))
@@ -270,13 +274,20 @@ gulp.task('build', cb =>
   )
 );
 
+//TODO refactor
+gulp.task('prod', cb =>
+  runSequence(
+    'cache-busting',
+    'compress',
+    cb
+  )
+);
+
 // Build production files, the default task
 gulp.task('default', cb =>
   runSequence(
     'clean',
     'build',
-    'cache-busting',
-    'compress',
     cb
   )
 );

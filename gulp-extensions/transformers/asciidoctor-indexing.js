@@ -12,8 +12,6 @@ const firebaseConfig = require("../../firebase.json");
  */
 module.exports = () => {
 
-  console.log('Try to connect to firebase', firebaseConfig);
-
   firebase.initializeApp({
     apiKey: firebaseConfig.apiKey,
     authDomain: firebaseConfig.authDomain,
@@ -32,9 +30,12 @@ module.exports = () => {
   database.ref('blogs')
     .remove()
     .catch((error) => {
-      throw new PluginError('asciidoctor-indexing',`Firebase index remove failed : ${error.message}`);
+      throw new PluginError('asciidoctor-indexing', `Firebase index remove failed : ${error.message}`);
     });
 
+  process.on('exit', function () {
+    firebase.auth().signOut();
+  });
 
   return map(async (file, next) => {
     let filename = file.path.substring(file.path.lastIndexOf("/") + 1, file.path.lastIndexOf("."));
@@ -55,10 +56,10 @@ module.exports = () => {
       })
       .then(() => next(null, file))
       .catch((error) => {
-      throw new PluginError('asciidoctor-indexing', `Firebase insert failed : ${error.message}`);
-    });
-  })
-}
+        throw new PluginError('asciidoctor-indexing', `Firebase insert failed : ${error.message}`);
+      });
+  });
+};
 
 
 
