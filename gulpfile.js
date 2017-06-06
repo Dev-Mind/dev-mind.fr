@@ -45,6 +45,8 @@ const HTMLMIN_OPTIONS = {
   minifyCSS: true
 };
 
+let modeDev = false;
+
 gulp.task('styles', () =>
   gulp.src(['src/sass/main.scss', 'src/sass/blog/blog.scss'])
     .pipe($.newer('build/.tmp/css'))
@@ -57,20 +59,27 @@ gulp.task('styles', () =>
     // Concatenate and minify styles
     .pipe($.if('*.css', $.cssnano()))
     .pipe($.size({title: 'styles'}))
-    .pipe($.rev())
+    .pipe($.if(!modeDev, $.rev()))
     .pipe($.sourcemaps.write('./'))
     .pipe(gulp.dest('build/dist/css'))
-    .pipe($.rev.manifest())
+    .pipe($.if(!modeDev, $.rev.manifest()))
     .pipe(gulp.dest('build/dist/css'))
 );
 
-gulp.task('blog-indexing', () =>
+gulp.task('blog-indexing', (cb) => {
+  // Hack to be able to stop the task when the async firebase requests are complete
+  gulp.on('stop', () => {
+      if(!modeDev) {
+        process.nextTick(() => process.exit(0));
+      }
+  });
   gulp.src('src/blog/**/*.adoc')
     .pipe(asciidoctorRead())
     .pipe(asciidoctorConvert())
-    .pipe(asciidoctorIndexing('blog-index.js'))
-    .pipe(gulp.dest('build/dist/blog'))
-);
+    .pipe(asciidoctorIndexing())
+    .on('end', () => cb())
+    .on('error', (e) => cb(e))
+});
 
 gulp.task('blog-rss', () =>
   gulp.src('src/blog/**/*.adoc')
@@ -115,12 +124,12 @@ gulp.task('local-js', () =>
     .pipe($.babel({
       presets: ['es2015']
     }))
-    .pipe($.rev())
+    .pipe($.if(!modeDev, $.rev()))
     .pipe($.sourcemaps.write())
     .pipe($.uglify({preserveComments: 'some'}))
     .pipe($.size({title: 'scripts'}))
     .pipe(gulp.dest('build/dist/js'))
-    .pipe($.rev.manifest())
+    .pipe($.if(!modeDev, $.rev.manifest()))
     .pipe(gulp.dest('build/dist/js'))
 );
 
@@ -150,9 +159,9 @@ gulp.task('images-min', () =>
 
 gulp.task('images-copy', [], () =>
   gulp.src('build/.tmp/img/**/*.{svg,png,jpg,webp}')
-    .pipe($.rev())
+    .pipe($.if(!modeDev, $.rev()))
     .pipe(gulp.dest('build/dist/img'))
-    .pipe($.rev.manifest())
+    .pipe($.if(!modeDev, $.rev.manifest()))
     .pipe(gulp.dest('build/dist/img'))
 );
 
@@ -229,7 +238,8 @@ gulp.task('compress', ['compress-svg'], () =>
     .pipe(gulp.dest('build/dist'))
 );
 
-gulp.task('serve', ['build'], () => {
+gulp.task('initServe', () => modeDev = true);
+gulp.task('serve', ['initServe', 'build'], () => {
   browserSync.init({
     server: {
       baseDir: "./build/dist/"
@@ -238,12 +248,12 @@ gulp.task('serve', ['build'], () => {
     port: 3000
   });
 
-  gulp.watch('src/**/*.html', ['html', 'cache-busting', browserSync.reload]);
-  gulp.watch('src/**/*.{scss,css}', ['styles', 'cache-busting', browserSync.reload]);
-  gulp.watch('src/**/*.adoc', ['blog', 'cache-busting', browserSync.reload]);
-  gulp.watch('src/**/*.js', ['lint', 'scripts', 'cache-busting', browserSync.reload]);
-  gulp.watch('src/images/**/*', ['images', 'cache-busting', browserSync.reload]);
-  gulp.watch('src/**/*.hbs', ['blog', 'html', 'cache-busting', browserSync.reload]);
+  gulp.watch('src/**/*.html', ['html', browserSync.reload]);
+  gulp.watch('src/**/*.{scss,css}', ['styles', browserSync.reload]);
+  gulp.watch('src/**/*.adoc', ['blog', browserSync.reload]);
+  gulp.watch('src/**/*.js', ['lint', 'scripts', browserSync.reload]);
+  gulp.watch('src/images/**/*', ['images', browserSync.reload]);
+  gulp.watch('src/**/*.hbs', ['blog', 'html', browserSync.reload]);
 });
 
 
@@ -256,8 +266,6 @@ gulp.task('build', cb =>
     ['lint', 'html', 'scripts', 'images'],
     'copy',
     'service-worker',
-    'cache-busting',
-    'compress',
     cb
   )
 );
@@ -267,6 +275,8 @@ gulp.task('default', cb =>
   runSequence(
     'clean',
     'build',
+    'cache-busting',
+    'compress',
     cb
   )
 );

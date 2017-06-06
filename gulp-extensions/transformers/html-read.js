@@ -4,6 +4,7 @@ const map = require('map-stream')
 const fs = require('fs');
 const gutil = require('gulp-util');
 const PluginError = gutil.PluginError;
+const firebaseConfig = require("../../firebase.json");
 
 module.exports = function () {
 
@@ -59,7 +60,8 @@ module.exports = function () {
       description: () => pageMetadata[file.fileName].description,
       contents: () => new Buffer(html),
       blog: () => pageMetadata[file.fileName].blog,
-      'canonical-url': () => file.fileName
+      firebaseApiKey: () => firebaseConfig.apiKey,
+      canonicalUrl: () => file.fileName
     };
 
     next(null, file);

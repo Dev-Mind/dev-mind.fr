@@ -1,8 +1,9 @@
 /* eslint-env browser */
-window.app = (function() {
+(function() {
   'use strict';
 
   function initSw(path){
+    console.log('init service worker with path ' + path);
     // Check to make sure service workers are supported in the current browser,
     // and that the current page is accessed from a secure origin. Using a
     // service worker from an insecure origin will trigger JS console errors. See
@@ -93,8 +94,12 @@ window.app = (function() {
     }
     lastActiveSection = section;
   }
-  var lastActiveSection = window.location.hash;
+
+  let isBlogPage = document.currentScript.text.indexOf('blog=true')>-1;
+  let lastActiveSection = window.location.hash;
+
   changeMenu(lastActiveSection);
+  initSw(isBlogPage ? '../../': '');
 
   return {
     "initSw": initSw,

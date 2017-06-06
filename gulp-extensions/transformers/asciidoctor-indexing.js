@@ -1,53 +1,67 @@
 'use strict';
 
-const reduce = require("stream-reduce");
 const gutil = require('gulp-util');
-const through = require('through');
 const PluginError = gutil.PluginError;
 const moment = require('moment');
+const map = require('map-stream');
+const firebase = require("firebase");
+const firebaseConfig = require("../../firebase.json");
 
 /**
  * This plugin parse all the asciidoc files to build a Json index file with metadata
  */
-module.exports = function (filename) {
-  if (!filename) throw new PluginError('asciidoctor-indexing', 'Missing target filename for asciidoctor-indexing');
+module.exports = () => {
 
-  const json = [];
+  console.log('Try to connect to firebase', firebaseConfig);
 
-  function iterateOnStream(file) {
-    json.push({
-      strdate: file.attributes.revdate,
-      revdate: moment(file.attributes.revdate, 'YYYY-mm-DD').format('DD/mm/YYYY'),
-      description: file.attributes.description,
-      doctitle: file.attributes.doctitle,
-      keywords: file.attributes.keywords,
-      filename: file.path.substring(file.path.lastIndexOf("/") + 1, file.path.lastIndexOf(".")),
-      category: file.attributes.category,
-      teaser: file.attributes.teaser,
-      imgteaser: file.attributes.imgteaser,
-      dir: file.path.substring(file.path.lastIndexOf("blog/") + 5, file.path.lastIndexOf("/"))
+  firebase.initializeApp({
+    apiKey: firebaseConfig.apiKey,
+    authDomain: firebaseConfig.authDomain,
+    databaseURL: firebaseConfig.databaseURL,
+    storageBucket: firebaseConfig.storageBucket
+  });
+
+  const database = firebase.database();
+
+  firebase.auth()
+    .signInWithEmailAndPassword(firebaseConfig.user, firebaseConfig.password)
+    .catch((error) => {
+      throw new PluginError('asciidoctor-indexing', `Firebase authent failed : ${error.message}`);
     });
-  }
 
-  function endStream() {
+  database.ref('blogs')
+    .remove()
+    .catch((error) => {
+      throw new PluginError('asciidoctor-indexing',`Firebase index remove failed : ${error.message}`);
+    });
 
-    const comparator = (a, b) => {
-      return -1 * a.strdate.localeCompare(b.strdate);
-    };
 
-    //We need to sort the different articles by dates
-    let content = new Buffer(JSON.stringify(json.sort(comparator)));
-    let target = new gutil.File();
+  return map(async (file, next) => {
+    let filename = file.path.substring(file.path.lastIndexOf("/") + 1, file.path.lastIndexOf("."));
 
-    target.path = filename;
-    target.contents = content;
-
-    this.emit('data', target);
-    this.emit('end');
-  }
-
-  return through(iterateOnStream, endStream);
+    database
+      .ref('blogs/' + filename)
+      .set({
+        strdate: file.attributes.revdate,
+        revdate: moment(file.attributes.revdate, 'YYYY-mm-DD').format('DD/mm/YYYY'),
+        description: file.attributes.description,
+        doctitle: file.attributes.doctitle,
+        keywords: file.attributes.keywords,
+        filename: filename,
+        category: file.attributes.category,
+        teaser: file.attributes.teaser,
+        imgteaser: file.attributes.imgteaser,
+        dir: file.path.substring(file.path.lastIndexOf("blog/") + 5, file.path.lastIndexOf("/"))
+      })
+      .then(() => next(null, file))
+      .catch((error) => {
+      throw new PluginError('asciidoctor-indexing', `Firebase insert failed : ${error.message}`);
+    });
+  })
 }
+
+
+
 
 
 

@@ -2,6 +2,7 @@
 
 const map = require('map-stream');
 const asciidoctor = require('asciidoctor.js')();
+const firebaseConfig = require("../../firebase.json");
 
 const asciidoctorOptions = {
   safe: 'safe',
@@ -35,7 +36,8 @@ module.exports = function ({ includes } = {}) {
       dir: file.path.substring(file.path.lastIndexOf("blog/") + 5, file.path.lastIndexOf("/")),
       category: file.attributes.category,
       teaser: file.attributes.teaser,
-      imgteaser: file.attributes.imgteaser
+      imgteaser: file.attributes.imgteaser,
+      firebaseApiKey: firebaseConfig.apiKey,
     };
 
     next(null, file);
