@@ -12,6 +12,8 @@ const firebaseConfig = require("../../firebase.json");
  */
 module.exports = () => {
 
+  console.log('Try to connect to firebase', firebaseConfig);
+
   firebase.initializeApp({
     apiKey: firebaseConfig.apiKey,
     authDomain: firebaseConfig.authDomain,
@@ -57,6 +59,7 @@ module.exports = () => {
     });
   })
 }
+
 
 
 

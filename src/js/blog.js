@@ -1,7 +1,23 @@
 /* eslint-env browser */
-
-window.blog = (function() {
+window.blog = (function () {
   'use strict';
+
+  firebase.initializeApp({
+    apiKey: "AIzaSyDDNQD2TvIlEM4J6zRaRUEr9NTySfSzPuI",
+    authDomain: "devmindblog.firebaseapp.com",
+    databaseURL: "https://devmindblog.firebaseio.com",
+    storageBucket: "devmindblog.appspot.com"
+  });
+
+  let database = firebase.database();
+  let nbElementDisplayed = 2;
+
+  function _transformResult(index) {
+    if (index) {
+      return Object.keys(index).map(key => index[key]);
+    }
+    return [];
+  }
 
   /**
    * Loads the blog file index
@@ -10,18 +26,16 @@ window.blog = (function() {
    * @returns {Array}
    * @private
    */
-  function _loadBlogIndex(cb, dirpath){
-    if(!self.fetch) {
+  function _loadBlogIndex(cb) {
+    if (!self.fetch) {
       console.error("This website use the fetch API. You have to update your browser to be able to use this feature");
       return [];
     }
-      console.log('rrrrrrrrrrrrrr', firebase)
-    //limit nbElementDisplayed
-    database.ref('/blogs').on('value', (snapshot) => console.log(snapshot.val()));
 
-    fetch(`${dirpath ? dirpath : '..'}/blog-index.js`)
-      .then((response) => response.json())
-      .then((json) => cb(json));
+    database
+      .ref('/blogs')
+      .startAt()
+      .on('value', (snapshot) => cb(_transformResult(snapshot.val())));
   }
 
   /**
@@ -30,18 +44,19 @@ window.blog = (function() {
    * @param filename
    * @private
    */
-  function findPreviousBlogpost(blogIndex, filename){
+  function findPreviousBlogpost(blogIndex, filename) {
     let previous;
     blogIndex
+      .sort((a, b) => (a.strdate < b.strdate ? 1 : (a.strdate > b.strdate ? -1 : 0)))
       .forEach((elt, index, array) => {
-        if(elt.filename === filename){
+        if (elt.filename === filename) {
           previous = index < array.length ? array[index + 1] : undefined;
-          document.getElementById('blog-keywords').innerHTML= `${_getHtmlKeyword(elt, '-detail')}`;
+          document.getElementById('blog-keywords').innerHTML = `${_getHtmlKeyword(elt, '-detail')}`;
         }
       });
 
-    if(previous){
-      document.getElementById('previous-blogpost').innerHTML=
+    if (previous) {
+      document.getElementById('previous-blogpost').innerHTML =
         `<div class="dm-blog--previous">Article précédent : <a href="../${previous.dir}/${previous.filename}.html">${previous.doctitle}</a></div>`;
     }
 
@@ -53,14 +68,14 @@ window.blog = (function() {
    * @param suffix
    * @returns {*}
    */
-  function _getHtmlKeyword(blogpost, suffix){
+  function _getHtmlKeyword(blogpost, suffix) {
     return blogpost.keywords
       .split(',')
       .map(keyword => `<span class="dm-blog--keyword${suffix}"><small>${keyword}</small></span>&nbsp;`)
       .reduce((a, b) => a + b);
   }
 
-  function _getArticle(blogpost, first){
+  function _getArticle(blogpost, first) {
     return `
          <article class="dm-blog--article${first ? '-head' : ''}" onclick="document.location.href='blog/${blogpost.dir}/${blogpost.filename}.html'">
               <${first ? 'h1' : 'h2'}><a href="blog/${blogpost.dir}/${blogpost.filename}.html">${blogpost.doctitle}</a></${first ? 'h1' : 'h2'}>
@@ -69,28 +84,29 @@ window.blog = (function() {
          </article>`;
   }
 
-  function _getArticleList(blogpost, first){
+  function _getArticleList(blogpost) {
     return `
         <tr><td class="dm-blog--shortcutlist"><a title="${blogpost.doctitle}" href="blog/${blogpost.dir}/${blogpost.filename}.html">${blogpost.doctitle}</a></td></tr>
         `;
-    }
+  }
 
   /**
    * Find the last
    * @param blogIndex
    * @private
    */
-  let nbElementDisplayed = 2;
-  function findLastBlogpost(blogIndex){
+  function findLastBlogpost(blogIndex) {
     let articles = blogIndex
-      .filter((e, index) => index < nbElementDisplayed && index > 0)
+      .sort((a, b) => (a.strdate < b.strdate ? 1 : (a.strdate > b.strdate ? -1 : 0)))
+      .filter((e, index) => index > 0 && index <= nbElementDisplayed)
       .map((blogpost) => _getArticle(blogpost))
-      .reduce((a,b) => a + b);
+      .reduce((a, b) => a + b);
 
     let lastTenArticles = blogIndex
+      .sort((a, b) => (a.strdate < b.strdate ? 1 : (a.strdate > b.strdate ? -1 : 0)))
       .filter((e, index) => index < 10)
       .map((blogpost) => _getArticleList(blogpost))
-      .reduce((a,b) => a + b);
+      .reduce((a, b) => a + b);
 
     let headArticle = document.getElementById('last-article');
     let otherArticles = document.getElementById('last-articles');
@@ -109,46 +125,32 @@ window.blog = (function() {
       `;
     otherArticles.style.webkitTransform = 'scale(1)';
 
-    if(nbElementDisplayed >= blogIndex.length){
+    if (nbElementDisplayed >= blogIndex.length) {
       document.getElementById('more-article').style.display = 'none';
     }
   }
 
-  function findMoreBlogpost(blogIndex){
-    nbElementDisplayed +=2;
+  function findMoreBlogpost(blogIndex) {
+    nbElementDisplayed += 2;
     findLastBlogpost(blogIndex);
   }
 
-  function sendMessage(target, page, title){
-    if('twitter' === target){
-      document.location.href=`https://twitter.com/intent/tweet?original_referer=${encodeURI(page)}&text=${encodeURI(title) + ' @DevMindFr'}&tw_p=tweetbutton&url=${encodeURI(page)}`;
+  function sendMessage(target, page, title) {
+    if ('twitter' === target) {
+      document.location.href = `https://twitter.com/intent/tweet?original_referer=${encodeURI(page)}&text=${encodeURI(title) + ' @DevMindFr'}&tw_p=tweetbutton&url=${encodeURI(page)}`;
     }
-    else if('google+' === target){
-      document.location.href=`https://plus.google.com/share?url=${encodeURI(page)}&text=${encodeURI(title)}`;
+    else if ('google+' === target) {
+      document.location.href = `https://plus.google.com/share?url=${encodeURI(page)}&text=${encodeURI(title)}`;
     }
-    else if('linkedin' === target){
-      document.location.href=`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURI(page)}&text=${encodeURI(title)}`;
+    else if ('linkedin' === target) {
+      document.location.href = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURI(page)}&text=${encodeURI(title)}`;
     }
-    else if('facebook' === target){
-      document.location.href=`https://www.facebook.com/sharer/sharer.php?u=${encodeURI(page)}&description=${encodeURI(title)}`;
+    else if ('facebook' === target) {
+      document.location.href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURI(page)}&description=${encodeURI(title)}`;
     }
-  }
-
-  let database;
-  function _intializeFirebase(apiKey){
-    console.log("connect")
-    firebase.initializeApp({
-      apiKey: apiKey,
-      authDomain: "devmindblog.firebaseapp.com",
-      databaseURL: "https://devmindblog.firebaseio.com",
-      storageBucket: "devmindblog.appspot.com"
-    });
-    database = firebase.database();
   }
 
   return {
-    // Initialize the database
-    "intializeFirebase": _intializeFirebase,
     // Find and update the page to display a link to the previous blogpost
     "findPreviousBlogpost": (filename) => _loadBlogIndex((blogIndex) => findPreviousBlogpost(blogIndex, filename)),
     // Display the last written blogpost
@@ -159,5 +161,4 @@ window.blog = (function() {
     "sendSocial": sendMessage
   };
 })();
-
 
