@@ -70,16 +70,15 @@ gulp.task('styles', () =>
 gulp.task('blog-indexing', (cb) => {
   // Hack to be able to stop the task when the async firebase requests are complete
   gulp.on('stop', () => {
-      if(!modeDev) {
-        process.nextTick(() => process.exit(0));
-      }
+    if (!modeDev) {
+      process.nextTick(() => process.exit(0));
+    }
   });
   gulp.src('src/blog/**/*.adoc')
     .pipe(asciidoctorRead())
     .pipe(asciidoctorConvert())
-    .pipe(asciidoctorIndexing())
-    .on('end', () => cb())
-    .on('error', (e) => cb(e))
+    .pipe(asciidoctorIndexing('blog-index.js'))
+    .pipe(gulp.dest('build/dist/blog'));
 });
 
 gulp.task('blog-rss', () =>
@@ -160,9 +159,9 @@ gulp.task('images-min', () =>
 
 gulp.task('images-copy', [], () =>
   gulp.src('build/.tmp/img/**/*.{svg,png,jpg,webp}')
-    .pipe($.if(!modeDev, $.rev()))
+    .pipe($.rev())
     .pipe(gulp.dest('build/dist/img'))
-    .pipe($.if(!modeDev, $.rev.manifest()))
+    .pipe($.rev.manifest())
     .pipe(gulp.dest('build/dist/img'))
 );
 
@@ -243,7 +242,7 @@ gulp.task('compress', ['compress-svg'], () =>
 );
 
 gulp.task('initServe', () => modeDev = true);
-gulp.task('serve', ['initServe', 'build'], () => {
+gulp.task('launchServe', ['initServe', 'build'], () => {
   browserSync.init({
     server: {
       baseDir: "./build/dist/"
@@ -260,6 +259,14 @@ gulp.task('serve', ['initServe', 'build'], () => {
   gulp.watch('src/**/*.hbs', ['blog', 'html', browserSync.reload]);
 });
 
+gulp.task('serve', cb =>
+  runSequence(
+    'initServe',
+    'build',
+    'launchServe',
+    cb
+  )
+);
 
 gulp.task('clean', () => del('build', {dot: true}));
 
@@ -267,7 +274,7 @@ gulp.task('build', cb =>
   runSequence(
     'styles',
     'blog',
-    ['lint', 'html', 'scripts', 'images'],
+    ['images', 'lint', 'html', 'scripts'],
     'copy',
     'service-worker',
     cb

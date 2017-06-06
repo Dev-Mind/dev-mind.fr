@@ -34,7 +34,7 @@ module.exports = (cacheBustingFile) => {
 
   process.on('exit', function () {
     firebase.auth().signOut();
-    process.exit(0);
+    console.log('firebase-img-cache-busting finished');
   });
 
   const cacheBustingPath = path.resolve(__dirname, '../..', cacheBustingFile);
