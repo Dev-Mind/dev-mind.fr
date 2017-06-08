@@ -51,7 +51,7 @@ let modeDev = false;
 gulp.task('styles', (cb) => {
   gulp.src(['src/sass/main.scss', 'src/sass/blog/blog.scss'])
     .pipe($.newer('build/.tmp/css'))
-    .pipe($.sourcemapsf.init())
+    .pipe($.sourcemaps.init())
     .pipe($.sass({
       precision: 10
     }).on('error', $.sass.logError))
@@ -162,6 +162,12 @@ gulp.task('images-min', (cb) => {
 });
 
 gulp.task('images', ['images-min'], (cb) => {
+  gulp.on('stop', () => {
+    if(!modeDev) {
+      process.nextTick(() => process.exit(0));
+    }
+  });
+
   gulp.src('build/.tmp/img/**/*.{svg,png,jpg,webp}')
     .pipe($.if(!modeDev, $.rev()))
     .pipe(gulp.dest('build/dist/img'))
