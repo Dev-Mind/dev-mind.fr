@@ -10,9 +10,7 @@ const firebaseConfig = require("../../firebase.json");
 /**
  * This plugin parse all the asciidoc files to build a Json index file with metadata
  */
-module.exports = () => {
-
-  console.log('Try to connect to firebase', firebaseConfig);
+module.exports = (modeDev) => {
 
   firebase.initializeApp({
     apiKey: firebaseConfig.apiKey,
@@ -32,15 +30,19 @@ module.exports = () => {
   database.ref('blogs')
     .remove()
     .catch((error) => {
-      throw new PluginError('asciidoctor-indexing',`Firebase index remove failed : ${error.message}`);
+      throw new PluginError('asciidoctor-indexing', `Firebase index remove failed : ${error.message}`);
     });
 
+
+  process.on('exit', function () {
+    firebase.auth().signOut();
+  });
 
   return map(async (file, next) => {
     let filename = file.path.substring(file.path.lastIndexOf("/") + 1, file.path.lastIndexOf("."));
 
     database
-      .ref('blogs/' + filename)
+      .ref(`${modeDev ? 'devblogs' : 'blogs'}/${filename}`)
       .set({
         strdate: file.attributes.revdate,
         revdate: moment(file.attributes.revdate, 'YYYY-mm-DD').format('DD/mm/YYYY'),
@@ -55,10 +57,10 @@ module.exports = () => {
       })
       .then(() => next(null, file))
       .catch((error) => {
-      throw new PluginError('asciidoctor-indexing', `Firebase insert failed : ${error.message}`);
-    });
-  })
-}
+        throw new PluginError('asciidoctor-indexing', `Firebase insert failed : ${error.message}`);
+      });
+  });
+};
 
 
 

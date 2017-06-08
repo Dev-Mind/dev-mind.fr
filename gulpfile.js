@@ -19,6 +19,7 @@ const asciidoctorRss = require('./gulp-extensions/transformers/asciidoctor-rss')
 const htmlRead = require('./gulp-extensions/transformers/html-read');
 const applyTemplate = require('./gulp-extensions/transformers/apply-template');
 const highlightCode = require('./gulp-extensions/transformers/highlight-code');
+const firebaseImgCacheBusting = require('./gulp-extensions/transformers/firebase-img-cache-busting');
 
 const AUTOPREFIXER_BROWSERS = [
   'ie >= 11',
@@ -47,10 +48,10 @@ const HTMLMIN_OPTIONS = {
 
 let modeDev = false;
 
-gulp.task('styles', () =>
+gulp.task('styles', (cb) => {
   gulp.src(['src/sass/main.scss', 'src/sass/blog/blog.scss'])
     .pipe($.newer('build/.tmp/css'))
-    .pipe($.sourcemaps.init())
+    .pipe($.sourcemapsf.init())
     .pipe($.sass({
       precision: 10
     }).on('error', $.sass.logError))
@@ -64,7 +65,8 @@ gulp.task('styles', () =>
     .pipe(gulp.dest('build/dist/css'))
     .pipe($.if(!modeDev, $.rev.manifest()))
     .pipe(gulp.dest('build/dist/css'))
-);
+    .on('end', () => cb())
+});
 
 gulp.task('blog-indexing', (cb) => {
   // Hack to be able to stop the task when the async firebase requests are complete
@@ -78,18 +80,18 @@ gulp.task('blog-indexing', (cb) => {
     .pipe(asciidoctorConvert())
     .pipe(asciidoctorIndexing())
     .on('end', () => cb())
-    .on('error', (e) => cb(e))
 });
 
-gulp.task('blog-rss', () =>
+gulp.task('blog-rss', (cb) => {
   gulp.src('src/blog/**/*.adoc')
     .pipe(asciidoctorRead())
     .pipe(asciidoctorConvert())
     .pipe(asciidoctorRss('blog.xml'))
     .pipe(gulp.dest('build/dist/rss'))
-);
+    .on('end', () => cb())
+});
 
-gulp.task('blog', ['blog-indexing', 'blog-rss'], () =>
+gulp.task('blog', ['blog-indexing', 'blog-rss'], (cb) => {
   gulp.src('src/blog/**/*.adoc')
     .pipe(asciidoctorRead())
     .pipe(asciidoctorConvert())
@@ -98,16 +100,18 @@ gulp.task('blog', ['blog-indexing', 'blog-rss'], () =>
     .pipe(gulp.dest('build/.tmp/blog'))
     .pipe($.htmlmin(HTMLMIN_OPTIONS))
     .pipe(gulp.dest('build/dist/blog'))
-);
+    .on('end', () => cb())
+});
 
-gulp.task('lint', () =>
+gulp.task('lint', (cb) => {
   gulp.src('src/js/**/*.js')
     .pipe($.eslint())
     .pipe($.eslint.format())
     .pipe($.if(!browserSync.active, $.eslint.failOnError()))
-);
+    .on('end', () => cb())
+});
 
-gulp.task('html', () =>
+gulp.task('html', (cb) => {
   gulp
     .src('src/partials/**/*.html')
     .pipe(htmlRead())
@@ -116,9 +120,10 @@ gulp.task('html', () =>
     .pipe(gulp.dest('build/.tmp'))
     .pipe($.htmlmin(HTMLMIN_OPTIONS))
     .pipe(gulp.dest('build/dist'))
-);
+    .on('end', () => cb())
+});
 
-gulp.task('local-js', () =>
+gulp.task('local-js', (cb) => {
   gulp.src(['src/js/*.js'])
     .pipe($.sourcemaps.init())
     .pipe($.babel({
@@ -131,20 +136,18 @@ gulp.task('local-js', () =>
     .pipe(gulp.dest('build/dist/js'))
     .pipe($.if(!modeDev, $.rev.manifest()))
     .pipe(gulp.dest('build/dist/js'))
-);
+    .on('end', () => cb())
+});
 
-gulp.task('vendor-js', () =>
+gulp.task('vendor-js', (cb) => {
   gulp.src(['node_modules/fg-loadcss/src/*.js'])
     .pipe($.uglify({preserveComments: 'some'}))
     .pipe($.size({title: 'scripts'}))
     .pipe(gulp.dest('build/dist/js'))
-);
+    .on('end', () => cb())
+});
 
-gulp.task('scripts', () =>
-  runSequence('local-js', 'vendor-js')
-);
-
-gulp.task('images-min', () =>
+gulp.task('images-min', (cb) => {
   gulp.src('src/images/**/*.{svg,png,jpg}')
     .pipe(imagemin([imagemin.gifsicle(), imageminMozjpeg(), imagemin.optipng(), imagemin.svgo()], {
       progressive: true,
@@ -155,21 +158,19 @@ gulp.task('images-min', () =>
     .pipe($.if('**/*.{jpg,png}', $.webp()))
     .pipe($.size({title: 'images', showFiles: false}))
     .pipe(gulp.dest('build/.tmp/img'))
-);
+    .on('end', () => cb())
+});
 
-gulp.task('images-copy', [], () =>
+gulp.task('images', ['images-min'], (cb) => {
   gulp.src('build/.tmp/img/**/*.{svg,png,jpg,webp}')
     .pipe($.if(!modeDev, $.rev()))
     .pipe(gulp.dest('build/dist/img'))
     .pipe($.if(!modeDev, $.rev.manifest()))
     .pipe(gulp.dest('build/dist/img'))
-);
+    .on('end', () => cb())
+});
 
-gulp.task('images', [], () =>
-  runSequence('images-min', 'images-copy')
-);
-
-gulp.task('copy', () => {
+gulp.task('copy', (cb) => {
   gulp.src([
     'src/*.{ico,html,txt,json,webapp,xml}',
     'src/.htaccess'
@@ -177,10 +178,11 @@ gulp.task('copy', () => {
     dot: true
   })
     .pipe($.size({title: 'copy', showFiles: true}))
-    .pipe(gulp.dest('build/dist'));
+    .pipe(gulp.dest('build/dist'))
+    .on('end', () => cb())
 });
 
-gulp.task('generate-service-worker', (callback) => {
+gulp.task('generate-service-worker', (cb) => {
   let config = {
     cacheId: `dev-mind${moment().format('YYYY-MM-DD_ss')}`,
     // Determines whether the fetch event handler is included in the generated service worker code. It is useful to
@@ -200,10 +202,10 @@ gulp.task('generate-service-worker', (callback) => {
     verbose: true
   };
 
-  swPrecache.write(`build/.tmp/service-worker.js`, config, callback);
+  swPrecache.write(`build/.tmp/service-worker.js`, config, cb);
 });
 
-gulp.task('service-worker', ['generate-service-worker'], (callback) =>
+gulp.task('service-worker', ['generate-service-worker'], (cb) => {
   gulp.src(`build/.tmp/service-worker.js`)
     .pipe($.sourcemaps.init())
     .pipe($.sourcemaps.write())
@@ -211,35 +213,48 @@ gulp.task('service-worker', ['generate-service-worker'], (callback) =>
     .pipe($.size({title: 'scripts'}))
     .pipe($.sourcemaps.write('.'))
     .pipe(gulp.dest(`build/dist`))
-);
+    .on('end', () => cb())
+});
 
-gulp.task('cache-busting', () => {
+gulp.task('cache-busting', (cb) => {
   const replaceInExtensions = ['.js', '.css', '.html', '.xml'];
   const manifestImg = gulp.src('build/dist/img/rev-manifest.json');
   const manifestCss = gulp.src('build/dist/css/rev-manifest.json');
   const manifestJs = gulp.src('build/dist/js/rev-manifest.json');
 
+  // Hack to be able to stop the task when the async firebase requests are complete
+  // gulp.on('stop', () => {
+  //   if(!modeDev) {
+  //     process.nextTick(() => process.exit(0));
+  //   }
+  // });
+
+  gulp.src(['build/dist/blog/**/*.html'])
+    .pipe(firebaseImgCacheBusting('build/dist/img/rev-manifest.json',modeDev))
+
   gulp.src(['build/dist/**/*.{html,js,css,xml}'])
     .pipe($.revReplace({manifest: manifestImg, replaceInExtensions: replaceInExtensions}))
     .pipe($.revReplace({manifest: manifestCss}))
     .pipe($.revReplace({manifest: manifestJs}))
-    .pipe(gulp.dest('build/dist'));
+    .pipe(gulp.dest('build/dist'))
+    .on('end', () => cb());
 });
 
-gulp.task('compress-svg', () =>
+gulp.task('compress-svg', (cb) => {
   gulp.src('build/dist/**/*.svg')
     .pipe($.svg2z())
     .pipe(gulp.dest('build/dist'))
-);
+    .on('end', () => cb())
+});
 
-gulp.task('compress', ['compress-svg'], () =>
+gulp.task('compress', ['compress-svg'], (cb) => {
   gulp.src('build/dist/**/*.{js,css,png,webp,jpg,html}')
     .pipe($.gzip())
     .pipe(gulp.dest('build/dist'))
-);
+    .on('end', () => cb())
+});
 
-gulp.task('initServe', () => modeDev = true);
-gulp.task('serve', ['initServe', 'build'], () => {
+gulp.task('serveAndWatch', ['initModeDev', 'build'], () => {
   browserSync.init({
     server: {
       baseDir: "./build/dist/"
@@ -259,22 +274,50 @@ gulp.task('serve', ['initServe', 'build'], () => {
 
 gulp.task('clean', () => del('build', {dot: true}));
 
-gulp.task('build', cb =>
-  runSequence(
+gulp.task('initModeDev', () => modeDev = true);
+
+gulp.task('build', cb => {
+  // Hack to be able to stop the task when the async firebase requests are complete
+  gulp.on('stop', () => {
+    if(!modeDev) {
+      process.nextTick(() => process.exit(0));
+    }
+  });
+
+runSequence(
     'styles',
     'blog',
-    ['lint', 'html', 'scripts', 'images'],
+    ['lint', 'html', 'local-js', 'vendor-js', 'images'],
     'copy',
     'service-worker',
     cb
   )
-);
+});
+
 
 // Build production files, the default task
 gulp.task('default', cb =>
   runSequence(
     'clean',
     'build',
+    cb
+  )
+);
+
+// Build dev files
+gulp.task('serve', cb =>
+  runSequence(
+    'initModeDev',
+    'build',
+    'serveAndWatch',
+    cb
+  )
+);
+
+// Some asynchronous tasks are long and the last task before prod have to be launched
+// independently
+gulp.task('prod', cb =>
+  runSequence(
     'cache-busting',
     'compress',
     cb

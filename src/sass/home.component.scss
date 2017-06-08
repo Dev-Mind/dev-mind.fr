@@ -253,9 +253,10 @@ devmind-header {
     line-height: ($text_head_screen+2);
   }
   @media (max-width: $max_width_mobile) {
-    flex-basis: 100%;
+    flex: 0 1 100%;
     padding: 0.5em;
     margin: 0.3em 0;
+    min-height: 5em;
     > h1 {
       font-size: $text_head_mobile;
       line-height: ($text_head_mobile+2);

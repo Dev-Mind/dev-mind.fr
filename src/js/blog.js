@@ -12,6 +12,12 @@ window.blog = (function () {
   let database = firebase.database();
   let nbElementDisplayed = 2;
 
+  /**
+   * Converts result to an array
+   * @param index
+   * @returns {Array}
+   * @private
+   */
   function _transformResult(index) {
     if (index) {
       return Object.keys(index).map(key => index[key]);
@@ -27,11 +33,6 @@ window.blog = (function () {
    * @private
    */
   function _loadBlogIndex(cb) {
-    if (!self.fetch) {
-      console.error("This website use the fetch API. You have to update your browser to be able to use this feature");
-      return [];
-    }
-
     database
       .ref('/blogs')
       .startAt()
@@ -75,19 +76,26 @@ window.blog = (function () {
       .reduce((a, b) => a + b);
   }
 
-  function _getArticle(blogpost, first) {
-    return `
-         <article class="dm-blog--article${first ? '-head' : ''}" onclick="document.location.href='blog/${blogpost.dir}/${blogpost.filename}.html'">
-              <${first ? 'h1' : 'h2'}><a href="blog/${blogpost.dir}/${blogpost.filename}.html">${blogpost.doctitle}</a></${first ? 'h1' : 'h2'}>
-              <div class="dm-blog--imgteaser"><img src="${blogpost.imgteaser}"/></div>
-              <p class="dm-blog--teaser">${blogpost.teaser}</p>
-         </article>`;
-  }
-
   function _getArticleList(blogpost) {
     return `
         <tr><td class="dm-blog--shortcutlist"><a title="${blogpost.doctitle}" href="blog/${blogpost.dir}/${blogpost.filename}.html">${blogpost.doctitle}</a></td></tr>
         `;
+  }
+
+  function _getArticle(blogpost, first) {
+    var article = document.createElement("article");
+
+    article.className = `dm-blog--article${first ? '-head' : ''}`;
+    article.innerHTML = `
+         <${first ? 'h1' : 'h2'}><a href="blog/${blogpost.dir}/${blogpost.filename}.html">${blogpost.doctitle}</a></${first ? 'h1' : 'h2'}>
+         <div class="dm-blog--imgteaser"><img src="${blogpost.imgteaser}"/></div>
+         <p class="dm-blog--teaser">${blogpost.teaser}</p>
+    `;
+    article.onclick = function () {
+      document.location.href = `blog/${blogpost.dir}/${blogpost.filename}.html`;
+    };
+
+    return article;
   }
 
   /**
@@ -99,8 +107,7 @@ window.blog = (function () {
     let articles = blogIndex
       .sort((a, b) => (a.strdate < b.strdate ? 1 : (a.strdate > b.strdate ? -1 : 0)))
       .filter((e, index) => index > 0 && index <= nbElementDisplayed)
-      .map((blogpost) => _getArticle(blogpost))
-      .reduce((a, b) => a + b);
+      .map((blogpost) => _getArticle(blogpost));
 
     let lastTenArticles = blogIndex
       .sort((a, b) => (a.strdate < b.strdate ? 1 : (a.strdate > b.strdate ? -1 : 0)))
@@ -109,10 +116,13 @@ window.blog = (function () {
       .reduce((a, b) => a + b);
 
     let headArticle = document.getElementById('last-article');
-    let otherArticles = document.getElementById('last-articles');
+    while (headArticle.firstChild) {
+      headArticle.removeChild(headArticle.firstChild);
+    }
+    headArticle.appendChild(_getArticle(blogIndex[0], true));
+    articles.forEach(article => headArticle.appendChild(article));
 
-    headArticle.innerHTML = _getArticle(blogIndex[0], true) + articles;
-    headArticle.style.webkitTransform = 'scale(1)';
+    let otherArticles = document.getElementById('last-articles');
     otherArticles.innerHTML = `
       <table class="dm-blog--tenlastarticles">
         <thead>
@@ -123,7 +133,6 @@ window.blog = (function () {
         </tbody>
       </table>
       `;
-    otherArticles.style.webkitTransform = 'scale(1)';
 
     if (nbElementDisplayed >= blogIndex.length) {
       document.getElementById('more-article').style.display = 'none';
