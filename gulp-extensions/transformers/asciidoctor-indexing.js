@@ -12,13 +12,14 @@ const firebaseConfig = require("../../firebase.json");
  */
 module.exports = (modeDev) => {
 
-  firebase.initializeApp({
-    apiKey: firebaseConfig.apiKey,
-    authDomain: firebaseConfig.authDomain,
-    databaseURL: firebaseConfig.databaseURL,
-    storageBucket: firebaseConfig.storageBucket
-  });
-
+  if (firebase.apps.length === 0) {
+    firebase.initializeApp({
+      apiKey: firebaseConfig.apiKey,
+      authDomain: firebaseConfig.authDomain,
+      databaseURL: firebaseConfig.databaseURL,
+      storageBucket: firebaseConfig.storageBucket
+    });
+  }
   const database = firebase.database();
 
   firebase.auth()
@@ -42,7 +43,7 @@ module.exports = (modeDev) => {
     let filename = file.path.substring(file.path.lastIndexOf("/") + 1, file.path.lastIndexOf("."));
 
     database
-      .ref(`${modeDev ? 'devblogs' : 'blogs'}/${filename}`)
+      .ref(`${modeDev ? 'dev/blogs' : 'blogs'}/${filename}`)
       .set({
         strdate: file.attributes.revdate,
         revdate: moment(file.attributes.revdate, 'YYYY-mm-DD').format('DD/mm/YYYY'),

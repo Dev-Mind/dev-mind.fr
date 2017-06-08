@@ -103,15 +103,14 @@ gulp.task('blog', ['blog-indexing', 'blog-rss'], (cb) => {
     .on('end', () => cb())
 });
 
-gulp.task('lint', (cb) => {
+gulp.task('lint', () =>
   gulp.src('src/js/**/*.js')
     .pipe($.eslint())
     .pipe($.eslint.format())
     .pipe($.if(!browserSync.active, $.eslint.failOnError()))
-    .on('end', () => cb())
-});
+);
 
-gulp.task('html', (cb) => {
+gulp.task('html', () =>
   gulp
     .src('src/partials/**/*.html')
     .pipe(htmlRead())
@@ -120,10 +119,9 @@ gulp.task('html', (cb) => {
     .pipe(gulp.dest('build/.tmp'))
     .pipe($.htmlmin(HTMLMIN_OPTIONS))
     .pipe(gulp.dest('build/dist'))
-    .on('end', () => cb())
-});
+);
 
-gulp.task('local-js', (cb) => {
+gulp.task('local-js', () =>
   gulp.src(['src/js/*.js'])
     .pipe($.sourcemaps.init())
     .pipe($.babel({
@@ -136,18 +134,16 @@ gulp.task('local-js', (cb) => {
     .pipe(gulp.dest('build/dist/js'))
     .pipe($.if(!modeDev, $.rev.manifest()))
     .pipe(gulp.dest('build/dist/js'))
-    .on('end', () => cb())
-});
+);
 
-gulp.task('vendor-js', (cb) => {
+gulp.task('vendor-js', () =>
   gulp.src(['node_modules/fg-loadcss/src/*.js'])
     .pipe($.uglify({preserveComments: 'some'}))
     .pipe($.size({title: 'scripts'}))
     .pipe(gulp.dest('build/dist/js'))
-    .on('end', () => cb())
-});
+    );
 
-gulp.task('images-min', (cb) => {
+gulp.task('images-min', () =>
   gulp.src('src/images/**/*.{svg,png,jpg}')
     .pipe(imagemin([imagemin.gifsicle(), imageminMozjpeg(), imagemin.optipng(), imagemin.svgo()], {
       progressive: true,
@@ -158,23 +154,15 @@ gulp.task('images-min', (cb) => {
     .pipe($.if('**/*.{jpg,png}', $.webp()))
     .pipe($.size({title: 'images', showFiles: false}))
     .pipe(gulp.dest('build/.tmp/img'))
-    .on('end', () => cb())
-});
+);
 
-gulp.task('images', ['images-min'], (cb) => {
-  gulp.on('stop', () => {
-    if(!modeDev) {
-      process.nextTick(() => process.exit(0));
-    }
-  });
-
+gulp.task('images', () =>
   gulp.src('build/.tmp/img/**/*.{svg,png,jpg,webp}')
     .pipe($.if(!modeDev, $.rev()))
     .pipe(gulp.dest('build/dist/img'))
     .pipe($.if(!modeDev, $.rev.manifest()))
     .pipe(gulp.dest('build/dist/img'))
-    .on('end', () => cb())
-});
+);
 
 gulp.task('copy', (cb) => {
   gulp.src([
@@ -293,7 +281,10 @@ gulp.task('build', cb => {
 runSequence(
     'styles',
     'blog',
-    ['lint', 'html', 'local-js', 'vendor-js', 'images'],
+    'images-min',
+    'images',
+    'lint',
+    ['html', 'local-js', 'vendor-js'],
     'copy',
     'service-worker',
     cb
@@ -306,6 +297,8 @@ gulp.task('default', cb =>
   runSequence(
     'clean',
     'build',
+    'cache-busting',
+    'compress',
     cb
   )
 );
@@ -316,16 +309,6 @@ gulp.task('serve', cb =>
     'initModeDev',
     'build',
     'serveAndWatch',
-    cb
-  )
-);
-
-// Some asynchronous tasks are long and the last task before prod have to be launched
-// independently
-gulp.task('prod', cb =>
-  runSequence(
-    'cache-busting',
-    'compress',
     cb
   )
 );
