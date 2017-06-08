@@ -11,7 +11,7 @@ Yves Enrègle est un enseignant chercheur spécialisé sur les questions de mana
 
 Quels types de personne faut il trouver pour constituer une bonne équipe projet ? Une réponse est peut être de se rapprocher de l'organisation du village gaulois où 5 leaders incarnent chacun une forme de pouvoir.
 
-.www.asterix.com
+
 image::../../img/blog/2015/formes_leadership_01.jpg[formes de leadership]
 
 == Le pouvoir de la compétence (le réalisateur)
@@ -20,7 +20,7 @@ Sur un projet informatique nous avons besoin d'un  ou plusieurs bons techniciens
 
 Lorsqu'il se lance dans l'action, les autres gaulois veulent le suivre et faire même mieux que lui.
 
-.www.asterix.com
+
 image::../../img/blog/2015/formes_leadership_02.jpg[Obelix le pouvoir de la compétence]
 
 Par contre Obelix n'aime pas forcément qu'on lui prenne sa part de romains à assommer.... Les réalisateurs ont une telle envie de faire qu'il peuvent parfois être réfractaire aux changements. Ces aspects peuvent être les mauvais côtés des réalisateurs (délégation et inertie au changement)
@@ -35,7 +35,7 @@ En contre partie les guides peuvent faire preuve d'une envie trop fréquente de 
 
 Comme pour Asterix et Obelix,  la compétence et l'expertise sont indissociables et sont le fruit du succès. L'équipe d'Yves Enrègle a d'ailleurs observé que plus de 80% des échecs dans les équipes venaient d'une mauvaise coordination entre les forces de type R et de type G. La différence d'inertie et la séparation entre celui qui fait et celui qui dit comment faire peut entraîner des tensions.
 
-.www.asterix.com
+
 image::../../img/blog/2015/formes_leadership_03.jpg[Asterix le pouvoir de l'expertise]
 
 Comme dans la célèbre BD, les guides et les réalisateurs sont au même niveau hiérarchique et quand les deux parties divergent, il faut une autorité extérieure pour trancher.
@@ -48,7 +48,7 @@ Le rôle de l'organisateur (O) est instable car il n'a de sens que si les guides
 
 Par contre en cas de grosse difficulté il peut arriver que le niveau hiérarchique ne soit pas suffisant. Abraracourcix tombe souvent de son bouclier quand les situations s'enveniment.
 
-.www.asterix.com
+
 image::../../img/blog/2015/formes_leadership_03.jpg[Abraracourcix le pouvoir de l'administratif]
 
 == Le pouvoir charismatique (le mobilisateur)
@@ -57,7 +57,7 @@ Panoramix a une position à part dans le village. Sa sagesse, sa posture, ses ac
 
 Le mobilisateur peut aider l'organisateur a reprendre la main (coaching, présence) ou peut débloquer une situation entre les guides et les réalisateurs (expertise métier ou technique). Son rôle est essentiel mais ne doit être fait que de façon ponctuelle. Si l'intervention s'étale son aura peut en pâtir. Il ne doit pas profiter de la situation pour s'approprier le pouvoir.
 
-.www.asterix.com
+
 image::../../img/blog/2015/formes_leadership_04.jpg[Panoramix le pouvoir charismatique]
 
 Les mobilisateurs doivent être capable de prendre de la hauteur par rapport à un problème. Par contre il arrive que Panoramix ait des ratés. Que faire si le leader charismatique n'est pas là. En cas de conflits dans notre village gaulois les villageois se scindent en deux. Ils peuvent en découdre à coups de poissons pourris....
@@ -66,7 +66,7 @@ Les mobilisateurs doivent être capable de prendre de la hauteur par rapport à 
 
 Au contraire de Panoramix qui est respecté de tous, le barde Assurancetourix fait l'unanimité contre lui. Il arrive à déclencher une unité du groupe car tous les villageois s'associent pour qu'il n'exprime pas ses talents musicaux... Il ne risque pas de confisquer le pouvoir car dès qu'il veut s'exprimer on le fait taire.
 
-.www.asterix.com
+
 image::../../img/blog/2015/formes_leadership_05.jpg[Assurancetourix le pouvoir de l'intégrateur négatif]
 
 C'est une forme de pouvoir qui doit intervenir quand toutes les autres formes de pouvoir ont échoué. Certaines personnes, du  «fou du roi» à l'«idiot du village» (les boucs émissaires), ont de tout temps contribué à structurer les groupes humains.
