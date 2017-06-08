@@ -5,7 +5,7 @@
 :revdate: 2015-09-15
 :category: Agilité
 :teaser: Yves Enrègle est un enseignant chercheur spécialisé sur les questions de management et de la responsabilité sociétale. Dans un de ces écrits il compare les 5 types de pouvoirs possibles dans une organisation avec 5 des personnages principaux des albums d'Asterix le Gaulois. Je vous propose ici une transposition de cette vision sur un projet informatique.
-:imgteaser: ../../img/blog/2015/formes_leadership_00.png
+:imgteaser: ../../img/blog/2015/formes_leadership_00.jpg
 
 Yves Enrègle est un enseignant chercheur spécialisé sur les questions de management et de la responsabilité sociétale. Dans un de ces écrits il compare les 5 types de pouvoirs possibles dans une organisation avec 5 des personnages principaux des albums d'Asterix le Gaulois. Je vous propose ici une transposition de cette vision sur un projet informatique.
 
