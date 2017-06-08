@@ -10,7 +10,7 @@ const firebaseConfig = require("../../firebase.json");
 /**
  * This plugin parse all the asciidoc files to build a Json index file with metadata
  */
-module.exports = () => {
+module.exports = (modeDev) => {
 
   firebase.initializeApp({
     apiKey: firebaseConfig.apiKey,
@@ -33,6 +33,7 @@ module.exports = () => {
       throw new PluginError('asciidoctor-indexing', `Firebase index remove failed : ${error.message}`);
     });
 
+
   process.on('exit', function () {
     firebase.auth().signOut();
   });
@@ -41,7 +42,7 @@ module.exports = () => {
     let filename = file.path.substring(file.path.lastIndexOf("/") + 1, file.path.lastIndexOf("."));
 
     database
-      .ref('blogs/' + filename)
+      .ref(`${modeDev ? 'devblogs' : 'blogs'}/${filename}`)
       .set({
         strdate: file.attributes.revdate,
         revdate: moment(file.attributes.revdate, 'YYYY-mm-DD').format('DD/mm/YYYY'),

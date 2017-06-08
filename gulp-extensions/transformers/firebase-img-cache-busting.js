@@ -12,11 +12,10 @@ const path = require('path');
 /**
  * This plugin parse all the asciidoc files to build a Json index file with metadata
  */
-module.exports = (cacheBustingFile) => {
+module.exports = (cacheBustingFile, modeDev) => {
   if (!cacheBustingFile) throw new PluginError('firebase-img-cache-busting', 'Missing rev file with file hashes for firebase-img-cache-busting');
 
   if (firebase.apps.length === 0) {
-    console.log('Init firebase');
     firebase.initializeApp({
       apiKey: firebaseConfig.apiKey,
       authDomain: firebaseConfig.authDomain,
@@ -44,7 +43,7 @@ module.exports = (cacheBustingFile) => {
     let filename = file.path.substring(file.path.lastIndexOf("/") + 1, file.path.lastIndexOf("."));
 
     database
-      .ref(`blogs/${filename}`)
+      .ref(`${modeDev ? 'devblogs' : 'blogs'}/${filename}`)
       .on('value', (snapshot) => {
         const imgteaser = snapshot.val().imgteaser ? snapshot.val().imgteaser.replace('../../img/', '') : undefined;
         if (imgteaser && template[imgteaser]) {
