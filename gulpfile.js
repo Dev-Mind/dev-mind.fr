@@ -260,7 +260,7 @@ gulp.task('serveAndWatch', ['initModeDev', 'build'], () => {
   gulp.watch('src/**/*.html', ['html', browserSync.reload]);
   gulp.watch('src/**/*.{scss,css}', ['styles', browserSync.reload]);
   gulp.watch('src/**/*.adoc', ['blog', browserSync.reload]);
-  gulp.watch('src/**/*.js', ['lint', 'scripts', browserSync.reload]);
+  gulp.watch('src/**/*.js', ['lint', 'local-js', browserSync.reload]);
   gulp.watch('src/images/**/*', ['images', browserSync.reload]);
   gulp.watch('src/**/*.hbs', ['blog', 'html', browserSync.reload]);
 });

@@ -1,5 +1,5 @@
 /* eslint-env browser */
-(function() {
+window.app = (function() {
   'use strict';
 
   function initSw(path){

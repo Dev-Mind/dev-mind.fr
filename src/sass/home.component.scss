@@ -3,7 +3,6 @@
 .home {
   display: flex;
   flex-direction: column;
-
 }
 
 @mixin dm_home_row($bgcolor, $txtcolor) {
@@ -253,7 +252,7 @@ devmind-header {
     line-height: ($text_head_screen+2);
   }
   @media (max-width: $max_width_mobile) {
-    flex: 0 1 100%;
+    flex: 0 1 auto;
     padding: 0.5em;
     margin: 0.3em 0;
     min-height: 5em;

@@ -87,9 +87,9 @@ window.blog = (function () {
 
     article.className = `dm-blog--article${first ? '-head' : ''}`;
     article.innerHTML = `
-         <${first ? 'h1' : 'h2'}><a href="blog/${blogpost.dir}/${blogpost.filename}.html">${blogpost.doctitle}</a></${first ? 'h1' : 'h2'}>
-         <div class="dm-blog--imgteaser"><img src="${blogpost.imgteaser}"/></div>
-         <p class="dm-blog--teaser">${blogpost.teaser}</p>
+           <${first ? 'h1' : 'h2'}><a href="blog/${blogpost.dir}/${blogpost.filename}.html">${blogpost.doctitle}</a></${first ? 'h1' : 'h2'}>
+           <div class="dm-blog--imgteaser"><img src="${blogpost.imgteaser}"/></div>
+           <p class="dm-blog--teaser">${blogpost.teaser}</p>
     `;
     article.onclick = function () {
       document.location.href = `blog/${blogpost.dir}/${blogpost.filename}.html`;
