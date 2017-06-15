@@ -49,6 +49,7 @@
     "stream-to-array": "^2.3.0",
     "sw-precache": "^5.1.1",
     "sw-toolbox": "^3.6.0",
-    "vinyl-fs": "^2.4.4"
+    "vinyl-fs": "^2.4.4",
+    "workbox-build": "^1.0.1"
   }
 }

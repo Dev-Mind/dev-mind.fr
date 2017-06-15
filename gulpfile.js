@@ -9,6 +9,7 @@ const imageminMozjpeg = require('imagemin-mozjpeg');
 const runSequence = require('run-sequence');
 const swPrecache = require('sw-precache');
 const moment = require('moment');
+const wbBuild = require('workbox-build');
 
 const $ = require('gulp-load-plugins')();
 
@@ -210,18 +211,29 @@ gulp.task('service-worker', ['generate-service-worker'], (cb) => {
     .on('end', () => cb())
 });
 
+gulp.task('bundle-sw', () => {
+  return wbBuild.generateSW({
+    globDirectory: './build/dist',
+    swDest: 'build/.tmp/sw.js',
+    staticFileGlobs: ['**\/*.{js,html,css,png,jpg,json,gif,svg,webp,eot,ttf,woff,woff2,gz}'],
+    //globIgnores: ['admin.html'],
+    // templatedUrls: {
+    //   '/shell': ['shell.hbs', 'main.css', 'shell.css'],
+    // },
+  })
+    .then(() => {
+      console.log('Service worker generated.');
+    })
+    .catch((err) => {
+      console.log('[ERROR] This happened: ' + err);
+    });
+})
+
 gulp.task('cache-busting', (cb) => {
   const replaceInExtensions = ['.js', '.css', '.html', '.xml'];
   const manifestImg = gulp.src('build/dist/img/rev-manifest.json');
   const manifestCss = gulp.src('build/dist/css/rev-manifest.json');
   const manifestJs = gulp.src('build/dist/js/rev-manifest.json');
-
-  // Hack to be able to stop the task when the async firebase requests are complete
-  // gulp.on('stop', () => {
-  //   if(!modeDev) {
-  //     process.nextTick(() => process.exit(0));
-  //   }
-  // });
 
   gulp.src(['build/dist/blog/**/*.html'])
     .pipe(firebaseImgCacheBusting('build/dist/img/rev-manifest.json',modeDev))
@@ -280,7 +292,7 @@ gulp.task('build', cb => {
 
 runSequence(
     'styles',
-    'blog',
+    //'blog',
     'images-min',
     'images',
     'lint',
@@ -299,6 +311,7 @@ gulp.task('default', cb =>
     'build',
     'cache-busting',
     'compress',
+    'bundle-sw',
     cb
   )
 );
