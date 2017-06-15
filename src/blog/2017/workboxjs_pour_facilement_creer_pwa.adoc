@@ -1,0 +1,29 @@
+:doctitle: Simplifier la création d'une PWA avec workbox.js
+:description:  Description de la nouvelle toolbox Google workbox.js simplifiant la création de progressive webapp
+:keywords: Web, PWA, ServiceWorker
+:author: Guillaume EHRET - Dev-Mind
+:revdate: 2017-06-15
+:category: Web
+:teaser: todo
+:imgteaser: ../../img/blog/2017/ecrire_ses_scripts_gradle_en_kotlin_00.png
+
+Si vous suivez l'actualité Dev-Mind (formation ou conférence sur les performances web), j'ai introduit à plusieurs occasions le concept des progressive webaps et des service workers.
+
+Revenons un peu à la base si vous ne connaissez pas ces termes.
+* Les progressive webapps (PWA) sont un concept poussé par Google. Le but est de pousser les développeurs à créer des applications web moderne répondant toujours mieux aux besoins des utilisateurs. Les évolutions du web font que les applications propsoées au sein d'un navigateur se rapprochent de plus en plus de ce que l'on peut faire avec des applications natives. Une application web doit s'adapter aux devices de l'utilisateur, être rapide à charger, doit marcher quand le réseau est faible ou inexistant, doit pouvoir faire des notifications sur un téléphone... Tout ceci est possible aujourd'hui dans la plupart des navigateurs du marcher. Gros bémol pour Safari (navigateur Apple) qui traîne à implémenter les normes et qui est aujourd'hui le pire navigateur pour surfer sur le web.
+* Les services workers sont un moyen technique pour arriver à mettre en place certains concepts d'une progressive webapp comme le fonctionnement hors ligne ou sur réseau faible
+
+
+
+Les boîtes à outils sw precache et sw-tool sont activement maintenues et nous prévoyons de continuer à les soutenir. Un grand nombre d'applications Web progressives de production les utilisent avec succès aujourd'hui et nous sommes heureux d'examiner des problèmes ou des relations publiques liés à l'un ou l'autre projet.
+
+Parallèlement, nous travaillons sur la prochaine génération d'outils de Service Worker dans Workbox. Ce nouveau travail est plus modulaire et permettra à plusieurs bibliothèques de créer des capacités supplémentaires. Nous allons annoncer d'autres projets autour de la feuille de route pour ce travail à l'avenir.
+Bien évidemment
+A key part of fixing that is a programming movement called progressive web apps, or PWAs, that Google helped develop and that it's now promoting at its Google I/O developer conference. With PWAs, using the web can be a lot more like using a native app. Websites load fast, work even when there's no network connection, and notify you when a message arrives.
+
+At the show, he's announcing three steps to try to make PWAs work better. Google's Workbox developer tool is designed to help programmers build PWAs, and its Lighthouse service to test those apps is now built directly into Chrome itself. Last, Google has finished Polymer 2.0, a collection of code that developers can use for a related technology called web components.
+
+references
+https://developers.google.com/web/tools/workbox/
+https://workboxjs.org/#get-started
+https://github.com/GoogleChrome/workbox
