@@ -49,7 +49,7 @@ const HTMLMIN_OPTIONS = {
 let modeDev = false;
 
 gulp.task('styles', (cb) => {
-  gulp.src(['src/sass/main.scss', 'src/sass/blog/blog.scss'])
+  gulp.src(['src/sass/main.scss', 'src/sass/bloglist.scss', 'src/sass/blog/blog.scss'])
     .pipe($.newer('build/.tmp/css'))
     .pipe($.sourcemaps.init())
     .pipe($.sass({

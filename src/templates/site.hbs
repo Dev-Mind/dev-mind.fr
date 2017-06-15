@@ -6,6 +6,8 @@
     <link rel="preload" href="img/animation/cloud/cloud3.png" as="image">
     <link rel="preload" href="img/animation/cloud/cloud2.png" as="image">
     {{#if blog}}
+        <link rel="preload" href="css/bloglist.css" as="style" onload="this.rel='stylesheet'">
+
         <link rel="preload" href="https://www.gstatic.com/firebasejs/4.0.0/firebase-app.js" as="script">
         <link rel="preload" href="https://www.gstatic.com/firebasejs/4.0.0/firebase-database.js" as="script">
     {{/if}}
