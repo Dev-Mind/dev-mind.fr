@@ -78,7 +78,7 @@ gulp.task('blog-indexing', (cb) => {
   gulp.src('src/blog/**/*.adoc')
     .pipe(asciidoctorRead())
     .pipe(asciidoctorConvert())
-    .pipe(asciidoctorIndexing())
+    .pipe(asciidoctorIndexing(modeDev))
     .on('end', () => cb())
 });
 

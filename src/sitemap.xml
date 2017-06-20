@@ -53,4 +53,8 @@
         <loc>https://www.dev-mind.fr/2017/highcharts_stackedarea.html</loc>
         <priority>0.3</priority>
     </url>
+    <url>
+        <loc>https://www.dev-mind.fr/blog/2017/service_worker.html</loc>
+        <priority>0.3</priority>
+    </url>
 </urlset>

@@ -28,7 +28,7 @@ module.exports = (modeDev) => {
       throw new PluginError('asciidoctor-indexing', `Firebase authent failed : ${error.message}`);
     });
 
-  database.ref('blogs')
+  database.ref(modeDev ? 'blogsDev' : 'blogs')
     .remove()
     .catch((error) => {
       throw new PluginError('asciidoctor-indexing', `Firebase index remove failed : ${error.message}`);
@@ -43,7 +43,7 @@ module.exports = (modeDev) => {
     let filename = file.path.substring(file.path.lastIndexOf("/") + 1, file.path.lastIndexOf("."));
 
     database
-      .ref(`${modeDev ? 'dev/blogs' : 'blogs'}/${filename}`)
+      .ref(`${modeDev ? 'blogsDev' : 'blogs'}/${filename}`)
       .set({
         strdate: file.attributes.revdate,
         revdate: moment(file.attributes.revdate, 'YYYY-mm-DD').format('DD/mm/YYYY'),
