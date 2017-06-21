@@ -6,7 +6,7 @@ const gutil = require('gulp-util');
 const PluginError = gutil.PluginError;
 const firebaseConfig = require("../../firebase.json");
 
-module.exports = function () {
+module.exports = function (modedev) {
 
   const pageMetadata = {
     '404.html' : {
@@ -61,7 +61,8 @@ module.exports = function () {
       contents: () => new Buffer(html),
       blog: () => pageMetadata[file.fileName].blog,
       firebaseApiKey: () => firebaseConfig.apiKey,
-      canonicalUrl: () => file.fileName
+      canonicalUrl: () => file.fileName,
+      modedev: () => modedev
     };
 
     next(null, file);

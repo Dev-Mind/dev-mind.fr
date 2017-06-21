@@ -2,6 +2,8 @@
 window.blog = (function () {
   'use strict';
 
+  let isDevPage = document.currentScript.text.indexOf('dev=true')>-1;
+
   firebase.initializeApp({
     apiKey: "AIzaSyDDNQD2TvIlEM4J6zRaRUEr9NTySfSzPuI",
     authDomain: "devmindblog.firebaseapp.com",
@@ -34,7 +36,7 @@ window.blog = (function () {
    */
   function _loadBlogIndex(cb) {
     database
-      .ref('/blogs')
+      .ref(isDevPage ? '/blogsDev' : '/blogs')
       .startAt()
       .on('value', (snapshot) => cb(_transformResult(snapshot.val())));
   }

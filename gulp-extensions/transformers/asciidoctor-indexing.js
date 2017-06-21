@@ -42,24 +42,29 @@ module.exports = (modeDev) => {
   return map(async (file, next) => {
     let filename = file.path.substring(file.path.lastIndexOf("/") + 1, file.path.lastIndexOf("."));
 
-    database
-      .ref(`${modeDev ? 'blogsDev' : 'blogs'}/${filename}`)
-      .set({
-        strdate: file.attributes.revdate,
-        revdate: moment(file.attributes.revdate, 'YYYY-mm-DD').format('DD/mm/YYYY'),
-        description: file.attributes.description,
-        doctitle: file.attributes.doctitle,
-        keywords: file.attributes.keywords,
-        filename: filename,
-        category: file.attributes.category,
-        teaser: file.attributes.teaser,
-        imgteaser: file.attributes.imgteaser,
-        dir: file.path.substring(file.path.lastIndexOf("blog/") + 5, file.path.lastIndexOf("/"))
-      })
-      .then(() => next(null, file))
-      .catch((error) => {
-        throw new PluginError('asciidoctor-indexing', `Firebase insert failed : ${error.message}`);
+    if(file.attributes.status === 'draft'){
+      next(null, file);
+    }
+    else{
+      database
+        .ref(`${modeDev ? 'blogsDev' : 'blogs'}/${filename}`)
+        .set({
+          strdate: file.attributes.revdate,
+          revdate: moment(file.attributes.revdate, 'YYYY-mm-DD').format('DD/mm/YYYY'),
+          description: file.attributes.description,
+          doctitle: file.attributes.doctitle,
+          keywords: file.attributes.keywords,
+          filename: filename,
+          category: file.attributes.category,
+          teaser: file.attributes.teaser,
+          imgteaser: file.attributes.imgteaser,
+          dir: file.path.substring(file.path.lastIndexOf("blog/") + 5, file.path.lastIndexOf("/"))
+        })
+        .then(() => next(null, file))
+        .catch((error) => {
+          throw new PluginError('asciidoctor-indexing', `Firebase insert failed : ${error.message}`);
       });
+    }
   });
 };
 

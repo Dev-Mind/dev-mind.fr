@@ -113,7 +113,7 @@ gulp.task('lint', () =>
 gulp.task('html', () =>
   gulp
     .src('src/partials/**/*.html')
-    .pipe(htmlRead())
+    .pipe(htmlRead(modeDev))
     .pipe(applyTemplate('src/templates/site.hbs'))
     .pipe($.size({title: 'html', showFiles: true}))
     .pipe(gulp.dest('build/.tmp'))
