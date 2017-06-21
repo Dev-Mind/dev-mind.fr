@@ -1,0 +1,9 @@
+:doctitle: Firebase pour vos applications serverless
+:description:  Comment marche Firebase et comment créer une application serverless très rapidement
+:keywords: Web, Firebase, Serverless
+:author: Guillaume EHRET - Dev-Mind
+:revdate: 2017-06-25
+:category: Web
+:teaser: Nous allons voir comment utiliser Firebase dans une application simple. Firebase permet de se passer d'une application serveur et de vous fournir des services pour vous aider à partager des informations entre vos utilisateurs.
+:imgteaser: ../../img/blog/2017/serverless_firebase_00.png
+:status: draft

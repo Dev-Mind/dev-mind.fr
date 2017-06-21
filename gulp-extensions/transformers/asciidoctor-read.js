@@ -37,6 +37,7 @@ module.exports = function ({ includes } = {}) {
       category: file.attributes.category,
       teaser: file.attributes.teaser,
       imgteaser: file.attributes.imgteaser,
+      status: file.attributes.status,
       firebaseApiKey: firebaseConfig.apiKey,
     };
 
