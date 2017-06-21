@@ -1,9 +1,37 @@
-:doctitle: Firebase pour vos applications serverless
-:description:  Comment marche Firebase et comment créer une application serverless très rapidement
+:doctitle: Solidarité Wassadou Pont-Trambouze
+:description:  Retour sur la création du site Solidarité Wassadou Pont-Trambouze
 :keywords: Web, Firebase, Serverless
 :author: Guillaume EHRET - Dev-Mind
 :revdate: 2017-06-25
 :category: Web
-:teaser: Nous allons voir comment utiliser Firebase dans une application simple. Firebase permet de se passer d'une application serveur et de vous fournir des services pour vous aider à partager des informations entre vos utilisateurs.
-:imgteaser: ../../img/blog/2017/serverless_firebase_00.png
+:teaser: TODO
+:imgteaser: ../../img/blog/2017/wassadou_00.png
 :status: draft
+
+Quand je suis devenu indépendant, ma volonté était de travailler pour des clients bien évidemment mais aussi d'avoir plus de temps à accorder aux autres et à la veille technique. C'est de cette manière que j'ai pu rejoindre l'équipe de l'organisation de la conférence https://mixitconf.org/[MiXiT] et trouver le temps d'intervenir dans des https://www.dev-mind.fr/experience.html#conferences[conférences]. Mon autre souhait était aussi de dégager du temps pour travailler sur des projets OpenSource ou des projets associatifs.
+
+C'est sur ce dernier point que je vais écrire aujourd'hui. J'ai réécri le site d'une association qui m'est chère _Solidarité Wassadou Pont-Trambouze_ et qui intervient pour aider les enfants d'un petit village du Sénégal, à avoir une éducation décente.
+
+Je vous conseille d'aller voir le site web https://www.solidarite-wassadou.fr mais je voulais surtout ici parler de la démarche de création de ce site au niveau des choix de design et des solutions.
+
+== Micropaiement pour les associations
+
+En France les petites associations ont du mal à récolter des fonds pour leurs actions. _Solidarité Wassadou Pont-Trambouze_ organise depuis des années des manifestations locales pour se financer. Mais
+
+== Web design
+
+Quand on fait un site le choix des couleurs est très important car ces couleurs vont donner le ton de ce site et elles jouent sur l'inconscient des visiteurs. Je ne vais pas faire un article sur la théorie des couleurs car vous trouverez des ressources bien plus intéressantes que les miennes sur le web. Mais voici mes choix
+
+* *Orange* est une déclinaison du jaune et du rouge et peut représenter la chaleur du ciel africain mais aussi la bienveillance véhiculée par les activités de l’association. Cette couleur a été choisir pour le menu
+* *Jaune*  représente le soleil et il amplifie la chaleur du orange. Le but est de représenter les couchers et levers de soleil et dégager de l’énergie positive. Cette couleur est la couleur principale du site. Celle qui est utilisée pour présenter l’association et les différents articles
+* *Marron* l’afrique est pour moi indissociable de cette couleur. Cette couleur représente la terre, les constructions, les personnes…  J’ai utilisé cette couleur pour parler du village de Wassadou
+* *Vert* car l’Afrique n’est pas que désert et regorge de vie et de végétation. Le vert est une couleur froide qui représente ces notions. L’effet est plus doux que les couleurs précédentes et je l’ai utilisé pour la partie dons
+* *Rouge* représente parfois la terre mais également le sang et les guerres. Je trouvais important de représenter du rouge et je l’ai utilisé pour représenter le symbole de la terre, les racines. C’est la couleur utilisée pour la partie contact
+
+Avoir une idée des couleurs à utiliser est une chose. Choisir une couleur en particulier dans la gamme disponible est autre chose. C'est là que vous pouvez utiliser des sites proposant des palettes de couleur. Personnelement j'utilise beaucoup https://material.io/guidelines/style/color.html. Il en existe d'autres comme http://www.colourlovers.com/ ou http://paletton.com
+
+Par rapport à ces couleurs j'ai pu retravailler le logo de l'association
+
+image::../../img/blog/2017/site_wassadou_02.png[Solidarité Wassadou Pont-Trambou, width=400px]
+
+Pour aider à embarquer les visiteurs dans mon délire, j'ai également essayé d'utiliser des transitions qui permettent d'être un plus concret que des couleurs : utilisation de cases pour imager la section de présentation du village, des baobabs pour la partie donation (c'est en plantant des graines qu'on arrive à construire quelque chose), des racines de baobabs pour la partie contact...
