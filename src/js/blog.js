@@ -38,7 +38,20 @@ window.blog = (function () {
     database
       .ref(isDevPage ? '/blogsDev' : '/blogs')
       .startAt()
-      .on('value', (snapshot) => cb(_transformResult(snapshot.val())));
+      .on('value', (snapshot) => cb(_transformResult(snapshot.val())))
+  }
+
+  /**
+   * Save the blog visit for stats
+   */
+  function _saveVisit(filename) {
+    database
+      .ref(`/stats${isDevPage ? 'Dev' : ''}/${filename}`)
+      .transaction( count =>  {
+         let result = count ? count + 1 : 1;
+         document.getElementById('nbview').innerHTML = ` - lu ${result} fois`;
+         return result;
+      });
   }
 
   /**
@@ -49,6 +62,7 @@ window.blog = (function () {
    */
   function findPreviousBlogpost(blogIndex, filename) {
     let previous;
+    _saveVisit(filename);
     blogIndex
       .sort((a, b) => (a.strdate < b.strdate ? 1 : (a.strdate > b.strdate ? -1 : 0)))
       .forEach((elt, index, array) => {

@@ -3,6 +3,7 @@
 const map = require('map-stream');
 const asciidoctor = require('asciidoctor.js')();
 const firebaseConfig = require("../../firebase.json");
+const moment = require('moment');
 
 const asciidoctorOptions = {
   safe: 'safe',
@@ -23,13 +24,14 @@ module.exports = function ({ includes } = {}) {
     const asciidoc = file.contents.toString();
     file.ast = asciidoctor.load(asciidoc, opts);
     file.attributes = file.ast.getAttributes();
+    file.attributes.strdate = file.attributes.revdate;
 
-    // make all model properties accessible through fat-arrow "getters"
+      // make all model properties accessible through fat-arrow "getters"
     // this way, file.* values can be changed before templating
     file.templateModel = {
       keywords: () => file.attributes.keywords,
       title: () => file.attributes.doctitle,
-      revdate: () => file.attributes.revdate,
+      revdate: () => moment(file.attributes.revdate, 'YYYY-mm-DD').format('DD/mm/YYYY'),
       contents: () => file.contents,
       'github-edit-url': () => file.git.githubEditUrl,
       filename: file.path.substring(file.path.lastIndexOf("/") + 1, file.path.lastIndexOf(".")),

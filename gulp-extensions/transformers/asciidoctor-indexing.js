@@ -2,7 +2,6 @@
 
 const gutil = require('gulp-util');
 const PluginError = gutil.PluginError;
-const moment = require('moment');
 const map = require('map-stream');
 const firebase = require("firebase");
 const firebaseConfig = require("../../firebase.json");
@@ -46,11 +45,17 @@ module.exports = (modeDev) => {
       next(null, file);
     }
     else{
+      // Initialize counter if it does not exist
+      database
+        .ref(`/stats${modeDev ? 'Dev' : ''}/${filename}`)
+        .transaction( count =>  count ? count : 0);
+
+      // Adds an index to this filename
       database
         .ref(`${modeDev ? 'blogsDev' : 'blogs'}/${filename}`)
         .set({
-          strdate: file.attributes.revdate,
-          revdate: moment(file.attributes.revdate, 'YYYY-mm-DD').format('DD/mm/YYYY'),
+          strdate: file.attributes.strdate,
+          revdate: file.attributes.revdate,
           description: file.attributes.description,
           doctitle: file.attributes.doctitle,
           keywords: file.attributes.keywords,
