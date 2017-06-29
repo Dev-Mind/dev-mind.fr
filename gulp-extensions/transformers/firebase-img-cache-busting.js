@@ -45,12 +45,14 @@ module.exports = (cacheBustingFile, modeDev) => {
     database
       .ref(`${modeDev ? 'devblogs' : 'blogs'}/${filename}`)
       .on('value', (snapshot) => {
-        const imgteaser = snapshot.val().imgteaser ? snapshot.val().imgteaser.replace('../../img/', '') : undefined;
-        if (imgteaser && template[imgteaser]) {
-          const updates = {};
-          updates[`blogs/${filename}/imgteaser`] = '../../img/' + template[imgteaser];
-          firebase.database().ref().update(updates);
-          console.log(`update [${'../../img/' + template[imgteaser]}]`)
+        if(snapshot.val()){
+          const imgteaser = snapshot.val().imgteaser ? snapshot.val().imgteaser.replace('../../img/', '') : undefined;
+          if (imgteaser && template[imgteaser]) {
+            const updates = {};
+            updates[`blogs/${filename}/imgteaser`] = '../../img/' + template[imgteaser];
+            firebase.database().ref().update(updates);
+            console.log(`update [${'../../img/' + template[imgteaser]}]`)
+          }
         }
         next(null, file);
       })

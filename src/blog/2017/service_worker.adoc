@@ -87,4 +87,4 @@ if ('serviceWorker' in navigator){
 
 == Ecriture du service worker
 
-Nous venons de voir comment fonctionnait un service worker il ne reste plus qu'à voir un exemple de mise en place. C'est ce que nous verrons dans un prochain article.
+Nous venons de voir comment fonctionnait un service worker. Regardons maintenant comment se passe la mise en place. Pour celà rendez vous dans l'article https://www.dev-mind.fr/blog/2017/creer_service_worker.html[créer un service worker].
