@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
     <url>
         <loc>https://www.dev-mind.fr/</loc>
         <changefreq>weekly</changefreq>
@@ -25,36 +25,156 @@
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
+
+
     <url>
-        <loc>https://www.dev-mind.fr/blog/2017/nouveau_site_asciidoctor.html</loc>
+        <loc>https://www.dev-mind.fr/2015/formes_leadership.html</loc>
         <priority>0.3</priority>
-    </url>
-    <url>
-        <loc>https://www.dev-mind.fr/blog/2017/test_services-rest-springboot.html</loc>
-        <priority>0.3</priority>
-    </url>
-    <url>
-        <loc>https://www.dev-mind.fr/blog/2017/ecrire_ses_scripts_gradle_en_kotlin.html</loc>
-        <priority>0.3</priority>
-    </url>
-    <url>
-        <loc>https://www.dev-mind.fr/blog/2016/ngeurope_rxjs_angular2.html</loc>
-        <priority>0.3</priority>
-    </url>
-    <url>
-        <loc>https://www.dev-mind.fr/blog/2016/flexbox_layouts_faciles.html</loc>
-        <priority>0.3</priority>
+        <news:news>
+            <news:publication>
+                <news:name>Dev-Mind</news:name>
+                <news:language>fr</news:language>
+            </news:publication>
+            <news:genres>Blog</news:genres>
+            <news:publication_date>2015-09-15</news:publication_date>
+            <news:title>Les différentes formes de leadership</news:title>
+            <news:keywords>Agilité, Leadership, Management</news:keywords>
+            <news:stock_tickers>Management</news:stock_tickers>
+        </news:news>
     </url>
     <url>
         <loc>https://www.dev-mind.fr/2016/communication_et_neuroscience.html</loc>
         <priority>0.3</priority>
+        <news:news>
+            <news:publication>
+                <news:name>Dev-Mind</news:name>
+                <news:language>fr</news:language>
+            </news:publication>
+            <news:genres>Blog</news:genres>
+            <news:publication_date>2016-03-04</news:publication_date>
+            <news:title>Communication : le cerveau à la recherche de la réalité</news:title>
+            <news:keywords>Agilité, Communication</news:keywords>
+            <news:stock_tickers>Communication</news:stock_tickers>
+        </news:news>
+    </url>
+    <url>
+        <loc>https://www.dev-mind.fr/blog/2016/ngeurope_rxjs_angular2.html</loc>
+        <priority>0.3</priority>
+        <news:news>
+            <news:publication>
+                <news:name>Dev-Mind</news:name>
+                <news:language>fr</news:language>
+            </news:publication>
+            <news:genres>Blog</news:genres>
+            <news:publication_date>2016-10-24</news:publication_date>
+            <news:title>Angular 2 et RxJS à ng-europe 2016</news:title>
+            <news:keywords>Web,Angular,RxJs</news:keywords>
+            <news:stock_tickers>Programmation Web</news:stock_tickers>
+        </news:news>
+    </url>
+    <url>
+        <loc>https://www.dev-mind.fr/blog/2016/flexbox_layouts_faciles.html</loc>
+        <priority>0.3</priority>
+        <news:news>
+            <news:publication>
+                <news:name>Dev-Mind</news:name>
+                <news:language>fr</news:language>
+            </news:publication>
+            <news:genres>Blog</news:genres>
+            <news:publication_date>2016-05-18</news:publication_date>
+            <news:title>Flexbox et la simplification des layouts</news:title>
+            <news:keywords>Web, CSS, Flexbox</news:keywords>
+            <news:stock_tickers>Programmation Web</news:stock_tickers>
+        </news:news>
+    </url>
+    <url>
+        <loc>https://www.dev-mind.fr/blog/2017/ecrire_ses_scripts_gradle_en_kotlin.html</loc>
+        <priority>0.3</priority>
+        <news:news>
+            <news:publication>
+                <news:name>Dev-Mind</news:name>
+                <news:language>fr</news:language>
+            </news:publication>
+            <news:genres>Blog</news:genres>
+            <news:publication_date>2017-01-12</news:publication_date>
+            <news:title>Scripts Gradle : Kotlin vs Groovy</news:title>
+            <news:keywords>Java, Gradle, Kotlin</news:keywords>
+            <news:stock_tickers>Programmation Kotlin</news:stock_tickers>
+        </news:news>
+    </url>
+    <url>
+        <loc>https://www.dev-mind.fr/blog/2017/test_services-rest-springboot.html</loc>
+        <priority>0.3</priority>
+        <news:news>
+            <news:publication>
+                <news:name>Dev-Mind</news:name>
+                <news:language>fr</news:language>
+            </news:publication>
+            <news:genres>Blog</news:genres>
+            <news:publication_date>2017-03-15</news:publication_date>
+            <news:title>Des tests simples de vos services REST avec SpringBoot</news:title>
+            <news:keywords>Java, Spring, SpringBoot</news:keywords>
+            <news:stock_tickers>Programmation Java</news:stock_tickers>
+        </news:news>
+    </url>
+    <url>
+        <loc>https://www.dev-mind.fr/blog/2017/nouveau_site_asciidoctor.html</loc>
+        <priority>0.3</priority>
+        <news:news>
+            <news:publication>
+                <news:name>Dev-Mind</news:name>
+                <news:language>fr</news:language>
+            </news:publication>
+            <news:genres>Blog</news:genres>
+            <news:publication_date>2017-05-09</news:publication_date>
+            <news:title>Créer son blog en Asciidoc via Asciidoctor</news:title>
+            <news:keywords>Web, Blog, Asciidoc, Asciidoctor, CMS</news:keywords>
+            <news:stock_tickers>Programmation Web</news:stock_tickers>
+        </news:news>
     </url>
     <url>
         <loc>https://www.dev-mind.fr/2017/highcharts_stackedarea.html</loc>
         <priority>0.3</priority>
+        <news:news>
+            <news:publication>
+                <news:name>Dev-Mind</news:name>
+                <news:language>fr</news:language>
+            </news:publication>
+            <news:genres>Blog</news:genres>
+            <news:publication_date>2017-05-29</news:publication_date>
+            <news:title>Highcharts et staked area avec des valeurs négatives et positives</news:title>
+            <news:keywords>Web, PWA, ServiceWorker</news:keywords>
+            <news:stock_tickers>Programmation Web</news:stock_tickers>
+        </news:news>
     </url>
     <url>
         <loc>https://www.dev-mind.fr/blog/2017/service_worker.html</loc>
         <priority>0.3</priority>
+        <news:news>
+            <news:publication>
+                <news:name>Dev-Mind</news:name>
+                <news:language>fr</news:language>
+            </news:publication>
+            <news:genres>Blog</news:genres>
+            <news:publication_date>2017-06-20</news:publication_date>
+            <news:title>Les services Workers</news:title>
+            <news:keywords>Web, PWA, ServiceWorker</news:keywords>
+            <news:stock_tickers>Programmation Web</news:stock_tickers>
+        </news:news>
+    </url>
+    <url>
+        <loc>https://www.dev-mind.fr/blog/2017/creer_service_worker.html</loc>
+        <priority>0.3</priority>
+        <news:news>
+            <news:publication>
+                <news:name>Dev-Mind</news:name>
+                <news:language>fr</news:language>
+            </news:publication>
+            <news:genres>Blog</news:genres>
+            <news:publication_date>2017-06-28</news:publication_date>
+            <news:title>Créer un Service Worker</news:title>
+            <news:keywords>Web, PWA, ServiceWorker</news:keywords>
+            <news:stock_tickers>Programmation Web</news:stock_tickers>
+        </news:news>
     </url>
 </urlset>
