@@ -4,117 +4,87 @@
 :author: Guillaume EHRET - Dev-Mind
 :revdate: 2017-07-02
 :category: Web
-:teaser: Après avoir rappelé comment fonctionnait les services workers cet article explique comment mettre en place un service worker via les librairies sw-toolbox et sw-precache de Google.
-:imgteaser: ../../img/blog/2017/creer_service_worker_00.png
+:teaser: Notre voyage pour mieux connaître les services workers s'achève avec la présentation de la nouvelle toolbox présentée à Google IO/2017, Workbox et Lighthouse
 :status: draft
 
-Dans https://www.dev-mind.fr/blog/2017/service_worker.html[l'article précédent] je vous ai expliqué comment fonctionnait les services workers et comment ils nous permettaient d'enrichir nos progressive webapps en offrant une expériene offline. Nous allons aujourd'hui voir comment ajouter un service worker dans votre application web.
+Après avoir présenter ce qu'https://www.dev-mind.fr/blog/2017/service_worker.html[était un service worker] et comment https://www.dev-mind.fr/blog/2017/creer_service_worker.html[en ajouter un dans votre application], nous allons aujourd'hui nous attarder sur la nouvelle toolbox https://workboxjs.org/[Workbox] présentée à Google IO/2017.
 
-== Rôle d'un service worker
+== Pourquoi un nouveau projet ?
 
-Reprenons le graphique présentant le cycle de vie d'un service worker
+On peut se poser la question de pourquoi Google met en place un nouveau projet alors que des solutions comme https://github.com/GoogleChrome/sw-precache[sw-precache] et https://github.com/GoogleChrome/sw-toolbox[sw-toolbox] existent (voir https://www.dev-mind.fr/blog/2017/creer_service_worker.html[mon dernier article] sur le sujet). En fait il y a eu pas mal de modifications dans le code depuis la mise en place de ces solutions et https://github.com/GoogleChrome/sw-toolbox[sw-toolbox] n'adresse pour le moment qu'une partie de ce que vous pouvez faire avec des services workers (exclusivement du cache de ressources). Il fallait donc revoir pas mal de choses et comme beaucoup de personnes utilisent déjà ce projet il était difficile de faire de gros changement sans mettre en péril la compatibilité ascendante.
 
-image::../../img/blog/2017/service_worker_05.png[Cycle de vie, max-width="700px"]
-
-Dans le cas courant un service worker peut
-
-* référencer toutes les ressources prises en compte par le SW
-* écrire un listener sur l'événement _install_ pour ajouter des dépendances ou pour commencer à peupler des éléments dans le cache
-* écrire un listener sur l'événement _activate_ pour nettoyer le cache des ressources qui ne sont plus utilisées. Il est important d'ailleurs que l'id cache de votre service worker soit toujours le même. Sinon ce travail de nettoyage ne pourra pas être effectué. On reviendra un peu plus tard sur les problèmes éventuels avec le cache
-* écrire un listener sur l'événement _fetch_ pour interagir avec les requêtes effectuées par l'utilisateur. Vous pouvez définir des stratégies pour privilégier des ressources de votre cache plutôt que les ressources présentes sur votre serveur
-* écrire un listener sur l'événement _push_ pour que votre service worker intervienne quand votre serveur https://developer.mozilla.org/en-US/docs/Web/API/PushEvent[pousse] de l'information. Vous pouvez par exemple faire de la notification
-* écrire un listener sur l'événement _sync_ pour se https://github.com/WICG/BackgroundSync/blob/master/explainer.md[synchroniser] avec le serveur quand vous retrouvez une connexion Internet
-
-L'écriture du service worker en soit peut être assez fastidieuse et source d'erreur si les choses sont mal faites. Dans les cas les plus courants, le code est toujours à peu près le même. Google propose plusieurs librairies pour vous aider dans la mise en place des services workers.
-
-== Contrôler un service worker en local
-
-La règle de base est de disposer d'un site sécurisé en HTTPS. Si vous voulez tester en local vous pouvez aussi lancer Chrome en désactivant ce contrôle.
-
- google-chrome --user-data-dir=/tmp/foo --ignore-certificate-errors --unsafely-treat-insecure-origin-as-secure=https://localhost
-
-Mais attention aux surprises. Un service worker s'enregistre sur le domaine. Si vous le faites sur localhost, il risque de s'activer chaque fois que vous lancez une page en local. Après rien de grave vous pouvez à tout moment contrôler les services workers via les _Chrome Dev Tools_.
-
-image::../../img/blog/2017/creer_service_worker_01.png[Chrome Dev Tools]
-
-Les _Chromes Dev Tools_ permettent de simuler des événements (Update, Push, Sync..) mais aussi de déréférencer un service worker. Vous pouvez également nettoyer les caches, les services workers via la section _Clear Storage_
-
-image::../../img/blog/2017/creer_service_worker_02.png[Chrome Dev Tools]
-
-Un service ne peut être enregistré que sur la même origine que votre application. Si votre origine est _dev-mind.fr_ vous ne pouvez pas enregistrer un service worker d'un autre site.
-
-== Créer, enregistrer et interagir avec un SW
-
-Vous devez déclarer votre service worker dans votre script principal
-
-[source, javascript, subs="none"]
-----
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js', scope: '/subcontent')
-    .then(function(registration) {
-      // registration worked
-      console.log('Registration succeeded. Scope is ' + reg.scope);
-    })
-    .catch(function(e) {
-      console.error('Error during service worker registration:', e);
-    });
-}
-----
-
-Quand vous enregistrer un service worker vous pouvez ajouter un scope pour spécifier un sous ensemble de votre site qui sera contrôlé par ce service worker.
-
-Un service worker contrôle plusieurs pages. Chaque fois qu'une page de votre scope est chargée, le service worker est installé ou réactivé.
+https://workboxjs.org/[Workbox] a été pensé modulaire et vous pouvez faire votre marché pour n'utilisez que les éléments dont vous avez besoin. Quand vous voulez créer des sites performants il est important de n'embarquer que les ressources vraiment nécéssaire pour limiter un maximum la taille de votre site.
 
 
-== Générer un service worker (the old way)
+== Qu'est ce que Workbox ?
 
-Vous pouvez vous appuyer sur 2 outils fournit par Google
+https://workboxjs.org/[Workbox] a été créé pour vous faciliter la mise en place sur votre site ou votre application, de nombreuses fonctionnalités construites sur les services workers. Le but est de vous fournir un maximum d'outil pour transformer votre application en https://www.dev-mind.fr/blog/2017/service_worker.html[progressive webapp]. https://workboxjs.org/[Workbox] permet de générer les fichiers de configuration et de vous appuyer sur des scénarios éprouvés.
 
-https://github.com/GoogleChrome/sw-precache[sw-precache] est un plugin que vous pouvez intégrer à votre processus de buid (Gulp, Grunt) et qui va générer toute la configuration de vos services workers.
+Utiliser les services workers est assez sensible au niveau sécurité et au niveau de la gestion du cache des ressources. Il est à mon sens important d'utiliser une librairie externe qui évolue sans cesse et où les bug fix sont résolus rapidement.
 
-https://github.com/GoogleChrome/sw-toolbox[sw-toolbox] est une librairie que vous pouvez intégrer à votre site et qui va proposer plusieurs utilitaires pour votre service worker. Cette librairie fournit un mini routeur qui permet de définir des stratégies de cache en fonction de routes définies (au format expressJs).
-
-Avec https://github.com/GoogleChrome/sw-toolbox[sw-toolbox] vous pouvez par exemple définir les stratégies suivantes (basées sur le https://jakearchibald.com/2014/offline-cookbook/[offline cookbook] de https://twitter.com/jaffathecake[Jake Archibald])
-
-* _networkFirst_ : essaye de lancer la requête en mode connecté. Si le réseau répond la réponse est stockée dans le cache et servie. Si la réponse dépasse un timeout défini ou si le réseau est inaccessible le SW retourne la ressource si elle est présente dans le cache. Cette stratégie est intéressante quand vous voulez afficher les données les plus récentes.
-* _cacheFirst_ : si la ressource est dans le cache elle est directment renvoyée. Sinon on charge la ressource. Cette stratégie est utilisée pour des éléments qui ne changent pas (sinon vous devez mettre en place une stratégie pour mettre à jour ces ressources quand elles changent).
-* _fastest_ : deux requêtes sont lancées en parallèle et la première qui arrive est prise en compte. Avec la latence réseau et les temps de chargement le cache gagne toujours. Cette solution est intéressante pour lancer une mise à jour en tâche de fond d'une ressource. Stratégie qui est au final plus souple que _cacheFirst_
-* _cacheOnly_ : on ne regarde que dans le cache. Si la ressource n'est pas là nous avons une erreur. Intéressant sur mobile par exemple pour préserver la batterie quand elle commence à faiblir.
-* _networkOnly_ : inverse on interroge toujours le réseau. Cette stratégie est un peu inutile vu qu'il se passe la même chose si vous n'utilisez pas de services workers
+Comme je le disais plus haut https://workboxjs.org/[Workbox] a vraiment été pensé de manière modulaire. C'est un peu comme un magasin dans lequel vous allez pouvoir faire votre marcher parmi plusieurs librairies ou outils faiblement couplés les uns avec les autres.
 
 
-Voici la configuration à appliquer par exemple dans votre build _Gulp_ pour générer un service worker utilisant sw-toolbox.
+Vous avez une multitude de petites librairies bas niveau
 
-[source, javascript, subs="none"]
-----
-gulp.task('generate-service-worker', (cb) => {
-  let config = {
-    cacheId: `dev-mind`,
-    runtimeCaching: [{
-      urlPattern: '/(.*)',
-      handler: 'networkFirst',
-      options: {
-        networkTimeoutSeconds: 3,
-        maxAgeSeconds: 7200
-      }
-    }],
-    staticFileGlobs: ['build/dist/**/*.{js,html,css,png,jpg,json,gif,svg,webp,eot,ttf,woff,woff2,gz}'],
-    stripPrefix: 'build/dist',
-    verbose: true
-  };
+=== https://workboxjs.org/reference-docs/latest/module-workbox-build.html[workbox-build]
+https://workboxjs.org/reference-docs/latest/module-workbox-build.html[workbox-build] permet de générer un fichier manifeste et votre service worker. Ce module node s'intègre facilement à votre processus de build Gulp ou Webpack ou autre...
 
-  swPrecache.write(`build/dist/service-worker.js`, config, cb);
-});
-----
+Le but est de générer la liste des ressources qui peuvent être "précachée" par un service worker. Un hash est associé à chacune des ressources afin de pouvoir mettre à jour intelligemment le cache et de supprimer les ressources qui ne seraient plus à jour. En détail cette librairie permet de
 
-Vous devez indiquer à _swPrecache_ où le service worker est généré. Au niveau de la configuration vous devez spécifier
+* générer un service worker avec la liste des ressources à mettre dans le cache
+* générer un fichier manifest pour ensuite l'injecter dans votre application pour pouvoir accéder aux URL et au détail des modificatons des ressources
+* injecter un fichier manifest dans un service worker existant. Vous controlez l'écriture de votre service worker tout en bénéficiant du précaching automatique
 
-* un _id_ pour le cache : omme je le disais plus haut c'est important de toujours garder le même identifiant pour que le service worker généré soit capable de nettoyer le cache quand ce dernier comporte des éléments plus utilisés
-* une ou plusieurs configuration de cache (_runtimeCaching_): vous définisser des URLs au format ExpressJS afin d'indiquer quels fichiers seront pris en compte par cette configuration (ici je prends toutes les URL du site). Vous pouvez ensuite choisir la stratégie de cache a appliqué et ajouter des options. J'utilise ici 2 options intéressantes. La première __networkTimeoutSeconds__ permet de privilégier le cache si le timeout est dépassé (vous permet de servir votre site quand la qualité du réseau est très fluctuante. L'option _maxAgeSeconds_ permet de définir une durée de vie dans le cache
-* _staticFileGlobs_ vous permet de définir quels fichiers serons gérés par votre service worker
-* ...
+Un exemple
 
-Je ne vais pas m'attarder sur cette solution car Google a annoncé à https://events.google.com/io/[Google IO 2017] la sortie de https://workboxjs.org[Workboxjs] une nouvelle toolbox pour vous aider à écrire des applications progressives.... Si vous utilisez swPrecache et swToolbox pas d'affolement, Google maintient toujours ces solutions.
+=== https://workboxjs.org/reference-docs/latest/module-workbox-cache-expiration.html#workbox-cache-expiration[workbox-cache-expiration]
+
+Quand vous utilisez des services workers ou plus généralement du cache de ressources dans le navigateur web vous avez toujours la hantise que votre cache soit mal configuré et que les ressources ne soient jamais mise à jour.
+
+workbox-runtime-caching—Implements various runtime caching strategies.
+
+workbox-cache-expiration—Expires cached responses based on age or a maximum number of entries.
+
+Workbox also includes modules for other common service worker use-cases:
+
+workbox-google-analytics—Stores and retries offline Google Analytics requests when a connection is available.
+
+workbox-background-sync—Queues failed requests and uses the Background Sync API to replay those requests when the user comes back online.
+
+
+
+Workbox is a collection of loosely-coupled libraries and tools, that focus on different service worker features and use-cases. The two core tools that Workbox provides are:
+
+workbox-sw—A service worker library that makes fetch requests and caching as easy as possible.
+
+workbox-cli—A command-line tool that generates a service worker and a file manifest, which then makes use of the workbox-sw module to become a fully-functioning service worker.
+
+These two high-level tools are built up from a number of lower-level modules that can be used independently or mixed-and-matched:
+
+workbox-build—Generates a file manifest or service worker, that can then be used with workbox-sw. The workbox-build module makes it easy to generate a service working using Gulp, Webpack, or any other build tool you might use.
+
+workbox-runtime-caching—Implements various runtime caching strategies.
+
+workbox-cache-expiration—Expires cached responses based on age or a maximum number of entries.
+
+Workbox also includes modules for other common service worker use-cases:
+
+workbox-google-analytics—Stores and retries offline Google Analytics requests when a connection is available.
+
+workbox-background-sync—Queues failed requests and uses the Background Sync API to replay those requests when the user comes back online.
+
+Workbox is a rethink our previous service worker libraries and tools, sw-toolbox and sw-precache, and is designed to be more modular, flexible, and extensible.
+
+You're sold on the advantages of adding a service worker to your web app—swapping the uncertainty of the network for the promise of a fast, offline- first, service worker-powered experience. But to write your own service worker from scratch, you have to clear some hurdles:
+
+Precaching URLs easily and reliably.
+Incrementing a cache version string to ensure that precached resources are updated.
+Implementing a cache expiration strategy to account for cache size or entry age.
+Building common patterns such as lie-fi network timeouts and boilerplate code.
+Capturing and reporting Google analytics data during offline usage.
+You can address all of these drawbacks using Workbox.
+
 
 == Utiliser Workboxjs et vérifier le fonctionnement
 

@@ -211,6 +211,7 @@ gulp.task('service-worker', ['generate-service-worker'], (cb) => {
 });
 
 gulp.task('bundle-sw', () => {
+
   return wbBuild.generateSW({
     globDirectory: './build/dist',
     swDest: 'build/.tmp/sw.js',

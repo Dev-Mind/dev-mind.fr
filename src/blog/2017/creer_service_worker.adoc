@@ -109,9 +109,12 @@ gulp.task('generate-service-worker', (cb) => {
 Vous devez indiquer à _swPrecache_ où le service worker est généré. Au niveau de la configuration vous devez spécifier
 
 * un _id_ pour le cache : omme je le disais plus haut c'est important de toujours garder le même identifiant pour que le service worker généré soit capable de nettoyer le cache quand ce dernier comporte des éléments plus utilisés
-* une ou plusieurs configuration de cache (_runtimeCaching_): vous définisser des URLs au format ExpressJS afin d'indiquer quels fichiers seront pris en compte par cette configuration (ici je prends toutes les URL du site). Vous pouvez ensuite choisir la stratégie de cache a appliqué et ajouter des options. J'utilise ici 2 options intéressantes. La première __networkTimeoutSeconds__ permet de privilégier le cache si le timeout est dépassé (vous permet de servir votre site quand la qualité du réseau est très fluctuante. L'option _maxAgeSeconds_ permet de définir une durée de vie dans le cache
+* une ou plusieurs configuration de cache (_runtimeCaching_): vous définisser des URLs au format ExpressJS afin d'indiquer quels fichiers seront pris en compte par cette configuration (ici je prends toutes les URL du site). Vous pouvez ensuite choisir la stratégie de cache à appliquer et ajouter des options. J'utilise ici 2 options intéressantes. La première __networkTimeoutSeconds__ permet de privilégier le cache si le timeout est dépassé (vous permet de servir votre site quand la qualité du réseau est très fluctuante. L'option _maxAgeSeconds_ permet de définir une durée de vie dans le cache
 * _staticFileGlobs_ vous permet de définir quels fichiers serons gérés par votre service worker
 * ...
+
+Pour limiter les problèmes de cache je vous conseil également de faire du _cache busting_.
+Le _Cache busting_ consiste à utiliser un nom unique pour vos ressources. En gros dans votre processus de build vous renommer chacune de vos ressources en mettant un numéro de révision. Cette manière de faire force le navigateur à recharger des ressources quand celles ci changent. Par contre vous devez vous assurer que votre point d'entrée de votre application (index.html) soit
 
 Je ne vais pas m'attarder sur cette solution car Google a annoncé à https://events.google.com/io/[Google IO 2017] la sortie de https://workboxjs.org[Workboxjs] une nouvelle toolbox pour vous aider à écrire des applications progressives.... Si vous utilisez swPrecache et swToolbox pas d'affolement, Google maintient toujours ces solutions.
 
