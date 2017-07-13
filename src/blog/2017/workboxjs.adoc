@@ -27,24 +27,87 @@ Comme je le disais plus haut https://workboxjs.org/[Workbox] a vraiment été pe
 
 Vous avez une multitude de petites librairies bas niveau
 
-=== https://workboxjs.org/reference-docs/latest/module-workbox-build.html[workbox-build]
-https://workboxjs.org/reference-docs/latest/module-workbox-build.html[workbox-build] permet de générer un fichier manifeste et votre service worker. Ce module node s'intègre facilement à votre processus de build Gulp ou Webpack ou autre...
+=== Les clients
 
-Le but est de générer la liste des ressources qui peuvent être "précachée" par un service worker. Un hash est associé à chacune des ressources afin de pouvoir mettre à jour intelligemment le cache et de supprimer les ressources qui ne seraient plus à jour. En détail cette librairie permet de
+Avant de voir en détail les modules bas niveau nous allons regarder comment utiliser ceux de plus haut niveau qui ont été pensés pour cacher la complexité des services workers
+
+Workbox a été créé pour vous faciliter la configuration et facilement s'intégrer dans le build de votre application. Il existe différents clients en fonction de votre manière de concevoir des applications. Il est intéressant de noter qu'il n'y a pas de client direct pour https://gruntjs.com/[Grunt] (l'outil de build qui a été à un moment poussé par Google)
+
+* Client pour webpack : https://workboxjs.org/get-started/webpack.html[workbox-webpack-plugin]
+* Client pour npm : https://workboxjs.org/get-started/npm-script.html[workbox-cli]
+* Client pour Gulp : https://workboxjs.org/get-started/gulp.html[workbox-build]
+
+Vous pouvez directement créer votre service worker en vous basant sur https://workboxjs.org/reference-docs/latest/module-workbox-sw.html[workbox-sw] mais il est plutôt fortement recommandé de générer votre service worker avec les clients évoqués ci dessus. La configuration des clients va peu évoluer à l'avenir alors que la syntaxe de workbox-sw va changer.
+
+Nous allons donc nous attarder sur les modules bas niveau. Comme je raccroche cet article à mes propres uses cases je vais plutôt parler de comment utiliser Workbox avec Gulp. Vous pouvez consulter les https://github.com/Dev-Mind/dev-mind.com[sources] de mon site web pour voir un exemple complet d'utilisation.
+
+=== Les modules qui ne changent pas
+
+Si vous utilisiez https://github.com/GoogleChrome/sw-precache[sw-precache]  et https://github.com/GoogleChrome/sw-toolbox[sw-toolbox] nous allons d"bord regarder les modules qui reproduisent le comportement de ces librairies
+
+=== https://workboxjs.org/reference-docs/latest/module-workbox-build.html[workbox-build]
+Ce module node s'intègre facilement à votre processus de build Gulp ou Webpack ou autre... et permet de générer votre fichier service worker ou un fichier manifest.
+
+Le but est de générer la liste des ressources qui peuvent être "précachée" par un service worker. Un hash est associé à chacune des ressources afin de pouvoir mettre à jour intelligemment le cache et supprimer les ressources qui ne seraient plus à jour. Cette librairie permet soit de
 
 * générer un service worker avec la liste des ressources à mettre dans le cache
 * générer un fichier manifest pour ensuite l'injecter dans votre application pour pouvoir accéder aux URL et au détail des modificatons des ressources
 * injecter un fichier manifest dans un service worker existant. Vous controlez l'écriture de votre service worker tout en bénéficiant du précaching automatique
 
-Un exemple
+=== https://workboxjs.org/reference-docs/latest/module-workbox-runtime-caching.html[workbox-runtime-caching]
+
+Cette librairie implémete les différentes stratégies de cache. Comme je vous l'avais indiqué dans l'article précédent vous pouvez lire le https://jakearchibald.com/2014/offline-cookbook/[offline cookbook] de https://twitter.com/jaffathecake[Jake Archibald] qui décrit ces différentes stratégies.
+
+* _networkFirst_ : essaye de lancer la requête en mode connecté. Si le réseau répond la réponse est stockée dans le cache et servie. Si la réponse dépasse un timeout défini ou si le réseau est inaccessible le SW retourne la ressource si elle est présente dans le cache. Cette stratégie est intéressante quand vous voulez afficher les données les plus récentes.
+* _cacheFirst_ : si la ressource est dans le cache elle est directment renvoyée. Sinon on charge la ressource. Cette stratégie est utilisée pour des éléments qui ne changent pas (sinon vous devez mettre en place une stratégie pour mettre à jour ces ressources quand elles changent).
+* _cacheOnly_ : on ne regarde que dans le cache. Si la ressource n'est pas là nous avons une erreur. Intéressant sur mobile par exemple pour préserver la batterie quand elle commence à faiblir.
+* _networkOnly_ : inverse on interroge toujours le réseau. Cette stratégie est un peu inutile vu qu'il se passe la même chose si vous n'utilisez pas de services workers
+* _networkOnly_ : inverse on interroge toujours le réseau. Cette stratégie est un peu inutile vu qu'il se passe la même chose si vous n'utilisez pas de services workers
+* _staleWhileRevalidate_ : on lance 2 requêtes en parallèle (une dans le cache un sur le réseau). La version en cache étant plus rapide à répondre est affichée mais cette version sera remplacée par lé résultat de la reuête lancée sur le réseau si cette dernière s'est bien passée.
+
+[source, javascript, subs="none"]
+----
+// Définit une route qui va ajouter dans le cache les URL matchant à notre expression régulière
+// Ici tout nos fichiers js
+const route = new workbox.routing.RegExpRoute({
+  regExp: /\.js$/,
+  handler: new workbox.runtimeCaching.NetworkFirst(),
+});
+
+const router = new workbox.routing.Router();
+router.registerRoute({route});
+----
 
 === https://workboxjs.org/reference-docs/latest/module-workbox-cache-expiration.html#workbox-cache-expiration[workbox-cache-expiration]
 
 Quand vous utilisez des services workers ou plus généralement du cache de ressources dans le navigateur web vous avez toujours la hantise que votre cache soit mal configuré et que les ressources ne soient jamais mise à jour.
 
-workbox-runtime-caching—Implements various runtime caching strategies.
+Grâce à cette librairie vous pouvez
 
-workbox-cache-expiration—Expires cached responses based on age or a maximum number of entries.
+* limiter la taille du cache en limitant le nombre de requêtes pouvant être "cachée"
+* définir une date d'expiration
+
+[source, javascript, subs="none"]
+----
+const requestWrapper = new workbox.runtimeCaching.RequestWrapper({
+  cacheName: 'runtime-cache',
+  plugins: [
+    // The cache size will be capped at 10 entries.
+    new workbox.cacheExpiration.Plugin({maxEntries: 10, maxAgeSeconds: 10})
+  ]
+});
+
+// ce `RequestWrapper` peut être ajouté au cache handler d'une route
+const route = new workbox.routing.RegExpRoute({
+  match: ({url}) => url.domain === 'dev-mind.fr',
+  handler: new workbox.runtimeCaching.StaleWhileRevalidate({requestWrapper})
+});
+----
+
+
+
+
+
 
 Workbox also includes modules for other common service worker use-cases:
 
