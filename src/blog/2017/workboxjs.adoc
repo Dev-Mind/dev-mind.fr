@@ -61,21 +61,32 @@ Une route met en relation
  * un matcher : élément permettant de définir un sous ensemble de requêtes.
  * un handler : définissant la stratégie à appliquer à la réponse
 
-Il existe différents types de routes qui vont vous permettre d'écrire des matchers différents
+Il existe différents types de routes qui vont vous permettre d'utiliser des matchers différents
 
-La communauté JS aime beaucoup ExpressJS et notamment la manière de définir des URL. https://workboxjs.org/reference-docs/latest/module-workbox-routing.ExpressRoute.html#main[ExpressRoute]
- (matcher) avec des handler qui vont appliquer telle ou telle stratégie lorsqu'elles seront exécutées.
+La communauté JS aime beaucoup ExpressJS et notamment la manière de définir des URL. https://workboxjs.org/reference-docs/latest/module-workbox-routing.ExpressRoute.html#main[ExpressRoute]. Cette route permet de les utiliser. Une autre manière de définir des routes est d'utiliser des expressions régulières. Pour celà vous pouvez utiliser la route https://workboxjs.org/reference-docs/latest/module-workbox-routing.RegExpRoute.html[RegExpRoute].
 
+[source, javascript, subs="none"]
+----
+ const assetRoute = new RegExpRoute({
+   regExp: /assets/,
+   handler: new workbox.runtimeCaching.StaleWhileRevalidate(),
+ });
+ const imageRoute = new RegExpRoute({
+   regExp: /images/,
+   handler: new workbox.runtimeCaching.CacheFirst(),
+ });
+ const route = new workbox.routing.ExpressRoute({
+  path: 'https://example.com/path/to/:file'
+ });
 
+ const router = new workbox.routing.Router();
+ router.registerRoutes({routes: [assetRoute, imageRoute]});
+ router.setDefaultHandler({
+   handler: new workbox.runtimeCaching.NetworkFirst(),
+ });
+----
 
-
-A Route allows you to tell a service worker that it should handle certain network requests using a specific response strategy.
-
-A consists or a matcher and a handler. A matcher needs to determine if a route should be used for a request. A handler should handle the request if it does match a Router.
-
-Instead of implementing your own handlers, you can use one of the pre-defined runtime caching strategies from the workbox-runtime-caching module.
-
-There are also pre-defined Route's provided by this library: RegExpRoute and ExpressRoute subclasses which provide a convenient wrapper with a nicer interface for using regular expressions or Express-style routes as the match criteria.
+Dans l'exemple ci dessus vous pourriez implémenter vos propres handlers mais il est préférable d'utiliser les handlers mis à dispositions. Nous allons d'ailleurs regarder dès maintenant le module les mettant à disposition.
 
 ==== https://workboxjs.org/reference-docs/latest/module-workbox-runtime-caching.html[workbox-runtime-caching]
 
@@ -88,18 +99,7 @@ Cette librairie implémete les différentes stratégies de cache. Comme je vous 
 * _networkOnly_ : inverse on interroge toujours le réseau. Cette stratégie est un peu inutile vu qu'il se passe la même chose si vous n'utilisez pas de services workers
 * _staleWhileRevalidate_ : on lance 2 requêtes en parallèle (une dans le cache un sur le réseau). La version en cache étant plus rapide à répondre est affichée mais cette version sera remplacée par lé résultat de la reuête lancée sur le réseau si cette dernière s'est bien passée.
 
-[source, javascript, subs="none"]
-----
-// Définit une route qui va ajouter dans le cache les URL matchant à notre expression régulière
-// Ici tout nos fichiers js
-const route = new workbox.routing.RegExpRoute({
-  regExp: /\.js$/,
-  handler: new workbox.runtimeCaching.NetworkFirst(),
-});
-
-const router = new workbox.routing.Router();
-router.registerRoute({route});
-----
+Vous pouvez voir des exemples dans le paragraphe précédent
 
 ==== https://workboxjs.org/reference-docs/latest/module-workbox-cache-expiration.html#workbox-cache-expiration[workbox-cache-expiration]
 
@@ -127,20 +127,116 @@ const route = new workbox.routing.RegExpRoute({
 });
 ----
 
+=== Aller plus loin
+
+https://workboxjs.org/[Workbox] a l'ambition d'apporter plus que du cache de ressources.
+
+==== https://workboxjs.org/reference-docs/latest/module-workbox-background-sync.html[workbox-background-sync]
+
+Les services workers vous permettent de servir votre site web si le réseau est défaillant ou absent. Si un utilisateur lance une action et que le réseau n'est pas accessible cette dernière est perdue. Cette librairie va vous aider à empiler les demandes dans une queue et ces demandes seront exécutées quand le réseau sera à nouveau disponible (cette librairie se base sur l'API JavaScript Background Sync).
+
+Le principe est d'instancier une https://workboxjs.org/reference-docs/latest/module-workbox-background-sync.QueuePlugin.html[QueuePlugin] et de la passer au RequestWrapper
+
+[source, javascript, subs="none"]
+----
+let bgQueue = new workbox.backgroundSync.QueuePlugin({
+  callbacks: {
+    onResponse: async(hash, res) => {
+      self.registration.showNotification('Background sync demo', {
+        body: 'Product has been purchased.',
+        icon: '/images/shop-icon-384.png',
+       });
+    },
+    onRetryFailure: (hash) => {},
+  },
+});
+
+const requestWrapper = new workbox.runtimeCaching.RequestWrapper({
+  plugins: [bgQueue],
+});
+
+const route = new workbox.routing.RegExpRoute({
+  regExp: new RegExp('^https://jsonplaceholder.typicode.com'),
+  handler: new workbox.runtimeCaching.NetworkOnly({requestWrapper}),
+});
+
+const router = new workbox.routing.Router();
+router.registerRoute({route});
+----
+
+==== https://workboxjs.org/reference-docs/latest/module-workbox-cacheable-response.html[workbox-cacheable-response]
+
+Cette librairie vous permet de paramétrer finement quels objets doivent être mis en cache ou non. Pour celà vous pouvez intercepter le statut de la réponse ou les entêtes de cette réponse.
+
+Un petit exemple dans lequel nous ne voulons mettre en cache que les réponses avec le statut 0 ou 200
+
+[source, javascript, subs="none"]
+----
+const cacheablePlugin = new workbox.cacheableResponse.Plugin({
+  statuses: [0, 200]
+});
+
+const requestWrapper = new workbox.runtimeCaching.RequestWrapper({
+  cacheName: 'runtime-cache',
+  plugins: [
+    cacheablePlugin
+  ]
+});
+
+const route = new workbox.routing.RegExpRoute({
+  match: ({url}) => url.domain === 'example.com',
+  handler: new workbox.runtimeCaching.StaleWhileRevalidate({requestWrapper})
+});
+----
+
+==== https://workboxjs.org/reference-docs/latest/module-workbox-broadcast-cache-update.html[workbox-broadcast-cache-update]
+
+Cet utilitaire utilise l'API JavaScript Broadcast Channel et permet d'effectuer une action quand une entrée dans le cache a été mise à jour.
+
+[source, javascript, subs="none"]
+----
+const requestWrapper = new workbox.runtimeCaching.RequestWrapper({
+  cacheName: 'text-files',
+  plugins: [
+    new workbox.broadcastCacheUpdate.BroadcastCacheUpdatePlugin(
+      {channelName: 'cache-updates'})
+  ],
+});
+
+const route = new workbox.routing.RegExpRoute({
+  regExp: /\.txt$/,
+  handler: new workbox.runtimeCaching.StaleWhileRevalidate({requestWrapper}),
+});
+
+const router = new workbox.routing.Router();
+router.registerRoute({route});
+----
+
+Ensuite dans votre code vous pouvez écouter l'événement du même nom
+
+[source, javascript, subs="none"]
+----
+const updateChannel = new BroadcastChannel('cache-updates');
+updateChannel.addEventListener('message', event => {
+  console.log(`Cache updated: ${event.data.payload.updatedUrl}`);
+});
+----
+
+== Vérifier le fonctionnement de votre site
+
+Une fois que vous avez mis en ligne votre site, vous pouvez utiliser
+
+C'est ce que nous verrons dans le prochain article sur les services workers
+
+
+
+Most developers will use this module by instantiating a new BroadcastCacheUpdatePlugin and passing it to a RequestWrapper, as shown in the first example below.
+
+You can listen for updates from your web app by adding an event listener on a BroadcastChannel within a page, using the same channel name as what's used within the service worker, as shown in the second example.
 
 
 
 
-
-Workbox also includes modules for other common service worker use-cases:
-
-workbox-google-analytics—Stores and retries offline Google Analytics requests when a connection is available.
-
-workbox-background-sync—Queues failed requests and uses the Background Sync API to replay those requests when the user comes back online.
-
-
-
-Workbox is a rethink our previous service worker libraries and tools, sw-toolbox and sw-precache, and is designed to be more modular, flexible, and extensible.
 
 You're sold on the advantages of adding a service worker to your web app—swapping the uncertainty of the network for the promise of a fast, offline- first, service worker-powered experience. But to write your own service worker from scratch, you have to clear some hurdles:
 
@@ -152,6 +248,3 @@ Capturing and reporting Google analytics data during offline usage.
 You can address all of these drawbacks using Workbox.
 
 
-== Utiliser Workboxjs et vérifier le fonctionnement
-
-C'est ce que nous verrons dans le prochain article sur les services workers
