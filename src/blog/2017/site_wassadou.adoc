@@ -21,7 +21,7 @@ Le don par SMS a été inscrit à la https://www.economie.gouv.fr/republique-num
 image::../../img/blog/2017/site_wassadou_02.png[Don par SMS]
 
 Vous pouvez formuler une demande sur le site de http://www.afmm.fr/don-par-sms/[l'AFMM]. Mais pour que votre demande soit acceptée vous devez enregistrer votre association auprès de la préfecture, monter un dossier mais aussi payer 700€ de frais de dossier puis 300€ par an. Pour une petite association le coût est donc important.
-
+anch
 Une autre solution est de passer par des solutions de micropaiement classiques mais là les opérateurs prennent 40 à 50% de commission sur la somme totale. Ce n'est plus du don en faveur d'une association mais de l'escroquerie.
 
 Si vous tenez absolument à mettre en place une solution Paypal est peut être la solution la moins chère (8% pour un don de 5 euros et 6% pour 10 euros). Revenons à notre site. _Solidarité Wassadou Pont-Trambouze_ n'est composé que de bénévoles et 100% des sommes récoltées sont attribuées au village de Wassadou. Ethiquement il n'est donc pas entendable de financer des intermédiaires. Les gens peuvent envoyer leurs dons par chèque ou via virement bancaire.

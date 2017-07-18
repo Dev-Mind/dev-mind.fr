@@ -11,23 +11,29 @@ Après avoir présenter ce qu'https://www.dev-mind.fr/blog/2017/service_worker.h
 
 == Pourquoi un nouveau projet ?
 
-On peut se poser la question de pourquoi Google met en place un nouveau projet alors que des solutions comme https://github.com/GoogleChrome/sw-precache[sw-precache] et https://github.com/GoogleChrome/sw-toolbox[sw-toolbox] existent (voir https://www.dev-mind.fr/blog/2017/creer_service_worker.html[mon dernier article] sur le sujet). En fait il y a eu pas mal de modifications dans le code depuis la mise en place de ces solutions et https://github.com/GoogleChrome/sw-toolbox[sw-toolbox] n'adresse pour le moment qu'une partie de ce que vous pouvez faire avec des services workers (exclusivement du cache de ressources). Il fallait donc revoir pas mal de choses et comme beaucoup de personnes utilisent déjà ces projets il était difficile de faire de gros changement sans mettre en péril la compatibilité ascendante.
+On peut se poser la question de pourquoi Google met en place un nouveau projet alors que des solutions comme https://github.com/GoogleChrome/sw-precache[sw-precache] et https://github.com/GoogleChrome/sw-toolbox[sw-toolbox] existent (voir https://www.dev-mind.fr/blog/2017/creer_service_worker.html[mon dernier article] sur le sujet). En fait il y a eu pas mal de modifications dans le code depuis la mise en place de ces solutions et https://github.com/GoogleChrome/sw-toolbox[sw-toolbox] n'adresse pour le moment qu'une partie de ce que vous pouvez faire avec des services workers (exclusivement du cache de ressources). Comme beaucoup de personnes utilisent déjà ces projets il était difficile de faire de gros changements sans mettre en péril la compatibilité ascendante.
 
-https://workboxjs.org/[Workbox] a été pensé de manière modulaire, et vous pouvez choisir de n'utiliser que les éléments dont vous avez besoin. Quand vous voulez créer des sites performants, il est important de n'embarquer que les ressources vraiment nécéssaires pour limiter un maximum la taille de votre site.
+https://workboxjs.org/[Workbox] a été pensé de manière modulaire pour éviter ces problèmes à l'avenir. Vous pouvez choisir de n'utiliser que les éléments dont vous avez besoin. Quand vous voulez créer des sites performants, il est important de n'embarquer que les ressources vraiment nécéssaires pour limiter un maximum la taille de votre site.
 
 
 == Qu'est ce que Workbox ?
 
-https://workboxjs.org/[Workbox] a été créé pour vous faciliter la mise en place de nombreuses fonctionnalités construites sur les services workers. Le but est de vous fournir un maximum d'outils pour transformer votre application en https://www.dev-mind.fr/blog/2017/service_worker.html[progressive webapp]. https://workboxjs.org/[Workbox] permet de générer les fichiers de configuration et de vous appuyer sur des scénarios éprouvés.
+Le but de https://workboxjs.org/[Workbox] est de vous fournir un maximum d'outils pour transformer votre application en https://www.dev-mind.fr/blog/2017/service_worker.html[progressive webapp]. https://workboxjs.org/[Workbox] se base sur différentes API JavaScript
+
+ * les services workers https://developer.mozilla.org/fr/docs/Web/API/Service_Worker_API[api] / https://caniuse.com/#search=service%20worker[caniuse]
+ * Broadcast Channel https://developer.mozilla.org/en-US/docs/Web/API/Broadcast_Channel_API[api] / https://developer.mozilla.org/en-US/docs/Web/API/Broadcast_Channel_API#Browser_compatibility[caniuse]
+ * Background Sync https://developers.google.com/web/updates/2015/12/background-sync[api] / https://github.com/WICG/BackgroundSync[caniuse]
+ * ..
+
+Bien évidemment toutes ces API ne sont pas encore disponibles sous tous les navaigateurs. https://workboxjs.org/[Workbox] vous aide à générer les fichiers de configuration et met à disposition différents scénarios éprouvés.
 
 Utiliser les services workers est assez sensible au niveau sécurité et au niveau de la gestion du cache des ressources. Il est à mon sens important d'utiliser une librairie externe qui évolue sans cesse et où les bug fix sont résolus rapidement.
 
 Comme je le disais plus haut https://workboxjs.org/[Workbox] a vraiment été pensé de manière modulaire. C'est un peu comme un magasin dans lequel vous allez pouvoir faire votre marché, parmi plusieurs librairies ou outils faiblement couplés les uns avec les autres.
 
-
 === Outils de générations
 
-Avant de voir en détail les modules bas niveau nous allons regarder comment utiliser ceux de plus haut niveau. Workbox a été créé pour vous faciliter la configuration et peut facilement s'intégrer dans le build de votre application. Il existe différents clients
+Avant de voir en détail les modules bas niveau nous allons regarder comment utiliser ceux de plus haut niveau. https://workboxjs.org/[Workbox] a été créé pour vous faciliter la configuration et peut facilement s'intégrer dans le build de votre application. Il existe différents clients
 
 * Client pour webpack : https://workboxjs.org/get-started/webpack.html[workbox-webpack-plugin]
 * Client pour npm : https://workboxjs.org/get-started/npm-script.html[workbox-cli]
@@ -35,16 +41,16 @@ Avant de voir en détail les modules bas niveau nous allons regarder comment uti
 
 Il est intéressant de noter qu'il n'y a pas de client direct pour le moment pour https://gruntjs.com/[Grunt].
 
-Vous pouvez directement créer votre service worker en vous basant sur https://workboxjs.org/reference-docs/latest/module-workbox-sw.html[workbox-sw] mais il est plutôt fortement recommandé de générer votre service worker avec les clients évoqués ci dessus. La configuration des clients va peu évoluer à l'avenir alors que l'API de workbox-sw va changer.
+Vous pouvez directement créer votre service worker en vous basant sur https://workboxjs.org/reference-docs/latest/module-workbox-sw.html[workbox-sw] mais il est plutôt fortement recommandé de générer votre service worker avec les clients évoqués ci dessus. La configuration des clients va peu évoluer à l'avenir alors que l'API de https://workboxjs.org/reference-docs/latest/module-workbox-sw.html[workbox-sw] va changer.
 
-Nous allons maintenant nous attarder sur les modules bas niveau. Comme je raccroche cet article à mon quotidien, je vais plutôt parler de comment utiliser Workbox avec Gulp. Vous pouvez consulter les https://github.com/Dev-Mind/dev-mind.com[sources] de mon site web pour voir un exemple complet d'utilisation.
+Nous allons maintenant nous attarder sur les modules bas niveau. Vous pouvez consulter les https://github.com/Dev-Mind/dev-mind.com[sources] de mon site web pour voir un exemple complet d'utilisation.
 
 === Le cache de ressources
 
 Si vous utilisiez https://github.com/GoogleChrome/sw-precache[sw-precache]  et https://github.com/GoogleChrome/sw-toolbox[sw-toolbox] nous allons tout d'abord regarder les modules qui reproduisent le comportement de ces librairies.
 
 ==== https://workboxjs.org/reference-docs/latest/module-workbox-build.html[workbox-build]
-Ce module node s'intègre facilement à votre processus de build Gulp ou Webpack ou autre... et permet de générer votre fichier service worker ou un fichier manifest.
+Ce module node s'intègre facilement à votre processus de build Gulp ou Webpack ou autre... Il permet de générer votre fichier service worker ou un fichier manifest.
 
 Le but est de générer la liste des ressources qui peuvent être "précachées" par un service worker. Un hash est associé à chacune des ressources afin de pouvoir mettre à jour intelligemment le cache et supprimer les ressources qui ne seraient plus à jour. Cette librairie permet soit de
 
@@ -54,7 +60,7 @@ Le but est de générer la liste des ressources qui peuvent être "précachées"
 
 ==== https://workboxjs.org/reference-docs/latest/module-workbox-routing.html[workbox-routing]
 
-Le service worker est à l'écoute des requêtes sortantes (fetch event). Nous avons besoin de définir des comportements différents selon les requêtes. Ce module permet d'appliquer différentes stratégies sur des sous ensembles de requêtes. Ceci se fait en définissant des routes
+Le service worker est à l'écoute des requêtes sortantes (fetch event). Nous avons besoin de définir des comportements différents selon les requêtes. Ce module permet d'appliquer différentes stratégies sur des sous ensembles de requêtes. Nous définissons des routes.
 
 Une route met en relation
 
@@ -63,7 +69,7 @@ Une route met en relation
 
 Il existe différents types de routes qui vont vous permettre d'utiliser des matchers différents
 
-La communauté JS aime beaucoup ExpressJS et notamment la manière de définir des URL. https://workboxjs.org/reference-docs/latest/module-workbox-routing.ExpressRoute.html#main[ExpressRoute]. Cette route permet de les utiliser. Une autre manière de définir des routes est d'utiliser des expressions régulières. Pour celà vous pouvez utiliser la route https://workboxjs.org/reference-docs/latest/module-workbox-routing.RegExpRoute.html[RegExpRoute].
+La communauté JS aime beaucoup ExpressJS et notamment la manière de définir des URL. https://workboxjs.org/reference-docs/latest/module-workbox-routing.ExpressRoute.html#main[ExpressRoute] a été créé dans ce sens. Une autre manière de définir des routes est d'utiliser des expressions régulières. Vous pouvez utiliser dans ce cas une route de type https://workboxjs.org/reference-docs/latest/module-workbox-routing.RegExpRoute.html[RegExpRoute].
 
 [source, javascript, subs="none"]
 ----
@@ -75,31 +81,30 @@ La communauté JS aime beaucoup ExpressJS et notamment la manière de définir d
    regExp: /images/,
    handler: new workbox.runtimeCaching.CacheFirst(),
  });
- const route = new workbox.routing.ExpressRoute({
+ const expressRoute = new workbox.routing.ExpressRoute({
   path: 'https://example.com/path/to/:file'
  });
 
  const router = new workbox.routing.Router();
- router.registerRoutes({routes: [assetRoute, imageRoute]});
+ router.registerRoutes({routes: [assetRoute, imageRoute, expressRoute]});
  router.setDefaultHandler({
    handler: new workbox.runtimeCaching.NetworkFirst(),
  });
 ----
 
-Dans l'exemple ci dessus vous pourriez implémenter vos propres handlers mais il est préférable d'utiliser les handlers mis à dispositions. Nous allons d'ailleurs regarder dès maintenant le module les mettant à disposition.
+Dans l'exemple ci dessus vous pourriez implémenter vos propres handlers mais il est préférable d'utiliser les handlers Workbox. Nous allons d'ailleurs regarder dès maintenant le module les mettant à disposition.
 
 ==== https://workboxjs.org/reference-docs/latest/module-workbox-runtime-caching.html[workbox-runtime-caching]
 
-Cette librairie implémete les différentes stratégies de cache. Comme je vous l'avais indiqué dans l'article précédent vous pouvez lire le https://jakearchibald.com/2014/offline-cookbook/[offline cookbook] de https://twitter.com/jaffathecake[Jake Archibald] qui décrit ces différentes stratégies.
+Cette librairie implémente les différentes stratégies de cache. Comme je vous l'avais indiqué dans l'article précédent vous pouvez lire le https://jakearchibald.com/2014/offline-cookbook/[offline cookbook] de https://twitter.com/jaffathecake[Jake Archibald] qui décrit ces différentes stratégies.
 
 * _networkFirst_ : essaye de lancer la requête en mode connecté. Si le réseau répond la réponse est stockée dans le cache et servie. Si la réponse dépasse un timeout défini ou si le réseau est inaccessible le SW retourne la ressource si elle est présente dans le cache. Cette stratégie est intéressante quand vous voulez afficher les données les plus récentes.
 * _cacheFirst_ : si la ressource est dans le cache elle est directment renvoyée. Sinon on charge la ressource. Cette stratégie est utilisée pour des éléments qui ne changent pas (sinon vous devez mettre en place une stratégie pour mettre à jour ces ressources quand elles changent).
 * _cacheOnly_ : on ne regarde que dans le cache. Si la ressource n'est pas là nous avons une erreur. Intéressant sur mobile par exemple pour préserver la batterie quand elle commence à faiblir.
 * _networkOnly_ : inverse on interroge toujours le réseau. Cette stratégie est un peu inutile vu qu'il se passe la même chose si vous n'utilisez pas de services workers
-* _networkOnly_ : inverse on interroge toujours le réseau. Cette stratégie est un peu inutile vu qu'il se passe la même chose si vous n'utilisez pas de services workers
-* _staleWhileRevalidate_ : on lance 2 requêtes en parallèle (une dans le cache un sur le réseau). La version en cache étant plus rapide à répondre est affichée mais cette version sera remplacée par lé résultat de la reuête lancée sur le réseau si cette dernière s'est bien passée.
+* _staleWhileRevalidate_ : on lance 2 requêtes en parallèle (une dans le cache une sur le réseau). La version en cache étant plus rapide à répondre, elle est affichée. Mais cette version sera remplacée par le résultat de la requête lancée sur le réseau (si cette dernière s'est bien passée).
 
-Vous pouvez voir des exemples dans le paragraphe précédent
+Vous pouvez voir des exemples de déclaration dans le paragraphe précédent
 
 ==== https://workboxjs.org/reference-docs/latest/module-workbox-cache-expiration.html#workbox-cache-expiration[workbox-cache-expiration]
 
@@ -142,6 +147,7 @@ Le principe est d'instancier une https://workboxjs.org/reference-docs/latest/mod
 let bgQueue = new workbox.backgroundSync.QueuePlugin({
   callbacks: {
     onResponse: async(hash, res) => {
+      // une notification sera affichée quand tout est OK
       self.registration.showNotification('Background sync demo', {
         body: 'Product has been purchased.',
         icon: '/images/shop-icon-384.png',
@@ -222,29 +228,28 @@ updateChannel.addEventListener('message', event => {
 });
 ----
 
+==== Autres fonctionnalités
+
+Le but de cet article n'est pas d'être exhaustif. Je vous laisse consulter le site https://workboxjs.org/[Workbox] pour plus d'exemples. Des nouvelles fonctionnalités devraient apparaître prochainement.
+
 == Vérifier le fonctionnement de votre site
 
-Une fois que vous avez mis en ligne votre site, vous pouvez utiliser
+Une fois que vous avez mis en ligne votre site, vous pouvez vérifier son comportement et la qualité en utilisant l'outil open source https://developers.google.com/web/tools/lighthouse/[Lighthouse]. Il vérifie les aspects liés à la performance, l'accessibilité, le comportement offline, si votre site est responsive... Vous pouvez utiliser soit le client node disponible sous npm, soit le https://chrome.google.com/webstore/detail/lighthouse/blipmdconlkpinefehnmjammfjpmpbjk[plugin Chrome].
 
-C'est ce que nous verrons dans le prochain article sur les services workers
+image::../../img/blog/2017/workbox_03.png[Lighthouse, max-width="700px"]
 
+Pour lancer un audit du site https://www.dev-mind.fr/[dev-mind.fr] vous devez aller sur le site et lancer le plugin Chrome qui va générer le rapport suivant. Je vous conseille de désactiver les différentes extensions de votre navigateur avant car certaines ont tendance à fausser les rapports en ajoutant des scripts à votre site.
 
+image::../../img/blog/2017/workbox_04.png[Rapport Lighthouse, max-width="700px"]
 
-Most developers will use this module by instantiating a new BroadcastCacheUpdatePlugin and passing it to a RequestWrapper, as shown in the first example below.
+Le rapport expose différents indicateurs et propose des solutions pour optimiser votre page (lien vers les docs correspondantes).
 
-You can listen for updates from your web app by adding an event listener on a BroadcastChannel within a page, using the same channel name as what's used within the service worker, as shown in the second example.
+== Conclusion
 
+Ainsi s'achève notre voyage au pays des services workers. Avec ces 3 articles je souhaitais montrer qu'il était simple et rapide d'exposer des fonctionnalités hors ligne ou sur un réseau dégradé. Pour conclure je rappelerai juste quelques conseils
 
-
-
-
-You're sold on the advantages of adding a service worker to your web app—swapping the uncertainty of the network for the promise of a fast, offline- first, service worker-powered experience. But to write your own service worker from scratch, you have to clear some hurdles:
-
-Precaching URLs easily and reliably.
-Incrementing a cache version string to ensure that precached resources are updated.
-Implementing a cache expiration strategy to account for cache size or entry age.
-Building common patterns such as lie-fi network timeouts and boilerplate code.
-Capturing and reporting Google analytics data during offline usage.
-You can address all of these drawbacks using Workbox.
-
-
+* utilisez une librairie pour générer vos services workers
+* faites du cache busting, en intégrant un numéro de révision dans le nom de vos ressources afin de vous prémunir des problèmes de cache
+* utiliser un nom unique pour votre cache ou zone de cache. Ce nom est utilisé pour épurer les ressources quand votre service worker est mis à jour
+* paramétrer toujours une date d'expiration de vos ressources dans le cache
+* vérifier régulièrement le comportement de votre site sur les différents navigateurs du marché qui n'implémentent pas les normes à la même vitesse.
