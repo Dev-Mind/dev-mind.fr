@@ -4,8 +4,8 @@
 :author: Guillaume EHRET - Dev-Mind
 :revdate: 2017-07-02
 :category: Web
-:teaser: Notre voyage pour mieux connaître les services workers s'achève avec la présentation de la nouvelle toolbox présentée à Google IO/2017, Workbox et Lighthouse
-:status: draft
+:teaser: Notre voyage pour mieux connaître les services workers s'achève avec la présentation de la nouvelle toolbox présentée à Google IO/2017, Workbox.
+:imgteaser: ../../img/blog/2017/workbox_00.png
 
 Après avoir présenter ce qu'https://www.dev-mind.fr/blog/2017/service_worker.html[était un service worker] et comment https://www.dev-mind.fr/blog/2017/creer_service_worker.html[en ajouter un dans votre application], nous allons aujourd'hui nous attarder sur la nouvelle toolbox https://workboxjs.org/[Workbox] présentée à Google IO/2017.
 
@@ -15,6 +15,7 @@ On peut se poser la question de pourquoi Google met en place un nouveau projet a
 
 https://workboxjs.org/[Workbox] a été pensé de manière modulaire pour éviter ces problèmes à l'avenir. Vous pouvez choisir de n'utiliser que les éléments dont vous avez besoin. Quand vous voulez créer des sites performants, il est important de n'embarquer que les ressources vraiment nécéssaires pour limiter un maximum la taille de votre site.
 
+image::../../img/blog/2017/workbox_00.png[Workbox, width=70%]
 
 == Qu'est ce que Workbox ?
 
@@ -41,9 +42,50 @@ Avant de voir en détail les modules bas niveau nous allons regarder comment uti
 
 Il est intéressant de noter qu'il n'y a pas de client direct pour le moment pour https://gruntjs.com/[Grunt].
 
-Vous pouvez directement créer votre service worker en vous basant sur https://workboxjs.org/reference-docs/latest/module-workbox-sw.html[workbox-sw] mais il est plutôt fortement recommandé de générer votre service worker avec les clients évoqués ci dessus. La configuration des clients va peu évoluer à l'avenir alors que l'API de https://workboxjs.org/reference-docs/latest/module-workbox-sw.html[workbox-sw] va changer.
+Vous pouvez directement créer votre fichier service worker en vous basant sur https://workboxjs.org/reference-docs/latest/module-workbox-sw.html[workbox-sw] mais il est plutôt fortement recommandé de générer votre service worker avec les clients évoqués ci dessus. Voici un exemple de script Gulp pour générer la configuration
 
-Nous allons maintenant nous attarder sur les modules bas niveau. Vous pouvez consulter les https://github.com/Dev-Mind/dev-mind.com[sources] de mon site web pour voir un exemple complet d'utilisation.
+[source, javascript, subs="none"]
+----
+gulp.task('bundle-sw', () => {
+
+  return wbBuild.generateSW({
+    cacheId: `dev-mind`,
+    globDirectory: './build/dist',
+    swDest: 'build/.tmp/sw.js',
+    staticFileGlobs: ['**\/*.{js,html,css,png,jpg,json,gif,svg,webp,eot,ttf,woff,woff2,gz}']
+    clientsClaim: true
+  })
+    .then(() => {
+      console.log('Service worker generated.');
+    })
+    .catch((err) => {
+      console.log('[ERROR] This happened: ' + err);
+    });
+});
+----
+
+Si vous ouvrez ce fichier vous allez voir quelque chose de similaire à
+[source, javascript, subs="none"]
+----
+importScripts('workbox-sw.prod.v1.0.1.js');
+
+const fileManifest = [
+  {
+    "url": "/404.html",
+    "revision": "529851a7efdb7576b4568154f84f87dd"
+  },
+  // ...
+];
+
+const workboxSW = new self.WorkboxSW({
+  "cacheId": "dev-mind",
+  "clientsClaim": true
+});
+workboxSW.precache(fileManifest);
+
+----
+
+Vous pouvez consulter les https://github.com/Dev-Mind/dev-mind.com[sources] de mon site web pour voir un exemple complet d'utilisation. Nous allons maintenant nous attarder sur les modules bas niveau si vous voulez passer outre la génération automatique
 
 === Le cache de ressources
 

@@ -5,14 +5,6 @@
   flex-direction: column;
 }
 
-@mixin dm_home_row($bgcolor, $txtcolor) {
-  width: 100%;
-  background-color: $bgcolor;
-  color: $txtcolor;
-  padding: 0;
-  margin: 0;
-}
-
 .dm_head {
   @include dm_home_row(#2196f3, white);
 
@@ -132,16 +124,6 @@ devmind-header {
 
 .dm_home_contact {
   @include dm_home_row(#5f5346, white);
-}
-
-@mixin dm_transition($bgcolor, $height) {
-  background-color:$bgcolor;
-  border-color: $bgcolor;
-  position: relative;
-  overflow: hidden;
-  padding: 0;
-  margin: 0;
-  height: $height;
 }
 
 #dm_transition_cloud{

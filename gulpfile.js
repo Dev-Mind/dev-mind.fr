@@ -71,12 +71,12 @@ gulp.task('styles', (cb) => {
 gulp.task('blog-indexing', (cb) => {
   // Hack to be able to stop the task when the async firebase requests are complete
   gulp.on('stop', () => {
-      if(!modeDev) {
-        process.nextTick(() => process.exit(0));
-      }
+    if (!modeDev) {
+      process.nextTick(() => process.exit(0));
+    }
   });
   gulp.src('src/blog/**/*.adoc')
-    .pipe(asciidoctorRead())
+    .pipe(asciidoctorRead(modeDev))
     .pipe(asciidoctorConvert())
     .pipe(asciidoctorIndexing(modeDev))
     .on('end', () => cb())
@@ -84,7 +84,7 @@ gulp.task('blog-indexing', (cb) => {
 
 gulp.task('blog-rss', (cb) => {
   gulp.src('src/blog/**/*.adoc')
-    .pipe(asciidoctorRead())
+    .pipe(asciidoctorRead(modeDev))
     .pipe(asciidoctorConvert())
     .pipe(asciidoctorRss('blog.xml'))
     .pipe(gulp.dest('build/dist/rss'))
@@ -93,7 +93,7 @@ gulp.task('blog-rss', (cb) => {
 
 gulp.task('blog', ['blog-indexing', 'blog-rss'], (cb) => {
   gulp.src('src/blog/**/*.adoc')
-    .pipe(asciidoctorRead())
+    .pipe(asciidoctorRead(modeDev))
     .pipe(asciidoctorConvert())
     .pipe(applyTemplate('src/templates/blog.hbs'))
     .pipe(highlightCode({selector: 'pre.highlight code'}))
@@ -141,7 +141,7 @@ gulp.task('vendor-js', () =>
     .pipe($.uglify({preserveComments: 'some'}))
     .pipe($.size({title: 'scripts'}))
     .pipe(gulp.dest('build/dist/js'))
-    );
+);
 
 gulp.task('images-min', () =>
   gulp.src('src/images/**/*.{svg,png,jpg}')
@@ -213,21 +213,35 @@ gulp.task('service-worker', ['generate-service-worker'], (cb) => {
 gulp.task('bundle-sw', () => {
 
   return wbBuild.generateSW({
+    cacheId: `dev-mind`,
     globDirectory: './build/dist',
     swDest: 'build/.tmp/sw.js',
     staticFileGlobs: ['**\/*.{js,html,css,png,jpg,json,gif,svg,webp,eot,ttf,woff,woff2,gz}'],
-    //globIgnores: ['admin.html'],
-    // templatedUrls: {
-    //   '/shell': ['shell.hbs', 'main.css', 'shell.css'],
-    // },
+    // 	When handleFetch is set to false all requests will go to the network. This is useful during development if you
+    // don't want the service worker from preventing updates.
+    handleFetch: true,
+    // runtimeCaching: [
+    //   {
+    //     urlPattern: '/(.*)',
+    //     handler: 'networkFirst',
+    //     options: {
+    //       networkTimeoutSeconds: 3,
+    //       maxAgeSeconds: 7200
+    //     }
+    //   }
+    // ],
+    clientsClaim: true
   })
+    // registerNavigationRoute('app-shell.html', {
+    //   "whitelist": [/./],
+    //   "blacklist": []}),
     .then(() => {
       console.log('Service worker generated.');
     })
     .catch((err) => {
       console.log('[ERROR] This happened: ' + err);
     });
-})
+});
 
 gulp.task('cache-busting', (cb) => {
   const replaceInExtensions = ['.js', '.css', '.html', '.xml'];
@@ -236,7 +250,7 @@ gulp.task('cache-busting', (cb) => {
   const manifestJs = gulp.src('build/dist/js/rev-manifest.json');
 
   gulp.src(['build/dist/blog/**/*.html'])
-    .pipe(firebaseImgCacheBusting('build/dist/img/rev-manifest.json',modeDev))
+    .pipe(firebaseImgCacheBusting('build/dist/img/rev-manifest.json', modeDev))
 
   gulp.src(['build/dist/**/*.{html,js,css,xml}'])
     .pipe($.revReplace({manifest: manifestImg, replaceInExtensions: replaceInExtensions}))
@@ -285,12 +299,12 @@ gulp.task('initModeDev', () => modeDev = true);
 gulp.task('build', cb => {
   // Hack to be able to stop the task when the async firebase requests are complete
   gulp.on('stop', () => {
-    if(!modeDev) {
+    if (!modeDev) {
       process.nextTick(() => process.exit(0));
     }
   });
 
-runSequence(
+  runSequence(
     'styles',
     'blog',
     'images-min',

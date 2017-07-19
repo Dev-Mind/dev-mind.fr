@@ -44,6 +44,11 @@ module.exports = function (modedev) {
       keywords: 'HTML CSS Spring JavaScript Formation',
       title: 'Dev-Mind - formation web',
       description : 'Dev-mind :formation le web de A à Z'
+    },
+    'shell.html' : {
+      keywords: 'Dev-mind',
+      title: 'Dev-Mind - app loading',
+      description : 'Dev-mind votre partenaire'
     }
   };
 

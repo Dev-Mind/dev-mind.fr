@@ -45,6 +45,7 @@ window.blog = (function () {
    * Save the blog visit for stats
    */
   function _saveVisit(filename) {
+    console.log(isDevPage, `/stats${isDevPage ? 'Dev' : ''}/${filename}`);
     database
       .ref(`/stats${isDevPage ? 'Dev' : ''}/${filename}`)
       .transaction( count =>  {

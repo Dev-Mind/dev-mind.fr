@@ -54,4 +54,21 @@ $header__heigth: 64px;
   max-width: 1600px;
 }
 
+@mixin dm_transition($bgcolor, $height) {
+  background-color:$bgcolor;
+  border-color: $bgcolor;
+  position: relative;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+  height: $height;
+}
+
+@mixin dm_home_row($bgcolor, $txtcolor) {
+  width: 100%;
+  background-color: $bgcolor;
+  color: $txtcolor;
+  padding: 0;
+  margin: 0;
+}
 

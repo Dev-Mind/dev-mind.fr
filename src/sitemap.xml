@@ -177,4 +177,19 @@
             <news:stock_tickers>Programmation Web</news:stock_tickers>
         </news:news>
     </url>
+    <url>
+        <loc>https://www.dev-mind.fr/blog/2017/workboxjs.html</loc>
+        <priority>0.3</priority>
+        <news:news>
+            <news:publication>
+                <news:name>Dev-Mind</news:name>
+                <news:language>fr</news:language>
+            </news:publication>
+            <news:genres>Blog</news:genres>
+            <news:publication_date>2017-07-19</news:publication_date>
+            <news:title>Workbox la toolbox pour créer une progressive webapp</news:title>
+            <news:keywords>Web, PWA, ServiceWorker</news:keywords>
+            <news:stock_tickers>Programmation Web</news:stock_tickers>
+        </news:news>
+    </url>
 </urlset>

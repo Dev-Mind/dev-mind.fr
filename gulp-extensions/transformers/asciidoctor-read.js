@@ -14,7 +14,7 @@ const asciidoctorOptions = {
   },
 }
 
-module.exports = function ({ includes } = {}) {
+module.exports = function (modedev) {
 
   return map(async (file, next) => {
 
@@ -41,6 +41,7 @@ module.exports = function ({ includes } = {}) {
       imgteaser: file.attributes.imgteaser,
       status: file.attributes.status,
       firebaseApiKey: firebaseConfig.apiKey,
+      modedev: () => modedev
     };
 
     next(null, file);
