@@ -173,9 +173,26 @@
                 <button onclick="blog.sendSocial('linkedin', 'https://www.dev-mind.fr/blog/{{dir}}/{{filename}}.html', '{{ title }}')"><img src="../../img/contact/linkedin.svg" alt="Linkedin" class="dm-social"></button>
                 <br>
                 <div id="previous-blogpost"></div>
+                <div class="dm-blog-comment--add">
+                    <h2>Commentaires</h2>
+                    <div id="comments"></div>
+                    <article>
+                        <h3><a href="#" onclick="blog.displayCommentForm()">Ajouter un commentaire</a></h3></label>
+                        <form name="comment" id="commentFrm" style="display: none">
+                            <textarea class="dm-blog-comment--control" required name="comment" rows="6" onchange="blog.onFormCommentChange()"></textarea>
+                            <label for="name"><b>Prénom</b></label>
+                            <input class="dm-blog-comment--control" required id="name" name="name" type="text" onchange="blog.onFormCommentChange()">
+                            <label for="mail">Mail</label>
+                            <input class="dm-blog-comment--control" id="mail" name="mail" type="email" placeholder="identifiant@fournisseur.com" pattern=".+@.+.com" onchange="blog.onFormCommentChange()">
+                            <small>Le mail n'est jamais affiché et me sert uniquement à vous contacter pour répondre à vos questions</small>
+                            <br>
+                            <button type="button" onclick="blog.saveComment('{{filename}}')" id="saveComments" style="margin-top: 1em" disabled="true">Envoyer</button>
+                        </form>
+                    </article>
+                </div>
             </div>
-
         </devmind-header>
+
     </div>
 
     <footer class="footer-wrapper">
@@ -213,6 +230,7 @@
 <script>
     window.addEventListener("load", function(){
         blog.findPreviousBlogpost('{{filename}}');
+        blog.findComments('{{filename}}');
     });
 </script>
 <script async defer src="../../js/dmanalytics.js"></script>

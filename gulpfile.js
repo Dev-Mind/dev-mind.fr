@@ -220,16 +220,16 @@ gulp.task('bundle-sw', () => {
     // 	When handleFetch is set to false all requests will go to the network. This is useful during development if you
     // don't want the service worker from preventing updates.
     handleFetch: true,
-    // runtimeCaching: [
-    //   {
-    //     urlPattern: '/(.*)',
-    //     handler: 'networkFirst',
-    //     options: {
-    //       networkTimeoutSeconds: 3,
-    //       maxAgeSeconds: 7200
-    //     }
-    //   }
-    // ],
+    runtimeCaching: [
+      {
+        urlPattern: '/(.*)',
+        handler: 'networkFirst',
+        options: {
+          networkTimeoutSeconds: 3,
+          maxAgeSeconds: 7200
+        }
+      }
+    ],
     clientsClaim: true
   })
     // registerNavigationRoute('app-shell.html', {
