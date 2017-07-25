@@ -31,7 +31,8 @@ module.exports = function (modedev) {
     file.templateModel = {
       keywords: () => file.attributes.keywords,
       title: () => file.attributes.doctitle,
-      revdate: () => moment(file.attributes.revdate, 'YYYY-mm-DD').format('DD/mm/YYYY'),
+      revdate: () => moment(file.attributes.revdate, 'YYYY-MM-DD').format('DD/MM/YYYY'),
+      gendate: () => moment().format('DD/MM/YYYY'),
       contents: () => file.contents,
       'github-edit-url': () => file.git.githubEditUrl,
       filename: file.path.substring(file.path.lastIndexOf("/") + 1, file.path.lastIndexOf(".")),
