@@ -199,8 +199,8 @@ gulp.task('generate-service-worker', (cb) => {
   swPrecache.write(`build/.tmp/service-worker.js`, config, cb);
 });
 
-gulp.task('service-worker', ['generate-service-worker'], (cb) => {
-  gulp.src(`build/.tmp/service-worker.js`)
+gulp.task('service-worker', ['generate-service-worker', 'bundle-sw'], (cb) => {
+  gulp.src(`build/.tmp/{service-worker.js,sw.js}`)
     .pipe($.sourcemaps.init())
     .pipe($.sourcemaps.write())
     .pipe($.uglify({preserveComments: 'none'}))
@@ -228,13 +228,18 @@ gulp.task('bundle-sw', () => {
           networkTimeoutSeconds: 3,
           maxAgeSeconds: 7200
         }
+      },
+      {
+        urlPattern: '/img/(.*)',
+        handler: 'staleWhileRevalidate',
+        options: {
+          networkTimeoutSeconds: 3,
+          maxAgeSeconds: 7200
+        }
       }
     ],
     clientsClaim: true
   })
-    // registerNavigationRoute('app-shell.html', {
-    //   "whitelist": [/./],
-    //   "blacklist": []}),
     .then(() => {
       console.log('Service worker generated.');
     })

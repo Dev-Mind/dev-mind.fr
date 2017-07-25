@@ -21,6 +21,16 @@ window.app = (function() {
 
     if ('serviceWorker' in navigator &&
       (window.location.protocol === 'https:' && !isLocalhost)) {
+
+      if(BroadcastChannel){
+        console.log('dispo')
+        const precacheUpdates = new BroadcastChannel('precache-updates');
+        precacheUpdates.addEventListener('message', (event) => {
+          log('info', `${event.data.payload.url} was updated. The new value will be used the next time a request is made.`);
+        });
+      }
+
+
       navigator.serviceWorker.register(`${swFile}`)
         .then(function(registration) {
           // Check to see if there's an updated version of service-worker.js with
