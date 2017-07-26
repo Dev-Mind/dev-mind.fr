@@ -37,8 +37,15 @@ window.blog = (function () {
   function _loadBlogIndex(cb) {
     database
       .ref(isDevPage ? '/blogsDev' : '/blogs')
-      .startAt()
-      .on('value', (snapshot) => cb(_transformResult(snapshot.val())))
+      .on('value', (snapshot) => {
+        localStorage.setItem("blogIndex", JSON.stringify(snapshot.val()));
+        cb(_transformResult(snapshot.val()));
+      });
+      //Data are load from localstorage if they are presents
+      const data = localStorage.getItem("blogIndex");
+      if(data){
+        cb(_transformResult(JSON.parse(data)));
+      }
   }
 
   /**
