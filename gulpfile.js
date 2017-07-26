@@ -200,6 +200,9 @@ gulp.task('generate-service-worker', (cb) => {
 });
 
 gulp.task('service-worker', ['generate-service-worker', 'bundle-sw'], (cb) => {
+  gulp.src(`build/.tmp/workbox-sw.prod.v1.1.0.js`)
+    .pipe(gulp.dest(`build/dist`));
+
   gulp.src(`build/.tmp/{service-worker.js,sw.js}`)
     .pipe($.sourcemaps.init())
     .pipe($.sourcemaps.write())
@@ -225,16 +228,28 @@ gulp.task('bundle-sw', () => {
         urlPattern: '/(.*)',
         handler: 'networkFirst',
         options: {
-          networkTimeoutSeconds: 3,
-          maxAgeSeconds: 7200
+          cacheName: 'general-cache',
+          cacheExpiration: {
+            networkTimeoutSeconds: 3,
+            maxAgeSeconds: 7200
+          },
+          broadcastCacheUpdate: {
+            channelName: 'precache-updates'
+          }
         }
       },
       {
         urlPattern: '/img/(.*)',
         handler: 'staleWhileRevalidate',
         options: {
-          networkTimeoutSeconds: 3,
-          maxAgeSeconds: 7200
+          cacheName: 'image-cache',
+          cacheExpiration: {
+            networkTimeoutSeconds: 3,
+            maxAgeSeconds: 7200
+          },
+          broadcastCacheUpdate: {
+            channelName: 'precache-updates'
+          }
         }
       }
     ],
