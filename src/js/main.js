@@ -3,7 +3,7 @@ window.app = (function() {
   'use strict';
 
   function initSw(path){
-    console.log('init service worker with path ' + path);
+    //console.log('init service worker with path ' + path);
     // Check to make sure service workers are supported in the current browser,
     // and that the current page is accessed from a secure origin. Using a
     // service worker from an insecure origin will trigger JS console errors. See
@@ -17,21 +17,18 @@ window.app = (function() {
       )
     );
 
-    let swFile = path ? path + 'service-worker.js' : 'service-worker.js';
-
     if ('serviceWorker' in navigator &&
       (window.location.protocol === 'https:' && !isLocalhost)) {
 
       if(BroadcastChannel){
-        console.log('dispo')
         const precacheUpdates = new BroadcastChannel('precache-updates');
         precacheUpdates.addEventListener('message', (event) => {
-          log('info', `${event.data.payload.url} was updated. The new value will be used the next time a request is made.`);
+          console.debug(`${event.data} was updated. The new value will be used the next time a request is made.`);
         });
       }
 
 
-      navigator.serviceWorker.register(`${swFile}`)
+      navigator.serviceWorker.register(`${path}sw.js`)
         .then(function(registration) {
           // Check to see if there's an updated version of service-worker.js with
           // new files to cache:
@@ -43,8 +40,7 @@ window.app = (function() {
           // updatefound is fired if service-worker.js changes.
           registration.onupdatefound = function() {
 
-            console.log('updatefound')
-            // updatefound is also fired the very first time the SW is installed,
+             // updatefound is also fired the very first time the SW is installed,
             // and there's no need to prompt for a reload at that point.
             // So check here to see if the page is already controlled,
             // i.e. whether there's an existing service worker.
@@ -65,8 +61,7 @@ window.app = (function() {
                     break;
 
                   case 'redundant':
-                    throw new Error('The installing ' +
-                      'service worker became redundant.');
+                    throw new Error('The installing service worker became redundant.');
 
                   default:
                   // Ignore
