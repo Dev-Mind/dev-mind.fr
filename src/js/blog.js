@@ -35,17 +35,18 @@ window.blog = (function () {
    * @private
    */
   function _loadBlogIndex(cb) {
+    //Data are load from localstorage if they are presents
+    const data = localStorage.getItem("blogIndex");
+    if(data){
+      cb(_transformResult(JSON.parse(data)));
+    }
+
     database
       .ref(isDevPage ? '/blogsDev' : '/blogs')
       .on('value', (snapshot) => {
         localStorage.setItem("blogIndex", JSON.stringify(snapshot.val()));
         cb(_transformResult(snapshot.val()));
       });
-      //Data are load from localstorage if they are presents
-      const data = localStorage.getItem("blogIndex");
-      if(data){
-        cb(_transformResult(JSON.parse(data)));
-      }
   }
 
   /**
@@ -148,6 +149,7 @@ window.blog = (function () {
         form.name.value = '';
         form.comment.value = '';
         form.mail.value = '';
+        // send a notification
         displayCommentForm();
       });
     return false;
