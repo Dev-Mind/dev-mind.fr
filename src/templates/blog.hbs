@@ -71,7 +71,7 @@
         main {
             height: calc(100vh - 64px);
             overflow-x: hidden;
-            overflow-y: scroll;
+            overflow-y: auto;
             background-color: #2196f3; }
 
         img {
@@ -152,9 +152,9 @@
     <div class="dm_home_blog" id="blog">
         <devmind-article>
             <article>
-                <h1>{{ title }}</h1>
+                <h1 class="dm-blog--info-title">{{ title }}</h1>
                 <div class="dm-blog--info-date"><small><b>{{ revdate }}</b></small> <small id="nbview"></small></div>
-                <div id="blog-keywords"></div>
+                <div id="blog-keywords" class="blog-keywords"></div>
                 <div class="swp-blog--content">
                 {{{ contents }}}
                 </div>

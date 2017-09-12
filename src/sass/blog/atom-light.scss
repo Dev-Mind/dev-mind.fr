@@ -5,10 +5,12 @@
 }
 .editor,
 .editor .gutter {
-  border-radius: 4px;
+  //border-radius: 4px;
   @include dm_box__shadow;
   background-color: #E3F2FD;
   color: #555555;
+  display: block;
+  max-height: 300px;
   overflow: auto;
 }
 .editor .invisible-character {
