@@ -200,7 +200,7 @@ gulp.task('generate-service-worker', (cb) => {
 });
 
 gulp.task('service-worker', ['generate-service-worker', 'bundle-sw'], (cb) => {
-  gulp.src(`build/.tmp/workbox-sw.prod.v1.1.0.js`)
+  gulp.src(`build/.tmp/workbox-sw.prod.(*).js`)
     .pipe(gulp.dest(`build/dist`));
 
   gulp.src(`build/.tmp/{service-worker.js,sw.js}`)
@@ -213,6 +213,17 @@ gulp.task('service-worker', ['generate-service-worker', 'bundle-sw'], (cb) => {
     .on('end', () => cb())
 });
 
+gulp.task('bundle-sw2', () => {
+  return wbBuild.injectManifest({
+    swSrc: 'src/sw.js',
+    swDest: 'build/.tmp/service-worker2.js',
+    globDirectory: './build/dist',
+    staticFileGlobs: ['**\/*.{js,html,css,png,jpg,json,gif,svg,webp,eot,ttf,woff,woff2,gz}']
+  })
+    .catch((err) => {
+      console.log('[ERROR] This happened: ' + err);
+    });
+});
 gulp.task('bundle-sw', () => {
 
   return wbBuild.generateSW({
