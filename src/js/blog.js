@@ -201,9 +201,9 @@ window.blog = (function () {
       .filter((e, index) => index > 0 && index <= nbElementDisplayed)
       .map((blogpost) => _getArticle(blogpost));
 
-    let lastTenArticles = blogIndex
+    let lastArticles = blogIndex
       .sort((a, b) => (a.strdate < b.strdate ? 1 : (a.strdate > b.strdate ? -1 : 0)))
-      .filter((e, index) => index < 10)
+      .filter((e, index) => index < 30)
       .map((blogpost) => _getArticleList(blogpost))
       .reduce((a, b) => a + b);
 
@@ -221,7 +221,7 @@ window.blog = (function () {
             <tr><th>Derniers articles</th></tr>    
         </thead>
         <tbody>
-            ${lastTenArticles}
+            ${lastArticles}
         </tbody>
       </table>
       `;
