@@ -76,3 +76,14 @@ devmind-article {
   padding: 1em;
   border-radius: 4px;
 }
+
+.admonitionblock {
+
+  @include dm_box__shadow;
+  background-color: #eeeeee;
+
+  .title {
+    margin: 1em;
+    color: $color_flash;
+  }
+}
