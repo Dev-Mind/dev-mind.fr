@@ -24,7 +24,13 @@ module.exports = function (modedev) {
       keywords: 'Dev-mind blog Java Agilité programmation Spring Web JavaScript',
       title: 'Le blog Dev-Mind',
       description : 'Le blog Dev-Mind regroupe des articles des interviews sur des sujets divers allant de la programmation Java JavaScript aux méthodes agiles',
-      blog: true
+      blog: 'findLastBlogpost'
+    },
+    'blog_archive.html' : {
+      keywords: 'Dev-mind blog archive',
+      title: 'Les archives du blog Dev-Mind',
+      description : 'Retrouvez l\'intégralité des articles du blog Dev-Mind (programmation Java JavaScript, méthodes agiles...)',
+      blog: 'findArchiveBlogpost'
     },
     'experience.html' : {
       keywords: 'Dev-mind,Java,JavaScript,HTML,CSS',

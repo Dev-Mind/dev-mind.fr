@@ -12,7 +12,7 @@ window.blog = (function () {
   });
 
   let database = firebase.database();
-  let nbElementDisplayed = 2;
+  let nbElementDisplayed = 4;
 
   /**
    * Converts result to an array
@@ -169,8 +169,9 @@ window.blog = (function () {
   }
 
   function _getArticleList(blogpost) {
+    let date = blogpost.revdate.substring(8,10) + '/' + blogpost.revdate.substring(5,7) + '/' + blogpost.revdate.substring(0,4);
     return `
-        <tr><td class="dm-blog--shortcutlist"><a title="${blogpost.doctitle}" href="blog/${blogpost.dir}/${blogpost.filename}.html">${blogpost.doctitle}</a></td></tr>
+        <tr><td class="dm-blog--shortcutlist"><small>${date}</small><a title="${blogpost.doctitle}" href="blog/${blogpost.dir}/${blogpost.filename}.html">${blogpost.doctitle}</a></td></tr>
         `;
   }
 
@@ -188,6 +189,38 @@ window.blog = (function () {
     };
 
     return article;
+  }
+
+  function _getArchiveArticle(blogpost, first) {
+    var article = document.createElement("article");
+    article.className = `dm-blog--article${first ? '-head' : ''}`;
+    article.innerHTML = `
+           <strong><a href="blog/${blogpost.dir}/${blogpost.filename}.html">${blogpost.doctitle}</a></strong>
+           <p class="dm-blog--teaser">${blogpost.teaser}</p>
+    `;
+    article.onclick = function () {
+      document.location.href = `blog/${blogpost.dir}/${blogpost.filename}.html`;
+    };
+
+    return article;
+  }
+
+  /**
+   * Find the last
+   * @param blogIndex
+   * @private
+   */
+  function findArchiveBlogpost(blogIndex) {
+      let articles = blogIndex
+          .sort((a, b) => (a.strdate < b.strdate ? 1 : (a.strdate > b.strdate ? -1 : 0)))
+          .map((blogpost) => _getArchiveArticle(blogpost));
+
+      let otherArticles = document.getElementById('articles');
+
+      while (otherArticles.firstChild) {
+          otherArticles.removeChild(otherArticles.firstChild);
+      }
+      articles.forEach(article => otherArticles.appendChild(article));
   }
 
   /**
@@ -252,6 +285,7 @@ window.blog = (function () {
   }
 
   return {
+    "findArchiveBlogpost": () => _loadBlogIndex((blogIndex) => findArchiveBlogpost(blogIndex), 'blog'),
     // Find and update the page to display a link to the previous blogpost
     "findPreviousBlogpost": (filename) => _loadBlogIndex((blogIndex) => findPreviousBlogpost(blogIndex, filename)),
     // Display the last written blogpost
