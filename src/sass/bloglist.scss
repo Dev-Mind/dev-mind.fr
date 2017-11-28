@@ -97,7 +97,7 @@
 }
 .dm-blog--article-head{
   @extend .dm-blog--article;
-  flex: 0 1 auto;
+  flex: 1 2 auto;
   .dm-blog--imgteaser{
     order: 0;
   }
