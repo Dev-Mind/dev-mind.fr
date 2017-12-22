@@ -5,12 +5,12 @@
 
     <link rel="preload" href="img/animation/cloud/cloud3.png" as="image">
     <link rel="preload" href="img/animation/cloud/cloud2.png" as="image">
-    {{#if blog}}
+    {{#blog}}
         <link rel="preload" href="css/bloglist.css" as="style" onload="this.rel='stylesheet'">
 
         <link rel="preload" href="https://www.gstatic.com/firebasejs/4.0.0/firebase-app.js" as="script">
         <link rel="preload" href="https://www.gstatic.com/firebasejs/4.0.0/firebase-database.js" as="script">
-    {{/if}}
+    {{/blog}}
     <link rel="preload" href="js/main.js" as="script">
 
     <meta charset="UTF-8">
@@ -179,7 +179,7 @@
 <script async defer src="js/loadCSS.js"></script>
 <script async defer src="js/cssrelpreload.js"></script>
 <script async defer src="js/main.js"></script>
-{{#if blog}}
+{{#blog}}
     <script src="https://www.gstatic.com/firebasejs/4.0.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/4.0.0/firebase-database.js"></script>
     <script src="js/blog.js">dev={{modedev}}</script>
@@ -188,7 +188,7 @@
             blog.{{blog}}();
         });
     </script>
-{{/if}}
+{{/blog}}
 <script async defer src="js/dmanalytics.js"></script>
 </body>
 </html>

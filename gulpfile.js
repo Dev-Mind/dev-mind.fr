@@ -95,7 +95,7 @@ gulp.task('blog', ['blog-indexing', 'blog-rss'], (cb) => {
   gulp.src('src/blog/**/*.adoc')
     .pipe(asciidoctorRead(modeDev))
     .pipe(asciidoctorConvert())
-    .pipe(applyTemplate('src/templates/blog.hbs'))
+    .pipe(applyTemplate('src/templates/blog.mustache'))
     .pipe(highlightCode({selector: 'pre.highlight code'}))
     .pipe(gulp.dest('build/.tmp/blog'))
     .pipe($.htmlmin(HTMLMIN_OPTIONS))
@@ -114,7 +114,7 @@ gulp.task('html', () =>
   gulp
     .src('src/partials/**/*.html')
     .pipe(htmlRead(modeDev))
-    .pipe(applyTemplate('src/templates/site.hbs'))
+    .pipe(applyTemplate('src/templates/site.mustache'))
     .pipe($.size({title: 'html', showFiles: true}))
     .pipe(gulp.dest('build/.tmp'))
     .pipe($.htmlmin(HTMLMIN_OPTIONS))
@@ -176,29 +176,6 @@ gulp.task('copy', (cb) => {
     .on('end', () => cb())
 });
 
-// gulp.task('generate-service-worker', (cb) => {
-//   let config = {
-//     cacheId: `dev-mind`,
-//     // Determines whether the fetch event handler is included in the generated service worker code. It is useful to
-//     // set this to false in development builds, to ensure that features like live reload still work. Otherwise, the content
-//     // would always be served from the service worker cache.
-//     handleFetch: true,
-//     runtimeCaching: [{
-//       urlPattern: '/(.*)',
-//       handler: 'networkFirst',
-//       options: {
-//         networkTimeoutSeconds: 3,
-//         maxAgeSeconds: 7200
-//       }
-//     }],
-//     staticFileGlobs: ['build/dist/**/*.{js,html,css,png,jpg,json,gif,svg,webp,eot,ttf,woff,woff2,gz}'],
-//     stripPrefix: 'build/dist',
-//     verbose: true
-//   };
-//
-//   swPrecache.write(`build/.tmp/service-worker.js`, config, cb);
-// });
-
 gulp.task('service-worker', ['bundle-sw'], (cb) => {
   gulp.src(`build/.tmp/workbox-sw.prod.(*).js`)
     .pipe(gulp.dest(`build/dist`));
@@ -224,55 +201,6 @@ gulp.task('bundle-sw', () => {
       console.log('[ERROR] This happened: ' + err);
     });
 });
-// gulp.task('bundle-sw', () => {
-//
-//   return wbBuild.generateSW({
-//     cacheId: `dev-mind`,
-//     globDirectory: './build/dist',
-//     swDest: 'build/.tmp/sw.js',
-//     staticFileGlobs: ['**\/*.{js,html,css,png,jpg,json,gif,svg,webp,eot,ttf,woff,woff2,gz}'],
-//     // 	When handleFetch is set to false all requests will go to the network. This is useful during development if you
-//     // don't want the service worker from preventing updates.
-//     handleFetch: true,
-//     runtimeCaching: [
-//       {
-//         urlPattern: '/(.*)',
-//         handler: 'networkFirst',
-//         options: {
-//           cacheName: 'general-cache',
-//           cacheExpiration: {
-//             networkTimeoutSeconds: 3,
-//             maxAgeSeconds: 7200
-//           },
-//           broadcastCacheUpdate: {
-//             channelName: 'precache-updates'
-//           }
-//         }
-//       },
-//       {
-//         urlPattern: '/img/(.*)',
-//         handler: 'staleWhileRevalidate',
-//         options: {
-//           cacheName: 'image-cache',
-//           cacheExpiration: {
-//             networkTimeoutSeconds: 3,
-//             maxAgeSeconds: 7200
-//           },
-//           broadcastCacheUpdate: {
-//             channelName: 'precache-updates'
-//           }
-//         }
-//       }
-//     ],
-//     clientsClaim: true
-//   })
-//     .then(() => {
-//       console.log('Service worker generated.');
-//     })
-//     .catch((err) => {
-//       console.log('[ERROR] This happened: ' + err);
-//     });
-// });
 
 gulp.task('cache-busting', (cb) => {
   const replaceInExtensions = ['.js', '.css', '.html', '.xml'];

@@ -136,7 +136,7 @@ Si le code JS de ces extensions vous intéresse je vous laisse consulter les sou
 * `_asciidoctorRead_` lit le stream des documents asciidoctor et interprète ces documents pour extraire le contenu HTML et les différentes metadata. Ce qui est super intéressant c'est que vous pouvez facilement ajouter vos propres métadonnées à vos documents.
 * `_asciidoctorConvert_` convertit les documents `_adoc_` en `_html_`
 * `_asciidoctorIndexing_` écrit les métadonnées dans un fichier (ici `_blog-index.json_`). Si votre site grossis vous pourriez par exemple mettre ces informations en base de données
-* `_applyTemplate_` utilisation de handlebar pour insérer le contenu et les métadata dans un template de page
+* `_applyTemplate_` utilisation de moustache pour insérer le contenu et les métadata dans un template de page (dans la première version j'avais utilisé Handlebar mais Mustache à l'intérêt de proposer de l'héritage entre les templates)
 * `_highlightCode_` mise en forme des blocs de code dans les pages avec highlight
 * ...
 
@@ -146,7 +146,7 @@ Les principales technologies utilisées sont les suivantes
 * Node > 7
 * Yarn
 * Gulp
-* Handlebar pour les templates
+* Mustache pour les templates
 * Sass pour la définition des styles
 * Babel pour la transpilation ES5
 * highlights pour la mise en forme du code
