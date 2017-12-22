@@ -27,7 +27,7 @@
     </url>
 
     <url>
-        <loc>https://www.dev-mind.fr/2017/internet.html</loc>
+        <loc>https://www.dev-mind.fr/blog/2017/dotCSS.html</loc>
         <priority>0.3</priority>
         <news:news>
             <news:publication>
@@ -35,14 +35,14 @@
                 <news:language>fr</news:language>
             </news:publication>
             <news:genres>Blog</news:genres>
-            <news:publication_date>2015-11-23</news:publication_date>
-            <news:title>Le World Wide Web</news:title>
+            <news:publication_date>2017-12-01</news:publication_date>
+            <news:title>DotCSS 2017</news:title>
             <news:keywords>Web</news:keywords>
             <news:stock_tickers>Web</news:stock_tickers>
         </news:news>
     </url>
     <url>
-        <loc>https://www.dev-mind.fr/2017/internet.html</loc>
+        <loc>https://www.dev-mind.fr/blog/2017/http.html</loc>
         <priority>0.3</priority>
         <news:news>
             <news:publication>
@@ -50,14 +50,29 @@
                 <news:language>fr</news:language>
             </news:publication>
             <news:genres>Blog</news:genres>
-            <news:publication_date>2015-11-20</news:publication_date>
+            <news:publication_date>2017-11-28</news:publication_date>
+            <news:title>Le protocole HTTP</news:title>
+            <news:keywords>Web</news:keywords>
+            <news:stock_tickers>Web</news:stock_tickers>
+        </news:news>
+    </url>
+    <url>
+        <loc>https://www.dev-mind.fr/blog/2017/internet.html</loc>
+        <priority>0.3</priority>
+        <news:news>
+            <news:publication>
+                <news:name>Dev-Mind</news:name>
+                <news:language>fr</news:language>
+            </news:publication>
+            <news:genres>Blog</news:genres>
+            <news:publication_date>2017-11-20</news:publication_date>
             <news:title>Retour sur la création d'Internet</news:title>
             <news:keywords>Internet</news:keywords>
             <news:stock_tickers>Web</news:stock_tickers>
         </news:news>
     </url>
     <url>
-        <loc>https://www.dev-mind.fr/2015/formes_leadership.html</loc>
+        <loc>https://www.dev-mind.fr/blog/2015/formes_leadership.html</loc>
         <priority>0.3</priority>
         <news:news>
             <news:publication>
@@ -72,7 +87,7 @@
         </news:news>
     </url>
     <url>
-        <loc>https://www.dev-mind.fr/2016/communication_et_neuroscience.html</loc>
+        <loc>https://www.dev-mind.fr/blog/2016/communication_et_neuroscience.html</loc>
         <priority>0.3</priority>
         <news:news>
             <news:publication>
