@@ -46,6 +46,13 @@ const HTMLMIN_OPTIONS = {
   minifyCSS: true
 };
 
+const MUSTACHE_PARTIALS = [
+  { key : '_html_header', path: 'src/templates/_html_header.mustache' },
+  { key : '_page_header', path:'src/templates/_page_header.mustache' },
+  { key : '_page_footer', path: 'src/templates/_page_footer.mustache' },
+  { key : '_html_footer', path: 'src/templates/_html_footer.mustache' }
+];
+
 let modeDev = false;
 
 gulp.task('styles', (cb) => {
@@ -95,7 +102,7 @@ gulp.task('blog', ['blog-indexing', 'blog-rss'], (cb) => {
   gulp.src('src/blog/**/*.adoc')
     .pipe(asciidoctorRead(modeDev))
     .pipe(asciidoctorConvert())
-    .pipe(applyTemplate('src/templates/blog.mustache'))
+    .pipe(applyTemplate('src/templates/blog.mustache', MUSTACHE_PARTIALS))
     .pipe(highlightCode({selector: 'pre.highlight code'}))
     .pipe(gulp.dest('build/.tmp/blog'))
     .pipe($.htmlmin(HTMLMIN_OPTIONS))
@@ -114,7 +121,7 @@ gulp.task('html', () =>
   gulp
     .src('src/partials/**/*.html')
     .pipe(htmlRead(modeDev))
-    .pipe(applyTemplate('src/templates/site.mustache'))
+    .pipe(applyTemplate('src/templates/site.mustache', MUSTACHE_PARTIALS))
     .pipe($.size({title: 'html', showFiles: true}))
     .pipe(gulp.dest('build/.tmp'))
     .pipe($.htmlmin(HTMLMIN_OPTIONS))
