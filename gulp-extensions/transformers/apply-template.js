@@ -33,7 +33,7 @@ const path = require('path');
 module.exports = function (mustacheTemplateFile, partials) {
     const mustacheTemplate = fs.readFileSync(path.resolve(__dirname, '../..', mustacheTemplateFile), 'utf8');
 
-    const mustachePartials = {}
+    const mustachePartials = {};
     partials.forEach(partial => mustachePartials[partial.key] = fs.readFileSync(path.resolve(__dirname, '../..', partial.path), 'utf8'));
     mustache.parse(mustacheTemplate);
 

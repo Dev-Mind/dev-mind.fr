@@ -7,18 +7,17 @@ const browserSync = require('browser-sync').create();
 const imagemin = require('gulp-imagemin');
 const imageminMozjpeg = require('imagemin-mozjpeg');
 const runSequence = require('run-sequence');
-const swPrecache = require('sw-precache');
 const wbBuild = require('workbox-build');
 
 const $ = require('gulp-load-plugins')();
 
-const asciidoctorRead = require('./gulp-extensions/transformers/asciidoctor-read');
-const asciidoctorConvert = require('./gulp-extensions/transformers/asciidoctor-convert');
-const asciidoctorIndexing = require('./gulp-extensions/transformers/asciidoctor-indexing');
-const asciidoctorRss = require('./gulp-extensions/transformers/asciidoctor-rss');
-const htmlRead = require('./gulp-extensions/transformers/html-read');
+const convertAsciidocToHtml = require('./gulp-extensions/transformers/convert-adoc-to-html');
+const convertToRss = require('./gulp-extensions/transformers/convert-to-rss');
+const readAsciidoc = require('./gulp-extensions/transformers/read-asciidoctor');
+const readHtml = require('./gulp-extensions/transformers/read-html');
 const applyTemplate = require('./gulp-extensions/transformers/apply-template');
 const highlightCode = require('./gulp-extensions/transformers/highlight-code');
+const firebaseIndexing = require('./gulp-extensions/transformers/firebase-indexing');
 const firebaseImgCacheBusting = require('./gulp-extensions/transformers/firebase-img-cache-busting');
 
 const AUTOPREFIXER_BROWSERS = [
@@ -83,25 +82,25 @@ gulp.task('blog-indexing', (cb) => {
     }
   });
   gulp.src('src/blog/**/*.adoc')
-    .pipe(asciidoctorRead(modeDev))
-    .pipe(asciidoctorConvert())
-    .pipe(asciidoctorIndexing(modeDev))
+    .pipe(readAsciidoc(modeDev))
+    .pipe(convertAsciidocToHtml())
+    .pipe(firebaseIndexing(modeDev))
     .on('end', () => cb())
 });
 
 gulp.task('blog-rss', (cb) => {
   gulp.src('src/blog/**/*.adoc')
-    .pipe(asciidoctorRead(modeDev))
-    .pipe(asciidoctorConvert())
-    .pipe(asciidoctorRss('blog.xml'))
+    .pipe(readAsciidoc(modeDev))
+    .pipe(convertAsciidocToHtml())
+    .pipe(convertToRss('blog.xml'))
     .pipe(gulp.dest('build/dist/rss'))
     .on('end', () => cb())
 });
 
 gulp.task('blog', ['blog-indexing', 'blog-rss'], (cb) => {
   gulp.src('src/blog/**/*.adoc')
-    .pipe(asciidoctorRead(modeDev))
-    .pipe(asciidoctorConvert())
+    .pipe(readAsciidoc(modeDev))
+    .pipe(convertAsciidocToHtml())
     .pipe(applyTemplate('src/templates/blog.mustache', MUSTACHE_PARTIALS))
     .pipe(highlightCode({selector: 'pre.highlight code'}))
     .pipe(gulp.dest('build/.tmp/blog'))
@@ -119,7 +118,7 @@ gulp.task('lint', () =>
 
 const generateHtml = (directory, templateName) => gulp
     .src(`src/html/${directory}/**/*.html`)
-    .pipe(htmlRead(modeDev))
+    .pipe(readHtml(modeDev))
     .pipe(applyTemplate(`src/templates/${templateName}.mustache`, MUSTACHE_PARTIALS))
     .pipe($.size({title: 'html', showFiles: true}))
     .pipe(gulp.dest('build/.tmp'))
