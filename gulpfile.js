@@ -117,16 +117,17 @@ gulp.task('lint', () =>
     .pipe($.if(!browserSync.active, $.eslint.failOnError()))
 );
 
-gulp.task('html', () =>
-  gulp
-    .src('src/partials/**/*.html')
+const generateHtml = (directory, templateName) => gulp
+    .src(`src/html/${directory}/**/*.html`)
     .pipe(htmlRead(modeDev))
-    .pipe(applyTemplate('src/templates/site.mustache', MUSTACHE_PARTIALS))
+    .pipe(applyTemplate(`src/templates/${templateName}.mustache`, MUSTACHE_PARTIALS))
     .pipe($.size({title: 'html', showFiles: true}))
     .pipe(gulp.dest('build/.tmp'))
     .pipe($.htmlmin(HTMLMIN_OPTIONS))
-    .pipe(gulp.dest('build/dist'))
-);
+    .pipe(gulp.dest('build/dist'));
+
+gulp.task('html-blog', () => generateHtml('static', 'site'));
+gulp.task('html-static', () => generateHtml('static', 'site'));
 
 gulp.task('local-js', () =>
   gulp.src(['src/js/*.js'])
@@ -276,7 +277,7 @@ gulp.task('build', cb => {
     'images-min',
     'images',
     'lint',
-    ['html', 'local-js', 'vendor-js'],
+    ['html-static', 'html-blog', 'local-js', 'vendor-js'],
     'copy',
     cb
   )
