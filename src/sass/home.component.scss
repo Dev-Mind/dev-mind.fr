@@ -45,9 +45,9 @@ devmind-header {
 
 }
 .dm_home_me {
-  @include dm_home_row(#2196f3, white);
+  @include dm_home_row(#2196f3, #303e5e);
 
-  @include dm_home_link(#BBDEFB);
+  @include dm_home_link(#303e5e);
 
   .dm_logo{
     text-align: center;
