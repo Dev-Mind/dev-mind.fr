@@ -7,7 +7,7 @@ const PluginError = gutil.PluginError;
 const firebaseConfig = require("../../firebase.json");
 const moment = require('moment');
 
-module.exports = function (modedev) {
+module.exports = function (modedev, scope) {
 
   const pageMetadata = {
     '404.html' : {
@@ -19,18 +19,6 @@ module.exports = function (modedev) {
       keywords: 'Dev-mind Guillaume EHRET développeur indépendant spécialiste Java, Web',
       title: 'Dev-Mind',
       description : 'Dev-Mind aide les entreprises qui souhaitent créer de nouveaux logiciels ou s\'organiser pour réussir leurs défis, en proposant des prestations de développement, du conseil et de la formation.',
-    },
-    'blog.html' : {
-      keywords: 'Dev-mind blog Java Agilité programmation Spring Web JavaScript',
-      title: 'Le blog Dev-Mind',
-      description : 'Le blog Dev-Mind regroupe des articles des interviews sur des sujets divers allant de la programmation Java JavaScript aux méthodes agiles',
-      blog: 'findLastBlogpost'
-    },
-    'blog_archive.html' : {
-      keywords: 'Dev-mind blog archive',
-      title: 'Les archives du blog Dev-Mind',
-      description : 'Retrouvez l\'intégralité des articles du blog Dev-Mind (programmation Java JavaScript, méthodes agiles...)',
-      blog: 'findArchiveBlogpost'
     },
     'experience.html' : {
       keywords: 'Dev-mind,Java,JavaScript,HTML,CSS',
@@ -56,9 +44,32 @@ module.exports = function (modedev) {
       keywords: 'Dev-mind',
       title: 'Dev-Mind - app loading',
       description : 'Dev-mind votre partenaire'
-    }
+    },
+    'blog.html' : {
+      keywords: 'Dev-mind blog Java Agilité programmation Spring Web JavaScript',
+      title: 'Le blog Dev-Mind',
+      description : 'Le blog Dev-Mind regroupe des articles des interviews sur des sujets divers allant de la programmation Java JavaScript aux méthodes agiles',
+      blog: 'findLastBlogpost'
+    },
+    'blog_archive.html' : {
+      keywords: 'Dev-mind blog archive',
+      title: 'Les archives du blog Dev-Mind',
+      description : 'Retrouvez l\'intégralité des articles du blog Dev-Mind (programmation Java JavaScript, méthodes agiles...)',
+      blog: 'findArchiveBlogpost'
+    },
   };
 
+    /**
+     * This function is used to read the html files defined in a gulp pipe. For example
+     * <pre>
+     *     gulp.src("src/hmtl/*.html").pipe(htmlRead(modeDev));
+     * </pre>
+     * The function load all the html file and return a file object with the different
+     * medatada
+     *
+     * @param modedev
+     * @returns {stream}
+     */
   return map((file, next) => {
 
     const html = fs.readFileSync(file.path, 'utf8');

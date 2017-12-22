@@ -14,6 +14,17 @@ const asciidoctorOptions = {
   },
 }
 
+/**
+ * This function is used to read the asciidoc files defined in a gulp pipe. For example
+ * <pre>
+ *     gulp.src("src/blog/*.adoc").pipe(asciidoctorRead(modeDev));
+ * </pre>
+ * The function load all the asciidoc file and return a file object with the different
+ * medatada
+ *
+ * @param modedev
+ * @returns {stream}
+ */
 module.exports = function (modedev) {
 
   return map(async (file, next) => {

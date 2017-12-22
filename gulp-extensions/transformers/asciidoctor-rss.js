@@ -7,7 +7,7 @@ const PluginError = gutil.PluginError;
 const moment = require('moment');
 
 /**
- * This plugin parse all the asciidoc files to build a Json index file with metadata
+ * This plugin parse all the asciidoc files to build a Rss XML descriptor
  */
 module.exports = function (filename) {
   if (!filename) throw new PluginError('asciidoctor-rss', 'Missing target filename for asciidoctor-rss');
