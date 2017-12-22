@@ -126,7 +126,7 @@ const generateHtml = (directory, templateName) => gulp
     .pipe($.htmlmin(HTMLMIN_OPTIONS))
     .pipe(gulp.dest('build/dist'));
 
-gulp.task('html-blog', () => generateHtml('static', 'site'));
+gulp.task('html-blog', () => generateHtml('blog', 'blog_list'));
 gulp.task('html-static', () => generateHtml('static', 'site'));
 
 gulp.task('local-js', () =>

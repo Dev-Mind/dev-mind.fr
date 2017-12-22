@@ -4,31 +4,15 @@
     <link rel="preload" href="css/main.css" as="style" onload="this.rel='stylesheet'">
     <link rel="preload" href="img/animation/cloud/cloud3.png" as="image">
     <link rel="preload" href="img/animation/cloud/cloud2.png" as="image">
-    {{#blog}}
-        <link rel="preload" href="css/bloglist.css" as="style" onload="this.rel='stylesheet'">
-
-        <link rel="preload" href="https://www.gstatic.com/firebasejs/4.0.0/firebase-app.js" as="script">
-        <link rel="preload" href="https://www.gstatic.com/firebasejs/4.0.0/firebase-database.js" as="script">
-    {{/blog}}
     <link rel="preload" href="js/main.js" as="script">
     {{> _html_header}}
 </head>
 <body class="dev-mind">
-{{> _page_header}}
-<main>
-    {{{ contents }}}
-    {{> _page_footer}}
-</main>
-{{> _html_footer}}
-{{#blog}}
-    <script src="https://www.gstatic.com/firebasejs/4.0.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/4.0.0/firebase-database.js"></script>
-    <script src="js/blog.js">dev ={{modedev}}</script>
-    <script>
-        window.addEventListener("load", function () {
-            blog.{{blog}}();
-        });
-    </script>
-{{/blog}}
+    {{> _page_header}}
+    <main>
+        {{{ contents }}}
+        {{> _page_footer}}
+    </main>
+    {{> _html_footer}}
 </body>
 </html>
