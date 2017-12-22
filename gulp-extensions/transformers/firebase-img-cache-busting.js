@@ -10,7 +10,8 @@ const fs = require('fs');
 const path = require('path');
 
 /**
- * This plugin parse all the asciidoc files to build a Json index file with metadata
+ * This plugin is used to update the page index in Firebase and update the images reference after the cache
+ * busting task
  */
 module.exports = (cacheBustingFile, modeDev) => {
   if (!cacheBustingFile) throw new PluginError('firebase-img-cache-busting', 'Missing rev file with file hashes for firebase-img-cache-busting');
