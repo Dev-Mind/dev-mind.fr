@@ -125,7 +125,6 @@ Voici un bon moyen mnémotechnique (tiré d'une conférence de https://twitter.c
 
 image::../../img/blog/2017/web_05.png[Cde retour HTTP]
 
-
 == Les headers HTTP
 Afin d’affiner les requêtes et les réponses, des paramètres peuvent être ajouté dans l’entête des message. Vous pouvez ajouter vos propres données dans ces headers. Le principe est de pouvoir transférer des informations entre le client et le serveur.
 
@@ -133,15 +132,14 @@ Je pourrai lister tous les entêtes standards interprétés par les navigateurs 
 
 Ce qu’il est intéressant de savoir c’est qu’il en existe différents pour traiter automatiquement certaines problématiques. Le site https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers[développeur web (MDN)] de Mozilla propose une classification intéressante : authentification, cache, CORS…
 
+== Organismes de régulation
 
-= Organismes de régulation
-
-== Des initiatives locales
+=== Des initiatives locales
 Je parle de régulation car ce terme est dans la bouche de toutes les autorités dans le monde. Le web a été créé pour être un espace libre mais l’argent et les données personnelles sont de tel enjeux que privés et gouvernants font tout pour prendre le contrôle.
 
 Heureusement ce n’est pas simple. Mais Internet devient de moins en moins un espace de liberté. Chaque pays mais en place des autorités de régulation quand il n’y a pas de la censure ou autre mécanisme pour contrôler les internautes.
 
-== Le W3C
+=== Le W3C
 Après ce petit apparté je vais parler de l’organisme qui devrait être le seul maître à bord. Il s’agit du https://www.w3.org/[W3C] acronyme de World Wide Web Consortium. Cette association fondée en 1994 par https://fr.wikipedia.org/wiki/Tim_Berners-Lee[Tim Berners-Lee] a pour leitmotiv : “un seul web partout et pour tous”.
 
 image::../../img/blog/2017/web_04.png[W3C]
@@ -157,7 +155,7 @@ Une recommandation peut passer par les états suivants
 * Proposed Recommendation (PR) (recommandation proposée),
 * W3C Recommendation (REC) (recommandation du W3C)
 
-== Le WHATWG
+=== Le WHATWG
 https://whatwg.org/[WHATWG] (Web Hypertext Application Technology Working Group) est une communauté de personnes dont le but est de faire évoluer le web. Cette fondation a été créée par des mécontents du W3C en 2004. On retrouve la fondation Mozilla, Opéra, des personnes de chez Apple.
 
 Le but est de répondre à la lenteur du W3C sur certains sujets comme HTML, les web workers,... Au final les 2 organisations travaillent ensemble pour faire avancer le web.
