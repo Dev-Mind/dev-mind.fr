@@ -199,24 +199,24 @@ gulp.task('copy', (cb) => {
 //   swPrecache.write(`build/.tmp/service-worker.js`, config, cb);
 // });
 
-// gulp.task('service-worker', ['generate-service-worker', 'bundle-sw'], (cb) => {
-//   gulp.src(`build/.tmp/workbox-sw.prod.(*).js`)
-//     .pipe(gulp.dest(`build/dist`));
-//
-//   gulp.src(`build/.tmp/{service-worker.js,sw.js}`)
-//     .pipe($.sourcemaps.init())
-//     .pipe($.sourcemaps.write())
-//     .pipe($.uglify({preserveComments: 'none'}))
-//     .pipe($.size({title: 'scripts'}))
-//     .pipe($.sourcemaps.write('.'))
-//     .pipe(gulp.dest(`build/dist`))
-//     .on('end', () => cb())
-// });
+gulp.task('service-worker', ['bundle-sw'], (cb) => {
+  gulp.src(`build/.tmp/workbox-sw.prod.(*).js`)
+    .pipe(gulp.dest(`build/dist`));
+
+  gulp.src(`build/.tmp/sw.js`)
+    .pipe($.sourcemaps.init())
+    .pipe($.sourcemaps.write())
+    .pipe($.uglify({preserveComments: 'none'}))
+    .pipe($.size({title: 'scripts'}))
+    .pipe($.sourcemaps.write('.'))
+    .pipe(gulp.dest(`build/dist`))
+    .on('end', () => cb())
+});
 
 gulp.task('bundle-sw', () => {
   return wbBuild.injectManifest({
     swSrc: 'src/sw.js',
-    swDest: 'build/.tmp/service-worker2.js',
+    swDest: 'build/.tmp/sw.js',
     globDirectory: './build/dist',
     staticFileGlobs: ['**\/*.{js,html,css,png,jpg,json,gif,svg,webp,eot,ttf,woff,woff2,gz}']
   })
@@ -355,7 +355,7 @@ gulp.task('default', cb =>
     'build',
     'cache-busting',
     'compress',
-    'bundle-sw',
+    'service-worker',
     cb
   )
 );
