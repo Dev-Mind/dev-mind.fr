@@ -10,11 +10,13 @@
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  flex: 2 1 0;
   @media (max-width: $max_width_mobile) {
     flex-direction: column;
     flex-basis: auto;
   }
+}
+.dm-blog--container-left{
+  flex: 2 1 0;
 }
 .dm-blog--container-right{
   flex: 1 0 0;

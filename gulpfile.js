@@ -15,6 +15,7 @@ const convertAsciidocToHtml = require('./gulp-extensions/transformers/convert-ad
 const convertToRss = require('./gulp-extensions/transformers/convert-to-rss');
 const readAsciidoc = require('./gulp-extensions/transformers/read-asciidoctor');
 const readHtml = require('./gulp-extensions/transformers/read-html');
+const generateBlogFromFirebaseIndex = require('./gulp-extensions/transformers/generate-blog-from-firebase-index');
 const applyTemplate = require('./gulp-extensions/transformers/apply-template');
 const highlightCode = require('./gulp-extensions/transformers/highlight-code');
 const firebaseIndexing = require('./gulp-extensions/transformers/firebase-indexing');
@@ -46,10 +47,11 @@ const HTMLMIN_OPTIONS = {
 };
 
 const MUSTACHE_PARTIALS = [
-  { key : '_html_header', path: 'src/templates/_html_header.mustache' },
-  { key : '_page_header', path:'src/templates/_page_header.mustache' },
-  { key : '_page_footer', path: 'src/templates/_page_footer.mustache' },
-  { key : '_html_footer', path: 'src/templates/_html_footer.mustache' }
+  {key: '_html_header', path: 'src/templates/_html_header.mustache'},
+  {key: '_page_header', path: 'src/templates/_page_header.mustache'},
+  {key: '_page_footer', path: 'src/templates/_page_footer.mustache'},
+  {key: '_html_footer', path: 'src/templates/_html_footer.mustache'},
+  {key: '_blog_intro', path: 'src/templates/_blog_intro.mustache'}
 ];
 
 let modeDev = false;
@@ -88,16 +90,25 @@ gulp.task('blog-indexing', (cb) => {
     .on('end', () => cb())
 });
 
-gulp.task('blog-rss', (cb) => {
-  gulp.src('src/blog/**/*.adoc')
-    .pipe(readAsciidoc(modeDev))
-    .pipe(convertAsciidocToHtml())
-    .pipe(convertToRss('blog.xml'))
-    .pipe(gulp.dest('build/dist/rss'))
-    .on('end', () => cb())
-});
+gulp.task('blog-rss', (cb) => gulp
+  .src('src/blog/**/*.adoc')
+  .pipe(readAsciidoc(modeDev))
+  .pipe(convertAsciidocToHtml())
+  .pipe(convertToRss('blog.xml'))
+  .pipe(gulp.dest('build/dist/rss'))
+  //.on('end', () => cb())
+);
 
-gulp.task('blog', ['blog-indexing', 'blog-rss'], (cb) => {
+gulp.task('blog-list', (cb) => gulp
+  .src(`src/templates/blog_list.mustache`)
+  .pipe(generateBlogFromFirebaseIndex(modeDev, MUSTACHE_PARTIALS, 'blog.html', 'blog_list.mustache', 4))
+  .pipe(gulp.dest('build/.tmp'))
+  .pipe($.htmlmin(HTMLMIN_OPTIONS))
+  .pipe(gulp.dest('build/dist'))
+  //.on('end', () => cb())
+);
+
+gulp.task('blog', ['blog-indexing', 'blog-list', 'blog-rss'], (cb) => {
   gulp.src('src/blog/**/*.adoc')
     .pipe(readAsciidoc(modeDev))
     .pipe(convertAsciidocToHtml())
@@ -116,17 +127,14 @@ gulp.task('lint', () =>
     .pipe($.if(!browserSync.active, $.eslint.failOnError()))
 );
 
-const generateHtml = (directory, templateName) => gulp
-    .src(`src/html/${directory}/**/*.html`)
-    .pipe(readHtml(modeDev))
-    .pipe(applyTemplate(`src/templates/${templateName}.mustache`, MUSTACHE_PARTIALS))
-    .pipe($.size({title: 'html', showFiles: true}))
-    .pipe(gulp.dest('build/.tmp'))
-    .pipe($.htmlmin(HTMLMIN_OPTIONS))
-    .pipe(gulp.dest('build/dist'));
-
-gulp.task('html-blog', () => generateHtml('blog', 'blog_list'));
-gulp.task('html-static', () => generateHtml('static', 'site'));
+gulp.task('html', () => gulp
+  .src(`src/html/**/*.html`)
+  .pipe(readHtml(modeDev))
+  .pipe(applyTemplate(`src/templates/site.mustache`, MUSTACHE_PARTIALS))
+  .pipe($.size({title: 'html', showFiles: true}))
+  .pipe(gulp.dest('build/.tmp'))
+  .pipe($.htmlmin(HTMLMIN_OPTIONS))
+  .pipe(gulp.dest('build/dist')));
 
 gulp.task('local-js', () =>
   gulp.src(['src/js/*.js'])
@@ -146,7 +154,6 @@ gulp.task('local-js', () =>
 gulp.task('vendor-js', () =>
   gulp.src(['node_modules/fg-loadcss/src/*.js'])
     .pipe($.uglify({preserveComments: 'some'}))
-    .pipe($.size({title: 'scripts'}))
     .pipe(gulp.dest('build/dist/js'))
 );
 
@@ -276,7 +283,7 @@ gulp.task('build', cb => {
     'images-min',
     'images',
     'lint',
-    ['html-static', 'html-blog', 'local-js', 'vendor-js'],
+    ['html', 'local-js', 'vendor-js'],
     'copy',
     cb
   )

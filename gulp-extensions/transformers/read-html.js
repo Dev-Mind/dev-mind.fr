@@ -75,7 +75,7 @@ module.exports = function (modedev, scope) {
     const html = fs.readFileSync(file.path, 'utf8');
     file.fileName = file.path.substring(file.path.lastIndexOf('/') + 1, file.path.length);
 
-    if (!pageMetadata[file.fileName]) throw new PluginError('html-read', `Missing index definition for ${file.path} in the build script html-read`);
+    if (!pageMetadata[file.fileName]) throw new PluginError('read-html', `Missing index definition for ${file.path} in the build script html-read`);
 
     file.templateModel = {
       keywords: () => pageMetadata[file.fileName].keywords,
@@ -84,7 +84,6 @@ module.exports = function (modedev, scope) {
       contents: () => new Buffer(html),
       gendate: () => moment().format('DD/MM/YYYY'),
       blog: () => pageMetadata[file.fileName].blog,
-      firebaseApiKey: () => firebaseConfig.apiKey,
       canonicalUrl: () => file.fileName,
       modedev: () => modedev
     };

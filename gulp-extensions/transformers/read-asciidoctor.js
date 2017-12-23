@@ -52,7 +52,6 @@ module.exports = function (modedev) {
       teaser: file.attributes.teaser,
       imgteaser: file.attributes.imgteaser,
       status: file.attributes.status,
-      firebaseApiKey: firebaseConfig.apiKey,
       modedev: () => modedev
     };
 

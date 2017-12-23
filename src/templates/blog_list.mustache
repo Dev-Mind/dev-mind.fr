@@ -5,25 +5,127 @@
     <link rel="preload" href="img/animation/cloud/cloud3.png" as="image">
     <link rel="preload" href="img/animation/cloud/cloud2.png" as="image">
     <link rel="preload" href="css/bloglist.css" as="style" onload="this.rel='stylesheet'">
-    <link rel="preload" href="https://www.gstatic.com/firebasejs/4.0.0/firebase-app.js" as="script">
-    <link rel="preload" href="https://www.gstatic.com/firebasejs/4.0.0/firebase-database.js" as="script">
     <link rel="preload" href="js/main.js" as="script">
     {{> _html_header}}
 </head>
 <body class="dev-mind">
-    {{> _page_header}}
-    <main>
-        {{{ contents }}}
-        {{> _page_footer}}
-    </main>
-    {{> _html_footer}}
-    <script src="https://www.gstatic.com/firebasejs/4.0.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/4.0.0/firebase-database.js"></script>
-    <script src="js/blog.js">dev ={{modedev}}</script>
-    <script>
-        window.addEventListener("load", function () {
-            blog.{{blog}}();
-        });
-    </script>
+{{> _page_header}}
+<main>
+    {{> _blog_intro}}
+    <div class="dm_home_blog" id="blog">
+        <devmind-home-blog>
+            <div class="dm-blog--container">
+                <div class="dm-blog--container-left">
+                    <div class="dm-blog--container-article">
+                    {{#firstArticle}}
+
+                        <article class="dm-blog--article-head" onclick="document.location.href='blog/{{dir}}/{{filename}}.html'">
+                            <h1><a href="blog/{{dir}}/{{filename}}.html">{{doctitle}}</a></h1>
+                            <div class="dm-blog--imgteaser"><img src="{{imgteaser}}"/></div>
+                            <p class="dm-blog--teaser">{{teaser}}</p>
+                        </article>
+                    {{/firstArticle}}
+                    {{#secondArticles}}
+                        <article class="dm-blog--article" onclick="document.location.href='blog/{{dir}}/{{filename}}.html'">
+                            <h2><a href="blog/{{dir}}/{{filename}}.html">{{doctitle}}</a></h2>
+                            <div class="dm-blog--imgteaser"><img src="{{imgteaser}}"/></div>
+                            <p class="dm-blog--teaser">{{teaser}}</p>
+                        </article>
+                    {{/secondArticles}}
+                    </div>
+                    <div class="dm-blog--container-article" id="dm_extension">
+                    </div>
+                    <p>&nbsp;</p>
+                </div>
+                <div class="dm-blog--container-right">
+                    <div id="last-articles">
+                        <table class="dm-blog--tenlastarticles">
+                            <thead>
+                            <tr>
+                                <th>Derniers articles</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {{#last15Articles}}
+                                <tr>
+                                    <td class="dm-blog--shortcutlist">
+                                        <small>{{date}}</small>
+                                        <a title="{{doctitle}}" href="blog/{{dir}}/{{filename}}.html">{{doctitle}}</a>
+                                    </td>
+                                </tr>
+                            {{/last15Articles}}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                        <h3>Suivre Dev-Mind</h3>
+                        <p>
+                            <a href="https://twitter.com/guillaumeehret" target="_blank">
+                                <img src="img/contact/twitter.svg" alt="Twitter" class="dm-social">
+                            </a>
+                            <a href="https://github.com/javamind" target="_blank">
+                                <img src="img/contact/github.svg" alt="Github" class="dm-social">
+                            </a>
+                            <a href="https://plus.google.com/+GuillaumeEhret" target="_blank">
+                                <img src="img/contact/googlep.svg" alt="Google+" class="dm-social">
+                            </a>
+                        </p>
+
+                        <h3>Formations</h3>
+                        <p>
+                            Dev-Mind propose plusieurs <a href="index.html#formation">formations</a>. Contactez moi pour
+                            plus d'informations. Par exemple
+                        </p>
+                        <div class="dm_formation__detail"
+                             onclick="document.location.href='formation_optimiser.html'">
+                            <h3><a href="formation_optimiser.html">Optimiser une application web</a></h3>
+                            <p><b>Durée</b> : 1 journée</p>
+                            <p>Le but de cette formation est d'aborder les différentes mécaniques pour améliorer les
+                                performances de votre site web (HTTP2, service workers, asynchrone...).
+                                Vous apprendrez comment optimiser le loadtime, le firstload... <a
+                                        href="formation_optimiser.html">en savoir plus...</a></p>
+                            <picture alt="Reprendre les bases">
+                                <source srcset="img/formation/formation_back_500.webp" type="image/webp"/>
+                                <source srcset="img/formation/formation_back_500.png"/>
+                                <img src="img/formation/formation_back_500.png" alt="Reprendre les bases">
+                            </picture>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dm-blog--button">
+                <button onclick="blog.findMoreBlogpost()" id="more-article">Plus d'articles...</button>
+                <button onclick="document.location.href='rss/blog.xml'">Flux RSS</button>
+
+                <p>&nbsp;</p>
+                <p>Partagez cet article</p>
+                <button onclick="blog.sendSocial('twitter')"><img src="img/contact/twitter.svg" alt="Twitter" class="dm-social"></button>
+                <button onclick="blog.sendSocial('google+')"><img src="img/contact/googlep.svg" alt="Github" class="dm-social"></button>
+                <button onclick="blog.sendSocial('facebook')"><img src="img/contact/facebook.svg" alt="Facebook" class="dm-social"></button>
+                <button onclick="blog.sendSocial('linkedin')"><img src="img/contact/linkedin.svg" alt="Linkedin" class="dm-social"></button>
+            </div>
+        </devmind-home-blog>
+    </div>
+    {{> _page_footer}}
+</main>
+{{> _html_footer}}
+<script src="js/bloglist.js"></script>
+<script>
+    window.addEventListener("load", function () {
+        blog.init([
+            {{#otherArticles}}
+                {
+                    date: "{{date}}",
+                    dir: "{{dir}}",
+                    filename: "{{filename}}",
+                    doctitle: "{{doctitle}}",
+                    imgteaser: "{{imgteaser}}",
+                    teaser: "{{teaser}}"
+                },
+            {{/otherArticles}}
+        ]);
+    });
+</script>
 </body>
 </html>
