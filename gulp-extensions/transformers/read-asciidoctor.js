@@ -2,7 +2,7 @@
 
 const map = require('map-stream');
 const asciidoctor = require('asciidoctor.js')();
-const firebaseConfig = require("../../firebase.json");
+const firebaseConfig = require("../../firebase.js");
 const moment = require('moment');
 
 const asciidoctorOptions = {

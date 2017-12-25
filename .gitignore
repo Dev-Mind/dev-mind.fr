@@ -3,7 +3,6 @@ build
 .idea
 .idea/workspace.xml
 .travis.yml
-firebase.json
 *.iws
 *.iml
 *.ipr

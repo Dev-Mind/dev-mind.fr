@@ -4,7 +4,7 @@ const map = require('map-stream')
 const fs = require('fs');
 const gutil = require('gulp-util');
 const PluginError = gutil.PluginError;
-const firebaseConfig = require("../../firebase.json");
+const firebaseConfig = require("../../firebase.js");
 const moment = require('moment');
 
 module.exports = function (modedev, scope) {

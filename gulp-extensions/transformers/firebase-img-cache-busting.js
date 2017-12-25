@@ -5,7 +5,7 @@ const PluginError = gutil.PluginError;
 const moment = require('moment');
 const map = require('map-stream');
 const firebase = require("firebase");
-const firebaseConfig = require("../../firebase.json");
+const firebaseConfig = require("../../firebase.js");
 const fs = require('fs');
 const path = require('path');
 
