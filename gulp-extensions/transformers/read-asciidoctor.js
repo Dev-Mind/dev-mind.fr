@@ -40,7 +40,7 @@ module.exports = function (modedev) {
       // make all model properties accessible through fat-arrow "getters"
     // this way, file.* values can be changed before templating
     file.templateModel = {
-      keywords: () => file.attributes.keywords,
+      keywords: () => file.attributes.keywords.split(","),
       title: () => file.attributes.doctitle,
       revdate: () => moment(file.attributes.revdate, 'YYYY-MM-DD').format('DD/MM/YYYY'),
       gendate: () => moment().format('DD/MM/YYYY'),

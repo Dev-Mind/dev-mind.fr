@@ -12,7 +12,6 @@ window.blog = (function () {
   });
 
   let database = firebase.database();
-  let nbElementDisplayed = 4;
 
   /**
    * Converts result to an array
@@ -168,107 +167,6 @@ window.blog = (function () {
       .reduce((a, b) => a + b);
   }
 
-  function _getArticleList(blogpost) {
-    let date = blogpost.revdate.substring(8,10) + '/' + blogpost.revdate.substring(5,7) + '/' + blogpost.revdate.substring(0,4);
-    return `
-        <tr><td class="dm-blog--shortcutlist"><small>${date}</small><a title="${blogpost.doctitle}" href="blog/${blogpost.dir}/${blogpost.filename}.html">${blogpost.doctitle}</a></td></tr>
-        `;
-  }
-
-  function _getArticle(blogpost, first) {
-    var article = document.createElement("article");
-
-    article.className = `dm-blog--article${first ? '-head' : ''}`;
-    article.innerHTML = `
-           <${first ? 'h1' : 'h2'}><a href="blog/${blogpost.dir}/${blogpost.filename}.html">${blogpost.doctitle}</a></${first ? 'h1' : 'h2'}>
-           <div class="dm-blog--imgteaser"><img src="${blogpost.imgteaser}"/></div>
-           <p class="dm-blog--teaser">${blogpost.teaser}</p>
-    `;
-    article.onclick = function () {
-      document.location.href = `blog/${blogpost.dir}/${blogpost.filename}.html`;
-    };
-
-    return article;
-  }
-
-  function _getArchiveArticle(blogpost, first) {
-    var article = document.createElement("article");
-    article.className = `dm-blog--article${first ? '-head' : ''}`;
-    article.innerHTML = `
-           <strong><a href="blog/${blogpost.dir}/${blogpost.filename}.html">${blogpost.doctitle}</a></strong>
-           <p class="dm-blog--teaser">${blogpost.teaser}</p>
-    `;
-    article.onclick = function () {
-      document.location.href = `blog/${blogpost.dir}/${blogpost.filename}.html`;
-    };
-
-    return article;
-  }
-
-  /**
-   * Find the last
-   * @param blogIndex
-   * @private
-   */
-  function findArchiveBlogpost(blogIndex) {
-      let articles = blogIndex
-          .sort((a, b) => (a.strdate < b.strdate ? 1 : (a.strdate > b.strdate ? -1 : 0)))
-          .map((blogpost) => _getArchiveArticle(blogpost));
-
-      let otherArticles = document.getElementById('articles');
-
-      while (otherArticles.firstChild) {
-          otherArticles.removeChild(otherArticles.firstChild);
-      }
-      articles.forEach(article => otherArticles.appendChild(article));
-  }
-
-  /**
-   * Find the last
-   * @param blogIndex
-   * @private
-   */
-  function findLastBlogpost(blogIndex) {
-    let articles = blogIndex
-      .sort((a, b) => (a.strdate < b.strdate ? 1 : (a.strdate > b.strdate ? -1 : 0)))
-      .filter((e, index) => index > 0 && index <= nbElementDisplayed)
-      .map((blogpost) => _getArticle(blogpost));
-
-    let lastArticles = blogIndex
-      .sort((a, b) => (a.strdate < b.strdate ? 1 : (a.strdate > b.strdate ? -1 : 0)))
-      .filter((e, index) => index < 30)
-      .map((blogpost) => _getArticleList(blogpost))
-      .reduce((a, b) => a + b);
-
-    let headArticle = document.getElementById('last-article');
-    while (headArticle.firstChild) {
-      headArticle.removeChild(headArticle.firstChild);
-    }
-    headArticle.appendChild(_getArticle(blogIndex[0], true));
-    articles.forEach(article => headArticle.appendChild(article));
-
-    let otherArticles = document.getElementById('last-articles');
-    otherArticles.innerHTML = `
-      <table class="dm-blog--tenlastarticles">
-        <thead>
-            <tr><th>Derniers articles</th></tr>    
-        </thead>
-        <tbody>
-            ${lastArticles}
-        </tbody>
-      </table>
-      `;
-
-    if (nbElementDisplayed >= blogIndex.length) {
-      document.getElementById('more-article').style.display = 'none';
-    }
-  }
-
-  function findMoreBlogpost(blogIndex) {
-    nbElementDisplayed += 2;
-    findLastBlogpost(blogIndex);
-  }
-
   function sendMessage(target, page, title) {
     if ('twitter' === target) {
       document.location.href = `https://twitter.com/intent/tweet?original_referer=${encodeURI(page)}&text=${encodeURI(title) + ' @DevMindFr'}&tw_p=tweetbutton&url=${encodeURI(page)}`;
@@ -285,11 +183,8 @@ window.blog = (function () {
   }
 
   return {
-    "findArchiveBlogpost": () => _loadBlogIndex((blogIndex) => findArchiveBlogpost(blogIndex), 'blog'),
     // Find and update the page to display a link to the previous blogpost
     "findPreviousBlogpost": (filename) => _loadBlogIndex((blogIndex) => findPreviousBlogpost(blogIndex, filename)),
-    // Display the last written blogpost
-    "findLastBlogpost": () => _loadBlogIndex((blogIndex) => findLastBlogpost(blogIndex), 'blog'),
     // Display more Blogsposts
     "findMoreBlogpost": () => _loadBlogIndex((blogIndex) => findMoreBlogpost(blogIndex), 'blog'),
     // Send a message

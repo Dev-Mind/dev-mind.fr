@@ -78,7 +78,7 @@ module.exports = function (modedev, scope) {
     if (!pageMetadata[file.fileName]) throw new PluginError('read-html', `Missing index definition for ${file.path} in the build script html-read`);
 
     file.templateModel = {
-      keywords: () => pageMetadata[file.fileName].keywords,
+      keywords: () => pageMetadata[file.fileName].keywords.split(","),
       title: () => pageMetadata[file.fileName].title,
       description: () => pageMetadata[file.fileName].description,
       contents: () => new Buffer(html),
