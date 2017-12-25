@@ -159,11 +159,11 @@ gulp.task('vendor-js', () =>
 
 gulp.task('images-min', () =>
   gulp.src('src/images/**/*.{svg,png,jpg}')
-    .pipe(imagemin([imagemin.gifsicle(), imageminMozjpeg(), imagemin.optipng(), imagemin.svgo()], {
+    .pipe($.if(!modeDev, imagemin([imagemin.gifsicle(), imageminMozjpeg(), imagemin.optipng(), imagemin.svgo()], {
       progressive: true,
       interlaced: true,
       arithmetic: true,
-    }))
+    })))
     .pipe(gulp.dest('build/.tmp/img'))
     .pipe($.if('**/*.{jpg,png}', $.webp()))
     .pipe($.size({title: 'images', showFiles: false}))
@@ -247,7 +247,7 @@ gulp.task('compress', ['compress-svg'], (cb) => {
     .on('end', () => cb())
 });
 
-gulp.task('serveAndWatch', ['initModeDev', 'build'], () => {
+gulp.task('serveAndWatch', () => {
   browserSync.init({
     server: {
       baseDir: "./build/dist/"
