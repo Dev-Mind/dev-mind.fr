@@ -53,7 +53,6 @@ module.exports = function (modedev) {
       status: file.attributes.status,
       modedev: () => modedev
     };
-
     next(null, file);
   })
 };

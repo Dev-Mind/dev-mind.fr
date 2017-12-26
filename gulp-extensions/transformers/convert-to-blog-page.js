@@ -31,15 +31,17 @@ module.exports = (mustacheTemplateFile, partials, blogIndexFile) => {
     let previousPost;
     let nextPost;
 
-    blogIndex.forEach((elt, index, array) => {
-      if (elt.filename === file.filename) {
-        previousPost = index - 1 > 0 ? array[index + 1] : undefined;
-        nextPost = index < array.length ? array[index + 1] : undefined;
+    blogIndex
+      .sort((a, b) => (a.strdate < b.strdate ? 1 : (a.strdate > b.strdate ? -1 : 0)))
+      .forEach((elt, index, array) => {
+      if (elt.filename === file.templateModel.filename) {
+        nextPost = index  > 0 ? array[index - 1] : undefined;
+        previousPost = index < array.length ? array[index + 1] : undefined;
       }
     });
 
     if (previousPost) {
-      file.templateModel.previousPost = {
+      file.templateModel.previous = {
         dir: previousPost.dir,
         filename: previousPost.filename,
         doctitle: previousPost.doctitle

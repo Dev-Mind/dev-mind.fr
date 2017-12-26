@@ -2,8 +2,6 @@
 window.blog = (function () {
   'use strict';
 
-  let isDevPage = document.currentScript.text.indexOf('dev=true') > -1;
-
   firebase.initializeApp({
     apiKey: "AIzaSyDDNQD2TvIlEM4J6zRaRUEr9NTySfSzPuI",
     authDomain: "devmindblog.firebaseapp.com",
@@ -27,33 +25,12 @@ window.blog = (function () {
   }
 
   /**
-   * Loads the blog file index
-   * @param cb
-   * @param dirpath
-   * @returns {Array}
-   * @private
-   */
-  function _loadBlogIndex(cb) {
-    //Data are load from localstorage if they are presents
-    const data = localStorage.getItem("blogIndex");
-    if(data){
-      cb(_transformResult(JSON.parse(data)));
-    }
-
-    database
-      .ref(isDevPage ? '/blogsDev' : '/blogs')
-      .on('value', (snapshot) => {
-        localStorage.setItem("blogIndex", JSON.stringify(snapshot.val()));
-        cb(_transformResult(snapshot.val()));
-      });
-  }
-
-  /**
    * Save the blog visit for stats
    */
-  function _saveVisit(filename) {
+  function _saveVisit(filename, modeDev) {
+    console.log(`database = /stats${modeDev ? 'Dev' : ''}/${filename}`)
     database
-      .ref(`/stats${isDevPage ? 'Dev' : ''}/${filename}`)
+      .ref(`/stats${modeDev ? 'Dev' : ''}/${filename}`)
       .transaction(count => {
         let result = count ? count + 1 : 1;
         document.getElementById('nbview').innerHTML = ` - lu ${result} fois`;
@@ -63,32 +40,19 @@ window.blog = (function () {
 
   /**
    * Parse the index, find the potential previous blog and update the view
-   * @param blogIndex
-   * @param filename
    * @private
    */
-  function findPreviousBlogpost(blogIndex, filename) {
-    let previous;
-    _saveVisit(filename);
-    blogIndex
-      .sort((a, b) => (a.strdate < b.strdate ? 1 : (a.strdate > b.strdate ? -1 : 0)))
-      .forEach((elt, index, array) => {
-        if (elt.filename === filename) {
-          previous = index < array.length ? array[index + 1] : undefined;
-          document.getElementById('blog-keywords').innerHTML = `${_getHtmlKeyword(elt, '-detail')}`;
-        }
-      });
-
-    if (previous) {
-      document.getElementById('previous-blogpost').innerHTML =
-        `<div class="dm-blog--previous">Article précédent : <a href="../${previous.dir}/${previous.filename}.html">${previous.doctitle}</a></div>`;
-    }
-
+  function init(filename, modeDev) {
+    _findComments(filename, modeDev);
+    _saveVisit(filename, modeDev);
   }
 
-  function findComments(filename) {
+  /**
+   * @private
+   */
+  function _findComments(filename, modeDev) {
     database
-      .ref(`${isDevPage ? '/commentsDev' : '/comments'}/${filename}`)
+      .ref(`${modeDev ? '/commentsDev' : '/comments'}/${filename}`)
       .startAt()
       .on('value', (snapshot) => {
         if (snapshot.val()) {
@@ -130,13 +94,13 @@ window.blog = (function () {
     document.getElementById('commentFrm').style.display = commentVisibility;
   }
 
-  function saveComment(filename) {
+  function saveComment(filename, modeDev) {
     const date = new Date();
     const form = document.forms['comment'];
     const timestamp = date.toISOString().replace(new RegExp(':', 'g'), '_').replace('.', '_');
 
     database
-      .ref(`${isDevPage ? '/commentsDev' : '/comments'}/${filename}/${timestamp}`)
+      .ref(`${modeDev ? '/commentsDev' : '/comments'}/${filename}/${timestamp}`)
       .set({
         timestamp: timestamp,
         date: date.toLocaleString('fr'),
@@ -152,19 +116,6 @@ window.blog = (function () {
         displayCommentForm();
       });
     return false;
-  }
-
-  /**
-   * Formats the keywords
-   * @param blogpost
-   * @param suffix
-   * @returns {*}
-   */
-  function _getHtmlKeyword(blogpost, suffix) {
-    return blogpost.keywords
-      .split(',')
-      .map(keyword => `<span class="dm-blog--keyword${suffix}"><small>${keyword}</small></span>&nbsp;`)
-      .reduce((a, b) => a + b);
   }
 
   function sendMessage(target, page, title) {
@@ -184,9 +135,7 @@ window.blog = (function () {
 
   return {
     // Find and update the page to display a link to the previous blogpost
-    "findPreviousBlogpost": (filename) => _loadBlogIndex((blogIndex) => findPreviousBlogpost(blogIndex, filename)),
-    // Display more Blogsposts
-    "findMoreBlogpost": () => _loadBlogIndex((blogIndex) => findMoreBlogpost(blogIndex), 'blog'),
+    "init": init,
     // Send a message
     "sendSocial": sendMessage,
     // Form validation
@@ -194,7 +143,6 @@ window.blog = (function () {
     // save comment
     "saveComment": saveComment,
     // Find comments
-    "findComments": findComments,
     "displayCommentForm" : displayCommentForm
   };
 })();

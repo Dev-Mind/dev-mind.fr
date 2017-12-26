@@ -276,7 +276,7 @@ Si vous voulez tester les possibilités vous pouvez aller sur le site http://www
 
 A la fin de sa présentation Laurence nous a montré des travaux effectués sur des fonts contenant des icônes pour montrer que les fonts pourraient même servir dans un futur proche à créer des animations
 
-image::../../img/blog/2017/dotcss_10.jpg[DotCSS]
+image::../../img/blog/2017/dotcss_09.jpg[DotCSS]
 
 Merci à toute la team dotCSS pour l'organisation de cet event
 
