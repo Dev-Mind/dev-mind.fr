@@ -11,11 +11,14 @@ const wbBuild = require('workbox-build');
 
 const $ = require('gulp-load-plugins')();
 
-const convertAsciidocToHtml = require('./gulp-extensions/transformers/convert-adoc-to-html');
+const convertToHtml = require('./gulp-extensions/transformers/convert-to-html');
+const convertToBlogList = require('./gulp-extensions/transformers/convert-to-blog-list');
+const convertToBlogPage = require('./gulp-extensions/transformers/convert-to-blog-page');
+const convertToJson = require('./gulp-extensions/transformers/convert-to-json');
 const convertToRss = require('./gulp-extensions/transformers/convert-to-rss');
 const readAsciidoc = require('./gulp-extensions/transformers/read-asciidoctor');
 const readHtml = require('./gulp-extensions/transformers/read-html');
-const generateBlogFromFirebaseIndex = require('./gulp-extensions/transformers/generate-blog-from-firebase-index');
+const readIndex = require('./gulp-extensions/transformers/read-index');
 const applyTemplate = require('./gulp-extensions/transformers/apply-template');
 const highlightCode = require('./gulp-extensions/transformers/highlight-code');
 const firebaseIndexing = require('./gulp-extensions/transformers/firebase-indexing');
@@ -85,35 +88,36 @@ gulp.task('blog-indexing', (cb) => {
   });
   gulp.src('src/blog/**/*.adoc')
     .pipe(readAsciidoc(modeDev))
-    .pipe(convertAsciidocToHtml())
+    .pipe(convertToHtml())
     .pipe(firebaseIndexing(modeDev))
+    .pipe(convertToJson('blogindex.json'))
+    .pipe(gulp.dest('build/.tmp'))
     .on('end', () => cb())
 });
 
-gulp.task('blog-rss', (cb) => gulp
-  .src('src/blog/**/*.adoc')
-  .pipe(readAsciidoc(modeDev))
-  .pipe(convertAsciidocToHtml())
-  .pipe(convertToRss('blog.xml'))
-  .pipe(gulp.dest('build/dist/rss'))
-  //.on('end', () => cb())
+gulp.task('blog-rss', () =>
+  gulp.src('build/.tmp/blogindex.json')
+    .pipe(readIndex())
+    .pipe(convertToRss('blog.xml'))
+    .pipe(gulp.dest('build/dist/rss'))
 );
 
-gulp.task('blog-list', (cb) => gulp
-  .src(`src/templates/blog_list.mustache`)
-  .pipe(generateBlogFromFirebaseIndex(modeDev, MUSTACHE_PARTIALS, 'blog.html', 'blog_list.mustache', 4))
-  .pipe(gulp.dest('build/.tmp'))
-  .pipe($.htmlmin(HTMLMIN_OPTIONS))
-  .pipe(gulp.dest('build/dist'))
-  //.on('end', () => cb())
+gulp.task('blog-list', () =>
+  gulp.src('build/.tmp/blogindex.json')
+    .pipe(readIndex())
+    .pipe(convertToBlogList('src/templates/blog_list.mustache', MUSTACHE_PARTIALS, 'blog.html', 4))
+    .pipe(gulp.dest('build/.tmp'))
+    .pipe($.htmlmin(HTMLMIN_OPTIONS))
+    .pipe(gulp.dest('build/dist'))
 );
 
 gulp.task('blog', ['blog-indexing', 'blog-list', 'blog-rss'], (cb) => {
   gulp.src('src/blog/**/*.adoc')
     .pipe(readAsciidoc(modeDev))
-    .pipe(convertAsciidocToHtml())
-    .pipe(applyTemplate('src/templates/blog.mustache', MUSTACHE_PARTIALS))
+    .pipe(convertToHtml())
     .pipe(highlightCode({selector: 'pre.highlight code'}))
+    .pipe(convertToBlogPage('src/templates/blog.mustache', MUSTACHE_PARTIALS, 'build/.tmp/blogindex.json'))
+
     .pipe(gulp.dest('build/.tmp/blog'))
     .pipe($.htmlmin(HTMLMIN_OPTIONS))
     .pipe(gulp.dest('build/dist/blog'))
@@ -127,14 +131,14 @@ gulp.task('lint', () =>
     .pipe($.if(!browserSync.active, $.eslint.failOnError()))
 );
 
-gulp.task('html', () => gulp
-  .src(`src/html/**/*.html`)
-  .pipe(readHtml(modeDev))
-  .pipe(applyTemplate(`src/templates/site.mustache`, MUSTACHE_PARTIALS))
-  .pipe($.size({title: 'html', showFiles: true}))
-  .pipe(gulp.dest('build/.tmp'))
-  .pipe($.htmlmin(HTMLMIN_OPTIONS))
-  .pipe(gulp.dest('build/dist')));
+gulp.task('html', () =>
+  gulp.src(`src/html/**/*.html`)
+    .pipe(readHtml(modeDev))
+    .pipe(applyTemplate(`src/templates/site.mustache`, MUSTACHE_PARTIALS))
+    .pipe($.size({title: 'html', showFiles: true}))
+    .pipe(gulp.dest('build/.tmp'))
+    .pipe($.htmlmin(HTMLMIN_OPTIONS))
+    .pipe(gulp.dest('build/dist')));
 
 gulp.task('local-js', () =>
   gulp.src(['src/js/*.js'])

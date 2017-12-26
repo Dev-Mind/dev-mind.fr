@@ -3,13 +3,13 @@
 const gutil = require('gulp-util');
 const PluginError = gutil.PluginError;
 const map = require('map-stream');
-const firebase = require("firebase");
-const firebaseConfig = require("../../firebase.js");
+const firebase = require('firebase');
+const firebaseConfig = require('../../firebase.js');
 
 /**
  * This plugin parse all the asciidoc files to build a Json index file with metadata
  */
-module.exports = (modeDev) => {
+module.exports = (modeDev, file) => {
   let initializeDatabase = (callback) => {
     if (firebase.apps.length === 0) {
       firebase.initializeApp({
@@ -49,30 +49,35 @@ module.exports = (modeDev) => {
           .ref(`/stats${modeDev ? 'Dev' : ''}/${filename}`)
           .transaction(count => count ? count : 0);
 
+        file.indexData =  {
+          strdate: file.attributes.strdate,
+          revdate: file.attributes.revdate,
+          description: file.attributes.description,
+          doctitle: file.attributes.doctitle,
+          keywords: file.attributes.keywords,
+          filename: filename,
+          category: file.attributes.category,
+          teaser: file.attributes.teaser,
+          imgteaser: file.attributes.imgteaser,
+          modeDev : modeDev,
+          dir: file.path.substring(file.path.lastIndexOf("blog/") + 5, file.path.lastIndexOf("/"))
+        };
+
         // Adds an index to this filename
         firebase.database()
           .ref(`${modeDev ? 'blogsDev' : 'blogs'}/${filename}`)
           .remove()
-          .then(() => {
+          .then(() =>
             firebase.database()
               .ref(`${modeDev ? 'blogsDev' : 'blogs'}/${filename}`)
-              .set({
-                strdate: file.attributes.strdate,
-                revdate: file.attributes.revdate,
-                description: file.attributes.description,
-                doctitle: file.attributes.doctitle,
-                keywords: file.attributes.keywords,
-                filename: filename,
-                category: file.attributes.category,
-                teaser: file.attributes.teaser,
-                imgteaser: file.attributes.imgteaser,
-                modeDev : modeDev,
-                dir: file.path.substring(file.path.lastIndexOf("blog/") + 5, file.path.lastIndexOf("/"))
-              })
+              .set(file.indexData)
               .then(() => next(null, file))
-          })
+              .catch((error) => {
+                throw new PluginError('asciidoctor-indexing', `Firebase insert failed : ${error.message}`);
+              })
+          )
           .catch((error) => {
-            throw new PluginError('asciidoctor-indexing', `Firebase insert failed : ${error.message}`);
+            throw new PluginError('asciidoctor-indexing', `Firebase remove failed : ${error.message}`);
           });
       }
     };

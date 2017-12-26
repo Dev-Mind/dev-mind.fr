@@ -3,7 +3,7 @@
 const map = require('map-stream')
 
 /**
- * This function receives a stream with different medatadata on asciidoc files. For example
+ * This function receives a stream with different metadata on asciidoc files. For example
  *
  * <pre>
  *  gulp.src("src/blog/*.adoc")
@@ -18,12 +18,10 @@ const map = require('map-stream')
 module.exports = function () {
 
   return map((file, next) => {
-
-    const html = file.ast.convert()
-    file.contents = new Buffer(html)
-    file.extname = '.html'
-    file.path = file.path.replace('.adoc', '.html')
-
-    next(null, file)
-  })
-}
+    const html = file.ast.convert();
+    file.contents = new Buffer(html);
+    file.extname = '.html';
+    file.path = file.path.replace('.adoc', '.html');
+    next(null, file);
+  });
+};

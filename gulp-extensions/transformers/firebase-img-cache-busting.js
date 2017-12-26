@@ -2,7 +2,6 @@
 
 const gutil = require('gulp-util');
 const PluginError = gutil.PluginError;
-const moment = require('moment');
 const map = require('map-stream');
 const firebase = require("firebase");
 const firebaseConfig = require("../../firebase.js");

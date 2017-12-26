@@ -2,7 +2,6 @@
 
 const map = require('map-stream');
 const asciidoctor = require('asciidoctor.js')();
-const firebaseConfig = require("../../firebase.js");
 const moment = require('moment');
 
 const asciidoctorOptions = {
@@ -27,7 +26,7 @@ const asciidoctorOptions = {
  */
 module.exports = function (modedev) {
 
-  return map(async (file, next) => {
+  return map((file, next) => {
 
     const opts = Object.assign({}, asciidoctorOptions, {});
     opts.attributes = Object.assign({}, opts.attributes);
@@ -57,6 +56,6 @@ module.exports = function (modedev) {
 
     next(null, file);
   })
-}
+};
 
 
