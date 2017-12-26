@@ -111,7 +111,16 @@ gulp.task('blog-list', () =>
     .pipe(gulp.dest('build/dist'))
 );
 
-gulp.task('blog', ['blog-indexing', 'blog-list', 'blog-rss'], (cb) => {
+gulp.task('blog-archive', () =>
+  gulp.src('build/.tmp/blogindex.json')
+    .pipe(readIndex())
+    .pipe(convertToBlogList('src/templates/blog_archive.mustache', MUSTACHE_PARTIALS, 'blog_archive.html'))
+    .pipe(gulp.dest('build/.tmp'))
+    .pipe($.htmlmin(HTMLMIN_OPTIONS))
+    .pipe(gulp.dest('build/dist'))
+);
+
+gulp.task('blog', ['blog-indexing', 'blog-list', 'blog-rss', 'blog-archive'], (cb) => {
   gulp.src('src/blog/**/*.adoc')
     .pipe(readAsciidoc(modeDev))
     .pipe(convertToHtml())
@@ -265,7 +274,7 @@ gulp.task('serveAndWatch', () => {
   gulp.watch('src/**/*.adoc', ['blog', browserSync.reload]);
   gulp.watch('src/**/*.js', ['lint', 'local-js', browserSync.reload]);
   gulp.watch('src/images/**/*', ['images', browserSync.reload]);
-  gulp.watch('src/**/*.hbs', ['blog', 'html', browserSync.reload]);
+  gulp.watch('src/**/*.mustache', ['blog', 'html', browserSync.reload]);
 });
 
 

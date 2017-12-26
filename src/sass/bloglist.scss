@@ -97,6 +97,16 @@
     }
   }
 }
+.dm-blog--article-archive {
+  @extend .dm-blog--article;
+  flex: 0 1 33%;
+  @media (max-width: $max_width_mobile) {
+    flex: 0 1 auto;
+  }
+  @media (min-width: $min_width_tablet) and (max-width: $max_width_tablet){
+    flex: 0 1 49%;
+  }
+}
 .dm-blog--article-head{
   @extend .dm-blog--article;
   flex: 1 2 auto;
@@ -146,6 +156,18 @@
   text-align: justify;
 }
 
+.dm-blog--article-all{
+  text-align: right;
+  width: 100%;
+
+  > a {
+    color: $color_dark;
+    float: right;
+    padding-top: 0.2em;
+    padding-bottom: 0.3em;
+  }
+}
+
 .dm-blog--tenlastarticles{
   @include dm_box__shadow;
   background-color: white;
@@ -172,6 +194,8 @@
       }
     }
   }
+
+
   th{
     background-color: #2196f3;
     color: white;

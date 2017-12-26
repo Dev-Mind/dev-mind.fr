@@ -22,6 +22,12 @@ module.exports = (mustacheTemplateFile, partials, filename, nbArticleMax) => {
       keywords: 'Dev-mind blog Java Agilité programmation Spring Web JavaScript',
       title: 'Le blog Dev-Mind',
       description: 'Le blog Dev-Mind regroupe des articles des interviews sur des sujets divers allant de la programmation Java JavaScript aux méthodes agiles',
+    },
+    'blog_archive.html': {
+      keywords: 'Dev-mind blog archive',
+      title: 'Les archives du blog Dev-Mind',
+      description: 'Retrouvez l\'intégralité des articles du blog Dev-Mind (programmation Java JavaScript, méthodes agiles...)',
+      blog: 'findArchiveBlogpost'
     }
   };
 
@@ -53,7 +59,23 @@ module.exports = (mustacheTemplateFile, partials, filename, nbArticleMax) => {
       metadata.last15Articles = () => blogIndex.filter((e, index) => index < 15);
     }
     else {
-      metadata.articles = blogIndex;
+      metadata.articleByYears = [];
+
+      const years = blogIndex
+        .map(article => moment(article.strdate).format("YYYY"))
+        .filter((value, index, array) => array.indexOf(value) === index)
+        .sort((a, b) => a < b ? 1 : -1)
+        .forEach(year => metadata.articleByYears.push({
+          key: year,
+          value: []
+        }));
+
+      blogIndex.forEach(article => metadata
+        .articleByYears
+        .filter(year => year.key === moment(article.strdate).format("YYYY"))[0]
+        .value
+        .push(article)
+      );
     }
   }
 

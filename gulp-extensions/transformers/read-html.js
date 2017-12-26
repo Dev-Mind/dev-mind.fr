@@ -43,19 +43,7 @@ module.exports = function (modedev, scope) {
       keywords: 'Dev-mind',
       title: 'Dev-Mind - app loading',
       description : 'Dev-mind votre partenaire'
-    },
-    'blog.html' : {
-      keywords: 'Dev-mind blog Java Agilité programmation Spring Web JavaScript',
-      title: 'Le blog Dev-Mind',
-      description : 'Le blog Dev-Mind regroupe des articles des interviews sur des sujets divers allant de la programmation Java JavaScript aux méthodes agiles',
-      blog: 'findLastBlogpost'
-    },
-    'blog_archive.html' : {
-      keywords: 'Dev-mind blog archive',
-      title: 'Les archives du blog Dev-Mind',
-      description : 'Retrouvez l\'intégralité des articles du blog Dev-Mind (programmation Java JavaScript, méthodes agiles...)',
-      blog: 'findArchiveBlogpost'
-    },
+    }
   };
 
     /**
