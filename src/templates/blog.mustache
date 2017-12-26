@@ -14,12 +14,15 @@
     <div class="dm_head" id="home">
         <devmind-header>
             <p class="dm_logo"><img src="../../img/logo/logo_long.svg" alt="Dev-Mind" title="Dev-Mind"></p>
+            {{#modedev}}
+                <h2>MODE DEV</h2>
+            {{/modedev}}
         </devmind-header>
     </div>
 
     <div id="dm_transition_cloud"></div>
 
-    <div class="dm_home_blog" id="blog">
+    <div class="dm_sky" id="blog">
         <devmind-article>
             <article>
                 <h1 class="dm-blog--info-title">{{ title }}</h1>
@@ -38,7 +41,7 @@
 
     <div id="dm_transition_mountain"></div>
 
-    <div class="dm_home_formation" id="formation">
+    <div class="dm_mountain" id="formation">
         <devmind-header>
             <div class="dm-blog--button">
                 <p>Partagez cet article</p>
@@ -47,7 +50,9 @@
                 <button onclick="blog.sendSocial('facebook', 'https://www.dev-mind.fr/blog/{{dir}}/{{filename}}.html', '{{ title }}')"><img src="../../img/contact/facebook.svg" alt="Facebook" class="dm-social"></button>
                 <button onclick="blog.sendSocial('linkedin', 'https://www.dev-mind.fr/blog/{{dir}}/{{filename}}.html', '{{ title }}')"><img src="../../img/contact/linkedin.svg" alt="Linkedin" class="dm-social"></button>
                 <br>
-                <div id="previous-blogpost"></div>
+                <div id="previous-blogpost">
+
+                </div>
                 <div class="dm-blog-comment--add">
                     <h2>Commentaires</h2>
                     <div id="comments"></div>

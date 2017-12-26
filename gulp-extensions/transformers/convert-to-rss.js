@@ -14,7 +14,7 @@ module.exports = function (filename) {
 
   if (!filename) throw new PluginError('convert-to-rss', 'Missing target filename for asciidoctor-rss');
 
-  let xml;
+  let xml= '';
 
   function iterateOnStream(file) {
     const content = file
