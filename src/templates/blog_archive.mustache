@@ -13,7 +13,7 @@
 <main>
     {{> _blog_intro}}
     <div class="dm_sky" id="blog">
-        <devmind-sky>
+        <devmind-section>
             {{#articleByYears}}
                 <h1 class="center">Articles {{key}}</h1><br>
                 <div class="dm-blog--container">
@@ -34,7 +34,7 @@
             <div class="dm-blog--button">
                 <button onclick="document.location.href='rss/blog.xml'">Flux RSS</button>
             </div>
-    </devmind-sky>
+    </devmind-section>
     </div>
     {{> _page_footer}}
 </main>

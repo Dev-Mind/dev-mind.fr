@@ -19,10 +19,6 @@
   }
 }
 
-//devmind-home-me, devmind-sky, devmind-mountain, devmind-hills, devmind-ground {
-//  @include dm_container();
-//}
-
 devmind-header {
   @include dm_container_closest();
 }

@@ -51,6 +51,7 @@ $header__heigth: 64px;
   display: block;
   margin:0 auto;
   max-width: 1600px;
+  padding: 1em;
 }
 
 @mixin dm_transition($bgcolor, $height) {
