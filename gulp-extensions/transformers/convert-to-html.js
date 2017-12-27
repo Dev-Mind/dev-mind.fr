@@ -1,6 +1,6 @@
-'use strict'
+'use strict';
 
-const map = require('map-stream')
+const map = require('map-stream');
 
 /**
  * This function receives a stream with different metadata on asciidoc files. For example

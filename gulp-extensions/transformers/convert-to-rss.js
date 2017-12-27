@@ -1,7 +1,5 @@
 'use strict';
 
-const map = require('map-stream');
-const reduce = require("stream-reduce");
 const gutil = require('gulp-util');
 const through = require('through');
 const PluginError = gutil.PluginError;

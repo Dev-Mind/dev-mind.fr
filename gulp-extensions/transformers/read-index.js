@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const map = require('map-stream');
 

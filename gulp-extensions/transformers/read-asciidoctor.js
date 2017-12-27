@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const map = require('map-stream');
 const asciidoctor = require('asciidoctor.js')();
@@ -11,7 +11,7 @@ const asciidoctorOptions = {
   attributes: {
     imagesdir: '/assets/images',
   },
-}
+};
 
 /**
  * This function is used to read the asciidoc files defined in a gulp pipe. For example

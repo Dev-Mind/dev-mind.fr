@@ -6,7 +6,6 @@ const path = require('path');
 const browserSync = require('browser-sync').create();
 const imagemin = require('gulp-imagemin');
 const imageminMozjpeg = require('imagemin-mozjpeg');
-const runSequence = require('run-sequence');
 const wbBuild = require('workbox-build');
 
 const $ = require('gulp-load-plugins')();
@@ -23,6 +22,7 @@ const applyTemplate = require('./gulp-extensions/transformers/apply-template');
 const highlightCode = require('./gulp-extensions/transformers/highlight-code');
 const firebaseIndexing = require('./gulp-extensions/transformers/firebase-indexing');
 const firebaseImgCacheBusting = require('./gulp-extensions/transformers/firebase-img-cache-busting');
+const fileExist = require('./gulp-extensions/transformers/file-exist');
 
 const AUTOPREFIXER_BROWSERS = [
   'ie >= 11',
@@ -97,6 +97,7 @@ gulp.task('blog-indexing', (cb) => {
 
 gulp.task('blog-rss', () =>
   gulp.src('build/.tmp/blogindex.json')
+    .pipe($.wait2(() => fileExist('build/.tmp/blogindex.json')))
     .pipe(readIndex())
     .pipe(convertToRss('blog.xml'))
     .pipe(gulp.dest('build/dist/rss'))
@@ -104,6 +105,7 @@ gulp.task('blog-rss', () =>
 
 gulp.task('blog-list', () =>
   gulp.src('build/.tmp/blogindex.json')
+    .pipe($.wait2(() => fileExist('build/.tmp/blogindex.json')))
     .pipe(readIndex())
     .pipe(convertToBlogList('src/templates/blog_list.mustache', MUSTACHE_PARTIALS, 'blog.html', 4))
     .pipe(gulp.dest('build/.tmp'))
@@ -113,6 +115,7 @@ gulp.task('blog-list', () =>
 
 gulp.task('blog-archive', () =>
   gulp.src('build/.tmp/blogindex.json')
+    .pipe($.wait2(() => fileExist('build/.tmp/blogindex.json')))
     .pipe(readIndex())
     .pipe(convertToBlogList('src/templates/blog_archive.mustache', MUSTACHE_PARTIALS, 'blog_archive.html'))
     .pipe(gulp.dest('build/.tmp'))
@@ -120,7 +123,7 @@ gulp.task('blog-archive', () =>
     .pipe(gulp.dest('build/dist'))
 );
 
-gulp.task('blog', ['blog-indexing', 'blog-list', 'blog-rss', 'blog-archive'], (cb) => {
+gulp.task('blog-page', ['blog-indexing', 'blog-list', 'blog-rss', 'blog-archive'], (cb) => {
   gulp.src('src/blog/**/*.adoc')
     .pipe(readAsciidoc(modeDev))
     .pipe(convertToHtml())
@@ -131,6 +134,15 @@ gulp.task('blog', ['blog-indexing', 'blog-list', 'blog-rss', 'blog-archive'], (c
     .pipe($.htmlmin(HTMLMIN_OPTIONS))
     .pipe(gulp.dest('build/dist/blog'))
     .on('end', () => cb())
+});
+
+gulp.task('blog', cb => {
+  $.sequence(
+    'blog-indexing',
+    'blog-page',
+    ['blog-list', 'blog-rss', 'blog-archive'],
+    cb
+  )
 });
 
 gulp.task('lint', () =>
@@ -290,7 +302,7 @@ gulp.task('build', cb => {
     }
   });
 
-  runSequence(
+  $.sequence(
     'styles',
     'blog',
     'images-min',
@@ -305,7 +317,7 @@ gulp.task('build', cb => {
 
 // Build production files, the default task
 gulp.task('default', cb =>
-  runSequence(
+  $.sequence(
     'clean',
     'build',
     'cache-busting',
@@ -317,7 +329,7 @@ gulp.task('default', cb =>
 
 // Build dev files
 gulp.task('serve', cb =>
-  runSequence(
+  $.sequence(
     'initModeDev',
     'build',
     'serveAndWatch',

@@ -6,7 +6,6 @@ const mustache = require('mustache');
 const fs = require('fs');
 const path = require('path');
 const map = require('map-stream');
-const moment = require('moment');
 
 /**
  * This plugin is used to read the firebase index. The final aim is to generate static page for blog post

@@ -9,7 +9,7 @@ const firebaseConfig = require('../../firebase.js');
 /**
  * This plugin parse all the asciidoc files to build a Json index file with metadata
  */
-module.exports = (modeDev, file) => {
+module.exports = (modeDev) => {
   let initializeDatabase = (callback) => {
     if (firebase.apps.length === 0) {
       firebase.initializeApp({

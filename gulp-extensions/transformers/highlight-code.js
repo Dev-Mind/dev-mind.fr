@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const map = require('map-stream');
 const Highlights = require('highlights');
@@ -13,8 +13,8 @@ module.exports = function ({ selector }) {
       const elem = $(code);
       const fileContents = elem.html();
       const highlightedContents = highlighter.highlightSync({ fileContents, scopeName: 'source.js' });
-      elem.parent().replaceWith(highlightedContents)
-      elem.addClass('highlights')
+      elem.parent().replaceWith(highlightedContents);
+      elem.addClass('highlights');
     });
 
     file.contents = new Buffer($.html());
