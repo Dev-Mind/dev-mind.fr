@@ -1,0 +1,96 @@
+:doctitle: Cycle de vie d’une application Angular 2 via Angular CLI
+:description: Ng-europe Paris du 24 au 26 octobre 2016 Retour sur le talk de Hans Larsen Angular CLI & You
+:keywords: Angular, Angular2, ng-europe, Web
+:author: Guillaume EHRET - Dev-Mind
+:revdate: 2016-10-24
+:category: Web
+:teaser: Hans Larsen (Software Engineer @Google) est venu à ngeurope pour parler de angular cli et du futur de cet outil de génération d'application
+:imgteaser: ../../img/blog/2016/ngeurope/ngeurope-angularcli00.jpg
+:figure-caption!:
+
+https://twitter.com/hanslatwork[Hans Larsen] (Software Engineer https://twitter.com/Google[@Google]) est venu à ngeurope pour parler de angular cli et du futur de cet outil de génération d'application.
+
+image::../../img/blog/2016/ngeurope/ngeurope-angularcli00.jpg[Angular cli]
+
+Revenons un peu à la version 1 de Angular. Lorsque vous démarrez un projet vous allez écrire un fichier index.html, puis vos composants en JS, potentiellement ajouter des tests unitaires, les paramétrer, puis des tests e2e…
+
+== Que faire pour démarrer ?
+
+Soit vous êtes un adepte du DIY (do it yourself) et vous passez pas mal de temps à chaque fois à apprendre chaque outil de tooling ainsi que les différentes manières de les paramétrer.
+Vous pouvez aussi utiliser un projet seed mais il vous sera difficile d’appliquer les mises à jour.
+
+L’autre solution est d’utiliser un générateur tel que Yeoman mais vous risquez en fonction des plugins d’avoir pas mal de boilerplate loin de la simplicité préconisé par la team Google
+A chaque fois vous êtes dépendants de une ou plusieurs solutions techniques (npm, bower, yo, gulp, webpack…). https://cli.angular.io/[Angular CLI] a vraiment été pensé pour être l’unique point d’entrée de votre projet et il est amené à évoluer avec votre projet.
+
+Pour le moment https://cli.angular.io/[Angular CLI] se base sur webpack et malgré des dizaines de demandes pour accéder au fichier de configuration webpack utilisé par https://cli.angular.io/[Angular CLI] (ce qui permettrait de le personnaliser à la volée), l'équipe Angular est restée ferme. https://cli.angular.io/[Angular CLI] se veut comme une abstraction de différents outils bas niveaux. Le but est de pouvoir remplacer facilement webpack ou un autre outil par des solutions qui sont susceptibles d'arriver prochainement.
+
+Tout le monde sait que le monde JS est rempli de projets qui deviennent la norme en à peine une semaine. Le dernier en date est https://yarnpkg.com/[Yarn], inconnu avant mi-octobre et qui se retrouve parachuter dans tous les projets.
+
+La philosophie https://cli.angular.io/[Angular CLI] c'est de préciser nos intentions et l’outil transforme notre projet pour matcher à nos besoins.
+
+== Quelques commandes
+
+Angular CLI permet de gérer le cycle de vie de votre application
+
+
+Initialisation d’un nouveau projet
+[source, javascript, subs="none"]
+----
+  ng new PROJECT_NAME
+----
+
+Déploiement de l’application pour des tests manuels
+[source, javascript, subs="none"]
+----
+  ng serve
+----
+
+Lancer les tests unitaires
+[source, javascript, subs="none"]
+----
+  ng test
+----
+
+Lancer les tests e2e
+[source, javascript, subs="none"]
+----
+  ng e2e
+----
+
+Packager l’application
+[source, javascript, subs="none"]
+----
+  ng build --target=production --environment=prod (distinction des environnements dev et prod)
+----
+
+Génération d’un objet Angular 2 : component, directive, pipe, service, class, interface, route, module
+[source, javascript, subs="none"]
+----
+  ng g component my-new-component
+----
+
+Le projet https://github.com/angular/angular-cli s’enrichit de jour en jour de nouvelles fonctionnalités.
+
+
+Quand votre application Angular 2 est lancée, elle va afficher des templates de composants dans vos pages en fonction de la route sélectionnée. Les templates sont compilés par le framework par défaut au moment ou vous en avez besoin (compilation JIT just in time). Un autre mode, la compilation AoT (Ahead of Time) permet de les précompiler les templates pour simplifier le travail d’Angular lorsqu’il aura besoin d’un template. Angular CLI  vos permet de le faire
+[source, javascript, subs="none"]
+----
+ng build --prod --aot
+----
+
+
+
+
+Angular CLI n’en est qu’à ces débuts. Plusieurs améliorations sont en cours d’écriture et devrait arriver plus ou moins rapidement
+
+* Correction de bug
+* Installation plus rapide et plus légère
+* Utilisation de yarn à la place de npm
+* Une séparation CLI et du toolkit
+* Permettre l’ajout de add-ons sur le cycle de vie
+* ...
+
+Fournir des capacités de migration automatique vers une version supérieure de CLI ou même de votre projet Angular 2 en cas d’évolution du framework vers une version 3, 4…
+
+.Voir la vidéo
+video::LN2xvQqAo-g[youtube]
