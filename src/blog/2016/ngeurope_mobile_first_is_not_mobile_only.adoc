@@ -1,0 +1,40 @@
+:doctitle: Mobile first is not mobile only (ng-europe 2016)
+:description: Retour sur les conférences de Willem Veelentur et de Christian Weyer & Thorsten Hans sur les rendus sur mobile Angular 2 à ng-europe 2016
+:keywords: Angular, Angular2, ng-europe, TypeScript
+:author: Guillaume EHRET - Dev-Mind
+:revdate: 2016-10-24
+:category: Web
+:teaser: Retour sur les conférences de Willem Veelentur et de Christian Weyer & Thorsten Hans sur les rendus sur mobile Angular 2 à ng-europe 2016
+:imgteaser: ../../img/blog/2016/ngeurope/ngeurope-mobile00.jpg
+:figure-caption!:
+
+== https://twitter.com/wilmveel[Willem Veelenturf] : Embed hybrid features in Mobile Banking App
+
+Il ne faut pas oublier qu’une application performante est le résultat de la collaboration des personnes et pas de  l’utilisation de la dernière technologie à la mode. Willem est revenu sur la phase de création de l’application mobile de la banque ING.
+
+.photo de Philippe Chatel
+image::../../img/blog/2016/ngeurope/ngeurope-mobile01.jpg[Willem Veelenturf]
+
+Quand on a un client qui veut être multi plateforme c’est dur de vouloir faire du natif car il faut réunir des personnes pour faire du backend, du web, de l’Android, du Swift ou Objective C pour Ios. Votre équipe projet peut grossir considérablement. La gestion des hommes et des multiples implémentations peut devenir une véritable usine à gaz à maintenir.
+
+Une solution viable est par exemple d’utiliser Ionic qui permet d’écrire une application une fois et de la déployer sur différentes plateformes. Ionic utilise le principe de webview disponible sur les 2 plateformes et permet d’afficher une page web au sein d’une application native. Certes au niveau sécurité et rapidité vous pouvez avoir des différences. Pour pouvoir répondre à ces problématiques Willem a expliqué comment lui et son équipe ont enrichi leur application avec des plugins Cordova afin d’avoir une meilleure intégration avec le device.
+
+.Voir la vidéo
+video::kmNRgOLZhXQ[youtube]
+
+== https://twitter.com/christianweyer[Christian Weyer], https://twitter.com/ThorstenHans[Thorsten Hans] Full throttle Cross-platform development with Angular 2, Cordova and Electron
+Les slides sont disponibles https://speakerdeck.com/christianweyer/full-throttle-cross-platform-development-with-angular-2-cordova-and-electron[ici]
+
+Christian et Thorsten voulait montrer une solution qui va peut être s’étendre dans les prochaines années. Vous écrivez une seule base de code en Angular 2 et vous avez votre application web mais vous êtes aussi capable de construire des applications natives sur mobile (IOS, Android et Microsoft à l’aide de Cordova) et une application desktop (OSX, Linux, Windows via Electron)
+
+.photo de Philippe Chatel
+image::../../img/blog/2016/ngeurope/ngeurope-mobile01.jpg[Christian Weyer & Thorsten Hans]
+
+Si vous êtes utilisateur de Slack la partie desktop est par exemple générée via Electron
+
+Ces projets sont très intéressants. Cordova propose de nombreux plugins pour pouvoir s’interfacer avec les différents composants présents sur les device. Dans leur démonstration Christian et Thortsten interagissent avec la caméra de leur mobile sous IOS.
+
+En attendant la vidéo de ng-europe vous pouvez visualiser celle de Angular Connect qui est un plus vieille mais qui aborde déjà le sujet.
+
+.Voir la vidéo
+video::xPlRItKTIL0[youtube]
