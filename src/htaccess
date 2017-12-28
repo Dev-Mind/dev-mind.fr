@@ -6,11 +6,11 @@ Options -Multiviews
 # Follow symbolic links in this directory.
 Options +FollowSymLinks
 
-#RewriteEngine On
-#RewriteCond %{SERVER_PORT} 80
-#RewriteRule ^(.*)$ https://www.dev-mind.fr/$1 [R=301,L]
-#RewriteCond %{HTTPS} off
-#RewriteRule ^(.*)$ https://www.dev-mind.fr/$1 [R=301,L]
+RewriteEngine On
+RewriteCond %{SERVER_PORT} 80
+RewriteRule ^(.*)$ https://www.dev-mind.fr/$1 [R=301,L]
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://www.dev-mind.fr/$1 [R=301,L]
 
 ErrorDocument 404 https://www.dev-mind.fr/404.html
 
