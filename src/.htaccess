@@ -107,14 +107,10 @@ FileETag None
 # END Expire headers
 
 #Activation de la compression
-mod_gzip_on On
+<IfModule mod_gzip.c>
+  mod_gzip_on On
+</IfModule>
 
 #Compression active uniquement sur les contenus textuels.
 SetOutputFilter DEFLATE
 AddOutputFilterByType DEFLATE text/html text/xml application/xhtml+xml text/plain application/javascript text/css image/jpg image/png image/webp image/svg+xml
-
-#<FilesMatch firebase.json">
-#    Order Deny,Allow
-#    Deny from All
-#    Allow from localhost
-#</FilesMatch>
