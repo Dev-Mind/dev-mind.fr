@@ -7,7 +7,7 @@
   "author": "Guillaume EHRET <guillaume@dev-mind.fr>",
   "license": "MIT",
   "scripts": {
-    "generate": "gulp",
+    "install": "gulp",
     "dev": "gulp serve"
   },
   "engines": {
