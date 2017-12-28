@@ -1,0 +1,31 @@
+:doctitle: Ecrire en TypeScript une application Angular
+:description: Ng-europe Paris du 24 au 26 octobre 2016 retour comment écrire en TypeScript une application Angular 2
+:keywords: Angular, Angular2, ng-europe, TypeScript
+:author: Guillaume EHRET - Dev-Mind
+:revdate: 2016-10-24
+:category: Web
+:teaser: Daniel Rosenwasser était à ng-europe pour montrer par l'exemple comment écrire en TypeScript une application Angular 2
+:imgteaser: ../../img/blog/2016/ngeurope/ngeurope-typescript00.jpg
+:figure-caption!:
+
+C’est agréable de voir cette collaboration entre Google et Microsoft. Google s’est trouvé un allié de marque et je pense qu'ils ont bien fait d’utiliser TypeScript plutôt que de partir sur leur propre implémentation de Javascript++ (AtScript).
+
+https://twitter.com/drosenwasser[Daniel Rosenwasser] chef de projet du projet https://www.typescriptlang.org/[TypeScript] chez Microsoft est venu à ng-europe pour montrer par l'exemple comment écrire en TypeScript une application Angular ou plus généralement JavaScript. Ces exemples sont disponibles https://github.com/DanielRosenwasser/ng-conf-2016[ici]
+
+.photo de Philippe Chatel
+image::../../img/blog/2016/ngeurope/ngeurope-typescript00.jpg[Daniel Rosenwasser]
+
+Pendant 25 minutes Daniel a essayé de montrer les intérêts d’utiliser des types en JavaScript mais aussi d’autres fonctionnalités. En gros il est parti de fichier js existant et les a migré ensuite en TypeScript.
+
+Bon vous pouvez aussi ne pas connaître le langage TypeScript. En gros c’est un sur ensemble de JavaScript qui est ensuite compilé en JavaScript standard. TypeScript introduit plusieurs notions comme les types, les décorateurs (genre d’annotation Java) et pleins de petites améliorations.
+
+Certains amoureux du JavaScript diront que les gens du backend sont en train de prendre la main sur les développements front. Mais à mon sens TypeScript a vraiment des avantages. Introduire des types ou des interfaces permet aux IDE d’améliorer le tooling pour les développeurs.
+
+La complétion est grandement améliorée et vous pouvez avoir des détections d’erreur beaucoup plus précises que les JS Lint classiques (analyseurs de qualité de code JS). Un gros effort a été fait pour que TypeScript marche sur toutes les plateformes et puisse simplifier la vie des développeurs quelque soit l’IDE utilisé.
+
+La version 2.0 de TypeScript a été annoncée en septembre et apporte une option pour vous imposer à gérer les valeurs nulles finement. Si vous activez --strictNullChecks une donnée typée ne pourra plus prendre les valeurs nulle ou undefined et vous devrez le gérer dans votre code (c’est un peu ce qu’on retrouve dans Kotlin)
+
+Il existe plusieurs autres petites nouveautés. Je vous laisse regarder la vidéo de Daniel.
+
+.Voir la vidéo
+video::o8YI2hvassE[youtube]
