@@ -219,9 +219,9 @@ gulp.task('service-worker', ['service-worker-resource', 'service-worker-bundle']
   gulp.src(`build/.tmp/sw.js`)
     .pipe($.sourcemaps.init())
     .pipe($.sourcemaps.write())
-    .pipe($.uglify({preserveComments: 'none'}))
+    //.pipe($.uglify({preserveComments: 'none'}))
     .pipe($.size({title: 'scripts'}))
-    .pipe($.sourcemaps.write('.'))
+    //.pipe($.sourcemaps.write('.'))
     .pipe(gulp.dest(`build/dist`))
 );
 
