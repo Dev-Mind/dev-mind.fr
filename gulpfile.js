@@ -215,19 +215,19 @@ gulp.task('copy', (cb) => {
     .on('end', () => cb())
 });
 
-gulp.task('service-worker', ['service-worker-resource', 'service-worker-bundle'], () =>
+gulp.task('service-worker', ['service-worker-bundle', 'service-worker-resource'], () =>
   gulp.src(`build/.tmp/sw.js`)
     .pipe($.sourcemaps.init())
     .pipe($.sourcemaps.write())
-    //.pipe($.uglify({preserveComments: 'none'}))
+    .pipe($.uglify({preserveComments: 'none'}))
     .pipe($.size({title: 'scripts'}))
-    //.pipe($.sourcemaps.write('.'))
+    .pipe($.sourcemaps.write('.'))
     .pipe(gulp.dest(`build/dist`))
 );
 
 gulp.task('service-worker-resource', () =>
   gulp.src(`node_modules/workbox-sw/build/importScripts/workbox-sw.prod*`)
-      .pipe($.rename('workbox-sw.prod.js'))
+      .pipe($.rename((path) => path.basename = 'workbox-sw.prod'))
       .pipe(gulp.dest(`build/dist`))
 );
 
