@@ -28,7 +28,7 @@ Les slides sont disponibles https://speakerdeck.com/christianweyer/full-throttle
 Christian et Thorsten voulait montrer une solution qui va peut être s’étendre dans les prochaines années. Vous écrivez une seule base de code en Angular 2 et vous avez votre application web mais vous êtes aussi capable de construire des applications natives sur mobile (IOS, Android et Microsoft à l’aide de Cordova) et une application desktop (OSX, Linux, Windows via Electron)
 
 .photo de Philippe Chatel
-image::../../img/blog/2016/ngeurope/ngeurope-mobile01.jpg[Christian Weyer & Thorsten Hans]
+image::../../img/blog/2016/ngeurope/ngeurope-mobile02.jpg[Christian Weyer & Thorsten Hans]
 
 Si vous êtes utilisateur de Slack la partie desktop est par exemple générée via Electron
 
