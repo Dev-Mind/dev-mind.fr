@@ -197,6 +197,7 @@ gulp.task('images-min', () =>
 
 gulp.task('images', () =>
   gulp.src('build/.tmp/img/**/*.{svg,png,jpg,webp}')
+    .pipe(gulp.dest('build/dist/img'))
     .pipe($.if(!modeDev, $.rev()))
     .pipe(gulp.dest('build/dist/img'))
     .pipe($.if(!modeDev, $.rev.manifest()))
@@ -252,7 +253,7 @@ gulp.task('cache-busting', (cb) => {
   gulp.src(['build/dist/blog/**/*.html'])
     .pipe(firebaseImgCacheBusting('build/dist/img/rev-manifest.json', modeDev))
 
-  gulp.src(['build/dist/**/*.{html,js,css,xml}'])
+  gulp.src(['build/dist/**/*.{html,js,css,xml,json,webapp}'])
     .pipe($.revReplace({manifest: manifestImg, replaceInExtensions: replaceInExtensions}))
     .pipe($.revReplace({manifest: manifestCss}))
     .pipe($.revReplace({manifest: manifestJs}))
@@ -305,9 +306,9 @@ gulp.task('build', cb => {
   });
 
   $.sequence(
+    'images-min',
     'styles',
     'blog',
-    'images-min',
     'images',
     'lint',
     ['html', 'local-js', 'vendor-js'],
