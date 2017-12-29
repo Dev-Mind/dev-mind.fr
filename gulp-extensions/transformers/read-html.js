@@ -72,7 +72,7 @@ module.exports = function (modedev, scope) {
       gendate: () => moment().format('DD/MM/YYYY'),
       blog: () => pageMetadata[file.fileName].blog,
       canonicalUrl: () => file.fileName,
-      modedev: () => modedev
+      modedev: () => modedev,
     };
 
     next(null, file);
