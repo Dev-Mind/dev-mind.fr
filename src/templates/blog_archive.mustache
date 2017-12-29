@@ -22,7 +22,7 @@
                             <article class="dm-blog--article-archive" onclick="document.location.href='blog/{{dir}}/{{filename}}.html'">
                                 <h2><a href="blog/{{dir}}/{{filename}}.html">{{doctitle}}</a></h2>
                                 <p style="padding: 0;margin: 0"><small>{{date}}</small></p>
-                                <div class="dm-blog--imgteaser"><img src="{{{imgteaser}}}"/></div>
+                                <div class="dm-blog--imgteaser"><img class="dm-img--lazyload" data-src="{{{imgteaser}}}"/></div>
                                 <p class="dm-blog--teaser">{{teaser}}</p>
                                 <p style="padding: 0;margin: 0"><small>{{keywords}}</small></p>
                             </article>

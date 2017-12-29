@@ -100,14 +100,17 @@ window.app = (function() {
     lastActiveSection = section;
   }
 
+  function loadLazyImages() {
+    const images = document.getElementsByClassName('dm-img--lazyload');
+    Array.from(images).forEach(function(image){
+      image.src= image.getAttribute('data-src')
+    });
+  }
+
   let isBlogPage = document.currentScript.text.indexOf('blog=true')>-1;
   let lastActiveSection = window.location.hash;
 
   changeMenu(lastActiveSection);
   initSw(isBlogPage ? '../../': '');
-
-  return {
-    "initSw": initSw,
-    "changeMenu" : changeMenu
-  }
+  loadLazyImages();
 })();
