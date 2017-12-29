@@ -215,10 +215,7 @@ gulp.task('copy', (cb) => {
     .on('end', () => cb())
 });
 
-gulp.task('service-worker', ['bundle-sw'], (cb) => {
-  gulp.src(`build/.tmp/workbox-sw.prod.(*).js`)
-    .pipe(gulp.dest(`build/dist`));
-
+gulp.task('service-worker', ['service-worker-resource', 'service-worker-bundle'], () =>
   gulp.src(`build/.tmp/sw.js`)
     .pipe($.sourcemaps.init())
     .pipe($.sourcemaps.write())
@@ -226,10 +223,15 @@ gulp.task('service-worker', ['bundle-sw'], (cb) => {
     .pipe($.size({title: 'scripts'}))
     .pipe($.sourcemaps.write('.'))
     .pipe(gulp.dest(`build/dist`))
-    .on('end', () => cb())
-});
+);
 
-gulp.task('bundle-sw', () => {
+gulp.task('service-worker-resource', () =>
+  gulp.src(`node_modules/workbox-sw/build/importScripts/workbox-sw.prod*`)
+      .pipe($.rename('workbox-sw.prod.js'))
+      .pipe(gulp.dest(`build/dist`))
+);
+
+gulp.task('service-worker-bundle', () => {
   return wbBuild.injectManifest({
     swSrc: 'src/sw.js',
     swDest: 'build/.tmp/sw.js',

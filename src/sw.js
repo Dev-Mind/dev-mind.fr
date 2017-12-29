@@ -1,10 +1,20 @@
-importScripts('workbox-sw.prod.v1.3.0.js');
+importScripts('workbox-sw.prod.js');
 
 const workboxSW = new self.WorkboxSW({
   "cacheId": "dev-mind",
   "clientsClaim": true
 });
 workboxSW.precache([]);
+
+workboxSW.router.registerRoute('https://cdn.polyfill.io/v2/polyfill.min.js',
+    workboxSW.strategies.cacheFirst({
+      cacheName: 'googleapis',
+      cacheExpiration: {
+        maxEntries: 20
+      },
+      cacheableResponse: {statuses: [0, 200]}
+    })
+  );
 
 workboxSW.router.registerRoute('https://fonts.googleapis.com/(.*)',
   workboxSW.strategies.cacheFirst({
