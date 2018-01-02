@@ -46,7 +46,8 @@ const HTMLMIN_OPTIONS = {
   removeScriptTypeAttributes: true,
   removeStyleLinkTypeAttributes: true,
   removeOptionalTags: true,
-  minifyCSS: true
+  minifyCSS: true,
+  jsmin:true
 };
 
 const MUSTACHE_PARTIALS = [

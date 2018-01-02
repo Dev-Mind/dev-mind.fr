@@ -29,7 +29,7 @@ window.blog = (function () {
     }
   }
 
-  function _getArticle(blogpost, first) {
+  function _getArticle(blogpost) {
     const article = document.createElement("article");
     article.className = 'dm-blog--article';
     article.innerHTML = `
