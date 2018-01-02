@@ -59,6 +59,7 @@ const MUSTACHE_PARTIALS = [
 ];
 
 let modeDev = false;
+let generateBlogDev = false;
 
 gulp.task('styles', (cb) => {
   gulp.src(['src/sass/main.scss', 'src/sass/bloglist.scss', 'src/sass/blog/blog.scss'])
@@ -90,7 +91,7 @@ gulp.task('blog-indexing', (cb) => {
   gulp.src('src/blog/**/*.adoc')
     .pipe(readAsciidoc(modeDev))
     .pipe(convertToHtml())
-    .pipe(firebaseIndexing(modeDev))
+    .pipe(firebaseIndexing(modeDev, generateBlogDev))
     .pipe(convertToJson('blogindex.json'))
     .pipe(gulp.dest('build/.tmp'))
     .on('end', () => cb())
@@ -297,6 +298,7 @@ gulp.task('serveAndWatch', () => {
 gulp.task('clean', () => del('build', {dot: true}));
 
 gulp.task('initModeDev', () => modeDev = true);
+gulp.task('generateBlogDev', () => generateBlogDev = true);
 
 gulp.task('build', cb => {
   // Hack to be able to stop the task when the async firebase requests are complete
@@ -327,6 +329,16 @@ gulp.task('default', cb =>
     'cache-busting',
     'compress',
     'service-worker',
+    cb
+  )
+);
+
+// Build dev files
+gulp.task('build-dev', cb =>
+  $.sequence(
+    'initModeDev',
+    'generateBlogDev',
+    'build',
     cb
   )
 );
