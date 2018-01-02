@@ -5,7 +5,7 @@
 :revdate: 2018-01-02
 :category: Web
 :teaser: Début 2017, j'ai choisi de migrer mon blog de Blogspot vers une solution personnalisée à base de Asciidoc. J'ai continué à faire évoluer mon site web pour enfin arriver à une solution qui me satisfait.
-:imgteaser: ../../img/blog/2018/siteweb_00.png
+:imgteaser: ../../img/blog/2018/siteweb_00.jpg
 
 Début 2017, j'ai choisi de migrer mon blog de Blogspot vers une solution personnalisée à base de Asciidoc. J'ai d'ailleurs écrit https://www.dev-mind.fr/blog/2017/nouveau_site_asciidoctor.html[un article] sur ce sujet. J'ai continué à faire évoluer mon site web pour enfin arriver à une solution qui me satisfait.
 
