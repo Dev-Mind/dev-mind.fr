@@ -9,7 +9,7 @@ const firebaseConfig = require('../../firebase.js');
 /**
  * This plugin parse all the asciidoc files to build a Json index file with metadata
  */
-module.exports = (modeDev) => {
+module.exports = (modeDev, generateBlogDev) => {
   let initializeDatabase = (callback) => {
     if (firebase.apps.length === 0) {
       firebase.initializeApp({
@@ -27,14 +27,16 @@ module.exports = (modeDev) => {
       });
   };
 
-  process.on('exit', () => {
-    firebase.auth()
-      .signOut()
-      .then(() => console.log('Deconnected from Firebase'))
-      .catch((error) => {
-        throw new PluginError('asciidoctor-indexing', `Firebase exit failed : ${error.message}`);
-      });
-  });
+  if(!modeDev || generateBlogDev) {
+    process.on('exit', () => {
+      firebase.auth()
+        .signOut()
+        .then(() => console.log('Deconnected from Firebase'))
+        .catch((error) => {
+          throw new PluginError('asciidoctor-indexing', `Firebase exit failed : ${error.message}`);
+        });
+    });
+  }
 
   return map(async (file, next) => {
     const callback = () => {
@@ -44,11 +46,6 @@ module.exports = (modeDev) => {
         next(null, file);
       }
       else {
-        // Initialize counter if it does not exist
-        firebase.database()
-          .ref(`/stats${modeDev ? 'Dev' : ''}/${filename}`)
-          .transaction(count => count ? count : 0);
-
         file.indexData =  {
           strdate: file.attributes.strdate,
           revdate: file.attributes.revdate,
@@ -64,25 +61,40 @@ module.exports = (modeDev) => {
         };
 
         // Adds an index to this filename
-        firebase.database()
-          .ref(`${modeDev ? 'blogsDev' : 'blogs'}/${filename}`)
-          .remove()
-          .then(() =>
-            firebase.database()
-              .ref(`${modeDev ? 'blogsDev' : 'blogs'}/${filename}`)
-              .set(file.indexData)
-              .then(() => next(null, file))
-              .catch((error) => {
-                throw new PluginError('asciidoctor-indexing', `Firebase insert failed : ${error.message}`);
-              })
-          )
-          .catch((error) => {
-            throw new PluginError('asciidoctor-indexing', `Firebase remove failed : ${error.message}`);
-          });
+        if(!modeDev || generateBlogDev){
+          // Initialize counter if it does not exist
+          firebase.database()
+            .ref(`/stats${modeDev ? 'Dev' : ''}/${filename}`)
+            .transaction(count => count ? count : 0);
+
+          firebase.database()
+            .ref(`${modeDev ? 'blogsDev' : 'blogs'}/${filename}`)
+            .remove()
+            .then(() =>
+              firebase.database()
+                .ref(`${modeDev ? 'blogsDev' : 'blogs'}/${filename}`)
+                .set(file.indexData)
+                .then(() => next(null, file))
+                .catch((error) => {
+                  throw new PluginError('asciidoctor-indexing', `Firebase insert failed : ${error.message}`);
+                })
+            )
+            .catch((error) => {
+              throw new PluginError('asciidoctor-indexing', `Firebase remove failed : ${error.message}`);
+            });
+        }
+        else{
+          next(null, file);
+        }
       }
     };
 
-    initializeDatabase(callback);
+    if(!modeDev || generateBlogDev) {
+      initializeDatabase(callback);
+    }
+    else{
+      callback();
+    }
   });
 };
 

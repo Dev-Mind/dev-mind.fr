@@ -1,0 +1,185 @@
+:doctitle: Do your Blog yourself
+:description: Comment construire le blog parfait
+:keywords: Web, Blog, Asciidoc, Asciidoctor, CMS, Clever Cloud
+:author: Guillaume EHRET - Dev-Mind
+:revdate: 2018-01-02
+:category: Web
+:teaser: Début 2017, j'ai choisi de migrer mon blog de Blogspot vers une solution personnalisée à base de Asciidoc. J'ai continué à faire évoluer mon site web pour enfin arriver à une solution qui me satisfait.
+:imgteaser: ../../img/blog/2018/siteweb_00.png
+
+Début 2017, j'ai choisi de migrer mon blog de Blogspot vers une solution personnalisée à base de Asciidoc. J'ai d'ailleurs écrit https://www.dev-mind.fr/blog/2017/nouveau_site_asciidoctor.html[un article] sur ce sujet. J'ai continué à faire évoluer mon site web pour enfin arriver à une solution qui me satisfait.
+
+* utilisation d'aucun framework JS, CSS ou autre. Le but étant d'avoir peu de Javascript et de CSS
+* plus de CMS pour gérer le blog tout en gardant les principales fonctionnalités : facilité d'ajout des articles, commentaires, recherche...
+* rendu côté serveur avec plus de contenu de pages chargé dynamiquement
+* garantir un style uniforme entre toutes les pages avec des balises title et des descriptions uniques pour chaque page du site
+* avoir un site respectant les recommandations progressive webapps
+* automatisation du déploiement
+
+image::../../img/blog/2018/siteweb_00.jpg[Do your blog yourself]
+
+Le but est d'arriver à une solution qui mèle facilité de développement et de déploiement tout en fournissant un contenu optimisé et facilement indexable par les différents robots des principaux moteurs de recherche.
+
+Aujourd'hui toutes ces fonctionnalités sont en place et je m'appuie pour ceci sur
+
+* https://gulpjs.com/[Gulp] pour la gestion du cycle de vie,
+* http://asciidoctor.org/[Asciidoctor.js] pour générer les pages du blog écrites en Asciidoc,
+* https://firebase.google.com/[Firebase] pour gérer les commentaires et la recherche
+* https://mustache.github.io/[Mustache] pour avoir des template de page sans dupliquer inutilement du contenu
+* https://www.clever-cloud.com/[Clever Cloud] pour le déploiement en continu dès qu'une modification est poussée sur master
+
+Toutes les sources du site sont disponibles sous https://github.com/Dev-Mind/dev-mind.fr[Github]
+
+== Cycle de vie de l'application
+
+https://gulpjs.com/[Gulp] est une application node qui permet de lancer et d'enchaîner des tâches sur un ensemble de resources. Prenons comme exemple la tâche permettant de minifier les images
+
+[source, javascript, subs="none"]
+----
+gulp.task('images-min', () =>
+  gulp.src('src/images/**/*.{svg,png,jpg}')
+    .pipe(imagemin([imagemin.gifsicle(), imageminMozjpeg(), imagemin.optipng(), imagemin.svgo()], {
+      progressive: true,
+      interlaced: true,
+      arithmetic: true,
+    }))
+    .pipe(gulp.dest('build/.tmp/img'))
+    .pipe($.if('**/*.{jpg,png}', $.webp()))
+    .pipe($.size({title: 'images', showFiles: false}))
+    .pipe(gulp.dest('build/.tmp/img'))
+);
+----
+
+Une tâche Gulp commence toujours par `_gulp.src([fichiers sources])_` pour spécifier un ensemble de resources et démarrrer le flux de fichiers. Elle se termine par un ou plusieurs `_gulp.dest([emplacement cible des fichiers])_` pour écrire le résultat des différentes étapes dans une destination donnée. Dans mon exemple, la source est constituées des images du site et ces fichiers sont envoyés à un plugin imagemin (via la fonction `_pipe([action])_`). Imagemin va compresser et mettre les images dans le répertoire `_gulp.dest([build/.tmp/img])_`. J'enchaîne une deuxième tâche à la suite pour convertir les images png et jpg au format webp (qui est un format alternatif optimisé pour Chrome).
+
+Ce qui est interessant dans Gulp, c'est qu'il est très facile d'ajouter vos propres tâches pour agir sur ce flux de fichiers. Vous pouvez utiliser par exemple https://github.com/dominictarr/map-stream[map-stream]. Prenons https://github.com/Dev-Mind/dev-mind.fr/blob/master/gulp-extensions/transformers/convert-to-html.js[le code] que j'utilise pour convertir les fichiers .adoc en .html
+
+[source, javascript, subs="none"]
+----
+const map = require('map-stream');
+
+module.exports = function () {
+  return map((file, next) => {
+    const html = file.ast.convert();
+    file.contents = new Buffer(html);
+    file.extname = '.html';
+    file.path = file.path.replace('.adoc', '.html');
+    next(null, file);
+  });
+};
+----
+
+Dans ce fichier j'exporte une fonction qui utilise https://github.com/dominictarr/map-stream[map-stream]. Pour chaque fichier que je reçois je change l'extension et le pathname. Ceci permet d'agir sur le stream de fichier. Dans mon script gulp https://github.com/Dev-Mind/dev-mind.fr/blob/master/gulpfile.js#L13-L25[j'importe cette extension] sous le nom `_convertToHtml_`. Je peux ensuite l'utiliser dans une de mes tâches
+
+[source, javascript, subs="none"]
+----
+gulp.task('blog-indexing', (cb) => {
+  gulp.src('src/blog/**/*.adoc')
+    .pipe(readAsciidoc(modeDev))
+    .pipe(convertToHtml())
+    .pipe(firebaseIndexing(modeDev))
+    .pipe(convertToJson('blogindex.json'))
+    .pipe(gulp.dest('build/.tmp'))
+    .on('end', () => cb())
+});
+----
+
+Dans mon exemple ci dessus les tâches `_https://github.com/Dev-Mind/dev-mind.fr/blob/master/gulp-extensions/transformers/read-asciidoctor.js[readAsciidoc]_`, `_https://github.com/Dev-Mind/dev-mind.fr/blob/master/gulp-extensions/transformers/convert-to-html.js[convertToHtml]_`, `_https://github.com/Dev-Mind/dev-mind.fr/blob/master/gulp-extensions/transformers/firebase-indexing.js[firebaseIndexing]_` et `_https://github.com/Dev-Mind/dev-mind.fr/blob/master/gulp-extensions/transformers/convert-to-json.js[convertToJson]_` sont des scripts personnalisés qui me permettent de lire les documents Asciidoc, de les convertir en HTML, d'indexer les métadonnées dans une base Firebase puis localement dans un fichier json et d'orienter le tout dans le répertoire `_build/.tmp_`. Je profite de cet article pour remercier https://twitter.com/hsablonniere[Hubert Sablonière] qui m'a aider pour la partie AsciiDoctor.
+
+Au final Gulp gère tout le cycle de vie du site web
+
+image::../../img/blog/2018/siteweb_01.jpg[Cycle de vie Gulp]
+
+D'autres tâches sont ajoutées lorsque le site est poussé en production : cache busting des ressources (chaque resource est suffixé par un hash pour forcer une mise à jour du cache quand la ressource change), génération des services workers et compression des ressources. Des tests d'intégration vont rapidement être ajouté pour valider le processus.
+
+== Rendering à la construction
+
+Ces dernières années nous avons eu tendance à déporter beaucoup de traitements dans les navigateurs Internet en les implémentant en JavaScript et ou en utilisant un framework. Mais ceci a un coût.
+
+La majorité des internautes utilisent aujourd'hui des téléphones mobiles avec souvent des performances limitées. L'interprétation du JavaScript (chargement parsing, compilation, exécution) a un coût important. C'est pourquoi il est préférable de limiter ce JavaScript. http://webassembly.org/[Webassembly] qui permet de transférer un code JavaScript compilé permet de limiter ce coup mais nous ne sommes pas encore prêt à l'implémenter.
+
+L'autre problématique concerne les moteurs de recherche. La mode de ces dernières années est de créer des applications Single Page où le contenu est chargé dynamiquement. Mais les robots d'indexation ne sont pas toujours capables d'éxécuter des scripts. Il est donc préféréable de servir du HTML pur pour avoir la meilleure indexation possible et de faire par exemple du server side rendering.
+
+Dans le cas d'un blog nous pouvons faire beaucoup plus simple et tout générer lors de la construction du projet. Dans le cas de Dev-Mind, les pages de blog sont écrites en Asciidoc. Comme je l'ai dit dans la partie précédente, http://asciidoctor.org/[Asciidoctor.js] permet de lire les metadonnées de ces pages. Le processus Gulp construit un index qui permet ensuite de géréner les pages HTML (détail, liste) en appliquant un template commun via https://github.com/janl/mustache.js/[Mustache.js].
+
+image::../../img/blog/2018/siteweb_02.jpg[Génération blog]
+
+Ainsi les moteurs de recherche peuvent indexer sans problème les pages du site.
+
+== Déploiement en continu
+
+Pendant longtemps mon site web était héberger chez https://www.ovh.com/fr/[OVH] mais je devais à chaque livraison passer par FTP pour livrer manuellement le contenu. Nous pouvons faire beaucoup mieux...
+
+J'ai donc décidé de migrer l'hébergement chez un autre prestataire français https://www.clever-cloud.com/[Clever Cloud]. Leur créneau est de vous aider à déployer automatiquement votre projet à partir d'une branche https://github.com/Dev-Mind/dev-mind.fr[Github]. Dans mon cas je voulais que Clever cloud soit capable de
+
+* lancer un checkout de mon projet
+* d'éxécuter mon script Gulp de génération du site
+* de servir les pages générées via un serveur web (Apache ou autre)
+
+J'ai eu quelques problèmes au départ mais le support est vraiment super et tout a pu être fait en quelques heures. Merci aussi à https://twitter.com/k33g_org[Philippe Charrière] pour nos échanges sur le sujet.
+
+Voici la procédure que j'ai suivie. J'ai tout d'abord créé un compte sur le site de Clever Cloud,et j'ai ajouté une application via la console.
+
+image::../../img/blog/2018/siteweb_03.jpg[Création application]
+
+Créer une application revient à pointer vers un répository Github. Par défaut Clever suit master et relancera un déploiement chaque fois qu'un nouveau commit sera poussé sur Github. Vous pouvez dans un second temps choisir une autre branche que master (ce qui peut être utile pour dissocier différents environnements développement, recette, prod...)
+
+Vous devez ensuite sélectionner le type d'application. Dans mon cas c'est une application statique (dernière de la liste)
+
+image::../../img/blog/2018/siteweb_04.png[Type application]
+
+Vous pouvez ensuite choisir la taille du serveur. Bien évidemment le prix mensuel dépendra des ressources utilisées
+
+image::../../img/blog/2018/siteweb_05.png[Choix serveur]
+
+Votre application peut utiliser ces propres services mais la plateforme peut aussi vous aider à ajouter des extensions pour facilement utiliser du stockage physique ou via des sources de données (MongoDB, MySql, PostgreSQL)....
+
+image::../../img/blog/2018/siteweb_06.png[Variables d'environnement]
+
+Vous pouvez ensuite paramétrer différentes variables d'environnement. Les variables dont le nom commence par DEVMIND sont injectées dans le processus Gulp de construction
+
+[source, javascript, subs="none"]
+----
+module.exports = {
+  "apiKey": process.env.DEVMIND_API_KEY,
+  "authDomain": process.env.DEVMIND_AUTH_DOMAIN,
+  "databaseURL": process.env.DEVMIND_DATABASE_URL,
+  "storageBucket": process.env.DEVMIND_STORAGE_BUCKET,
+  "user": process.env.DEVMIND_USER_MAIL,
+  "password": process.env.DEVMIND_PASSWORD
+};
+----
+
+La variable d'environnement `_CC_PRE_BUILD_HOOK_` est importante car elle permet d'indiquer quel script est lancé à l'installation. Dans mon cas je lance un `_npm install_`. Npm permet de charger les différents plugins Node utilisés par Gulp et permet aussi de lancer Gulp (tâche paramétrée dans le fichier `_package.json_` du projet).
+
+[source, javascript, subs="none"]
+----
+{
+  "name": "dev-mind.com",
+  "repository": "https://github.com/Dev-Mind/dev-mind.com.git",
+  "scripts": {
+    "install": "gulp",
+    "dev": "gulp serve"
+  }
+}
+----
+
+Il est intéressant de noter que vous pouvez lancer plusieurs https://www.clever-cloud.com/doc/clever-cloud-overview/hooks/[hooks] avant ou après l'exécution de votre script.
+
+Pour que le serveur Apache fourni par Clever Cloud, soit capable de servir le répertoire généré, vous devez ajouter un fichier `_https://github.com/Dev-Mind/dev-mind.fr/blob/master/clevercloud/php.json[php.json]_` (dans un répertoire nommé `_clevercloud_` à la racine de votre projet), avec le contenu suivant
+[source, javascript, subs="none"]
+----
+{
+  "deploy": {
+    "webroot": "/build/dist"
+  }
+}
+----
+
+La dernière étape consite à paramétrer votre nom de domaine. Vous devez aller sur le site sur lequel vous avez déclarez ce nom de domaine et faire pointer le DNS vers les IPS mises à dispostion par Clever Cloud. Dans la console Clever vous devez aussi déclarer vos noms de domaine
+
+image::../../img/blog/2018/siteweb_07.png[Variables d'environnement]
+
+Dans mon cas le support m'a également activé la génération automatique de certificats via https://letsencrypt.org/[Lets' Encrypt].
+
+Et maintenant je suis très content de dire que https://www.dev-mind.fr/ est dorénavant hébergé sur Clever Cloud.
