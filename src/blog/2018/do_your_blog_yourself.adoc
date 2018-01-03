@@ -18,7 +18,7 @@ Début 2017, j'ai choisi de migrer mon blog de Blogspot vers une solution person
 
 image::../../img/blog/2018/siteweb_00.jpg[Do your blog yourself]
 
-Le but est d'arriver à une solution qui mèle facilité de développement et de déploiement tout en fournissant un contenu optimisé et facilement indexable par les différents robots des principaux moteurs de recherche.
+Le but est d'arriver à une solution qui mèle facilité de développement et facilité de déploiement et qui permette de fournir un contenu optimisé et facilement indexable par les différents robots des principaux moteurs de recherche.
 
 Aujourd'hui toutes ces fonctionnalités sont en place et je m'appuie pour ceci sur
 
