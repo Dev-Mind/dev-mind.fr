@@ -63,10 +63,14 @@ window.app = (function() {
     });
   }
 
-  let isBlogPage = document.currentScript.text.indexOf('blog=true')>-1;
+  //let isBlogPage = document.currentScript.text.indexOf('blog=true')>-1;
   let lastActiveSection = window.location.hash;
 
   changeMenu(lastActiveSection);
   initSw();
   loadLazyImages();
+
+  return {
+    "changeMenu": changeMenu
+  }
 })();
