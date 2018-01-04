@@ -1,0 +1,287 @@
+:doctitle: Utiliser une API d'envoi de mail en Java
+:description: Utiliser une API d'envoi de mail en Java dans une application Spring Boot
+:keywords: Java, API, Email
+:author: Guillaume EHRET - Dev-Mind
+:revdate: 2018-01-04
+:category: Java
+:teaser: Qui installe encore ces propres serveurs de mail pour envoyer les mails de ces applications ? Il existe aujourd'hui plusieurs services en ligne qui sont très simples à utiliser. Regardons comment le faire dans une application Java Spring Boot.
+:imgteaser: ../../img/blog/2018/email_00.png
+
+Qui installe encore ces propres serveurs de mail pour envoyer les mails de ces applications ? Il existe aujourd'hui plusieurs services en ligne qui sont très simples à utiliser. Regardons comment le faire dans une application Java Spring Boot.
+
+Tous le code source montré ci dessous, peut être récupéré sous https://github.com/Dev-Mind/devmind-email[Github]. Nous allons voir différentes manières d'écrire un service qui implémente l'interface ci dessous
+
+[source, java, subs="none"]
+----
+public interface EmailSender {
+    void send(EmailMessage email);
+}
+----
+
+Un `_EmailMessage_` est un bean Java comportant trois propriétés : destinataire, sujet et contenu du mail.
+
+image::../../img/blog/2018/email_00.png[Envoi mail]
+
+== The old way : SMTP
+SMTP (Simple Mail Transfer Protocol) porte bien son nom car il permet d'envoyer simplement des mails. Nous verrons plus loin que cette simplicité se retrouve aussi dans les autres moyens de faire. Pour limiter les spams les fournisseurs de mail peuvent mettre certaines limites. Par exemple gmail limite à 500 mails par jour via SMTP. Pour en envoyer plus vous devez passer par leur API.
+
+Revenons à nos moutons. Pour ajouter la gestion des mails dans une application Spring Boot, vous devez ajouter le module Gradle ou Maven `_spring-boot-starter-mail_`. Par exemple en Gradle
+
+[source, java, subs="none"]
+----
+  compile('org.springframework.boot:spring-boot-starter-mail')
+----
+
+Vous pouvez ensuite paramétrer les accès SMTP dans les paramètres de l'application. Par exemple dans le fichier `_application.yml_`
+
+[source, java, subs="none"]
+----
+spring:
+  mail:
+    protocol: smtp
+    host: smtp.gmail.com
+    port: 587
+    username: guillaume@dev-mind.fr
+    password: mypassword
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+----
+
+Vous pouvez maintenant injecter un objet `_JavaMailSender_` dans votre code et votre service peut s'écrire tout simplement de cette manière
+
+[source, java, subs="none"]
+----
+@Component
+public class GmailSender implements EmailSender {
+
+    private JavaMailSender javaMailSender;
+
+    public GmailSender(JavaMailSender javaMailSender) {
+        this.javaMailSender = javaMailSender;
+    }
+
+    @Override
+    public void send(EmailMessage email) {
+        try {
+            MimeMessage message = javaMailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+            helper.setTo(email.getTo());
+            helper.setSubject(email.getSubject());
+            helper.setFrom("guillaume@dev-mind.fr");
+            message.setContent(email.getContent(), "text/html");
+            javaMailSender.send(message);
+        }
+        catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+}
+
+----
+
+== Utiliser l'API Send Grid
+
+Depuis que tout se déploie dans le Cloud il existe un grand nombre d'API qui nous permettent de simplifier considérablement notre développement. Elles sont facilement intégrables dans tout type d'application car elles proposent souvent des accès HTTP via une clé d'API.
+
+https://sendgrid.com/[Sendgrid] est un des acteurs les plus connus pour envoyer des mails. SendGrid vous permet de gérer des templates afin de mettre en forme les emails envoyés. Vous disposez également de nombreuses statisiques permettant de suivre les mails envoyés, ouvert ou non....
+
+Vous bénéficiez d'un quota gratuit de 100 emails/jour (soit 3.000 emails par mois). Si vous déployez votre application sur https://www.cloudfoundry.org/[CloudFoundry], les quotas gratuits sont plus élevés (25.000 emails par mois).
+
+Dans tous les cas vous devrez aller sur leur site pour activer votre clé d'API
+
+image::../../img/blog/2018/email_01.png[Console Send Grid]
+
+Une fois que vous avez votre clé d'API vous devez intégrer dans votre application la dépendance Send Grid
+
+[source, java, subs="none"]
+----
+  compile('com.sendgrid:sendgrid-java:4.1.2')
+----
+
+Spring Boot contient un auto configurer pour SendGrid quand la dépendance est ajoutée à votre projet. Vous pouvez déclarer la clé dans votre fichier `_application.yml_` sous cette forme
+
+[source, java, subs="none"]
+----
+spring:
+  sendgrid:
+      api-key: ${SENDGRID_APIKEY:Bar12345Bar12345}
+----
+
+Vous pouvez maintenant utiliser l'objet `_SendGrid_` dans votre code
+
+[source, java, subs="none"]
+----
+@Component
+public class SendgridSender implements EmailSender {
+
+    private SendGrid sendGrid;
+
+    public SendgridSender(SendGrid sendGrid) {
+        this.sendGrid = sendGrid;
+    }
+
+    @Override
+    public void send(EmailMessage email) {
+        Mail mail = new Mail(
+                new Email("guillaume@dev-mind.fr", "Dev-Mind"),
+                email.getSubject(),
+                new Email(email.getTo()),
+                new Content("text/html", email.getContent()));
+
+        try {
+            Request request = new Request();
+            request.setMethod(Method.POST);
+            request.setEndpoint("mail/send");
+            request.setBody(mail.build());
+            sendGrid.api(request);
+        }
+        catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+}
+----
+
+Vous pouvez voir que ce n'est pas plus compliqué que précédemment.
+
+== Utiliser une autre API de mail dans une application web flux
+
+Dans la dernière partie nous allons utiliser un autre service en ligne similaire à SendGRid qui se nomme https://elasticemail.com/[Elastic email]. L'avantage est que vous disposez d'un quota gratuit un peu plus important(150.000 emails par mois).
+
+Le but est surtout de vous montrer comment faire un appel HTTP tout simple en utilisant https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/web/client/RestTemplate.html[RestTemplate] dans une application spring-web, ou https://docs.spring.io/spring-framework/docs/5.0.0.M3/javadoc-api/org/springframework/web/client/reactive/WebClient.html[WebClient] dans une application réactive spring-web-flux. Je vais vous montrer ici l'utilisation de WebClient.
+
+Dans le fichier Gradle nous allons importer le starter webflux
+
+[source, java, subs="none"]
+----
+compile("org.springframework.boot:spring-boot-starter-webflux")
+testCompile("com.squareup.okhttp3:mockwebserver:3.9.1")
+----
+
+La deuxième librairie importée https://square.github.io/okhttp/[okhttp] est un client HTTP minimaliste que nous allons utiliser dans nos tests. En effet le projet spring-test doit encore intégrer de nouveaux utilitaires pour tester facilement WebClient (voir https://jira.spring.io/browse/SPR-15286[ticket ouvert]).
+
+J'ajoute la configuration Elastic Mail (clé d'API) dans mon fichier application.yml
+[source, java, subs="none"]
+----
+devmind:
+  elasticmail:
+    apikey: ${ELASTICMAIL_APIKEY:Bar12345Bar12345}
+    host: ${ELASTICMAIL_HOST:https://api.elasticemail.com}
+    version: ${ELASTICMAIL_VERSION:v2}
+----
+
+Et je peux écrire mon service
+
+[source, java, subs="none"]
+----
+@Component
+public class ElasticMailSender implements EmailSender {
+
+    @Autowired
+    private EmailProperties properties;
+    private WebClient webClient;
+
+    public ElasticMailSender() {
+        webClient = WebClient.create(properties.getElasticmail().getHost());
+    }
+
+    public ElasticMailSender(EmailProperties properties, WebClient webClient) {
+        this.properties = properties;
+        this.webClient = webClient;
+    }
+
+    @Override
+    public void send(EmailMessage email) {
+        ElasticEmailResponseDTO response = webClient.post()
+            .uri(String.format("/%s/email/send", properties.getElasticmail().getVersion()))
+            .body(BodyInserters
+                .fromFormData("apikey", properties.getElasticmail().getApikey())
+                .with("from", "guillaume@dev-mind.fr")
+                .with("fromName", "DEv-Mind")
+                .with("to", email.getTo())
+                .with("subject", email.getSubject())
+                .with("isTransactional", "true")
+                .with("body", email.getContent())
+            )
+            .accept(MediaType.APPLICATION_JSON)
+            .retrieve()
+            .bodyToMono(ElasticEmailResponseDTO.class)
+            .block();
+
+        if (response.getSuccess() == false) {
+            throw new RuntimeException(response.getError());
+        }
+    }
+}
+----
+
+`_ElasticEmailResponseDTO_` est un bean Java comprenant deux propriétés : succes (boolean) et error (message d'erreur éventuel). Le constructeur avec deux arguments est utilisés pour les tests afin de sucharger le Webclient. Voici la classe de test de ce service
+
+[source, java, subs="none"]
+----
+public class ElasticMailSenderTest {
+
+    @Rule
+    public MockitoRule rule = MockitoJUnit.rule();
+
+    @Mock
+    private EmailProperties properties;
+
+    private MockWebServer server;
+    private WebClient webClient;
+    private ElasticMailSender elasticMailSender;
+
+    @Before
+    public void setUp(){
+        ExternalApi api = new ExternalApi();
+        api.setApikey("mykey");
+        given(properties.getElasticmail()).willReturn(api);
+
+        this.server = new MockWebServer();
+        this.webClient = Mockito.spy(WebClient.create(this.server.url("/").toString()));
+        elasticMailSender = new ElasticMailSender(properties, webClient);
+    }
+
+    @Test
+    public void send() {
+        prepareResponse(response -> response
+                .setHeader("Content-Type", "application/json")
+                .setBody("{ \"success\" : true }"));
+
+        elasticMailSender.send(new EmailMessage(
+                "gui.ehret@gmail.com",
+                "Email test",
+                "<h1>Hi Guillaume</h1><p>Waow... you are able to send an email</p>")
+        );
+
+        verify(webClient, atLeastOnce()).post();
+    }
+
+    @Test
+    public void sendWithError() {
+        prepareResponse(response -> response
+                .setHeader("Content-Type", "application/json")
+                .setBody("{ \"success\" : false, \"error\" : \"error expected\" }"));
+
+        assertThatThrownBy(() -> elasticMailSender.send(new EmailMessage(
+                "gui.ehret@gmail.com",
+                "Email test",
+                "<h1>Hi Guillaume</h1><p>Waow... you are able to send an email</p>")))
+                .isExactlyInstanceOf(RuntimeException.class)
+                .hasMessage("error expected");
+    }
+
+    private void prepareResponse(Consumer< MockResponse> consumer) {
+        MockResponse response = new MockResponse();
+        consumer.accept(response);
+        this.server.enqueue(response);
+    }
+}
+
+----
+
+Comme je le disais plus haut l'ensemble du code est disponible sous https://github.com/Dev-Mind/devmind-email[Github]. J'espère vous avoir montrer qu'il était assez simple d'envoyer un mail dans une application Java.
