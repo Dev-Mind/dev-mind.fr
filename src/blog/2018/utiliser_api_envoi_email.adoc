@@ -23,7 +23,7 @@ Un `_EmailMessage_` est un bean Java comportant trois propriétés : destinatair
 image::../../img/blog/2018/email_00.png[Envoi mail]
 
 == The old way : SMTP
-SMTP (Simple Mail Transfer Protocol) porte bien son nom car il permet d'envoyer simplement des mails. Nous verrons plus loin que cette simplicité se retrouve aussi dans les autres moyens de faire. Pour limiter les spams les fournisseurs de mail peuvent mettre certaines limites. Par exemple gmail limite à 500 mails par jour via SMTP. Pour en envoyer plus vous devez passer par leur API.
+SMTP (Simple Mail Transfer Protocol) porte bien son nom car il permet d'envoyer simplement des mails. Nous verrons plus loin que cette simplicité se retrouve aussi dans les autres moyens de faire. Pour limiter les spams et monétier leur service, les fournisseurs de mails peuvent mettre certaines limites. Par exemple Gmail limite le nombre de mails quotidien envoyés via SMTP à 500. Pour en envoyer plus vous devez passer par leur API et payer un abonnement en fonction de vos besoins.
 
 Revenons à nos moutons. Pour ajouter la gestion des mails dans une application Spring Boot, vous devez ajouter le module Gradle ou Maven `_spring-boot-starter-mail_`. Par exemple en Gradle
 
