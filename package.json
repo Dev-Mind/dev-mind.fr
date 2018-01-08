@@ -57,7 +57,6 @@
     "run-sequence": "^1.2.2",
     "stream-reduce": "^1.0.3",
     "stream-to-array": "^2.3.0",
-    "sw-toolbox": "^3.6.0",
     "vinyl-fs": "^2.4.4",
     "workbox-build": "^2.1.1"
   }
