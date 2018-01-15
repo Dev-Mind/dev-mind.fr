@@ -1,0 +1,253 @@
+:doctitle: Tester Spring WebFlux WebClient en Junit 4 ou 5 avec MockWebServer
+:description: comment utiliser mockwebserver pour tester vos services Spring utilisant WebClient
+:keywords: Java, Junit, Spring Boot, WebClient
+:author: Guillaume EHRET - Dev-Mind
+:revdate: 2018-01-15
+:category: Java
+:teaser: En jouant avec le dernier framework WebFlux de Spring et le WebClient, j'ai découvert la librairie okhttp écrite par Square. Cette librairie est très pratique pour tester les flux HTTP d'une application en Junit 4 ou 5 via un fork.
+:imgteaser: ../../img/blog/2018/mockwebserver_00.png
+
+En jouant avec le dernier framework https://docs.spring.io/spring/docs/current/spring-framework-reference/web-reactive.html[WebFlux] de Spring et notamment https://docs.spring.io/spring-framework/docs/5.0.0.M3/javadoc-api/org/springframework/web/client/reactive/WebClient.html[Web Client], j'ai découvert la librairie https://square.github.io/okhttp/[okhttp] écrite par la société http://square.github.io/[Square]. https://squareup.com/[Square] est spécialisé dans le paiement électronique et ils mettent à disposition des commerçants des mini lecteur de carte de crédits. Ils développement beaucoup pour toutes les plateformes mobiles et notamment pour Android et donc indirectement Java.
+
+image::../../img/blog/2018/mockwebserver_00.png[MockServer et WebClient]
+
+https://square.github.io/okhttp/[Okhttp] est un mini client HTTP et vous trouvez aussi dans ce projet un mini serveur "mockable" que vous pouvez utiliser dans vos tests.
+
+== Tester https://docs.spring.io/spring-framework/docs/5.0.0.M3/javadoc-api/org/springframework/web/client/reactive/WebClient.html[Web Client] en Junit4
+
+Prenons un exemple Spring WebFlux utilisant https://docs.spring.io/spring-framework/docs/5.0.0.M3/javadoc-api/org/springframework/web/client/reactive/WebClient.html[Web Client]
+
+[source, java, subs="none"]
+----
+@Component
+public class ElasticMailSender implements EmailSender {
+
+    private WebClient webClient;
+
+    public ElasticMailSender() {
+        webClient = WebClient.create("https://api.elasticemail.com");
+    }
+
+    public ElasticMailSender(WebClient webClient) {
+        this.webClient = webClient;
+    }
+
+    @Override
+    public void send(EmailMessage email) {
+        ElasticEmailResponseDTO response = webClient.post()
+            .uri(String.format("/%s/email/send", "v2"))
+            .body(BodyInserters
+                 .fromFormData("apikey", "MYAPISECRET")
+                 .with("from", "guillaume@dev-mind.fr")
+                 .with("fromName", "Dev-Mind")
+                 .with("to", email.getTo())
+                 .with("subject", email.getSubject())
+                 .with("isTransactional", "true")
+                 .with("body", email.getContent())
+            )
+            .accept(MediaType.APPLICATION_JSON)
+            .retrieve()
+            .bodyToMono(ElasticEmailResponseDTO.class)
+            .block();
+
+        if (response.getSuccess() == false) {
+            throw new RuntimeException(response.getError());
+        }
+    }
+}
+----
+
+Si nous voulons tester cette classe nous devons simuler le comportement de WebClient. Nous pouvons utiliser un framework de mock mais dans ce cas là nous ne testons pas le flux HTTP. Utilisons donc un simulacre de serveur web... C'est là que rentre en compte  https://github.com/square/okhttp/tree/master/mockwebserver[MockWebServer]
+
+Pour l'utiliser rien de plus simple. Commencez par insérer cette dépendance dans votre build Gradle
+
+[source, java, subs="none"]
+----
+testCompile("com.squareup.okhttp3:mockwebserver:3.9.1")
+----
+
+MockWebserver est en fait une http://javamind-fr.blogspot.fr/2014/05/junit-et-les-rules-comment-mutualiser.html#![Rule Junit 4] et étend la classe http://junit.org/junit4/javadoc/4.12/org/junit/rules/ExternalResource.html[ExternalResource]. Votre test peut s'écrire de cette manière
+
+[source, java, subs="none"]
+----
+public class ElasticMailSenderTest {
+    @Rule
+    public MockWebServer server = new MockWebServer();
+    private WebClient webClient;
+    private ElasticMailSender elasticMailSender;
+
+    @Before
+    public void setUp(){
+        this.webClient = Mockito.spy(WebClient.create(this.server.url("/").toString()));
+        elasticMailSender = new ElasticMailSender(webClient);
+    }
+
+    @Test
+    public void send() {
+        prepareResponse(response -> response
+                .setHeader("Content-Type", "application/json")
+                .setBody("{ \"success\" : true }"));
+
+        elasticMailSender.send(new EmailMessage(
+                "gui.ehret@gmail.com",
+                "Email test",
+                "<h1>Hi Guillaume</h1><p>Waow... you are able to send an email</p>")
+        );
+
+        verify(webClient, atLeastOnce()).post();
+    }
+
+    @Test
+    public void sendWithError() {
+        prepareResponse(response -> response
+                .setHeader("Content-Type", "application/json")
+                .setBody("{ \"success\" : false, \"error\" : \"error expected\" }"));
+
+        assertThatThrownBy(() -> elasticMailSender.send(new EmailMessage(
+                "gui.ehret@gmail.com",
+                "Email test",
+                "<h1>Hi Guillaume</h1><p>Waow... you are able to send an email</p>")))
+                .isExactlyInstanceOf(RuntimeException.class)
+                .hasMessage("error expected");
+    }
+
+    private void prepareResponse(Consumer<MockResponse> consumer) {
+        MockResponse response = new MockResponse();
+        consumer.accept(response);
+        this.server.enqueue(response);
+    }
+}
+----
+
+Une fois que la `_Rule_` est créée on initialise un `_WebClient_` avec une URL qui sera servie par `_MockWebServer_`
+
+[source, java, subs="none"]
+----
+WebClient.create(this.server.url("/").toString())
+----
+
+Ensuite la méthode `_prepareResponse()_` permet de constuire une réponse qui sera renvoyée quand WebClient appelera cette URL.
+
+Jusque là tout va bien mais que ce passe t'il si nous voulons passer à Junit 5 ?
+
+== Tester https://docs.spring.io/spring-framework/docs/5.0.0.M3/javadoc-api/org/springframework/web/client/reactive/WebClient.html[Web Client] en Junit5
+
+Si vous souhaitez utiliser Junit 5 dans votre application vous pouvez commencer par lire https://www.dev-mind.fr/blog/2018/junit5_and_springboot.html[mon article] sur le sujet :-).  Pour ne plus avoir de dépendance vers des anciennes versions de Junit, vous pouvez ajouter à votre projet Gradle cette configuration
+
+[source, java, subs="none"]
+----
+configurations {
+	all {
+		exclude module: "junit"
+	}
+}
+testCompile("org.junit.jupiter:junit-jupiter-api")
+testRuntime("org.junit.jupiter:junit-jupiter-engine")
+----
+
+Mais dans ce cas là vous ne pourrez plus utiliser la librairie précédente car elle a besoin de Junit 4 pour compiler. Il faut savoir que les versions 5 et 4 ne sont pas rétrocompatibles et les Rule Junit4 ont été remplacées par des extensions dans Junit 5.
+
+Junit 5 a été réécrit pour profiter pleinement de Java 8. Le https://developer.android.com/studio/write/java8-support.html[support Java 8] est encore à ses débuts dans Android, et Square ne va pas faire évoluer tout de suite sa librairie pour être compatible Junit 5. Pour palier à ce problème vous pouvez utiliser le fork mis en place par https://github.com/Dev-Mind/mockwebserver[Dev-Mind]. Ce projet utilise le projet https://square.github.io/okhttp/[okhttp] mais ne dépend pas de Junit 4, et propose deux extensions pour vos tests.
+
+Vous pouvez charger cette librairie sur http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22fr.dev-mind%22[Maven Central]. Pour l'utiliser dans un projet Gradle vous pouvez déclarer cette dépendance
+
+[source, java, subs="none"]
+----
+testCompile("com.devmind:mockwebserver:0.1.0")
+----
+
+La première extension `_MockWebServerExtension_` se charge d'instancier un serveur web, de le démarrer et de l'arrêter avant et après chaque test.
+
+[source, java, subs="none"]
+----
+@ExtendWith(MockWebServerExtension.class)
+class MySpringWebfluxServiceTest {
+
+    private MockWebServer server;
+    private WebClient webClient;
+    private MySpringWebfluxService service;
+
+    @BeforeEach
+    public void setup(MockWebServer server) {
+        this.webClient = WebClient.create(server.url("/").toString());
+        this.service = new MySpringWebfluxService(webClient);
+        this.server = server;
+    }
+
+    @Test
+    public void mytest() throws Exception {
+        prepareResponse(response -> response
+                .setHeader("Content-Type", "application/json")
+                .setBody( "{\n" +
+                          "  \"error_message\" : \"The provided API key is invalid.\",\n" +
+                          "  \"predictions\" : [],\n" +
+                          "  \"status\" : \"REQUEST_DENIED\"\n" +
+                          "}"));
+
+        StepVerifier.create(service.myMethod())
+                .expectComplete()
+                .verify(Duration.ofSeconds(3));
+    }
+
+    private void prepareResponse(Consumer consumer) {
+        MockResponse response = new MockResponse();
+        consumer.accept(response);
+        this.server.enqueue(response);
+    }
+
+}
+----
+
+Avec la deuxième extension `_MockSimpleWebServerExtension_` plus basique, vous gérez vous même l'arrêt relance du serveur. Ceci permet par exemple de lancer le serveur avant le lancement de tous les tests et de l'arrêter à la fin de l'exécution
+
+[source, java, subs="none"]
+----
+@ExtendWith(MockSimpleWebServerExtension.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+class MySpringWebfluxServiceTest {
+
+    private MockWebServer server;
+    private WebClient webClient;
+    private MySpringWebfluxService service;
+
+    @BeforeAll
+    public void init(MockWebServer server) throws IOException {
+        server.start();
+        this.server = server;
+    }
+
+    @AfterAll
+    public void tearDown() throws IOException {
+        server.shutdown();
+    }
+
+    @BeforeEach
+    public void setup(MockWebServer server) {
+        this.webClient = WebClient.create(server.url("/").toString());
+        this.service = new MySpringWebfluxService(webClient);
+    }
+
+    @Test
+    public void mytest() throws Exception {
+        prepareResponse(response -> response
+                .setHeader("Content-Type", "application/json")
+                .setBody( "{\n" +
+                          "  \"error_message\" : \"The provided API key is invalid.\",\n" +
+                          "  \"predictions\" : [],\n" +
+                          "  \"status\" : \"REQUEST_DENIED\"\n" +
+                          "}"));
+
+        StepVerifier.create(service.myMethod())
+                .expectComplete()
+                .verify(Duration.ofSeconds(3));
+    }
+
+    private void prepareResponse(Consumer<MockResponse> consumer) {
+        MockResponse response = new MockResponse();
+        consumer.accept(response);
+        this.server.enqueue(response);
+    }
+}
+----
+
+Voila vous n'avez plus d'excuse pour ne pas tester vos services Spring utilisant WebClient en Junit 5. Le fork proposé par Dev-Mind peut être utilisé en attendant que Square mette à jour sa librairie.
