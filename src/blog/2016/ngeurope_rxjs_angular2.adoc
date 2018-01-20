@@ -10,7 +10,7 @@
 
 RxJS s’est retrouvé dans plusieurs conférences. Comme pour le backend la programmation reactive est très présente dans les conférences JavaScript
 
-== Angular & RxJS Slides
+== Angular & RxJS
 `_by https://twitter.com/robwormald[Rob Wormald] : javascripter. googler. developer advocate for angular._`
 
 Rob nous a parlé de RxJS et comment l’utiliser dans Angular avec les Observables. Ce sujet pourtant assez complexe pour mon oeil de novice est devenu beaucoup plus clair au fur et à mesure de la journée.

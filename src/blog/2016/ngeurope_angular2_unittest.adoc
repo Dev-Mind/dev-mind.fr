@@ -1,0 +1,50 @@
+:doctitle: Tester une application Angular 2
+:description: Ng-europe Paris du 24 au 26 octobre 2016 Tester une application Angular 2
+:keywords: Angular, Angular2, ng-europe, Test
+:author: Guillaume EHRET - Dev-Mind
+:revdate: 2016-10-24
+:category: Web
+:teaser: Comment tester une application Angular2 retour sur la session de Vikram Subramanian à ngeurope
+:imgteaser: ../../img/blog/2016/ngeurope/ngeurope-angulartest00.jpg
+
+== https://twitter.com/vikerman[Vikram Subramanian] : Unit Tests for Angular 2 Applications https://docs.google.com/presentation/d/1fFxQvx2WHFPqR4piq0oWgKBuSMvrCwc1vfYggHlYEbQ/edit#slide=id.p[Slides]
+
+Vikram fait partie de l’équipe Angular 2 et son but était de se focaliser sur les tests unitaires tout en se distinguant des interventions de Julie Ralph sur le sujet. J’ai beaucoup aimé ce talk car je pense que les tests automatisés sont primordiaux quand on veut écrire des logiciels de qualité dans le temps.
+
+.photo de Philippe Chatel
+image::../../img/blog/2016/ngeurope/ngeurope-angulartest00.jpg[Vikram Subramanian]
+
+Les tests sont là pour détecter les régressions mais doivent être simples à écrire. Quand on écrit des tests de composants JavaScript nous devons disposer d’une bonne API pour parcourir le DOM lié à ce composant. L’équipe Angular a essayé d’écrire un ensemble de fonction pour simplifier ce travail en essayant d’être agnostique au niveau du framework de tests.
+
+Vous pouvez aussi bien utiliser du http://jasmine.github.io/[Jasmine] (celui utilisé par Google), https://mochajs.org/[Mocha] ou autre. Au niveau du test runner vous pouvez utiliser un runner fourni par ces différents framework ou utiliser https://karma-runner.github.io/1.0/index.html[Karma] qui offre plus de souplesse dans le paramétrage.
+
+Au niveau des tests il est toujours difficile de savoir ce que l’on mocke et à quel niveau nous devons nous arrêter. Faut-il privilégier l’isolation totale du test ou être le plus proche possible de la production ? Le deuxième cas est forcément celui qu’on aimerait appliqué mais il demande plus de boulot et ces tests seront plus longs.
+
+Voici un exemple de tests Angular 2
+
+[source, javascript, subs="none"]
+----
+it('displays user details on click', async(() => {
+  ...
+  // Locate the fetch button.  let debugFetchButton = fixture.debugElement.query(By.css('button'));
+  expect(debugFetchButton).not.toBe(null);
+
+
+  // Trigger the click event through the DOM.  debugFetchButton.nativeElement.click();
+
+
+  // Wait for the async getUsers to complete and Angular to become stable.  fixture.whenStable().then(() => {
+    // Trigger rendering component state to DOM.    fixture.detectChanges();
+
+
+    // Check that the user list is displayed.    ...
+  });
+}));
+----
+
+Pour plus d’informations je vous réoriente vers la documentation officielle https://angular.io/docs/ts/latest/guide/testing.html
+
+Il est important de noter qu’il reste pas mal de boulot pour les tests et notamment au niveau des tests de code utilisant le service http. Il faudrait pouvoir mocker facilement ce service.
+
+.Voir la vidéo
+video::dVtDnvTLaIo[youtube]
