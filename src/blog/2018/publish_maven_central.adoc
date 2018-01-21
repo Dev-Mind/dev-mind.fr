@@ -1,0 +1,267 @@
+:doctitle: Publier une librairie open source sur Maven Central
+:description: les astuces pour pouvoir publier une librairie open source sur Maven Central
+:keywords: Java, Gradle, OSS
+:author: Guillaume EHRET - Dev-Mind
+:revdate: 2018-01-22
+:category: Java
+:teaser: Je n'avais encore jamais publié une librairie sous Maven Central, afin de la rendre accessible à tous. Il existe plusieurs manières de faire. J'ai choisi le mode classique, préconisé par SonaType, la société qui gère Maven Central et les produits Nexus.
+:imgteaser: ../../img/blog/2018/mavencentral_00.png
+
+Je n'avais encore jamais publié une librairie sous http://search.maven.org/[Maven Central], afin de la rendre accessible à tous. Il existe plusieurs manières de faire. J'ai choisi le mode classique, préconisé par https://www.sonatype.com/[SonaType], la société qui gère http://search.maven.org/[Maven Central] et les produits https://www.sonatype.com/nexus-lifecycle[Nexus].
+
+Tout mes exemples sont définis avec https://gradle.org/[Gradle] et le code source présenté dans cet article est disponible sous https://github.com/Dev-Mind/mockwebserver[Github].
+
+== Utiliser la méthode Sonatype
+
+Les différentes versions des librairies open source Java sont déployées sous  OSSRH (OSS Repository Hosting). OSSRH utilise Nexus Repository Manager pour gérer les librairies. La plateforme gère tout le cycle de vie des versions d'une librairie
+
+* les versions de développements (snapshots) peuvent être déployées
+* les versions tagguées sont poussées dans un dépôt staging (recette)
+* vous pouvez ensuite indiquer qu'une version de recette est releasée. La plateforme lance à ce moment plusieurs contrôles de qualité et pousse les binaires sur le dépôt central (http://search.maven.org/[Maven Central]).
+
+La documentation officielle est assez complète et vous la trouverez http://central.sonatype.org/pages/ossrh-guide.html[ici]. Mais comme toute documentation il y a souvent un décalage entre le moment où elle a été décrite et le moment où vous l'appliquez. Sur une version récente de Linux et en utilisant les dernières versions de Gradle vous avez plusieurs points à savoir.
+
+Commençons par le début. La documentation vous demande
+
+* de créer un compte sur le https://issues.sonatype.org/secure/Signup!default.jspa[Jira] de SonaType. Les identifiants de ce compte seront les mêmes que vous utiliserez pour pousser vos artefacts
+* d'ouvrir une issue dans laquelle vous demandez la création d'un nouveau projet. Les équipes Nexus vont faire un check manuel de votre demande. Ils sont assez réactifs
+
+image::../../img/blog/2018/mavencentral_01.png[Ticket pour la création d'un projet]
+
+Même si nous allons utiliser Gradle, nous allons construire un descripteur de projet Maven (`_pom.xml_`), car Maven Central contenait à la base que des ressources pour les projes Maven.
+
+Une fois que les équipes SonaType ont validé votre projet, vous pouvez envoyer votre librairie sur leurs serveurs. Mais différents checks seront faits afin d'assurer une qualité minimale des librairies
+
+* vous devez définir les metadata du projet dans un descripteur `_pom.xml_` avec les identifiants (`_artifactId_`, `_version_`, `_groupId_`), le type de packaging, les dépendances transitives et optionelles
+* en plus de votre artefact vous devez envoyer les sources et la javadoc
+* tous les artefacts doivent être signés avec GPG/PGP
+
+== Paramétrer Gradle
+
+Regardons comment faire celà avec Gradle. Vous devez importer les plugins suivants pour votre projet Java
+[source, java, subs="none"]
+----
+apply plugin: 'java'
+apply plugin: 'signing'
+apply plugin: 'maven'
+----
+
+Le plugin `_signing_` va être utilisé pour signer les artefacts.
+
+Le plugin maven permet de générer un descripteur de projet Maven (`_pom.xml_`) et de publier vos artefacts sur Maven Central
+
+Vous pouvez définir les metadata de votre projet...
+[source, java, subs="none"]
+----
+group = 'fr.dev-mind'
+archivesBaseName = "mockwebserver"
+version = rootProject.version
+sourceCompatibility = 1.8
+----
+
+puis les tâches pour générer les différents artefacts :  jar, sources et javadocs. Les artefacts peuvent contenir un fichier Manifest avec les infos essentielles de votre projet
+
+[source, java, subs="none"]
+----
+ext.sharedManifest = manifest {
+    attributes(
+            "Implementation-Title": project.name,
+            "Implementation-Version": version,
+            "Implementation-Vendor": project.group,
+            "Bundle-Vendor": project.group
+    )
+}
+
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allJava
+    manifest {
+        from sharedManifest
+    }
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc
+    manifest {
+        from sharedManifest
+    }
+}
+
+javadoc {
+    source = sourceSets.main.allJava
+    classpath = configurations.compile
+    options.linkSource true
+    options.addBooleanOption('Xdoclint:all,-missing', true)
+}
+
+jar {
+    manifest {
+        from sharedManifest
+    }
+}
+
+artifacts {
+    archives javadocJar, sourcesJar
+}
+----
+
+Vous devez ensuite paramétrer la signature des artefacts. Dans l'exemple ci dessous, ceci n'est fait que lorsque la tâche `_uploadArchives_` est lancée (tâche permettant de publier vos librairies).
+
+[source, java, subs="none"]
+----
+signing {
+    required { gradle.taskGraph.hasTask("uploadArchives") }
+    sign configurations.archives
+}
+----
+
+Il ne reste plus qu'à paramétrer cette tâche `_uploadArchives_` avec les informations que l'on veut voir dans le `_pom.xml_` et les dépôts que vous allez utiliser
+[source, java, subs="none"]
+----
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            pom.project {
+                name project.name
+                packaging 'jar'
+                description "A scriptable web server for testing HTTP clients"
+                url 'https://github.com/Dev-Mind/mockwebserver'
+
+                scm {
+                    connection 'scm:git:git://github.com/Dev-Mind/mockwebserver'
+                    developerConnection 'scm:git:git://github.com/Dev-Mind/mockwebserver'
+                    url 'https://github.com/Dev-Mind/mockwebserver'
+                }
+
+                licenses {
+                    license {
+                        name 'The Apache License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'javamind'
+                        name 'Guillaume EHRET'
+                        email 'guillaume@dev-mind.fr'
+                    }
+                }
+            }
+        }
+    }
+}
+----
+
+== Erreur avec gpg2
+
+J'ai suivi la http://central.sonatype.org/pages/working-with-pgp-signatures.html[documentation] pour tout d'abord générer une clé via
+
+[source, java, subs="none"]
+----
+$ gpg2 --key-gen
+----
+
+Lorsque vous générez votre clé vous devez spécifier une `passphrase`. Personnellement j'ai du saisir des `passphrase` sans espace pour ne pas avoir de problème par la suite quand j'avais à resaisir ces informations.
+
+J'utilise une version récente de Linux qui utilise une version 2.1.15
+[source, java, subs="none"]
+----
+$ gpg2 --version
+----
+
+Plusieurs choses ont été améliorées dans les versions > 2.1 de gpg. Si vous affichez les clés créées, la taille de ces clés a été augmentée et la nouvelle taille n'est pas encore supportée par le plugin Gradle. Le plugin se base sur les librairies Java `_org.bouncycastle_` et il faut qu'ils migrent vers les dernières versions de cette librairie
+
+[source, java, subs="none"]
+----
+$ gpg2 --list-secret-keys
+
+/home/devmind/.gnupg/pubring.kbx
+------------------------------
+pub   rsa2048 2018-01-13 [SC]
+      6933FACC1931DD8A89CED163582D3134
+uid         [ultimate] Guillaume EHRET <guillaume@dev-mind.fr>
+sub   rsa2048 2018-01-13 [E]
+----
+
+Pour retrouver un format de clé court utilisez la commande suivante
+[source, java, subs="none"]
+----
+$ gpg2 --list-secret-keys --keyid-format short
+
+/home/devmind/.gnupg/pubring.kbx
+--------------------------------
+pub   rsa2048/C6EED57A 2018-01-13 [SC]
+uid         [ultimate] Guillaume EHRET <guillaume@dev-mind.fr>
+sub   rsa2048/7DY5B54F 2018-01-13 [E]
+----
+
+Vous pouvez maintenant publier votre clé publique sur un serveur de clé
+[source, java, subs="none"]
+----
+$ gpg2 --keyserver hkp://pool.sks-keyservers.net --send-keys C6EED57A
+----
+
+Vous pouvez reporter ces informations dans le fichier `_gradle.properties_` global (elles ne doivent pas être envoyées dans votre dépôt de sources public). Ce fichier devra également contenir les identifiants que vous avez utiliser sur Sonatype
+[source, java, subs="none"]
+----
+signing.keyId=C6EED57A
+signing.password=CeciEstMonpassword
+signing.secretKeyRingFile=/home/devmind/.gnupg/secring.gpg
+
+ossrhUsername=devmind
+ossrhPassword=CeciEstMonpassword
+----
+
+Après avoir fait cette action mon build Gradle ne fonctionnait toujours pas et retournait l'erreur suivante
+
+[source, java, subs="none"]
+----
+* What went wrong:
+Execution failed for task ':signArchives'.
+> Unable to read secret key from file: /home/devmind/.gnupg/secring.gpg (it may not be a PGP secret key ring)
+----
+
+Le stockage des clés à changé. Il ne se fait plus dans un fichier `_secring.gpg_` mais sous forme de sous-répertoires dans le répertoire `_.gnupg_`. Heureusement il est encore possible de générer ce fichier pour assurer la rétrocompatibilité.
+
+[source, java, subs="none"]
+----
+$ gpg2 --export-secret-keys > ~/.gnupg/secring.gpg
+----
+
+Un https://github.com/gradle/gradle/issues/888[ticket] a été ouvert pour modifier le plugin signin de Gradle
+
+== Publier sous Sonatype
+
+Une fois que les problèmes vus au paragraphe précédent ont été réglés, vous pouvez publier vos artefacts chez Sonatype.
+
+Les versions suffixées par `_-SNAPSHOT_` sont envoyées vers  https://oss.sonatype.org/content/repositories/snapshots/
+
+Les versions tagguées (sans `_-SNAPSHOT_`) sont envoyées vers  https://oss.sonatype.org/service/local/staging/deploy/maven2/
+
+Par contre les versions tagguées ne sont pas encore disponible de tous à cette étape. Comme nous l'avons vu au début de l'article les librairies publiées passe d'abord par une phase de recette (staging).
+
+Vous devez lancer le Nexus de Sonatype : https://oss.sonatype.org/#stagingRepositories et sélectionner votre librairie dans le bas de la liste
+
+image::../../img/blog/2018/mavencentral_02.png[Sonatype staging repository]
+
+Dans la barre de bouton le bouton `_Drop_` permet de supprimer votre librairie et le bouton `_Close_` de passer à la phase suivante... Je vous l'accorde ce n'est pas très parlant ce nommage de bouton.
+
+image::../../img/blog/2018/mavencentral_03.png[Sonatype staging repository boutons]
+
+Une fois que vous avez confirmé le passage à l'étape suivante, les contrôles de validité du projet sont lancés.
+
+image::../../img/blog/2018/mavencentral_04.png[Sonatype staging checks]
+
+Vous pouvez cliquer sur le bouton `_Refresh_` pour mettre à jour l'état de votre librairie. Si tout s'est bien passé le bouton `_Release_` dans la barre de bouton s'est activé. En cliquant dessus votre librairie sera publiée et dupliquée sur les différents serveurs Sonatype pour être accessible dans un délai maximal de 2h.
+
