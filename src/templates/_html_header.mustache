@@ -59,10 +59,11 @@
         transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
         transition-property: max-height, box-shadow; }
 
+    .header-space{
+        min-height: 64px;
+    }
     main {
-        height: calc(100vh - 64px);
         overflow-x: hidden;
-        overflow-y: auto;
         background-color: #2196f3; }
 
     img {
@@ -114,4 +115,8 @@
         color: white; }
     nav a > img {
         padding-top: 16px; }
+    .header-wrapper {
+        position: fixed;
+        width: 100%;
+    }
 </style>
