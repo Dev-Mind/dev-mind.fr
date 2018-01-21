@@ -32,6 +32,82 @@
     </url>
 
     <url>
+        <loc>https://www.dev-mind.fr/blog/2018/do_your_blog_yourself.html</loc>
+        <priority>0.3</priority>
+        <news:news>
+            <news:publication>
+                <news:name>Dev-Mind</news:name>
+                <news:language>fr</news:language>
+            </news:publication>
+            <news:genres>Blog</news:genres>
+            <news:publication_date>2018-01-02</news:publication_date>
+            <news:title>Do your Blog yourself</news:title>
+            <news:keywords>Java</news:keywords>
+            <news:stock_tickers>Java</news:stock_tickers>
+        </news:news>
+    </url>
+    <url>
+        <loc>https://www.dev-mind.fr/blog/2018/junit5_and_springboot.html</loc>
+        <priority>0.3</priority>
+        <news:news>
+            <news:publication>
+                <news:name>Dev-Mind</news:name>
+                <news:language>fr</news:language>
+            </news:publication>
+            <news:genres>Blog</news:genres>
+            <news:publication_date>2018-01-22</news:publication_date>
+            <news:title>Utiliser Junit 5 dans une application Spring Boot</news:title>
+            <news:keywords>Java</news:keywords>
+            <news:stock_tickers>Java</news:stock_tickers>
+        </news:news>
+    </url>
+    <url>
+        <loc>https://www.dev-mind.fr/blog/2018/mockserver.html</loc>
+        <priority>0.3</priority>
+        <news:news>
+            <news:publication>
+                <news:name>Dev-Mind</news:name>
+                <news:language>fr</news:language>
+            </news:publication>
+            <news:genres>Blog</news:genres>
+            <news:publication_date>2018-01-15</news:publication_date>
+            <news:title>Tester Spring WebFlux WebClient en Junit 4 ou 5 avec MockWebServer</news:title>
+            <news:keywords>Java</news:keywords>
+            <news:stock_tickers>Java</news:stock_tickers>
+        </news:news>
+    </url>
+    <url>
+        <loc>https://www.dev-mind.fr/blog/2018/publish_maven_central.html</loc>
+        <priority>0.3</priority>
+        <news:news>
+            <news:publication>
+                <news:name>Dev-Mind</news:name>
+                <news:language>fr</news:language>
+            </news:publication>
+            <news:genres>Blog</news:genres>
+            <news:publication_date>2018-01-22</news:publication_date>
+            <news:title>Publier une librairie open source sur Maven Central</news:title>
+            <news:keywords>Java</news:keywords>
+            <news:stock_tickers>Java</news:stock_tickers>
+        </news:news>
+    </url>
+    <url>
+        <loc>https://www.dev-mind.fr/blog/2018/utiliser_api_envoi_email.html</loc>
+        <priority>0.3</priority>
+        <news:news>
+            <news:publication>
+                <news:name>Dev-Mind</news:name>
+                <news:language>fr</news:language>
+            </news:publication>
+            <news:genres>Blog</news:genres>
+            <news:publication_date>2018-01-04</news:publication_date>
+            <news:title>Utiliser une API d'envoi de mail en Java</news:title>
+            <news:keywords>Java</news:keywords>
+            <news:stock_tickers>Java</news:stock_tickers>
+        </news:news>
+    </url>
+
+    <url>
         <loc>https://www.dev-mind.fr/blog/2017/dotCSS.html</loc>
         <priority>0.3</priority>
         <news:news>
