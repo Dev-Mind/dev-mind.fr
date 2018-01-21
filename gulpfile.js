@@ -10,19 +10,19 @@ const wbBuild = require('workbox-build');
 
 const $ = require('gulp-load-plugins')();
 
-const convertToHtml = require('./gulp-extensions/transformers/convert-to-html');
-const convertToBlogList = require('./gulp-extensions/transformers/convert-to-blog-list');
-const convertToBlogPage = require('./gulp-extensions/transformers/convert-to-blog-page');
-const convertToJson = require('./gulp-extensions/transformers/convert-to-json');
-const convertToRss = require('./gulp-extensions/transformers/convert-to-rss');
-const readAsciidoc = require('./gulp-extensions/transformers/read-asciidoctor');
-const readHtml = require('./gulp-extensions/transformers/read-html');
-const readIndex = require('./gulp-extensions/transformers/read-index');
-const applyTemplate = require('./gulp-extensions/transformers/apply-template');
-const highlightCode = require('./gulp-extensions/transformers/highlight-code');
-const firebaseIndexing = require('./gulp-extensions/transformers/firebase-indexing');
-const firebaseImgCacheBusting = require('./gulp-extensions/transformers/firebase-img-cache-busting');
-const fileExist = require('./gulp-extensions/transformers/file-exist');
+const convertToHtml = require('./gulp-extensions/convert-to-html');
+const convertToBlogList = require('./gulp-extensions/convert-to-blog-list');
+const convertToBlogPage = require('./gulp-extensions/convert-to-blog-page');
+const convertToJson = require('./gulp-extensions/convert-to-json');
+const convertToRss = require('./gulp-extensions/convert-to-rss');
+const readAsciidoc = require('./gulp-extensions/read-asciidoctor');
+const readHtml = require('./gulp-extensions/read-html');
+const readIndex = require('./gulp-extensions/read-index');
+const applyTemplate = require('./gulp-extensions/apply-template');
+const highlightCode = require('./gulp-extensions/highlight-code');
+const firebaseIndexing = require('./gulp-extensions/firebase-indexing');
+const firebaseImgCacheBusting = require('./gulp-extensions/firebase-img-cache-busting');
+const fileExist = require('./gulp-extensions/file-exist');
 
 const AUTOPREFIXER_BROWSERS = [
   'ie >= 11',
