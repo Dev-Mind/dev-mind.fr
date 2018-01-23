@@ -1,0 +1,215 @@
+:doctitle: HTTP 2 comment l'utiliser dans une webapp Spring Boot
+:description:  HTTP 2 comment l'utiliser dans une webapp Spring Boot
+:keywords: Java, SpringBoot, HTTP/2
+:author: Guillaume EHRET - Dev-Mind
+:revdate: 2016-09-23
+:category: Java
+:teaser: Kotlin est un langage de programmation créé par JetBrains qui compile le code en bytecode afin d’être exécuté sur une machine virtuelle Java. Regardons comment l'utiliser avec Spring
+:imgteaser: ../../img/blog/2016/springkotlin_00.png
+
+Je vais vous parler aujourd’hui du langage Kotlin qui est sorti dans sa version 1.0 depuis février 2016.
+
+Kotlin est un langage de programmation créé par JetBrains qui compile le code en bytecode afin d’être exécuté sur une machine virtuelle Java. JetBrains l’a créé pour développer plus efficacement ses différents produits (IntelliJ, Webstorm…)
+
+image::../../img/blog/2016/springkotlin_00.png[Spring Kotlin]
+
+Je profite ici de l’intervention de https://twitter.com/sdeleuze[Sébastien Deleuze] (Pivotal) à la première session du https://twitter.com/KotlinLyon[Lyon Kotlin user groupe] pour parler de Kotlin dans le monde Spring.
+
+Si vous êtes intéressé voici les supports proposés par Sébastien
+
+* les https://speakerdeck.com/sdeleuze/developing-a-geospatial-webservice-with-spring-boot-and-kotlin[slides] de sa session
+* son https://github.com/sdeleuze/geospatial-messenger[projet exemple]
+* le https://github.com/sdeleuze/spring-kotlin[repository Github] où Spring met à disposition les extensions qui permettent de simplifier les interactions entre Spring et Kotlin
+
+Comme j’aime bien aussi expérimenté par moi même voici un POC assez simple mettant en oeuvre ce qui est dit dans cet article.
+
+== Présentation du langage
+
+Je vais rapidement énumérer les intérêts du langage mais pour un avis plus pertinent que le mien je vous conseille de lire l’http://blog.ninja-squad.com/2016/05/31/first-kotlin-project/[article de Jean Baptiste Nizet].
+
+* moins verbeux que le langage Java tout en étant presque aussi performant. Le code est compilé en bytecode et profite donc des optimisations de la JVM au Runtime
+* langage fortement typé mais assez intelligent pour exploiter un maximum l’inférence de type et ne pas vous demander de saisir le type quand il est capable de le trouver tout seul
+* la définition de DTO est hyper simple
+* Null safety. Par défaut aucune valeur ne peut être nulle et le compilateur génère une exception quand une valeur nulle n’est pas gérer. Vous devez explicitement définir le comportement quand une valeur peut être nulle.
+* Kotlin propose les extensions de méthodes qui s’avère très pratique pour étendre le comportement des classes existantes même si elles sont fournies par un framework externe.
+* Vous pouvez vous passer des points virgule mais personnellement ce n’est pas la fonctionnalité qui me fait triper
+
+D’après un sondage effectué sur le https://kotlinlang.slack.com/[Slack] de la team Kotlin, les développeurs utilisent en majorité Kotlin pour simplifier le développement des applications Android.
+
+J’ai beaucoup apprécié la comparaison faite par Sébastien avec d’autres langages
+
+* Kotlin apporte la même concision que Groovy mais les types statiques et le null safety est un gros plus
+* Par rapport à Scala qui est un langage peut être plus à destination de la recherche ou des uses cases scientifiques (big data…), Kotlin fait pratiquement aussi bien mais avec beaucoup moins de fonctionnalités ("Some people say Kotlin has 80% the power of Scala, with 20% of the features")
+* Swift se rapproche grandement de Kotlin sauf que la cible n’est pas la JVM mais plutôt une compilation en langage machine via LLVM
+
+== Démarrer un projet Spring
+
+Regardons comment démarrer un projet Spring. Il est bon de noter que Kotlin fait partie des 3 langages supportés par Spring (avec Java et Groovy). J’ai lancé ici le wizard dans IntelliJ mais vous pouvez faire exactement la même chose sur http://start.spring.io/#!language=kotlin
+
+image::../../img/blog/2016/springkotlin_02.png[Démarrer un projet Spring Kotlin]
+
+Votre premier projet est initialisé. Nous allons créer une API REST qui permet de renvoyer le nom de société et leurs employés. Au niveau IDE j'ai utilisé IntelliJ.
+
+== Des POJOs enfin lisibles
+
+[source, java, subs="none"]
+----
+class Company(
+        var name: String,
+        var id: Int? = null,
+        var workers : MutableList<Worker> = mutableListOf()
+)
+----
+
+Par défaut vous n’avez pas besoin de définir de constructeurs, de getter et de setter . Il est intéressant de souligner que le type `_List_` par défaut est non mutable et que vous devez utiliser `_MutableList_` si votre liste doit être mutable.
+
+Si vous avez besoin que la classe mette à disposition les méthodes `_hascode_` et `_equals_` vous aller définir une `_data class_`
+
+[source, java, subs="none"]
+----
+data class Worker(
+        var firstname: String,
+        var lastname: String,
+        var company: Company,
+        var id: Int? = null)
+----
+
+Notez le « ? » qui permet d’indiquer qu’une valeur peut être nulle. L’avantage de l’initialiser à null est que Kotlin mettra à disposition 2 constructeurs : un avec tous les champs obligatoires et l’autre avec l’ensemble des champs
+
+[source, java, subs="none"]
+----
+val guillaume = Worker("Guillaume", "EHRET")
+val guillaume = Worker("Guillaume", "EHRET", Company("Dev-Mind"))
+----
+
+
+== Mise en place d’un service REST
+
+Nous allons essayer d’exposer un service REST qui expose la liste des travailleurs. Avant de commencer il est important de se pencher sur une spécificité du langage Kotlin. Toutes les classes par défaut sont définies comme final et ne peuvent donc pas être étendues. Si vous ne voulez pas qu’elles soient final vous devez explicitement déclarer des classes préfixées par le mot clé open.
+
+Cette spécificité engendre pas mal de souci quand vous voulez utiliser des proxy (ce que Spring fait beaucoup). Quand vous ajoutez des interfaces à vos classes, Spring utilise les proxies fournis par le langage Java et ne rencontre pas de problème. Pour toutes les autres classes, Spring utilise Cglib pour créer des proxies et si la classe n’est pas open, la magie Spring ne pourra pas opérer.
+
+Pivotal et JetBrains sont en discussion pour simplifier ces limitations et aider le travail des frameworks. Voici comment déclarer votre application SpringBoot
+
+[source, java, subs="none"]
+----
+@SpringBootApplication@EnableTransactionManagement
+open class DevmindKotlinApplication{
+    @Bean
+    open fun transactionManager(dataSource: DataSource) = SpringTransactionManager(dataSource)
+}
+
+fun main(args: Array<String>) {
+    SpringApplication.run(DevmindKotlinApplication::class.java, *args)
+}
+----
+
+Au niveau du service REST voici un exemple qui montre encore le gain au niveau lisibilité du code
+
+[source, java, subs="none"]
+----
+@RestController@RequestMapping("/companies")
+class CompanyController(val companyRepository: CompanyRepository){
+
+    @GetMapping    fun list() = companyRepository.findAll();
+
+    @GetMapping("/{id}")
+    fun findById(@PathVariable id: Int) = companyRepository.findById(id);
+
+    @PostMapping    fun create(@RequestBody company: Company) = companyRepository.create(company)
+
+    @PutMapping("/{id}")
+    fun update(@PathVariable id: Int, @RequestBody company: Company) = companyRepository.update(id, company);
+}
+----
+
+Notez ici que les types de retour ne sont pas forcément déclarés mais déduits des appels des méthodes du Repository.
+
+Vous n’avez plus besoin depuis Spring 4.3 de déclarer un @Autowired quand vous faites une injection par constructeur. Dans notre cas le workerRepository est directement injecté par Spring à la création de la classe.
+
+== Les arguments par défaut
+
+Je n’ai pas encore parlé d’une fonctionnalité importante du langage. Vous pouvez définir des valeurs par défaut et utiliser des paramètres nommés lors de l’appel
+
+Si je déclare la fonction suivante
+[source, java, subs="none"]
+----
+fun formatDate(string: Date, format: String = "yyyy-MM-dd", addDay: Int =0) : String
+----
+
+Il existe différentes manières d’appeler cette méthode formatDate
+
+[source, java, subs="none"]
+----
+formatDate(Date())
+formatDate(Date(), "yyyy")
+formatDate(Date(), addDay = 2)
+----
+
+== Et si on essayait autre chose que JPA
+
+Super mais maintenant quand est il de la persistance ? La majorité des projets stockent leurs données dans une base de données. Vous pouvez utiliser pour cela les librairies mises à disposition par Spring pour faire du JPA (ex Spring Data).
+
+Mais la stack JPA est parfois assez lourde, utilise pas mal de mémoire, retarde le démarrage de votre application. JPA vous limite aussi dans l’utilisation des fonctions natives des bases de données. Le seul avantage reste le changement de base de données qui n’arrive pas vraiment dans la vie d’un projet.
+
+Le use case le plus fréquent est d’utiliser une base différente en test. Mais il est plutôt conseillé d’exécuter les tests sur le même type de base de données que la cible et vous pouvez toujours mettre en place des parades pour les tests.
+
+Nous allons donc voir comment faire directement du JDBC. Kotlin propose la librairie https://github.com/JetBrains/Exposed[exposed]. Cette librairie apporte un DSL pour décrire les tables de votre modèle et faciliter le requêtage.
+
+[source, java, subs="none"]
+----
+object Companies : Table() {
+    val id = integer("id").autoIncrement().primaryKey()
+    val name = varchar("name", 50)
+}
+object Workers : Table() {
+    val id = integer("id").autoIncrement().primaryKey()
+    val firstname = varchar("firstname", length = 150)
+    val lastname = varchar("lastname", length = 150)
+    val companyId = integer("company_id") references Companies.id}
+
+----
+
+Nous pouvons créer une interface pour nos DAO.
+
+[source, java, subs="none"]
+----
+interface CrudRepository<T, K> {
+    fun createTable()
+    fun create(m: T): T    fun update(id: K, m: T): K    fun findById(id: K): T    fun findAll(): Iterable<T>
+    fun deleteAll(): Int
+}
+----
+
+Voici par exemple comment écrire les méthodes CRUD en utilisant le DSL de la librairie exposed.
+
+[source, java, subs="none"]
+----
+interface CompanyRepository : CrudRepository<Company, Int>
+
+@Repository@Transactionalclass DefaultCompanyRepository : CompanyRepository {
+
+    override fun createTable() = SchemaUtils.create(Companies);
+
+    override fun create(company: Company): Company {
+        company.id = Companies.insert(toRow(company)).generatedKey        return company
+    }
+
+    override fun update(id: Int, company: Company): Int = Companies.update({ Companies.id eq id}) { toRow(company) }
+
+    override fun findById(id: Int): Company = Companies.select({ Companies.id eq id}).map { fromRow(it) }.first()
+
+    override fun findAll(): Iterable<Company> = Companies.selectAll().map { fromRow(it) }
+    override fun deleteAll() = Companies.deleteAll()
+
+    private fun toRow(company: Company): Companies.(UpdateBuilder<*>) -> Unit = {        it[name] = company.name        if (company.id != null) it[id] = company.id    }
+    private fun fromRow(result: ResultRow) =
+            Company(result[Companies.name],
+                    result[Companies.id])
+
+}
+----
+
+Sébastien nous a montré également comment utiliser Kotlin pour écrire vos scripts Gradle. Kotlin va faciliter le travail des éditeurs, qui vont pouvoir faire de l'auto complétion et de la validation.
+
+Les exemples exposés ici sont disponible dans ce projet https://github.com/Dev-Mind/devmind-kotlin[Github] mais n’hésitez pas à vous référer aux ressources que j’ai exposées au début de cet article et notamment le projet exemple de Sébastien qui lui utilise un script Gradle en Kotlin
