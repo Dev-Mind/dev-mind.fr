@@ -17,12 +17,12 @@ module.exports = (mustacheTemplateFile, partials, blogIndexFile) => {
   if (!blogIndexFile) throw new PluginError('convert-to-blog-page', 'Missing source blogIndexFile for convert-to-blog-page');
   if (!partials) throw new PluginError('convert-to-blog-page', 'Missing source partials for convert-to-blog-page');
 
-  const mustacheTemplate = fs.readFileSync(path.resolve(__dirname, '../..', mustacheTemplateFile), 'utf8');
+  const mustacheTemplate = fs.readFileSync(path.resolve(__dirname, '../', mustacheTemplateFile), 'utf8');
   const mustachePartials = {};
-  partials.forEach(partial => mustachePartials[partial.key] = fs.readFileSync(path.resolve(__dirname, '../..', partial.path), 'utf8'));
+  partials.forEach(partial => mustachePartials[partial.key] = fs.readFileSync(path.resolve(__dirname, '..', partial.path), 'utf8'));
   mustache.parse(mustacheTemplate);
 
-  const blogIndexPath = path.resolve(__dirname, '../..', blogIndexFile);
+  const blogIndexPath = path.resolve(__dirname, '..', blogIndexFile);
   const blogIndex = JSON.parse(fs.readFileSync(blogIndexPath, 'utf8'));
 
   return map((file, next) => {

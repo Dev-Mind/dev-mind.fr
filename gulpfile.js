@@ -154,7 +154,13 @@ gulp.task('lint', () =>
     .pipe($.if(!browserSync.active, $.eslint.failOnError()))
 );
 
-gulp.task('html', () =>
+gulp.task('html-indexing', () =>
+  gulp.src(`src/html/**/*.html`)
+    .pipe(readHtml(modeDev))
+    .pipe(convertToJson('pageindex.json'))
+    .pipe(gulp.dest('build/.tmp')));
+
+gulp.task('html', ['html-indexing'], () =>
   gulp.src(`src/html/**/*.html`)
     .pipe(readHtml(modeDev))
     .pipe(applyTemplate(`src/templates/site.mustache`, MUSTACHE_PARTIALS))

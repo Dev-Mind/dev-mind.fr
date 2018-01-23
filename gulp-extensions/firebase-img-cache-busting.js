@@ -4,7 +4,7 @@ const gutil = require('gulp-util');
 const PluginError = gutil.PluginError;
 const map = require('map-stream');
 const firebase = require("firebase");
-const firebaseConfig = require("../../firebase.js");
+const firebaseConfig = require("../firebase.js");
 const fs = require('fs');
 const path = require('path');
 
@@ -36,7 +36,7 @@ module.exports = (cacheBustingFile, modeDev) => {
     console.log('firebase-img-cache-busting finished');
   });
 
-  const cacheBustingPath = path.resolve(__dirname, '../..', cacheBustingFile);
+  const cacheBustingPath = path.resolve(__dirname, '..', cacheBustingFile);
   const template = JSON.parse(fs.readFileSync(cacheBustingPath, 'utf8'));
 
   return map(async (file, next) => {

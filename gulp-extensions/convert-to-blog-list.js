@@ -31,9 +31,9 @@ module.exports = (mustacheTemplateFile, partials, filename, nbArticleMax) => {
     }
   };
 
-  const mustacheTemplate = fs.readFileSync(path.resolve(__dirname, '../..', mustacheTemplateFile), 'utf8');
+  const mustacheTemplate = fs.readFileSync(path.resolve(__dirname, '../', mustacheTemplateFile), 'utf8');
   const mustachePartials = {};
-  partials.forEach(partial => mustachePartials[partial.key] = fs.readFileSync(path.resolve(__dirname, '../..', partial.path), 'utf8'));
+  partials.forEach(partial => mustachePartials[partial.key] = fs.readFileSync(path.resolve(__dirname, '..', partial.path), 'utf8'));
   mustache.parse(mustacheTemplate);
 
   const metadata = {

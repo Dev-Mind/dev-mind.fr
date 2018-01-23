@@ -4,7 +4,7 @@ const gutil = require('gulp-util');
 const PluginError = gutil.PluginError;
 const map = require('map-stream');
 const firebase = require('firebase');
-const firebaseConfig = require('../../firebase.js');
+const firebaseConfig = require('../firebase.js');
 
 /**
  * This plugin parse all the asciidoc files to build a Json index file with metadata

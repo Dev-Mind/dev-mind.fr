@@ -75,7 +75,17 @@ module.exports = function (modedev, scope) {
       modedev: () => modedev,
     };
 
+    file.indexData =  {
+      strdate: moment().format('DD/MM/YYYY'),
+      revdate: moment().format('DD/MM/YYYY'),
+      doctitle: pageMetadata[file.fileName].title,
+      description: pageMetadata[file.fileName].description,
+      keywords: pageMetadata[file.fileName].keywords.split(","),
+      filename: file.filename,
+      dir: '/'
+    };
+
     next(null, file);
   });
-}
+};
 

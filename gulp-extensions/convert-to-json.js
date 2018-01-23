@@ -8,7 +8,7 @@ const PluginError = gutil.PluginError;
  * This plugin writes the blog metadata in a local index
  */
 module.exports = function (filename) {
-  if (!filename) throw new PluginError('write-json', 'Missing target filename for asciidoctor-rss');
+  if (!filename) throw new PluginError('write-json', 'Missing target filename for convert-to-json');
 
   let json = [];
 
