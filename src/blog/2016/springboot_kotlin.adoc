@@ -1,6 +1,6 @@
-:doctitle: HTTP 2 comment l'utiliser dans une webapp Spring Boot
-:description:  HTTP 2 comment l'utiliser dans une webapp Spring Boot
-:keywords: Java, SpringBoot, HTTP/2
+:doctitle: 	Kotlin dans le monde Spring
+:description: Kotlin dans le monde Spring
+:keywords: Java, SpringBoot, Kotlin
 :author: Guillaume EHRET - Dev-Mind
 :revdate: 2016-09-23
 :category: Java
@@ -134,82 +134,3 @@ Je n’ai pas encore parlé d’une fonctionnalité importante du langage. Vous 
 Si je déclare la fonction suivante
 [source, java, subs="none"]
 ----
-fun formatDate(string: Date, format: String = "yyyy-MM-dd", addDay: Int =0) : String
-----
-
-Il existe différentes manières d’appeler cette méthode formatDate
-
-[source, java, subs="none"]
-----
-formatDate(Date())
-formatDate(Date(), "yyyy")
-formatDate(Date(), addDay = 2)
-----
-
-== Et si on essayait autre chose que JPA
-
-Super mais maintenant quand est il de la persistance ? La majorité des projets stockent leurs données dans une base de données. Vous pouvez utiliser pour cela les librairies mises à disposition par Spring pour faire du JPA (ex Spring Data).
-
-Mais la stack JPA est parfois assez lourde, utilise pas mal de mémoire, retarde le démarrage de votre application. JPA vous limite aussi dans l’utilisation des fonctions natives des bases de données. Le seul avantage reste le changement de base de données qui n’arrive pas vraiment dans la vie d’un projet.
-
-Le use case le plus fréquent est d’utiliser une base différente en test. Mais il est plutôt conseillé d’exécuter les tests sur le même type de base de données que la cible et vous pouvez toujours mettre en place des parades pour les tests.
-
-Nous allons donc voir comment faire directement du JDBC. Kotlin propose la librairie https://github.com/JetBrains/Exposed[exposed]. Cette librairie apporte un DSL pour décrire les tables de votre modèle et faciliter le requêtage.
-
-[source, java, subs="none"]
-----
-object Companies : Table() {
-    val id = integer("id").autoIncrement().primaryKey()
-    val name = varchar("name", 50)
-}
-object Workers : Table() {
-    val id = integer("id").autoIncrement().primaryKey()
-    val firstname = varchar("firstname", length = 150)
-    val lastname = varchar("lastname", length = 150)
-    val companyId = integer("company_id") references Companies.id}
-
-----
-
-Nous pouvons créer une interface pour nos DAO.
-
-[source, java, subs="none"]
-----
-interface CrudRepository<T, K> {
-    fun createTable()
-    fun create(m: T): T    fun update(id: K, m: T): K    fun findById(id: K): T    fun findAll(): Iterable<T>
-    fun deleteAll(): Int
-}
-----
-
-Voici par exemple comment écrire les méthodes CRUD en utilisant le DSL de la librairie exposed.
-
-[source, java, subs="none"]
-----
-interface CompanyRepository : CrudRepository<Company, Int>
-
-@Repository@Transactionalclass DefaultCompanyRepository : CompanyRepository {
-
-    override fun createTable() = SchemaUtils.create(Companies);
-
-    override fun create(company: Company): Company {
-        company.id = Companies.insert(toRow(company)).generatedKey        return company
-    }
-
-    override fun update(id: Int, company: Company): Int = Companies.update({ Companies.id eq id}) { toRow(company) }
-
-    override fun findById(id: Int): Company = Companies.select({ Companies.id eq id}).map { fromRow(it) }.first()
-
-    override fun findAll(): Iterable<Company> = Companies.selectAll().map { fromRow(it) }
-    override fun deleteAll() = Companies.deleteAll()
-
-    private fun toRow(company: Company): Companies.(UpdateBuilder<*>) -> Unit = {        it[name] = company.name        if (company.id != null) it[id] = company.id    }
-    private fun fromRow(result: ResultRow) =
-            Company(result[Companies.name],
-                    result[Companies.id])
-
-}
-----
-
-Sébastien nous a montré également comment utiliser Kotlin pour écrire vos scripts Gradle. Kotlin va faciliter le travail des éditeurs, qui vont pouvoir faire de l'auto complétion et de la validation.
-
-Les exemples exposés ici sont disponible dans ce projet https://github.com/Dev-Mind/devmind-kotlin[Github] mais n’hésitez pas à vous référer aux ressources que j’ai exposées au début de cet article et notamment le projet exemple de Sébastien qui lui utilise un script Gradle en Kotlin
