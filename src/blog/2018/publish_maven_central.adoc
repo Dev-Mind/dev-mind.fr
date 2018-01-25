@@ -239,7 +239,35 @@ Le stockage des clés à changé. Il ne se fait plus dans un fichier `_secring.g
 $ gpg2 --export-secret-keys > ~/.gnupg/secring.gpg
 ----
 
-Un https://github.com/gradle/gradle/issues/888[ticket] a été ouvert pour modifier le plugin signin de Gradle
+Un https://github.com/gradle/gradle/issues/888[ticket] a été ouvert pour modifier le plugin signin de Gradle et une solution a été apportée à partir de Gradle 4.5.
+
+== A partir de Gradle 4.5
+
+Une autre solution a été mise en place dans la dernière version de Gradle, la https://docs.gradle.org/4.5/release-notes.html#signing-artifacts-with-gpg-agent[version 4.5]. Le plugin `_signing_` utilise une implémentation Java pour gérer les signatures va GPG. Cette implémentation ne peut pas utiliser `_gpg-agent_` pour gérer les clés privées. Avec Gradle 4.5 vous pouvez maintenant utiliser cet agent en utilisant `_useGpgCmd()_` (GnuPG doit bien évidemment être installé).
+[source, java, subs="none"]
+----
+signing {
+    required { gradle.taskGraph.hasTask("uploadArchives") }
+    useGpgCmd()
+    sign configurations.archives
+}
+----
+
+Vous devez toujours générer votre clé et l'enregistrer sur le serveur de clé. Vous n'avez plus besoin par contre de générer un fichier pour assurer la rétrocompatibilité. Sans autre configuration, le plugin _`signing`_ trouvera _`gpg2`_ dans le path et vous demandera de saisir la passphrase via une boite de dialogue
+
+Pour automatiser le tout vous pouvez ajouter la configuration suivante dans votre build.gradle global
+----
+signing.gnupg.executable=gpg
+signing.gnupg.useLegacyGpg=false
+signing.gnupg.keyName=C6EED57A
+signing.gnupg.passphrase=CeciEstMonpassword
+
+ossrhUsername=devmind
+ossrhPassword=CeciEstMonpassword
+----
+
+Pour plus d'informations vous pouvez lire la https://docs.gradle.org/4.5/userguide/signing_plugin.html#sec:using_gpg_agent[documentation].
+
 
 == Publier sous Sonatype
 
