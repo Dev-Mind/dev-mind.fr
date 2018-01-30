@@ -15,6 +15,7 @@ const convertToBlogList = require('./gulp-extensions/convert-to-blog-list');
 const convertToBlogPage = require('./gulp-extensions/convert-to-blog-page');
 const convertToJson = require('./gulp-extensions/convert-to-json');
 const convertToRss = require('./gulp-extensions/convert-to-rss');
+const convertToSitemap = require('./gulp-extensions/convert-to-sitemap');
 const readAsciidoc = require('./gulp-extensions/read-asciidoctor');
 const readHtml = require('./gulp-extensions/read-html');
 const readIndex = require('./gulp-extensions/read-index');
@@ -224,6 +225,13 @@ gulp.task('copy', (cb) => {
     .on('end', () => cb())
 });
 
+gulp.task('sitemap', () =>
+  gulp.src('build/.tmp/*index.json')
+    .pipe(readIndex())
+    .pipe(convertToSitemap())
+    .pipe(gulp.dest('build/dist'))
+);
+
 gulp.task('service-worker', ['service-worker-bundle', 'service-worker-resource'], () =>
   gulp.src(`build/.tmp/sw.js`)
     .pipe($.sourcemaps.init())
@@ -332,6 +340,7 @@ gulp.task('default', cb =>
   $.sequence(
     'clean',
     'build',
+    'sitemap',
     'cache-busting',
     'compress',
     'service-worker',

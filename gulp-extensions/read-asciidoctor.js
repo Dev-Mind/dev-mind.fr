@@ -55,7 +55,8 @@ module.exports = function (modedev) {
       imgteaser: () => file.attributes.imgteaser,
       status: () => file.attributes.status,
       modedev: () => modedev,
-      canonicalUrl: () => `blog/${dir}/${filename}.html`
+      canonicalUrl: () => `blog/${dir}/${filename}.html`,
+      blog: () => true
     };
 
     next(null, file);
