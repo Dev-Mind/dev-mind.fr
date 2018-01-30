@@ -57,6 +57,7 @@ module.exports = (modeDev, generateBlogDev) => {
           teaser: file.attributes.teaser,
           imgteaser: file.attributes.imgteaser,
           modeDev : modeDev,
+          blog: true,
           dir: file.path.substring(file.path.lastIndexOf("blog/") + 5, file.path.lastIndexOf("/"))
         };
 
