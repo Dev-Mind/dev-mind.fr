@@ -4,5 +4,6 @@ module.exports = {
   "databaseURL": process.env.DEVMIND_DATABASE_URL,
   "storageBucket": process.env.DEVMIND_STORAGE_BUCKET,
   "user": process.env.DEVMIND_USER_MAIL,
-  "password": process.env.DEVMIND_PASSWORD
+  "password": process.env.DEVMIND_PASSWORD,
+  "messagingSenderId": process.env.DEVMIND_SENDER_ID
 };

@@ -16,7 +16,8 @@ module.exports = (modeDev, generateBlogDev) => {
         apiKey: firebaseConfig.apiKey,
         authDomain: firebaseConfig.authDomain,
         databaseURL: firebaseConfig.databaseURL,
-        storageBucket: firebaseConfig.storageBucket
+        storageBucket: firebaseConfig.storageBucket,
+        messagingSenderId: firebaseConfig.messagingSenderId
       });
     }
     firebase.auth()

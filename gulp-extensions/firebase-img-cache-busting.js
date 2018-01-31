@@ -20,7 +20,8 @@ module.exports = (cacheBustingFile, modeDev) => {
       apiKey: firebaseConfig.apiKey,
       authDomain: firebaseConfig.authDomain,
       databaseURL: firebaseConfig.databaseURL,
-      storageBucket: firebaseConfig.storageBucket
+      storageBucket: firebaseConfig.storageBucket,
+      messagingSenderId: firebaseConfig.messagingSenderId
     });
   }
   const database = firebase.database();
