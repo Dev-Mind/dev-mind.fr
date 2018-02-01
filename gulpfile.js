@@ -83,7 +83,7 @@ gulp.task('styles', (cb) => {
     .on('end', () => cb())
 });
 
-gulp.task('blog-indexing', (cb) => {
+gulp.task('blog-firebase', (cb) => {
   // Hack to be able to stop the task when the async firebase requests are complete
   gulp.on('stop', () => {
     if (!modeDev) {
@@ -92,12 +92,17 @@ gulp.task('blog-indexing', (cb) => {
   });
   gulp.src('src/blog/**/*.adoc')
     .pipe(readAsciidoc(modeDev))
-    .pipe(convertToHtml())
-    .pipe(firebaseIndexing(modeDev, generateBlogDev))
-    .pipe(convertToJson('blogindex.json'))
-    .pipe(gulp.dest('build/.tmp'))
+    .pipe(firebaseIndexing(modeDev))
     .on('end', () => cb())
 });
+
+gulp.task('blog-indexing', (cb) =>
+  gulp.src('src/blog/**/*.adoc')
+    .pipe(readAsciidoc(modeDev))
+    .pipe(convertToHtml())
+    .pipe(convertToJson('blogindex.json'))
+    .pipe(gulp.dest('build/.tmp'))
+);
 
 gulp.task('blog-rss', () =>
   gulp.src('build/.tmp/blogindex.json')
@@ -267,7 +272,6 @@ gulp.task('cache-busting', (cb) =>
     .pipe($.revReplace({manifest: gulp.src('build/dist/css/rev-manifest.json')}))
     .pipe($.revReplace({manifest: gulp.src('build/dist/js/rev-manifest.json')}))
     .pipe(gulp.dest('build/dist'))
-    .on('end', () => cb())
 );
 
 gulp.task('compress-svg', (cb) => {
@@ -305,7 +309,6 @@ gulp.task('serveAndWatch', () => {
 gulp.task('clean', () => del('build', {dot: true}));
 
 gulp.task('initModeDev', () => modeDev = true);
-gulp.task('generateBlogDev', () => generateBlogDev = true);
 
 gulp.task('build', cb => {
   // Hack to be able to stop the task when the async firebase requests are complete
@@ -337,16 +340,6 @@ gulp.task('default', cb =>
     'cache-busting',
     'compress',
     'service-worker',
-    cb
-  )
-);
-
-// Build dev files
-gulp.task('build-dev', cb =>
-  $.sequence(
-    'initModeDev',
-    'generateBlogDev',
-    'build',
     cb
   )
 );

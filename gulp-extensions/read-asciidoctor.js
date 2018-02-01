@@ -58,6 +58,23 @@ module.exports = function (modedev) {
       canonicalUrl: () => `blog/${dir}/${filename}.html`
     };
 
+    if (file.attributes.status !== 'draft') {
+      file.indexData = {
+        strdate: file.attributes.strdate,
+        revdate: file.attributes.revdate,
+        description: file.attributes.description,
+        doctitle: file.attributes.doctitle,
+        keywords: file.attributes.keywords,
+        filename: filename,
+        category: file.attributes.category,
+        teaser: file.attributes.teaser,
+        imgteaser: file.attributes.imgteaser,
+        modeDev: modedev,
+        blog: true,
+        dir: file.path.substring(file.path.lastIndexOf("blog/") + 5, file.path.lastIndexOf("/"))
+      };
+    }
+
     next(null, file);
   })
 };
