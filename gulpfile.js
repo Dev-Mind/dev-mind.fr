@@ -22,7 +22,6 @@ const readIndex = require('./gulp-extensions/read-index');
 const applyTemplate = require('./gulp-extensions/apply-template');
 const highlightCode = require('./gulp-extensions/highlight-code');
 const firebaseIndexing = require('./gulp-extensions/firebase-indexing');
-const firebaseImgCacheBusting = require('./gulp-extensions/firebase-img-cache-busting');
 const fileExist = require('./gulp-extensions/file-exist');
 
 const AUTOPREFIXER_BROWSERS = [
@@ -58,6 +57,8 @@ const MUSTACHE_PARTIALS = [
   {key: '_html_footer', path: 'src/templates/_html_footer.mustache'},
   {key: '_blog_intro', path: 'src/templates/_blog_intro.mustache'}
 ];
+
+const CACHE_BUSTING_EXTENSIONS = ['.js', '.css', '.html', '.xml'];
 
 let modeDev = false;
 let generateBlogDev = false;
@@ -260,22 +261,14 @@ gulp.task('service-worker-bundle', () => {
     });
 });
 
-gulp.task('cache-busting', (cb) => {
-  const replaceInExtensions = ['.js', '.css', '.html', '.xml'];
-  const manifestImg = gulp.src('build/dist/img/rev-manifest.json');
-  const manifestCss = gulp.src('build/dist/css/rev-manifest.json');
-  const manifestJs = gulp.src('build/dist/js/rev-manifest.json');
-
-  gulp.src(['build/dist/blog/**/*.html'])
-    .pipe(firebaseImgCacheBusting('build/dist/img/rev-manifest.json', modeDev))
-
+gulp.task('cache-busting', (cb) =>
   gulp.src(['build/dist/**/*.{html,js,css,xml,json,webapp}'])
-    .pipe($.revReplace({manifest: manifestImg, replaceInExtensions: replaceInExtensions}))
-    .pipe($.revReplace({manifest: manifestCss}))
-    .pipe($.revReplace({manifest: manifestJs}))
+    .pipe($.revReplace({manifest: gulp.src('build/dist/img/rev-manifest.json'), replaceInExtensions: CACHE_BUSTING_EXTENSIONS}))
+    .pipe($.revReplace({manifest: gulp.src('build/dist/css/rev-manifest.json')}))
+    .pipe($.revReplace({manifest: gulp.src('build/dist/js/rev-manifest.json')}))
     .pipe(gulp.dest('build/dist'))
-    .on('end', () => cb());
-});
+    .on('end', () => cb())
+);
 
 gulp.task('compress-svg', (cb) => {
   gulp.src('build/dist/**/*.svg')
