@@ -27,6 +27,12 @@ module.exports = function (modedev) {
       description : 'CV numérique de Guillaume EHRET fondateur de Dev-Mind',
       priority: 0.6
     },
+    'formations.html' : {
+      keywords: 'Dev-mind organisme de formation',
+      title: 'Les formationds dispensées',
+      description : 'Dev-Mind dispense plusieurs formations autour du web et de Java',
+      priority: 0.6
+    },
     'formation_javascript.html' : {
       keywords: 'JavaScript Formation Adapté ',
       title: 'Dev-Mind - réapprendre JavaScript',
