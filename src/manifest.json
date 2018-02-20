@@ -2,19 +2,19 @@
   "name": "Dev-Mind",
   "short_name": "Dev-Mind",
   "icons": [{
-        "src": "img/touch/icon.png",
+        "src": "img/touch/logo-icon.png",
         "sizes": "128x128",
         "type": "image/png"
       }, {
-        "src": "img/touch/apple-touch-icon.png",
+        "src": "img/touch/logo-apple-touch.png",
         "sizes": "152x152",
         "type": "image/png"
       }, {
-        "src": "img/touch/ms-touch-icon.png",
+        "src": "img/touch/logo-ms-touch.png",
         "sizes": "144x144",
         "type": "image/png"
       }, {
-        "src": "img/touch/chrome-touch-icon.png",
+        "src": "img/touch/logo-chrome-touch.png",
         "sizes": "192x192",
         "type": "image/png"
       }, {

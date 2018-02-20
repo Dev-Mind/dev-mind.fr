@@ -77,7 +77,7 @@ FileETag None
     <FilesMatch "\.(js)$">
        Header set Cache-Control "max-age=14400, private"
     </FilesMatch>
-    <Files "service-worker.js">
+    <Files "sw.js">
        Header set Cache-Control "max-age=14400, private"
     </Files>
     <filesMatch "\.(html|htm)$">

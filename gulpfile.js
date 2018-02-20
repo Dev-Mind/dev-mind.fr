@@ -182,12 +182,12 @@ gulp.task('local-js', () =>
     .pipe($.babel({
       presets: ['es2015']
     }))
-    .pipe($.if(!modeDev, $.rev()))
+    .pipe($.rev())
     .pipe($.sourcemaps.write())
     .pipe($.uglify({preserveComments: 'some'}))
     .pipe($.size({title: 'scripts'}))
     .pipe(gulp.dest('build/dist/js'))
-    .pipe($.if(!modeDev, $.rev.manifest()))
+    .pipe($.rev.manifest())
     .pipe(gulp.dest('build/dist/js'))
 );
 
@@ -197,7 +197,10 @@ gulp.task('vendor-js', () =>
     .pipe(gulp.dest('build/dist/js'))
 );
 
-gulp.task('images-min', () =>
+/**
+ * Image pre processing is used to minify these assets
+ */
+gulp.task('images-pre', () =>
   gulp.src('src/images/**/*.{svg,png,jpg}')
     .pipe($.if(!modeDev, imagemin([imagemin.gifsicle(), imageminMozjpeg(), imagemin.optipng(), imagemin.svgo()], {
       progressive: true,
@@ -210,12 +213,24 @@ gulp.task('images-min', () =>
     .pipe(gulp.dest('build/.tmp/img'))
 );
 
+/**
+ * Images generated in image pre processing are renamed with a MD5 (cache busting) and copied
+ * in the dist directory
+ */
 gulp.task('images', () =>
   gulp.src('build/.tmp/img/**/*.{svg,png,jpg,webp}')
+    //.pipe(gulp.dest('build/dist/img'))
+    .pipe($.rev())
     .pipe(gulp.dest('build/dist/img'))
-    .pipe($.if(!modeDev, $.rev()))
+    .pipe($.rev.manifest())
     .pipe(gulp.dest('build/dist/img'))
-    .pipe($.if(!modeDev, $.rev.manifest()))
+);
+
+/**
+ * Image post processing is used to copy in dist directory images used without cache busting id
+ */
+gulp.task('images-post', () =>
+  gulp.src('src/images/**/logo*.*')
     .pipe(gulp.dest('build/dist/img'))
 );
 
@@ -259,7 +274,9 @@ gulp.task('service-worker-bundle', () => {
     swSrc: 'src/sw.js',
     swDest: 'build/.tmp/sw.js',
     globDirectory: './build/dist',
-    staticFileGlobs: ['**\/*.{js,html,css,png,jpg,json,gif,svg,webp,eot,ttf,woff,woff2,gz}']
+    //staticFileGlobs: ['**\/*.{js,html,css,png,jpg,json,gif,svg,webp,eot,ttf,woff,woff2,gz}']
+    // we don't load image files on SW precaching step
+    staticFileGlobs: ['**\/*.{js,html,css,svg}']
   })
     .catch((err) => {
       console.log('[ERROR] This happened: ' + err);
@@ -319,27 +336,29 @@ gulp.task('build', cb => {
   });
 
   $.sequence(
-    'images-min',
+    'images-pre',
     'styles',
     'blog',
     'images',
+    'images-post',
     'lint',
     ['html', 'local-js', 'vendor-js'],
     'copy',
+    'cache-busting',
+    'service-worker',
     cb
   )
 });
 
 
 // Build production files, the default task
+// Before a delivery we need to launch blog-firebase to update the pages on database
 gulp.task('default', cb =>
   $.sequence(
     'clean',
     'build',
     'sitemap',
-    'cache-busting',
-    'compress',
-    'service-worker',
+    //'compress',
     cb
   )
 );
