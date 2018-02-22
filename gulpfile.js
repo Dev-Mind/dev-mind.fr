@@ -61,7 +61,6 @@ const MUSTACHE_PARTIALS = [
 const CACHE_BUSTING_EXTENSIONS = ['.js', '.css', '.html', '.xml'];
 
 let modeDev = false;
-let generateBlogDev = false;
 
 gulp.task('styles', (cb) => {
   gulp.src(['src/sass/main.scss', 'src/sass/bloglist.scss', 'src/sass/blog/blog.scss'])
@@ -75,10 +74,10 @@ gulp.task('styles', (cb) => {
     // Concatenate and minify styles
     .pipe($.if('*.css', $.cssnano()))
     .pipe($.size({title: 'styles'}))
-    .pipe($.if(!modeDev, $.rev()))
+    .pipe($.rev())
     .pipe($.sourcemaps.write('./'))
     .pipe(gulp.dest('build/dist/css'))
-    .pipe($.if(!modeDev, $.rev.manifest()))
+    .pipe($.rev.manifest())
     .pipe(gulp.dest('build/dist/css'))
     .on('end', () => cb())
 });
@@ -283,7 +282,15 @@ gulp.task('service-worker-bundle', () => {
     });
 });
 
-gulp.task('cache-busting', (cb) =>
+gulp.task('cache-busting-dev', () =>
+    gulp.src(['build/dist/**/*.{html,js,css}'])
+        .pipe($.revReplace({manifest: gulp.src('build/dist/img/rev-manifest.json'), replaceInExtensions: CACHE_BUSTING_EXTENSIONS}))
+        .pipe($.revReplace({manifest: gulp.src('build/dist/css/rev-manifest.json')}))
+        .pipe($.revReplace({manifest: gulp.src('build/dist/js/rev-manifest.json')}))
+        .pipe(gulp.dest('build/dist'))
+);
+
+gulp.task('cache-busting', () =>
   gulp.src(['build/dist/**/*.{html,js,css,xml,json,webapp}'])
     .pipe($.revReplace({manifest: gulp.src('build/dist/img/rev-manifest.json'), replaceInExtensions: CACHE_BUSTING_EXTENSIONS}))
     .pipe($.revReplace({manifest: gulp.src('build/dist/css/rev-manifest.json')}))
@@ -314,12 +321,12 @@ gulp.task('serveAndWatch', () => {
     port: 3000
   });
 
-  gulp.watch('src/**/*.html', ['html', browserSync.reload]);
-  gulp.watch('src/**/*.{scss,css}', ['styles', 'cache-busting', browserSync.reload]);
-  gulp.watch('src/**/*.adoc', ['blog',  browserSync.reload]);
-  gulp.watch('src/**/*.js', ['lint', 'local-js',  browserSync.reload]);
-  gulp.watch('src/images/**/*', ['images', browserSync.reload]);
-  gulp.watch('src/**/*.mustache', ['blog', 'html', 'cache-busting', browserSync.reload]);
+  gulp.watch('src/**/*.html', () => $.sequence('html', 'cache-busting-dev', browserSync.reload));
+  gulp.watch('src/**/*.{scss,css}', () => $.sequence('styles', 'blog', 'html', 'cache-busting-dev', browserSync.reload));
+  gulp.watch('src/**/*.adoc', () => $.sequence('blog', 'cache-busting-dev', browserSync.reload));
+  gulp.watch('src/**/*.js', () => $.sequence('lint', 'local-js', 'blog', 'html', 'cache-busting-dev', browserSync.reload));
+  gulp.watch('src/images/**/*', () => $.sequence('images', browserSync.reload));
+  gulp.watch('src/**/*.mustache', () => $.sequence('blog', 'html', 'cache-busting-dev', browserSync.reload));
 });
 
 
