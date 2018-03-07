@@ -95,7 +95,7 @@ gulp.task('blog-firebase', (cb) => {
     .on('end', () => cb())
 });
 
-gulp.task('blog-indexing', (cb) =>
+gulp.task('blog-indexing', () =>
   gulp.src('src/blog/**/*.adoc')
     .pipe(readAsciidoc(modeDev))
     .pipe(convertToHtml())

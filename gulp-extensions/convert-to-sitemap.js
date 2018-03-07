@@ -2,6 +2,7 @@
 
 const gutil = require('gulp-util');
 const through = require('through');
+const siteMetadata = require('../src/metadata/sitemap');
 
 /**
  * This plugin parse indexes (blog + page) and create a sitemap for bot indexer
@@ -16,12 +17,12 @@ module.exports = function () {
     }
     if(metadata.blog){
       return `<url>
-        <loc>https://www.dev-mind.fr/blog/${metadata.dir}/${metadata.filename}.html</loc>
+        <loc>${siteMetadata.url}/blog/${metadata.dir}/${metadata.filename}.html</loc>
         <changefreq>weekly</changefreq>
         <priority>0.3</priority>
         <news:news>
           <news:publication>
-              <news:name>Dev-Mind</news:name>
+              <news:name>${siteMetadata.name}</news:name>
               <news:language>fr</news:language>
           </news:publication>
           <news:genres>Blog</news:genres>
@@ -33,7 +34,7 @@ module.exports = function () {
     </url>`;
     }
     return `<url>
-        <loc>https://www.dev-mind.fr/${metadata.filename}.html</loc>
+        <loc>${siteMetadata.url}/${metadata.filename}.html</loc>
         <changefreq>weekly</changefreq>
         <priority>${metadata.priority ? metadata.priority : 0.3}</priority>
     </url>`;
@@ -52,17 +53,17 @@ module.exports = function () {
     target.contents = new Buffer(`<?xml version="1.0" encoding="UTF-8"?>
       <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
         <url>
-          <loc>https://www.dev-mind.fr/</loc>
+          <loc>${siteMetadata.url}/</loc>
           <changefreq>weekly</changefreq>
           <priority>1</priority>
         </url>
         <url>
-          <loc>https://www.dev-mind.fr/blog.html</loc>
+          <loc>${siteMetadata.url}/blog.html</loc>
           <changefreq>weekly</changefreq>
           <priority>0.9</priority>
         </url>
         <url>
-          <loc>https://www.dev-mind.fr/blog_archive.html</loc>
+          <loc>${siteMetadata.url}/blog_archive.html</loc>
           <changefreq>weekly</changefreq>
           <priority>0.9</priority>
         </url>

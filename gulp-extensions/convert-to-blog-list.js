@@ -7,7 +7,7 @@ const fs = require('fs');
 const path = require('path');
 const moment = require('moment');
 const through = require('through');
-
+const pages = require('../src/metadata/blog');
 /**
  * This plugin is used to read the firebase index. The final aim is to generate static page for blog post list
  * (everything has to be static for indexing bots)
@@ -16,20 +16,6 @@ module.exports = (mustacheTemplateFile, partials, filename, nbArticleMax) => {
   if (!mustacheTemplateFile) throw new PluginError('convert-to-blog-list', 'Missing source mustacheTemplateFile for convert-to-blog-list');
   if (!filename) throw new PluginError('convert-to-blog-list', 'Missing target filename for convert-to-blog-list');
   if (!partials) throw new PluginError('convert-to-blog-list', 'Missing source partials for convert-to-blog-list');
-
-  const pages = {
-    'blog.html': {
-      keywords: 'Dev-mind blog Java Agilité programmation Spring Web JavaScript',
-      title: 'Le blog Dev-Mind',
-      description: 'Le blog Dev-Mind regroupe des articles des interviews sur des sujets divers allant de la programmation Java JavaScript aux méthodes agiles',
-    },
-    'blog_archive.html': {
-      keywords: 'Dev-mind blog archive',
-      title: 'Les archives du blog Dev-Mind',
-      description: 'Retrouvez l\'intégralité des articles du blog Dev-Mind (programmation Java JavaScript, méthodes agiles...)',
-      blog: 'findArchiveBlogpost'
-    }
-  };
 
   const mustacheTemplate = fs.readFileSync(path.resolve(__dirname, '../', mustacheTemplateFile), 'utf8');
   const mustachePartials = {};
