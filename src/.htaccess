@@ -78,10 +78,10 @@ FileETag None
        Header set Cache-Control "max-age=14400, private"
     </FilesMatch>
     <Files "sw.js">
-       Header set Cache-Control "max-age=14400, private"
+       Header set Cache-Control "no-cache, private"
     </Files>
     <filesMatch "\.(html|htm)$">
-       Header set Cache-Control "max-age=7200, public"
+       Header set Cache-Control "no-cache, public"
     </filesMatch>
     <FilesMatch "\.(pl|php|cgi|spl|scgi|fcgi)$">
        Header unset Cache-Control
