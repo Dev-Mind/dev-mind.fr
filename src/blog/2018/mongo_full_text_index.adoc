@@ -4,7 +4,7 @@
 :author: Guillaume EHRET - Dev-Mind
 :revdate: 2018-02-23
 :category: Java
-:teaser: todo
+:teaser: Regardons comment mettre en place une recherche full dans une application SpringBoot en utilisant les possibilités de MongoDB
 :imgteaser: ../../img/blog/2018/mongo_full_text_index_00.png
 
 == Recherche fulltext
