@@ -47,6 +47,7 @@ const HTMLMIN_OPTIONS = {
   removeStyleLinkTypeAttributes: true,
   removeOptionalTags: true,
   minifyCSS: true,
+  minifyJS: true,
   jsmin:true
 };
 

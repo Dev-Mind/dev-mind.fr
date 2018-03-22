@@ -11,6 +11,8 @@ const firebaseConfig = require('../firebase.js');
  */
 module.exports = (modeDev) => {
 
+  console.log(firebaseConfig, modeDev)
+
   let initializeDatabase = (callback) => {
     if (firebase.apps.length === 0) {
       firebase.initializeApp({

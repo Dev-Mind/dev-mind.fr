@@ -1,7 +1,7 @@
 importScripts('workbox-sw.prod.js');
 
 const workboxSW = new self.WorkboxSW({
-  "cacheId": "dev-mind",
+  "cacheId": "solidarite-wassadou",
   "clientsClaim": true
 });
 workboxSW.precache([]);

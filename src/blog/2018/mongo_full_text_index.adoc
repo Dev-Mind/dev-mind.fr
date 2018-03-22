@@ -1,0 +1,123 @@
+:doctitle: Recherche Fulltext dans une application SpringBoot via MongoDB
+:description: Les différentes étapes pour ajouter une recherche full text dans une application SpringBoot écrite en Kotlyn
+:keywords: Spring, MongoDb, Kotlyn
+:author: Guillaume EHRET - Dev-Mind
+:revdate: 2018-02-23
+:category: Java
+:teaser: todo
+:imgteaser: ../../img/blog/2018/mongo_full_text_index_00.png
+
+== Recherche fulltext
+Une recherche fulltext essaye de rechercher un ou plusieurs mots clés dans un ensemble de documents. J'emploie le terme "essaye" car l'opération n'est pas toujours facile. Une recherche fulltext est similaire aux recherches que vous pouvez lancer sur un moteur de recherche tel que Google ou Qwant. Nous pouvons avoir des ambiguïtés dans les résultats. Par exemple si vous cherchez le mot `_serveur_`, il peut désigner une machine pour un informaticien et un employé de restaurant pour le commun des mortels.
+
+Les recherches full text se distinguent des recherches classiques pour essayer de limiter ces ambiguïtés.
+
+* En fonction des languages certains mots de liaison sont très fréquents et non pertinents dans une recherche. Ils sont tout simplement filtrés. En français nous pouvons avoir (le, la, un, une...).
+* Une recherche ne doit pas être sensible à la casse. Un utilisateur qui tape _`Cheval`_, _`CHEVAL`_ ou _`cheval`_ devra avoir les mêmes résultats
+* La recherche peut être vaste il est important d'avoir un système de scoring qui permet de noter les résultats selon la pertinence.
+* L'utilisateur peut être plus ou moins précis quand il tape un mot clé : utilisation ou non d'un accent, singulier/plueriel, faute d'orthographe, utilisation d'un verbe conjugué. Le stemmming permet de réduire les mots à leur racine et de répondre à ce besoin
+
+Aujourd'hui la plupart des bases de données du marché propose des réponses à ce besoin. Certes les résultats ne sont pas toujours aussi bon que lorsque vous utilisez des vrais moteurs d'indexation et de recherche comme Lucene et Elastic, mais ils sont une solution à moindre coût car vous n'avez qu'à utiliser des fonctionnalités de votre base de données existantes.
+
+== Comment faire ?
+Si vous voulez faire des recherches pertinentes sur un grand nombre de documents, des solutions comme https://www.elastic.co/[Elastic Search] ou http://lucene.apache.org/solr/[Solr] sont certainement les plus pertinentes. Mais ces solutions introduisent de la complexité (notamment sur votre architecture applicative).
+
+L'autre solution est d'utiliser les fonctionnalités offertes par votre solution de base de données. Les résultats seront peut être moins bon ou plus long, mais vous pouvez ainsi répondre à un besoin de recherche fulltext rapidement en utilisant votre infrastructure en place. Cette solution _naïve_ peut être un bon point de départ avant de faire plus compliqué.
+
+Il est temps de prendre un exemple concret. Pour celà je vais me baser sur du code Kotlin et une base de données MongoDb. Comme je participe au développement du site de la conférence MiXiT, notre use case est tout trouver : rechercher des mots clés dans le descriptif des conférences ou dans les bios des speakers.... Le code est Open Source est est disponible sous https://github.com/mixitconf/mixit[Github].
+
+image::../../img/blog/2018/mongo_full_text_index_00.png[Recherche full text avec MongoDB]
+
+== MongoDB
+
+Dans le cadre du site MiXiT, nous avons choisi MongoDB pour plusieurs raisons. MongoDB
+
+* est une bases de données NoSQL reconnue, offrant de bonnes performances, souple niveau schéma et offrant des capacités d'indexation.
+* propose un driver Java non bloquant permettant dand notre cas d'avoir une application réactive non bloquante du client jusqu'à la base de données. Ce n'est pas le sujet de cet artile mais nous avons utilisé le nouveau framework https://docs.spring.io/spring/docs/5.0.4.RELEASE/spring-framework-reference/web-reactive.html#spring-webflux[WebFlux] de Spring.
+* permet de lancer des recherches full text depuis la version 2.4.
+
+Nous allons nous focaliser sur cette dernière fonctionnalité. Pour la recherche fulltext, MongoDB
+
+* permet d'indexer différents champs en vous laissant la possibilité de définir des poids (weighting) qui seront utilisés pour calculer un score pour les résultats retournés
+* supporte différents langages comme français, anglais, allemand, espagnol...
+* permet d'utiliser des requêtes avancées similaires à ce que vous pouvez faire dans google. Par exemple _+chat_ _-cheval_ cherchera les champs qui contiennent chat et non cheval.
+* implémente le stemming (voir le premier paragraphe) pour être souple dans les recherches
+* supprime les mots fréquents du langage (Stop words).
+
+La commande ci dessous, permet de créer un index sur la collection _conference_ sur le champ _description_
+
+ db.conferences.createIndex( { description: "text" } )
+
+Vous pouvez définir plusieurs champs et des poids. Les poids sont utilisés pour classer par pertinence les résultats. Pour chaque champ indexé MongoDB applique un poids par défaut de 1. Le score est la somme des points d'un document.
+
+ db.blog.createIndex(
+    {
+      content: "text",
+      keywords: "text",
+      about: "text"
+    },
+    {
+      weights: {
+        content: 10,
+        keywords: 5
+      }
+    }
+  )
+
+Pour plus d'information sur les possibilités offertes par MongoDB sur l'indexation, je vous laisse vous reporter à la https://docs.mongodb.com/manual/core/index-text/[documentation officielle]. Nous allons voir maintenant comment gérer l'interaction dans notre code Java ou Kotlin. Le tout via le framework Spring.
+
+== Utiliser Spring Data Mongo
+
+Le projet https://docs.spring.io/spring-data/mongodb/docs/current/reference/html/[Spring Data MongoDB] permet de simplifier les interactions entre votre base de données MongoDB et votre application Spring.
+
+Commençons par ajouter les dépendances dans le script de configuration Gradle. Nous ajoutons des dépendances pour utiliser SpringBoot, WebFlux, SpringData pour Mongo et MongoDb
+
+[source, java, subs="none"]
+----
+compile("org.springframework.boot:spring-boot-starter-webflux")
+compile("org.springframework.boot:spring-boot-starter-data-mongodb-reactive")
+runtime("de.flapdoodle.embed:de.flapdoodle.embed.mongo")
+----
+
+Comme vous pouvez le voir nous avons fait le choix en développement d'utiliser `_de.flapdoodle.embed.mongo_` qui est une base de données embarquée. Cette solution vous évite de devoir installer une base de données avant de faire des tests. Comme nous utilisons Spring Boot, vous n'avez pas plus de paramètres à donner. En effet la classe `_org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoAutoConfiguration_` va automatiquement configurer la base de données en appliquant les conventions de base.
+
+Vous pouvez maintenant définir un document MongoDb (équivalent d'une table si nous devions faire un parallèle avec une base de données relationnelles classique)
+
+[source, kotlin, subs="none"]
+----
+@Document
+data class Talk(
+        val format: TalkFormat,
+        @TextIndexed(weight = 10F) val title: String,
+        @TextIndexed(weight = 5F) val summary: String,
+        val speakerIds: List<String> = emptyList(),
+        val language: Language = Language.FRENCH,
+        @TextIndexed val description: String? = null,
+        val start: LocalDateTime? = null,
+        val end: LocalDateTime? = null,
+        @Id val id: String? = null
+)
+----
+
+L'annotation `_@TextIndexed_` permet de définir les champs qui devront être indexés par MongoDB. Vous pouvez préciser un poids à chaque champ. Dans cet exemple, je donne plus de poids quand le texte recherché est trouvé dans le titre d'une session.
+
+Il ne reste plus qu'à lancer une requête fullText via MongoDB. Spring Data propose une abstraction pour lancer des requêtes
+
+[source, kotlin, subs="none"]
+----
+@Repository
+class TalkRepository(private val template: ReactiveMongoTemplate) {
+
+    fun findOne(id: String) = template.findById<Talk>(id)
+
+    fun findFullText(criteria: List<String>): Flux<Talk> {
+        val textCriteria = TextCriteria()
+        criteria.forEach { textCriteria.matching(it) }
+
+        val query = TextQuery(textCriteria).sortByScore()
+        return template.find(query)
+    }
+}
+----
+
+En quelques lignes nous venons de voir comment lancer une recherche fullText dans une applicaton Spring Boot Kotlin. Le code en Java est très similaire de ce qui a été montré ici.
