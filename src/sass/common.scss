@@ -72,3 +72,30 @@ $header__heigth: 64px;
   margin: 0;
 }
 
+.dm-blog--button{
+  display: block;
+  padding: 1em;
+  text-align: center;
+
+  button{
+    border-radius: 4px;
+    font-size: 13px;
+    border: none;
+    background-color: $color_flash;
+    color: white;
+    padding: 0.5em 1em;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    vertical-align: middle;
+    @include dm_box__shadow;
+
+    &:hover {
+      background-color: #F06292;
+    }
+  }
+  button[disabled]  {
+    background-color: $color_dark_txt;
+    color: #5f5346;
+  }
+}

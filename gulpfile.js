@@ -112,6 +112,16 @@ gulp.task('blog-rss', () =>
     .pipe(gulp.dest('build/dist/rss'))
 );
 
+gulp.task('blog-index', () =>
+    gulp.src('build/.tmp/blogindex.json')
+        .pipe($.wait2(() => fileExist('build/.tmp/blogindex.json')))
+        .pipe(readIndex())
+        .pipe(convertToBlogList('src/templates/index.mustache', MUSTACHE_PARTIALS, 'index.html', 1))
+        .pipe(gulp.dest('build/.tmp'))
+        .pipe($.htmlmin(HTMLMIN_OPTIONS))
+        .pipe(gulp.dest('build/dist'))
+);
+
 gulp.task('blog-list', () =>
   gulp.src('build/.tmp/blogindex.json')
     .pipe($.wait2(() => fileExist('build/.tmp/blogindex.json')))
@@ -132,7 +142,7 @@ gulp.task('blog-archive', () =>
     .pipe(gulp.dest('build/dist'))
 );
 
-gulp.task('blog-page', ['blog-indexing', 'blog-list', 'blog-rss', 'blog-archive'], (cb) => {
+gulp.task('blog-page', ['blog-indexing', 'blog-list', 'blog-rss', 'blog-archive', 'blog-index'], (cb) => {
   gulp.src('src/blog/**/*.adoc')
     .pipe(readAsciidoc(modeDev))
     .pipe(convertToHtml())

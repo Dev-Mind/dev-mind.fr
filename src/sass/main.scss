@@ -7,30 +7,33 @@ footer {
   background-color: $color_dark;
 }
 
-.is-small-screen{
+.is-small-screen {
   display: none;
 }
-.is-large-screen{
+
+.is-large-screen {
   display: inherit;
 }
+
 @media screen and (max-width: $max_width_tablet) {
-  .is-small-screen{
+  .is-small-screen {
     display: inherit;
   }
-  .is-large-screen{
+  .is-large-screen {
     display: none;
   }
 }
 
-h1, h2{
+h1, h2 {
   font-weight: 100;
 }
 
-h1{
+h1 {
   font-size: $h1_screen_fontsize;
   line-height: ($h1_screen_fontsize+3);
 }
-h2{
+
+h2 {
   font-size: $h2_screen_fontsize;
   line-height: ($h2_screen_fontsize+3);
 }
@@ -55,23 +58,23 @@ h2{
   }
 }
 
-.dm_grid__flexible{
+.dm_grid__flexible {
   display: flex;
   @media (max-width: $max_width_mobile) {
     flex-direction: column;
   }
 
-  .dm_grid__element{
+  .dm_grid__element {
     flex: 1;
     margin: 1em;
   }
-  .dm_grid__element_first{
+  .dm_grid__element_first {
     flex: 1;
     margin: 1em 0em;
   }
 }
 
-.dm_grid{
+.dm_grid {
   display: flex;
   justify-content: center;
   width: 100%;
@@ -80,28 +83,28 @@ h2{
     flex-wrap: wrap;
   }
 
-  .dm_grid__element{
+  .dm_grid__element {
     flex: 1;
     text-align: center;
   }
 }
 
-.dm_transition__image{
+.dm_transition__image {
   padding: 0;
   margin: 0;
   position: absolute;
 }
 
-.dm_transition__image-template{
+.dm_transition__image-template {
   visibility: hidden;
   display: none;
 }
 
-.center{
+.center {
   text-align: center;
 }
 
-.dm_shadow{
+.dm_shadow {
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
 }
 
@@ -117,6 +120,50 @@ h2{
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.dm-blog--head {
+  max-height: ($h3_screen_fontsize - 1)*2;
+  height: ($h3_screen_fontsize - 1)*2;
+  overflow-y: hidden;
+  text-overflow: ellipsis;
+  white-space: pre-line;
+  @media (max-width: $max_width_mobile) {
+    min-height: auto;
+    max-height: 100%;
+    height: auto;
+  }
+};
+.dm-blog--article {
+  background-color: white;
+  border-radius: 4px;
+  padding: 1em;
+  margin-bottom: 1em;
+  display: flex;
+  flex-direction: column;
+  @include dm_box__shadow;
+  cursor: pointer;
+
+  > h3 {
+    font-size: $h3_screen_fontsize;
+    line-height: ($h3_screen_fontsize+2);
+  }
+
+  @media (max-width: $max_width_mobile) {
+    flex: 0 1 auto;
+    padding: 0.5em;
+    margin: 0.3em 0;
+    min-height: 5em;
+
+    > h3 {
+      font-size: $text_head_mobile;
+      line-height: ($text_head_mobile+2);
+    }
+  }
 }

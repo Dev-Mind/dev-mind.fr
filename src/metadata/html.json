@@ -5,12 +5,6 @@
     "description" : "Page non trouvée sur le serveur",
     "priority": -1
   },
-  "index.html" : {
-    "keywords": "Dev-mind Guillaume EHRET développeur indépendant spécialiste Java, Web",
-    "title": "Dev-Mind",
-    "description" : "Dev-Mind aide les entreprises qui souhaitent créer de nouveaux logiciels ou s'organiser pour réussir leurs défis, en proposant des prestations de développement, du conseil et de la formation.",
-    "priority": 0.7
-  },
   "experience.html" : {
     "keywords": "Dev-mind,Java,JavaScript,HTML,CSS",
     "title": "Expérience de Guillaume EHRET",
