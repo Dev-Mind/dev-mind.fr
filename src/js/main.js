@@ -13,9 +13,9 @@ window.app = (function() {
       )
     );
 
-    if ('serviceWorker' in navigator && (window.location.protocol === 'https:' && !isLocalhost)) {
+    if ('serviceWorker' in navigator && (window.location.protocol === 'https:' || isLocalhost)) {
       navigator.serviceWorker
-        .register(`sw.js`)
+        .register('/sw.js', {scope: '/'})
         .then(function (registration) {
           console.log('ServiceWorker registration successful with scope: ', registration.scope)
           registration.onupdatefound = function () {

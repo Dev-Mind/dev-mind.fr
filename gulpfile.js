@@ -247,7 +247,8 @@ gulp.task('images-post', () =>
 gulp.task('copy', (cb) => {
   gulp.src([
     'src/*.{ico,html,txt,json,webapp,xml}',
-    'src/.htaccess'
+    'src/.htaccess',
+    'node_modules/workbox-sw/build/*-sw.js'
   ], {
     dot: true
   })
@@ -263,7 +264,7 @@ gulp.task('sitemap', () =>
     .pipe(gulp.dest('build/dist'))
 );
 
-gulp.task('service-worker', ['service-worker-bundle', 'service-worker-resource'], () =>
+gulp.task('service-worker', ['service-worker-bundle'], () =>
   gulp.src(`build/.tmp/sw.js`)
     .pipe($.sourcemaps.init())
     .pipe($.sourcemaps.write())
@@ -273,20 +274,13 @@ gulp.task('service-worker', ['service-worker-bundle', 'service-worker-resource']
     .pipe(gulp.dest(`build/dist`))
 );
 
-gulp.task('service-worker-resource', () =>
-  gulp.src(`node_modules/workbox-sw/build/importScripts/workbox-sw.prod*`)
-      .pipe($.rename((path) => path.basename = 'workbox-sw.prod'))
-      .pipe(gulp.dest(`build/dist`))
-);
-
 gulp.task('service-worker-bundle', () => {
   return wbBuild.injectManifest({
     swSrc: 'src/sw.js',
     swDest: 'build/.tmp/sw.js',
     globDirectory: './build/dist',
-    //staticFileGlobs: ['**\/*.{js,html,css,png,jpg,json,gif,svg,webp,eot,ttf,woff,woff2,gz}']
+    globPatterns: ['**\/*.{js,html,css,svg}']
     // we don't load image files on SW precaching step
-    staticFileGlobs: ['**\/*.{js,html,css,svg}']
   })
     .catch((err) => {
       console.log('[ERROR] This happened: ' + err);
@@ -363,6 +357,7 @@ gulp.task('build', cb => {
     ['html', 'local-js', 'vendor-js'],
     'copy',
     'cache-busting',
+    'service-worker',
     cb
   )
 });
@@ -375,8 +370,6 @@ gulp.task('default', cb =>
     'clean',
     'build',
     'sitemap',
-    //'compress',
-    'service-worker',
     cb
   )
 );

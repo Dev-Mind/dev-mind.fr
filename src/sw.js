@@ -1,51 +1,54 @@
-importScripts('workbox-sw.prod.js');
+importScripts('workbox-sw.js');
 
-const workboxSW = new self.WorkboxSW({
-  "cacheId": "solidarite-wassadou",
-  "clientsClaim": true
-});
-workboxSW.precache([]);
+if (workbox) {
+    workbox.core.setCacheNameDetails({
+        prefix: 'dev-mind',
+        suffix: 'v1'
+    });
 
-workboxSW.router.registerRoute('https://cdn.polyfill.io/v2/polyfill.min.js',
-    workboxSW.strategies.cacheFirst({
-      cacheName: 'googleapis',
-      cacheExpiration: {
-        networkTimeoutSeconds: 3,
-        maxEntries: 20
-      },
-      cacheableResponse: {statuses: [0, 200]}
-    })
-  );
+    workbox.precaching.precacheAndRoute([]);
 
-workboxSW.router.registerRoute('https://fonts.googleapis.com/(.*)',
-  workboxSW.strategies.cacheFirst({
-    cacheName: 'googleapis',
-    cacheExpiration: {
-      networkTimeoutSeconds: 3,
-      maxEntries: 20
-    },
-    cacheableResponse: {statuses: [0, 200]}
-  })
-);
-// We want no more than 100 images in the cache. We check using a cache first strategy
-workboxSW.router.registerRoute(/\.(?:png|gif|jpg)$/,
-  workboxSW.strategies.networkFirst({
-    cacheName: 'images-cache',
-    cacheExpiration: {
-      networkTimeoutSeconds: 3,
-      maxEntries: 100
-    }
-  })
-);
-workboxSW.router.registerRoute('/(.*)',
-  workboxSW.strategies.networkFirst({
-    cacheName: 'general-cache',
-    cacheExpiration: {
-      networkTimeoutSeconds: 3,
-      maxAgeSeconds: 7200
-    },
-    cacheableResponse: {statuses: [0, 200]},
-    broadcastCacheUpdate: {
-      channelName: 'precache-updates'
-    }
-  }));
+    workbox.routing.registerRoute(
+        new RegExp('https://fonts.(?:googleapis|gstatic).com/(.*)'),
+        workbox.strategies.cacheFirst({
+            cacheName: 'googleapis',
+            networkTimeoutSeconds: 3,
+            plugins: [
+                new workbox.expiration.Plugin({
+                    maxEntries: 30
+                })
+            ]
+        })
+    );
+
+    workbox.routing.registerRoute(
+        /\.(?:png|gif|jpg|jpeg|svg|webp)$/,
+        workbox.strategies.cacheFirst({
+            cacheName: 'images',
+            networkTimeoutSeconds: 3,
+            plugins: [
+                new workbox.expiration.Plugin({
+                    maxEntries: 60,
+                    maxAgeSeconds: 6 * 60 * 60
+                })
+            ]
+        })
+    );
+
+    // use a stale while revalidate for CSS and JavaScript files that aren't precached.
+    workbox.routing.registerRoute(/\.(?:html|js|css)$/, workbox.strategies.staleWhileRevalidate({
+            cacheName: 'static-resources',
+            networkTimeoutSeconds: 3,
+            plugins: [
+                new workbox.expiration.Plugin({
+                    maxEntries: 60,
+                    maxAgeSeconds: 60 * 60
+                })
+            ]
+        })
+    );
+
+}
+else{
+    console.error('Error on workbox initialization');
+}
