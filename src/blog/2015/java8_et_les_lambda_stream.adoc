@@ -1,0 +1,319 @@
+:doctitle: Java 8 et les Lambda, Stream et Collectors
+:description: Tout comprendre sur les lmabda introduits dans Java 8. Manipuler les collections avec la nouvelle API Stream
+:keywords: Java, Java 8, Stream Lambda
+:author: Guillaume EHRET - Dev-Mind
+:revdate: 2015-01-02
+:category: Java
+:teaser: Parlons de la grosse nouveauté de Java 8, les lambdas et l'API stream. Je revient dans cet article sur l'intervention de Jose Paumard au Lyon Jug
+:imgteaser: ../../img/blog/2015/java8_00.jpg
+
+Je vais revenir sur l'intervention de Jose Paumard au Lyon Jug pour nous parler de la grosse nouveauté de Java 8, les lambdas et l'API stream. José est maître de conférence à l'université Paris 13, où il enseigne tout ce qui tourne autour de la sphère Java depuis 1998. Il a également une activité en tant qu'indépendant qui lui permet d'apporter son expertise aux entreprises. Au delà de ces aspects José fait aussi parti des co-organisateurs de la conférence Devoxx France. L'article est assez long mais j'ai préféré ne pas le découper.
+
+== Pourquoi les lambdas ?
+On peut se demander pourquoi les lambdas ont été introduites dans Java 8 ? Le mieux est de prendre un exemple. Considérons une classe Person
+
+[source, java, subs="none"]
+----
+public class Person {
+    public int age;
+    public String name;
+}
+----
+
+Le but est ici d'agir sur un ensemble de personnes (une Collection) et de calculer la moyenne d'âge de toutes les personnes de plus de 20 ans. En Java on fait généralement de la programmation impérative où l'on décrit les différentes instructions qui seront exécutées par la machine pour modifier des états. Par exemple
+
+[source, java, subs="none"]
+----
+int sum = 0;
+int average = 0;
+int nb = 0;
+for (Person p : persons) {
+    if (p.getAge() >= 20) {
+        sum += p.getAge();
+        nb++;
+    }
+}
+if (!persons.isEmpty()) {
+    average = sum / nb;
+}
+----
+
+Si on essaye de décomposer les opérations pour obtenir le résultat nous avons plusieurs phases
+
+* map : on recupère la donnée qui nous intéresse, la liste des âges des personnes
+* filter : on filtre les âges  des personnes de plus de 20 ans
+* reduce :  on calcule la somme des âges qui nous permettra ensuite de sortir une moyenne
+
+On aimerait faire du  fonctionnel et repenser notre code mais en Java 7 ceci est difficile. La base serait de définir des interfaces du style
+
+[source, java, subs="none"]
+----
+public interface Mapper<O, P> {
+    P map(O o);
+}
+public interface Predicate<O> {
+    boolean filter(O t);
+}
+public interface Reducer<R> {
+    R reduce(R r1, R r2);
+}
+----
+
+et des implémentations...
+
+[source, java, subs="none"]
+----
+Mapper<Person, Integer> mapper = new Mapper<Person, Integer>() {
+    @Override
+    public Integer map(Person o) {
+        return o.getAge();
+    }
+};
+Predicate<Integer> filter = new Predicate<Integer>() {
+    @Override
+    public boolean filter(Integer t) {
+        return t>=20;
+    }
+};
+Reducer<Integer> reducer = new Reducer<Integer>() {
+    @Override
+    public Integer reduce(Integer r1, Integer r2) {
+        return r1+r2;
+    }
+};
+----
+
+On pourrait aussi utiliser la programmation fonctionnelle à la sauce  Guava  mais cette librairie ne permet pas de faire la dernière opération de reduce. On devrait écrire
+
+[source, java, subs="none"]
+----
+List<Integer> agesPersons = FluentIterable
+        .from(persons)
+        .filter(new Predicate<Person>() {
+            @Override
+            public boolean apply(Person person) {
+                return person.getAge()>=20;
+            }
+        })
+        .transform(new Function<Person, Integer>() {
+            @Override
+            public Integer apply(Person person) {
+                return person.getAge();
+            }
+        })
+        .toList();
+if(!agesPersons.isEmpty()) {
+    double sum = 0;
+    for (Integer age : agesPersons) {
+        sum += age;
+    }
+    double moyenne = sum / agesPersons.size();
+    System.out.println(moyenne);
+}
+----
+
+On peut voir que le code est assez verbeux et que notre boucle for initiale est beaucoup simple. Passons maintenant à  Java8 et utilisons les lambdas expressions pour simplifier l'écriture des implémentations de nos interfaces.
+
+[source, java, subs="none"]
+----
+Mapper<Person, Integer> mapper = (Person person) -> person.getAge();
+//ou
+mapper = Person::getAge;
+
+Predicate<Integer> filter = i -> i>=20;
+
+Reducer<Integer> reducer = (r1, r2) -> r1+r2;
+----
+
+== Comment le compilateur gère les lambdas ?
+
+On peut se placer à la place du compilateur. Comment savoir quelle lambda expression utiliser ? Il le sait par rapport au type que vous avez déclaré d'où certaines contraintes
+
+* il ne faut qu'une seule méthode dans le contrat d'interface
+* il faut une cohérence entre les paramètres d'entrée et de sortie et au niveau des exceptions (cette condition est remplie de fait dans une interface)
+
+Comme vous pouvez le voir j'ai utilisé plusieurs écritures possibles pour les lambdas expressions
+* `_(Person person) -> person.getAge()_` : ici je précise le type de la donnée en entrée mais je peux m'en passer car le navigateur peut le deviner (inférence de type). C'est la première fois depuis le début de Java que l'on n'est pas obligé de préciser le type
+* `_Person::getAge_` est possible si la méthode getAge n'accepte pas de paramètre
+
+Une lambda apparaît comme une autre façon d'écrire une classe anonyme. Une lambda est une instance d'une interface fonctionnelle qui peut être définie à l'aide de l'annotation @FunctionalInterface. Par défaut toute interface ne définissant qu'une seule méthode est fonctionnelle. Ceci permet de vous fournir la fonctionnalité même si vous utilisez des librairies écrites avant Java8. Par contre l'annotation est utile car elle permet de verrouiller votre interface. L'ajout d'une nouvelle méthode provoquera une erreur.
+
+== Est ce qu'une lambda expression est un objet ?
+
+Comme vous pouvez le voir dans l'exemple que j'ai donné plus haut une lambda peut être stockée dans une variable. Cette manière de faire est naturelle pour des personnes habituée au javascript, mais en Java c'est nouveau.
+
+Mais alors est ce qu'une lambda expression est une classe ? Eh bien non car comme vous pouvez le voir nous n'utilisons pas le mot clé new. Nous n'avons pas besoin de demander à la JVM la création d'un objet qui sera ensuite nettoyé par le garbage. Une lambda expression est un nouveau type d'objet, une sorte de classe sans état. Les lambdas permettent donc à la JVM de faire des gains de performance. Comme ce n'est pas un objet, si vous utilisez le this vous faites référence au conteneur et non à la lambda elle même.
+
+Java 8 arrive avec 43 nouvelles interfaces fonctionnelles mises à disposition dans le package http://docs.oracle.com/javase/8/docs/api/java/util/function/package-summary.html[java.util.function]. On peut découper en 4 catégories
+
+* suppliers : fournit un objet
+* functions : prend un objet et renvoie un autre objet
+* consumers : consomme un objet sans rien renvoyer
+* predicate : prend un objet et renvoie un booléan
+
+== Utiliser des lambdas sur des collections ?
+
+Revenons à notre exemple. Pour le moment les lambdas n'ont pas permis de répondre à notre besoin intial. Pour cela il faudrait que l'API Collection fournissent des classes utilitaires permettant d'effectuer ces fonctions de base pour manipuler ces listes. Ça donnerait par exemple
+
+[source, java, subs="none"]
+----
+List<Integer> ages = Lists.map(persons, person -> person.getAge());
+List<Integer> ages20 = Lists.filter(ages, age -> age>=20);
+int sum = Lists.reduce(ages20, (r1, r2) -> r1+r2);
+----
+
+Mais si on regarde de plus près nous pourrions avoir des problèmes de performance si la liste initiale des personnes est très grande. En effet nous manipulons plusieurs fois  une liste complète. Mais alors que faire ? C'est là que l'API Stream rentre en jeu.
+
+Une http://docs.oracle.com/javase/8/docs/api/java/util/stream/package-summary.html[java.util.Stream] représente une séquence d'éléments sur lesquels une ou plusieurs opérations peuvent être effectuées. On trouve plusieurs types d'opérations, des opérations intermédiaires (map, filter...) qui retournent le stream et des opérations terminales comme reduce, count... qui retourne un résultat. Toutes les opérations intermédiaires ne déclenchent pas de calcul, elles placent différents indicateurs pour indiquer si la collection est triée, absence de doublon, taille... pour faciliter le travail ultérieur.
+
+Une Stream peut être définie de plusieurs manières
+
+* à partir d'une Collection http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html#stream--[voir api]
+* à partir d'un tableau http://docs.oracle.com/javase/8/docs/api/java/util/Arrays.html#stream-long:A-[voir api]
+* de la factory Stream (exemple Stream.of("a","b","c")
+* d'une String http://docs.oracle.com/javase/8/docs/api/java/lang/CharSequence.html#chars--[voir api]
+* d'un BufferedReader http://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html#lines--[voir api]
+
+Si on revient à notre besoin initial de vouloir calculer la moyenne d'âge des personnes de plus de 20 ans on peut écrire le code suivante
+
+[source, java, subs="none"]
+----
+double moyenne = persons.stream()
+                        .filter(person -> person.getAge() >= 20)
+                        .mapToInt(person -> person.getAge())
+                        .average()
+                        .getAsDouble();
+----
+
+== Paralléliser les traitements pas aussi simple ?
+
+Sur l'API Collection vous pouvez utiliser soit la méthode stream() soit parallelStream() pour lancer des traitements en parallèle.
+
+Il faut faire attention à ce que les opérations de réductions soient bien associatives . Aie... des souvenirs de math... Pour faire simple une opération *õ* est associative si
+`_(x õ y) õ z = x õ (y  õ z)`_. Par exemple l'addition est associative mais le carré d'un nombre ne l'est pas.
+
+Comme nous n'avons aucune erreur de compilation et que le résultat est aléatoire nous pouvons avoir des surprises. Au niveau de la parallélisation il faut également faire attention aux états.
+
+En fonction des traitements que vous effectuez, les paralléliser peut entraîner une dégradation des performances plutôt qu'une amélioration.
+
+== Les méthodes par défaut dans les interfaces
+
+Un peu plus haut j'ai indiqué que nous trouvions une nouvelle méthode dans l'API Collection au niveau de l'interface principale. Mais si on ajoute une méthode toutes les implémentations doivent implémenter cette méthode... En faisant cela, on viole une règle de base de Java assurant une rétrocompatibilité.
+
+Il a fallu inventer un nouveau concept, les default methods. Elles permettent de déclarer une méthode dans une interface et proposer une implémentation par défaut qui sera exécutée si elle n'est pas surcharger. Prenons par exemple l'interface Collection on trouve une nouvelle méthode
+
+[source, java, subs="none"]
+----
+default Stream<E> stream() {
+    return StreamSupport.stream(spliterator(), false);
+}
+----
+
+Si on réfléchit, par ce principe on est train d'introduire l'héritage multiple dans le langage... Prenons l'exemple de deux interfaces et une implémentation
+
+[source, java, subs="none"]
+----
+public interface A {
+    public String a();
+}
+public interface A {
+    public String a();
+}
+public class C implements A,B {
+    @Override
+    public String a() {
+        return null;
+    }
+}
+----
+
+Dans ce cas nous n'avons pas de problème mais si on transforme la méthode en default method que ce passe t'il pour la classe C si la méthode n'est pas surchargée ?
+
+[source, java, subs="none"]
+----
+public interface A {
+    default public String a() { return "a";}
+}
+public interface B {
+    default public String a() { return "b";}
+}
+
+public class C implements A,B {
+
+}
+----
+
+Dans ce cas nous aurons une erreur de la part du compilateur afin de lever toute ambiguïté. Vous devrez soit surcharger la méthode dans la classe C et appeler celle que vous voulez, soit faire hériter A de B.
+
+Nous avions déjà de l'héritage multiple au niveau des types. Cette nouvelle fonctionnalité l'amène au niveau des implémentations. Mais Java n'ira pas au delà et il n'y aura pas d'héritage multiple au niveau des états.
+
+Les default method ont un réel intérêt quand vous définissez une API. Prenons les exemples des Listeners ou bien souvent nous sommes obligés de définir des implémentations de base pour éviter de surcharger le code. Tout ces artifices pourront être contournés
+
+Vous pouvez aussi à partir de Java 8 définir des méthodes static dans les interfaces. Ceci facilitera la mise à disposition de classe Helper dans une API. Par exemple si je prends l'interface Stream
+
+[source, java, subs="none"]
+----
+public static<T> Stream<T> empty() {
+    return StreamSupport.stream(Spliterators.<T>emptySpliterator(), false);
+}
+public static<T> Stream<T> of(T t) {
+    return StreamSupport.stream(new Streams.StreamBuilderImpl<>(t), false);
+}
+----
+
+== Optional
+
+Les optionals sont un nouveau concept pour éviter les NullPointerException. Optional est un simple conteneur qui contiendra soit une valeur, soit null.
+
+Par exemple quand vous faites une réduction d'un ensemble
+
+[source, java, subs="none"]
+----
+Optional<Integer> sum =  persons.stream()
+                                .map(person -> person.getAge())
+                                .filter(age -> age>=20)
+                                .reduce((age1, age2) -> age1+age2);
+----
+
+== Variables ou paramètres préfixées par final
+
+Avec Java 8 vous n'avez plus besoin de déclarer vos variables ou paramètres en final si vous les utiliser dans une classe interne. Ceci vous évitera de vous poser la question de savoir s'il faut mettre un final ou non.
+
+== Collectors
+
+Pour terminer ce voyage dans les arcanes de Java 8 il est important de parler des Collectors. Les Collectors offrent tout un tas d'utilitaire pour effectuer des réductions d'ensemble un peu plus avancées. Prenons plusieurs exemples
+
+[source, java, subs="none"]
+----
+//Age moyen des personnes de plus de 20 ans
+double moyenne = persons.stream()
+        .filter(person -> person.getAge() >= 20)
+        .collect(Collectors.averagingInt(Person::getAge));
+----
+donnera 42.5
+
+[source, java, subs="none"]
+----
+//map repartissant les personnes par age
+Map<Integer, List<Person>> repartition =  persons.stream()
+        .filter(person -> person.getAge() >= 20)
+        .collect(Collectors.groupingBy(Person::getAge));
+----
+donnera {50=[com.javamind.domain.Person@122bbb7, com.javamind.domain.Person@1a4555e], 70=[com.javamind.domain.Person@30f1c0], 60=[com.javamind.domain.Person@1ed3c8d]}
+
+[source, java, subs="none"]
+----
+//map repartissant les personnes par age selon leur nom
+        Map<Integer, List<String>> repartition2 =  persons.stream()
+                .filter(person -> person.getAge() >= 20)
+                .collect(Collectors.groupingBy(Person::getAge,
+                    Collectors.mapping(
+                       person->person.getName(), Collectors.toList())));
+----
+donnera {50=[Elysabeth, François], 20=[Sophie], 70=[Paul], 25=[Céline], 60=[Robert], 30=[Emilie]}
+
+== Conclusion
+
+L'objectif principal de Java 8 est le gain de performance. Cette nouvelle version va vraiment révolutionner la manière de programmer et l'apport sera aussi grand que ce que les generics ont pu apporter en Java5. De nombreuses équipes ont migré vers Java 6 ou Java 7, sans vraiment changer ni leur code existant, ni leurs habitudes de programmation. Là, le travail ne va pas être simple pour les développeurs expérimentés car il va falloir “désapprendre” ce que l’on sait, et à apprendre de nouvelles manières de faire les choses.
+
+Si vous voulez suivre José en video plusieurs supports sont disponibles sur le site de Youtube. Vous pouvez aussi lire son interview réalisée par les http://www.duchess-france.org/le-lambda-tour-de-jose-paumard/[DuchessFrance]. José met également à disposition différents exemples sur son compte https://github.com/JosePaumard/jdk8-lambda-tour[github].
