@@ -1,0 +1,10 @@
+Je ne sais pas si vous faites souvent des présentations avec des slides. Pour du one shot j'utilise beaucoup Google Drive ou Impress (Libre office). Mais si les slides doivent durer dans le temps la mise à jour est un peu compliquée. L'affichage d'exemple de code est parfois aussi un peu fastdieux.
+
+Personnellement je voulais utilisé un format texte pour enregistrer mes slides et les avoir sous git pour bénéficier du mode travail collaboratif et des gestions des changements, des reviews...
+
+Depuis plusieurs mois j'ai testé plusieurs générateurs de Slides avant de tomber sur reveal.js. A chacun de mes POC j'étais tombé sur des points plus ou moins
+
+https://github.com/hakimel/reveal.js[Reveal.js] a l'aventage d'offrir un bon nombre de fonctionnalités : navigation, customisation, notes speakers, API pour interagir avec, export PDF... Vous pouvez tester les possibilités  http://revealjs.com/[en ligne]. Reveal.js est un script que vous importez dans votre page HTML pour que votre page s'affiche sous forme de Slides. Si comme moi vous n'êtes pas fan du côté verbeux de HTML vous pouvez utiliser du markdown et le générateur de page HTML.
+
+ Quand j'ai vu qu'il y avait aussi un https://github.com/asciidoctor/asciidoctor-reveal.js/[plugin asciidoctor].
+

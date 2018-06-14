@@ -129,3 +129,9 @@ FileETag None
     AddOutputFilterByType DEFLATE image/webp
     AddOutputFilterByType DEFLATE image/svg+xml
 </IfModule>
+
+<FilesMatch firebase.json">
+    Order Deny,Allow
+    Deny from All
+    Allow from localhost
+</FilesMatch>
