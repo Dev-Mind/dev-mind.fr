@@ -13,7 +13,7 @@ window.app = (function() {
       )
     );
 
-    if ('serviceWorker' in navigator && (window.location.protocol === 'https:' || isLocalhost)) {
+    if ('serviceWorker' in navigator && window.location.protocol === 'https:' && !isLocalhost) {
       navigator.serviceWorker
         .register('/sw.js', {scope: '/'})
         .then(function (registration) {

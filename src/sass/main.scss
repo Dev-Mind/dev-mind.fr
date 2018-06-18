@@ -129,11 +129,7 @@ h2 {
 }
 
 .dm-blog--head {
-  max-height: ($h3_screen_fontsize - 1)*2;
-  height: ($h3_screen_fontsize - 1)*2;
-  overflow-y: hidden;
-  text-overflow: ellipsis;
-  white-space: pre-line;
+  margin-bottom: 0;
   @media (max-width: $max_width_mobile) {
     min-height: auto;
     max-height: 100%;

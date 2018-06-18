@@ -6,6 +6,7 @@ const gutil = require('gulp-util');
 const PluginError = gutil.PluginError;
 const moment = require('moment');
 const pageMetadata = require('../src/metadata/html');
+const path = require('path');
 
 module.exports = function (modedev) {
 
@@ -23,7 +24,7 @@ module.exports = function (modedev) {
   return map((file, next) => {
 
     const html = fs.readFileSync(file.path, 'utf8');
-    file.fileName = file.path.substring(file.path.lastIndexOf('/') + 1, file.path.length);
+    file.fileName = file.path.substring(file.path.lastIndexOf(path.sep) + 1, file.path.length);
 
     if (!pageMetadata[file.fileName]) throw new PluginError('read-html', `Missing index definition for ${file.path} in the build script html-read`);
 
@@ -46,7 +47,7 @@ module.exports = function (modedev) {
       keywords: pageMetadata[file.fileName].keywords.split(","),
       filename: file.fileName.substring(0, file.fileName.lastIndexOf('.')),
       priority: pageMetadata[file.fileName].priority,
-      dir: '/'
+      dir: path.sep
     };
 
     next(null, file);

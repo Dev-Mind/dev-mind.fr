@@ -1,0 +1,315 @@
+:doctitle: Générer vos slides avec Reveal.js et Asciidoctor
+:description: Générer vos slides avec Reveal.js et Asciidoctor
+:keywords: Web, Conference, Slide, Asciidoctor
+:author: Guillaume EHRET - Dev-Mind
+:revdate: 2018-06-17
+:category: Conference
+:teaser: Comment générer des slides HTML simplement ? Perso j'utilise reveal.js et asciidoctor et je vous explique pourquoi dans cet article.
+:imgteaser: ../../img/blog/2018/reveal_00.png
+
+Je ne sais pas si vous faites souvent des présentations avec des slides. Pour du one shot j'utilise beaucoup Google Drive ou Impress (Libre office). Mais ces solutions sont limitées si je souhaite
+
+* afficher des exemples de code sans avoir à me battre avec le formatage
+* lancer mes slides en local quand je n'ai pas de réseau
+* avoir les sources de mes slides au format texte pour faciliter le suivi des mises à jour dans Git, et faciliter le mode collaboratif
+* générer des slides en HTML et pouvoir exécuter des exemples de code en JavaScript dans mes slides
+* ...
+
+Depuis plusieurs mois j'ai testé plusieurs générateurs de Slides avant de tomber sur https://github.com/hakimel/reveal.js[Reveal.js]. Il existe de nombreuses solutions mais elles ne sont pas toujours personnalisables. https://github.com/hakimel/reveal.js[Reveal.js] a l'aventage d'offrir un bon nombre de fonctionnalités : navigation, customisation, notes speakers, API pour étendre l'utilisation, export PDF...
+
+Vous pouvez tester les possibilités  http://revealjs.com/[en ligne]. Reveal.js est un script que vous importez dans votre page HTML pour que votre page s'affiche sous forme de Slides. Si comme moi vous n'êtes pas fan du côté verbeux de HTML, et des classes CSS à apprendre, vous pouvez utiliser du markdown et le générateur de page HTML. Et encore mieux vous pouvez écrire vos slides en Asciidoctor avec ce  https://github.com/asciidoctor/asciidoctor-reveal.js/[plugin asciidoctor].
+
+Maintenant que nous avons une solution il nous reste à la personnaliser. L'outil vient avec pleins d'options mais il me manquait plusieurs choses, comme la possibilité
+
+* d'avoir des bandeaux en haut et en bas avec des informations générales
+* de changer un peu les styles pour sortir du moule Reveal.js et rester original
+* d'exécuter des scripts à l'intérieur de mes slides
+* ...
+
+Vous pouvez trouver plein d'informations sur les pages Github https://github.com/hakimel/reveal.js[Reveal.js] et du  https://github.com/asciidoctor/asciidoctor-reveal.js/[plugin asciidoctor]. Mon but n'est pas de répéter ce qui est dit sur ces pages. Je vais essayer de compléter ces informations en m'appuyant sur l'abstract que j'utilise pour créer mes slides. Ce dernier est libre d'accès sous https://github.com/Dev-Mind/devmind-revealjs[Github] et vous pouvez le reprendre pour le personnaliser
+
+== Comment écrire vos slides
+
+Revenons sur la syntaxe utilisée. Voici un exemple de présentation écrit en asciidoctor dans laquelle je vais avoir
+
+* un titre => Title Slide
+* plusieurs propriétés Reveal.js surchargées dans les métadata Asciidoc : _thème utilisé, higlighter utilisé pour la mise en forme du code source), affichage barre de progression et du numéro des slides, le thème custom qui me permet de surcharger le thème par défaut_
+* un premier slide avec une liste d'éléments et des notes speakers
+* un second slide avec du texte simple et des notes speakers
+* un troisième slide ou je surcharge la couleur de fond par défaut
+* un quatrième slide qui affiche une image en plein écran sans titre
+* un cinquième slide ou on change la transition et on applique un effet zoom
+* un sixième slide ou on change la vitesse de transition
+* un septième slide ou les éléments de la liste sont affichés dynamiquement à chaque fois que vous avancez
+* un huitième slide avec du code affiché
+* un neuvième slide qui contient un sous slide que l'on peut lancer via la flêche bas. C'est un exemple de double navigation
+* un dixième slide avec une animation JavaScript.
+
+[source, asciidoctor, subs="none"]
+----
+= Title Slide
+:source-highlighter: highlightjs
+:revealjs_theme: league
+:revealjs_progress: true
+:revealjs_slideNumber: true
+:revealjs_history: true
+:revealjs_customtheme: css/dm_league.css
+
+
+== Slide One
+
+* Foo
+* Bar
+* World
+
+[NOTE.speaker]
+--
+this my notes
+--
+
+== Slide Two
+
+Hello World - How are you ?
+
+[NOTE.speaker]
+--
+Nothing to say
+--
+
+[background-color="#25b5f7"]
+== Slide Three
+
+With another background color
+
+[%notitle]
+== Slide Four
+
+image::https://www.dev-mind.fr/img/logo/logo_1500.png[canvas,size=contain]
+
+
+[transition=zoom, %notitle]
+== Slide Five
+
+This slide will override the presentation transition and zoom!
+
+[transition-speed=fast, %notitle]
+== Slide Six
+
+Choose from three transition speeds: default, fast or slow!
+
+== Slide Seven
+
+[%step]
+* this
+* is
+* revealed
+* gradually
+
+== Slide Height
+
+Uses highlighted code
+
+[source, python]
+ ----
+print "Hello World"
+ ----
+
+== Slide Nine
+
+Top slide
+
+=== Slide Nine.One
+
+This is a vertical subslide
+
+[state=dynamic]
+== Slide Ten js...
+----
+
+Si vous voulez voir le rendu, vous pouvez faire un clone du projet https://github.com/Dev-Mind/devmind-revealjs[Github] et lancer les commandes (ces scripts s'appuient sur nodeJS que vous devez avoir sur votre poste ainsi que de yarn et de gulp)
+
+```
+yarn install
+gulp serve
+```
+
+Ce document sera converti par Asciidoctor en une page HTML important le script reveal.js. Comme pour tout document Asciidoc vous écrivez de manière hiérachique votre contenu.
+
+Le document est converti via cette commande
+```
+     const attributes = {'revealjsdir': 'node_modules/reveal.js@'};
+     const options = {safe: 'safe', backend: 'revealjs', attributes: attributes};
+     asciidoctor.convertFile(filepath, options);
+```
+
+Vous pouvez utiliser l'application Asciidoctor en Ruby ou la nouvelle version en JavaScript.
+
+Les notes speakers sont à mon sens très bien réussies. Si vous cliquez sur la touche s, elles apparaissent dans une nouvelle fenêtre. La navigation dans cette fenêtre est syncronisée avec l'autre et chose pratique, vou disposez d'un compteur pour afficher le temps
+
+image::../../img/blog/2018/reveal_speaker.png[Speaker note]
+
+
+== Un outil pour automatiser la construction
+
+Pour me simplifier l'utilisation de ces outils, j'utilise Gulp. Gulp me permet de
+
+* convertir mes fichiers asciidoctor en HTML à la sauce "Reveal.js"
+* packager les dépendances
+* générer un mini site avec les fichiers HTML générés, mes images, mes styles personnalisés
+* injecter mes scripts Javascript personnalisés pour les slides dynamiques
+* lancer un serveur web qui recharge à la volée les pages quand je fais des modifications à l'intérieur
+
+Ce script est disponible sous https://github.com/Dev-Mind/devmind-revealjs/blob/master/gulpfile.js[Github]
+
+== Personnaliser les styles ==
+
+Dans les metadata de la page vous pouvez spécifier un thème à la présentation : black (défaut), white, league, beige, sky, night, serif, simple, solarized. Si les thèmes ne vous conviennent pas, vous pouvez surcharger les propriétés dans un fichier externe. Les metadata peuvent être les suivantes
+
+[source, asciidoctor, subs="none"]
+----
+:revealjs_theme: league
+:revealjs_customtheme: css/custom.css
+----
+
+Voici ce que vous pouvez faire dans ce fichier custom.css
+
+=== Utiliser sa propre police d'écriture ===
+
+Le mieux est de télécharger une police via un CDN. Nous faisons un import de cette police d'écriture dans la feuille de style. C'est une mauvaise pratique sur un site grand public mais dans notre cas nous voulons simplement exécuter notre présentation en local
+
+[source, css, subs="none"]
+----
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,700,400italic,700italic);
+body {
+  background: #52a83b;
+  font-family: Roboto, Arial, sans-serif;
+}
+
+.reveal {
+  font-family: "Lato", sans-serif;
+  font-size: 40px;
+  font-weight: normal;
+  color: #eee; }
+----
+
+=== Ajouter des bandeaux en haut et en bas de chaque slide ===
+
+Quand je fais des slides j'aime beaucoup ajouter des informations dans des bandeaux en haut et ou en bas des slides, comme sur l'image ci dessous
+
+image::../../img/blog/2018/reveal_bandau.png[Bandeau en haut et en base de chaque page]
+
+On ne peut pas le faire avec Reveal.js mais c'est très facile de le faire en css
+
+Le code ci dessous permet d'ajouter un bandeau en bas de chaque slide avec un copyright (`_body:before_`), et une image flottante à gauche avec dans mon cas mon logo (`_body:before_`).
+
+[source, css, subs="none"]
+----
+body:after {
+  content: ' ';
+  position: fixed;
+  bottom: 1em;
+  left: 1em;
+  width: 6em;
+  height: 8em;
+  background: url(../images/logo.svg);
+  background-size: 6em;
+  background-repeat: no-repeat;
+  background-position: 3% 96%; }
+
+body:before {
+  content: '© Dev-Mind 2018';
+  position: fixed;
+  padding: 1em;
+  width: 100%;
+  bottom: 0;
+  height: 1em;
+  background-color: #424242;
+  color: white;
+  text-align: center;
+  font-size: 0.9rem;
+}
+----
+
+Si vous voulez ajouter un bandeau en haut vous ne pouvez plus surcharger le style de la balise body vu qu'on vient de le faire juste avant. Ce n'est pas très grave car chaque page correspond à une section d'une page HTML ayant une classe de style nommée `reveal`
+
+[source, css, subs="none"]
+----
+.reveal:before {
+  content: 'Reveal.js par la pratique';
+  position: fixed;
+  padding: 1em;
+  width: 100%;
+  height: 1em;
+  background-color: #424242;
+  color: white;
+  text-align: center;
+  font-size: 0.9rem;
+}
+----
+
+Vous pouvez vous amuser à surcharger ou ajouter d'autres choses dans les styles. Mais si CSS peut être obscur, il permet en quelques lignes de personnaliser le contenu de n'importe qu'elle page HTML.
+
+=== Ajouter une touche de dynamisme ===
+
+Il reste un use case qui n'est pas couvert par la documentation officielle. Ajouter une ou plusieurs pages dynamiques pour une démo web par exemple. Si vous faites du reveal.js pur en écrivant du HTML, vous n'avez pas trop de souci car vous pouvez simplement importer vos propres scripts dans vos pages. Avec le plugin asciidoctor, vous devrez ruser un peu plus
+
+Commencez par ajouter un état au slide concerné. Par exemple
+
+[source, asciidoctor, subs="none"]
+----
+[state=dynamic-example]
+== Slide Ten js...
+----
+
+L'API reveal.js permet d'interagir avec cet état. Lorsque le slide sera chargé un événement portant le même nom que l'état sera émis
+
+[source, asciidoctor, subs="none"]
+----
+Reveal.addEventListener( 'dynamic-example', function() {
+    //
+}, false );
+----
+
+Vous pouvez écrire un fichier javascript `js/custom.js`. Pour agir avec le slide, vous pouvez utiliser l'id généré à partir du titre que vous avez défini. Dans l'exemple ci dessous, je crée en Javascript une page avec deux boutons, et le clic sur un bouton change la couleur du paragraphe. Un innerHTML permet de peupler le HTML final
+
+[source, javascript, subs="none"]
+----
+Reveal.addEventListener( 'dynamic', function() {
+
+  const html = `
+    <h1>Dynamic slide</h1>
+    <p>My paragraph</p>
+    <p id="myparagraph"><i>Choose a color</i></p>
+    <p>
+        <button onclick="document.getElementById('myparagraph').style.color ='red'">Red</button>
+        <button onclick="document.getElementById('myparagraph').style.color ='blue'">Blue</button>
+    </p>
+  `;
+
+  document.getElementById('slide_ten_js').innerHTML = html;
+}, false );
+----
+
+Malheureusement je n'ai pas trouvé le moyen d'indiquer à Asciidoctor qu'il fallait prendre en compte ce fichier Javascript. Mais Gulp peut nous aider. Dans mon cas je rajoute le chargement du script après la convertion asciidoctor -> HTML
+
+[source, javascript, subs="none"]
+----
+gulp.task('copy-html', () =>
+  gulp.src('src/**/*.html')
+    .pipe($.tap((file, cb) => {
+      const newFile = file.contents.toString();
+      const newContents = newFile.replace('</body>', '<script src="js/custom.js"></script>');
+      file.contents = new Buffer(newContents);
+      return file;
+    }))
+    .pipe(gulp.dest('build/dist'))
+);
+----
+
+Vous pouvez utiliser ce hack pour introduire tous les scripts que vous souhaitez, comme par exemple inclure votre framework favori que vous présentez dans vos slides.
+
+== Conclusion
+
+Je pourrai encore décrire d'autres cas d'utilisations plus courants mais je ne souhaite pas copier les documentations officielles https://github.com/hakimel/reveal.js[Reveal.js] ou du  https://github.com/asciidoctor/asciidoctor-reveal.js/[plugin asciidoctor]. Elles sont beaucoup plus complètes que cet article et je vous laisse les parcourir
+
+

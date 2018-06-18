@@ -42,7 +42,7 @@ module.exports = (mustacheTemplateFile, partials, filename, nbArticleMax) => {
       metadata.firstArticle = () => blogIndex[0];
       metadata.secondArticles = () => blogIndex.filter((e, index) => index > 0 && index <= nbArticleMax);
       metadata.otherArticles = () => blogIndex.filter((e, index) => index > nbArticleMax);
-      metadata.last15Articles = () => blogIndex.filter((e, index) => index < 15);
+      metadata.last15Articles = () => blogIndex.filter((e, index) => index < 10);
     }
     else {
       metadata.articleByYears = [];
