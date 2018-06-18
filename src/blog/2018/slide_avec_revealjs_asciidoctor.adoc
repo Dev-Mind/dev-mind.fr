@@ -15,6 +15,8 @@ Je ne sais pas si vous faites souvent des présentations avec des slides. Pour d
 * générer des slides en HTML et pouvoir exécuter des exemples de code en JavaScript dans mes slides
 * ...
 
+image::../../img/blog/2018/reveal_00.png[Reveal.js]
+
 Depuis plusieurs mois j'ai testé plusieurs générateurs de Slides avant de tomber sur https://github.com/hakimel/reveal.js[Reveal.js]. Il existe de nombreuses solutions mais elles ne sont pas toujours personnalisables. https://github.com/hakimel/reveal.js[Reveal.js] a l'aventage d'offrir un bon nombre de fonctionnalités : navigation, customisation, notes speakers, API pour étendre l'utilisation, export PDF...
 
 Vous pouvez tester les possibilités  http://revealjs.com/[en ligne]. Reveal.js est un script que vous importez dans votre page HTML pour que votre page s'affiche sous forme de Slides. Si comme moi vous n'êtes pas fan du côté verbeux de HTML, et des classes CSS à apprendre, vous pouvez utiliser du markdown et le générateur de page HTML. Et encore mieux vous pouvez écrire vos slides en Asciidoctor avec ce  https://github.com/asciidoctor/asciidoctor-reveal.js/[plugin asciidoctor].
