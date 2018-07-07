@@ -15,7 +15,8 @@ if (workbox) {
             networkTimeoutSeconds: 3,
             plugins: [
                 new workbox.expiration.Plugin({
-                    maxEntries: 30
+                    maxEntries: 30,
+                    purgeOnQuotaError:true
                 })
             ]
         })
@@ -29,7 +30,8 @@ if (workbox) {
             plugins: [
                 new workbox.expiration.Plugin({
                     maxEntries: 60,
-                    maxAgeSeconds: 6 * 60 * 60
+                    maxAgeSeconds: 6 * 60 * 60,
+                    purgeOnQuotaError:true
                 })
             ]
         })
