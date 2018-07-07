@@ -54,6 +54,7 @@ const HTMLMIN_OPTIONS = {
 const MUSTACHE_PARTIALS = [
   {key: '_html_header', path: 'src/templates/_html_header.mustache'},
   {key: '_page_header', path: 'src/templates/_page_header.mustache'},
+  {key: '_page_header_sub', path: 'src/templates/_page_header_sub.mustache'},
   {key: '_page_footer', path: 'src/templates/_page_footer.mustache'},
   {key: '_html_footer', path: 'src/templates/_html_footer.mustache'},
   {key: '_blog_intro', path: 'src/templates/_blog_intro.mustache'}
