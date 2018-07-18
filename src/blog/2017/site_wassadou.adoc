@@ -4,7 +4,7 @@
 :author: Guillaume EHRET - Dev-Mind
 :revdate: 2017-08-05
 :category: Web
-:teaser: Retour sur la mise en ligne du site de l'association Solidarité Wassadou Pont-Trambouze https://www.solidarite-wassadou.fr et sur les solutions existantes pour financer en ligne une association.
+:teaser: Retour sur la mise en ligne du site de l'association Solidarité Wassadou Pont-Trambouze https://solidarite-wassadou.fr et sur les solutions existantes pour financer en ligne une association.
 :imgteaser: ../../img/blog/2017/wassadou_00.png
 
 Quand je suis devenu indépendant, ma volonté était de travailler pour des clients bien évidemment mais aussi d'avoir plus de temps à accorder aux autres et à la veille technique. C'est de cette manière que j'ai pu
@@ -15,7 +15,7 @@ Quand je suis devenu indépendant, ma volonté était de travailler pour des cli
 
 C'est sur ce dernier point que je vais écrire aujourd'hui. Je viens de finir la refonte du site web d'une association qui se nomme _Solidarité Wassadou Pont-Trambouze_ et qui intervient pour aider les enfants d'un petit village du Sénégal nommé Wassadou. Le but principal est de les aider à avoir une éducation décente afin qu'ils soient maître de leur destin et qu'ils puissent à leur tour aider les gens du village.
 
-L'adresse du site web est https://www.solidarite-wassadou.fr.
+L'adresse du site web est https://solidarite-wassadou.fr.
 
 == Micropaiement pour les associations
 
