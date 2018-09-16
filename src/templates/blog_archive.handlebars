@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <link rel="preload" href="css/bloglist.css" as="style" onload="this.rel='stylesheet'">
+    {{> _html_header}}
+</head>
+<body class="dev-mind">
+{{> _page_header}}
+<main>
+    <div class="dm-block--blog">
+        <devmind-section>
+            {{#articleByYears}}
+                <h1 class="center">Articles {{key}}</h1><br>
+                <div class="dm-blog--container">
+                    <div class="dm-blog--container-article">
+                        {{#value}}
+                            <article class="dm-blog--article-archive"
+                                     onclick="document.location.href='blog/{{dir}}/{{filename}}.html'">
+                                <h2><a href="blog/{{dir}}/{{filename}}.html">{{doctitle}}</a></h2>
+                                <p style="padding: 0;margin: 0">
+                                    <small>{{date}}</small>
+                                </p>
+                                <div class="dm-blog--imgteaser"><img class="dm-img--lazyload"
+                                                                     data-src="{{{imgteaser}}}"/>
+                                </div>
+                                <p class="dm-blog--teaser">{{teaser}}</p>
+                                <p style="padding: 0;margin: 0">
+                                    <small>{{keywords}}</small>
+                                </p>
+                            </article>
+                        {{/value}}
+                    </div>
+                </div>
+            {{/articleByYears}}
+
+            <a href="rss/blog.xml" alt="Flux RSS" class="btn">Flux RSS</a>
+        </devmind-section>
+    </div>
+    {{> _page_footer}}
+</main>
+{{> _html_footer}}
+</body>
+</html>

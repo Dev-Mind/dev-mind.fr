@@ -1,0 +1,59 @@
+@import "common";
+
+.dm-block--intro {
+  @include dm_home_row(#424242, #ECEFF1);
+  @include dm_home_link(#ECEFF1);
+  .btn {
+    @include dm-btn(transparent, #ECEFF1, white);
+  }
+  .btn:hover {
+    @include dm-btn--hover(#ECEFF1, #424242, #ECEFF1);
+  }
+}
+
+.dm-block--blog {
+  @include dm_home_row(#ECEFF1, #424242);
+  @include dm_home_link(#424242);
+
+
+  .btn {
+    @include dm-btn(transparent, #424242, #424242);
+  }
+  .btn:hover {
+    @include dm-btn--hover(white, #424242, #424242);
+  }
+
+  .btn-inverse {
+    @include dm-btn--sized(#424242, white, #424242, 'auto');
+    margin-left: 2px;
+  }
+}
+
+.dm-block--news{
+  @include dm_home_row(white, #424242);
+  @include dm_home_link(#424242);
+
+  .btn {
+    background-color: #424242;
+    border: 2px solid #424242;
+    color: white;
+    border-radius: 2px;
+    padding: 1em;
+    margin: auto;
+    display: block;
+    @include dm_box__shadow();
+
+    a {
+      color: white;
+    }
+  }
+}
+
+.btn-group{
+  display: flex;
+  text-align: center;
+}
+.btn-group--element{
+  margin: auto;
+  display: flex;
+}

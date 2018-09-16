@@ -48,6 +48,9 @@ window.app = (function() {
       else if(window.location.href.indexOf('experience') > 0){
         section = '#experience';
       }
+      else if(window.location.href.indexOf('formation') > 0){
+        section = '#formation';
+      }
       else{
         section = '#home';
       }

@@ -2,7 +2,7 @@
 
 const gutil = require('gulp-util');
 const PluginError = gutil.PluginError;
-const mustache = require('mustache');
+const handlebars = require('handlebars');
 const fs = require('fs');
 const path = require('path');
 const moment = require('moment');
@@ -12,15 +12,13 @@ const pages = require('../src/metadata/blog');
  * This plugin is used to read the firebase index. The final aim is to generate static page for blog post list
  * (everything has to be static for indexing bots)
  */
-module.exports = (mustacheTemplateFile, partials, filename, nbArticleMax) => {
-  if (!mustacheTemplateFile) throw new PluginError('convert-to-blog-list', 'Missing source mustacheTemplateFile for convert-to-blog-list');
+module.exports = (handlebarsTemplateFile, partials, filename, nbArticleMax) => {
+  if (!handlebarsTemplateFile) throw new PluginError('convert-to-blog-list', 'Missing source handlebarsTemplateFile for convert-to-blog-list');
   if (!filename) throw new PluginError('convert-to-blog-list', 'Missing target filename for convert-to-blog-list');
   if (!partials) throw new PluginError('convert-to-blog-list', 'Missing source partials for convert-to-blog-list');
 
-  const mustacheTemplate = fs.readFileSync(path.resolve(__dirname, '../', mustacheTemplateFile), 'utf8');
-  const mustachePartials = {};
-  partials.forEach(partial => mustachePartials[partial.key] = fs.readFileSync(path.resolve(__dirname, '..', partial.path), 'utf8'));
-  mustache.parse(mustacheTemplate);
+  partials.forEach(partial => handlebars.registerPartial(partial.key, fs.readFileSync(path.resolve(__dirname, '../', partial.path), 'utf8')));
+  const handlebarsTemplate = handlebars.compile(fs.readFileSync(path.resolve(__dirname, '../', handlebarsTemplateFile), 'utf8'));
 
   const metadata = {
     keywords: () => pages[filename].keywords,
@@ -68,7 +66,7 @@ module.exports = (mustacheTemplateFile, partials, filename, nbArticleMax) => {
   function endStream() {
     let target = new gutil.File();
     target.path = filename;
-    target.contents = new Buffer(mustache.render(mustacheTemplate, metadata, mustachePartials));
+    target.contents = Buffer(handlebarsTemplate(metadata));
     this.emit('data', target);
     this.emit('end');
   }
