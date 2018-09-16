@@ -51,13 +51,11 @@ const HTMLMIN_OPTIONS = {
   jsmin:true
 };
 
-const MUSTACHE_PARTIALS = [
-  {key: '_html_header', path: 'src/templates/_html_header.mustache'},
-  {key: '_page_header', path: 'src/templates/_page_header.mustache'},
-  {key: '_page_header_sub', path: 'src/templates/_page_header_sub.mustache'},
-  {key: '_page_footer', path: 'src/templates/_page_footer.mustache'},
-  {key: '_html_footer', path: 'src/templates/_html_footer.mustache'},
-  {key: '_blog_intro', path: 'src/templates/_blog_intro.mustache'}
+const HANDLEBARS_PARTIALS = [
+  {key: '_html_header', path: 'src/templates/_html_header.handlebars'},
+  {key: '_page_header', path: 'src/templates/_page_header.handlebars'},
+  {key: '_page_footer', path: 'src/templates/_page_footer.handlebars'},
+  {key: '_html_footer', path: 'src/templates/_html_footer.handlebars'}
 ];
 
 const CACHE_BUSTING_EXTENSIONS = ['.js', '.css', '.html', '.xml'];
@@ -65,7 +63,7 @@ const CACHE_BUSTING_EXTENSIONS = ['.js', '.css', '.html', '.xml'];
 let modeDev = false;
 
 gulp.task('styles', (cb) => {
-  gulp.src(['src/sass/main.scss', 'src/sass/bloglist.scss', 'src/sass/blog/blog.scss'])
+  gulp.src(['src/sass/devmind.scss', 'src/sass/main.scss', 'src/sass/bloglist.scss', 'src/sass/blog/blog.scss'])
     .pipe($.newer('build/.tmp/css'))
     .pipe($.sourcemaps.init())
     .pipe($.sass({
@@ -117,7 +115,7 @@ gulp.task('blog-index', () =>
     gulp.src('build/.tmp/blogindex.json')
         .pipe($.wait2(() => fileExist('build/.tmp/blogindex.json')))
         .pipe(readIndex())
-        .pipe(convertToBlogList('src/templates/index.mustache', MUSTACHE_PARTIALS, 'index.html', 1))
+        .pipe(convertToBlogList('src/templates/index.handlebars', HANDLEBARS_PARTIALS, 'index.html', 1))
         .pipe(gulp.dest('build/.tmp'))
         .pipe($.htmlmin(HTMLMIN_OPTIONS))
         .pipe(gulp.dest('build/dist'))
@@ -127,7 +125,7 @@ gulp.task('blog-list', () =>
   gulp.src('build/.tmp/blogindex.json')
     .pipe($.wait2(() => fileExist('build/.tmp/blogindex.json')))
     .pipe(readIndex())
-    .pipe(convertToBlogList('src/templates/blog_list.mustache', MUSTACHE_PARTIALS, 'blog.html', 4))
+    .pipe(convertToBlogList('src/templates/blog_list.handlebars', HANDLEBARS_PARTIALS, 'blog.html', 4))
     .pipe(gulp.dest('build/.tmp'))
     .pipe($.htmlmin(HTMLMIN_OPTIONS))
     .pipe(gulp.dest('build/dist'))
@@ -137,7 +135,7 @@ gulp.task('blog-archive', () =>
   gulp.src('build/.tmp/blogindex.json')
     .pipe($.wait2(() => fileExist('build/.tmp/blogindex.json')))
     .pipe(readIndex())
-    .pipe(convertToBlogList('src/templates/blog_archive.mustache', MUSTACHE_PARTIALS, 'blog_archive.html'))
+    .pipe(convertToBlogList('src/templates/blog_archive.handlebars', HANDLEBARS_PARTIALS, 'blog_archive.html'))
     .pipe(gulp.dest('build/.tmp'))
     .pipe($.htmlmin(HTMLMIN_OPTIONS))
     .pipe(gulp.dest('build/dist'))
@@ -148,7 +146,7 @@ gulp.task('blog-page', ['blog-indexing', 'blog-list', 'blog-rss', 'blog-archive'
     .pipe(readAsciidoc(modeDev))
     .pipe(convertToHtml())
     .pipe(highlightCode({selector: 'pre.highlight code'}))
-    .pipe(convertToBlogPage('src/templates/blog.mustache', MUSTACHE_PARTIALS, 'build/.tmp/blogindex.json'))
+    .pipe(convertToBlogPage('src/templates/blog.handlebars', HANDLEBARS_PARTIALS, 'build/.tmp/blogindex.json'))
 
     .pipe(gulp.dest('build/.tmp/blog'))
     .pipe($.htmlmin(HTMLMIN_OPTIONS))
@@ -181,7 +179,7 @@ gulp.task('html-indexing', () =>
 gulp.task('html', ['html-indexing'], () =>
   gulp.src(`src/html/**/*.html`)
     .pipe(readHtml(modeDev))
-    .pipe(applyTemplate(`src/templates/site.mustache`, MUSTACHE_PARTIALS))
+    .pipe(applyTemplate(`src/templates/site.handlebars`, HANDLEBARS_PARTIALS))
     .pipe($.size({title: 'html', showFiles: true}))
     .pipe(gulp.dest('build/.tmp'))
     .pipe($.htmlmin(HTMLMIN_OPTIONS))
@@ -332,7 +330,7 @@ gulp.task('serveAndWatch', () => {
   gulp.watch('src/**/*.adoc', () => $.sequence('blog', 'cache-busting-dev', browserSync.reload));
   gulp.watch('src/**/*.js', () => $.sequence('lint', 'local-js', 'blog', 'html', 'cache-busting-dev', browserSync.reload));
   gulp.watch('src/images/**/*', () => $.sequence('images', browserSync.reload));
-  gulp.watch('src/**/*.mustache', () => $.sequence('blog', 'html', 'cache-busting-dev', browserSync.reload));
+  gulp.watch('src/**/*.handlebars', () => $.sequence('blog', 'html', 'cache-busting-dev', browserSync.reload));
 });
 
 

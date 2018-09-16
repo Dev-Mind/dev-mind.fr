@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    {{> _html_header}}
+</head>
+<body class="dev-mind">
+{{> _page_header}}
+<main>
+    <div class="dm-block--intro">
+        <devmind-section>
+            <h1>Développement & Formation</h1>
+            <p class="dm_lead">
+            Je me nomme <a href="https://twitter.com/guillaumeehret" rel="noopener" target="_blank">Guillaume EHRET</a> et je propose mes services
+            pour aider les entreprises qui souhaitent créer de nouveaux logiciels ou s'organiser pour réussir leurs défis. Je peux intervenir en
+            tant que développeur expérimenté pour du conseil, de la programmation et de la formation.
+            </p>
+            <p>
+                <a href="https://twitter.com/guillaumeehret" target="_blank" rel="noopener">
+                    <img src="img/contact/twitter.svg" alt="Twitter" class="dm-social">
+                </a>
+                <a href="https://github.com/javamind" target="_blank" rel="noopener">
+                    <img src="img/contact/github.svg" alt="Github" class="dm-social">
+                </a>
+                <a href="https://plus.google.com/+GuillaumeEhret" target="_blank" rel="noopener">
+                    <img src="img/contact/googlep.svg" alt="Google+" class="dm-social">
+                </a>
+                <a href="https://www.linkedin.com/pub/guillaume-ehret/7/668/999" target="_blank" rel="noopener">
+                    <img src="img/contact/linkedin.svg" alt="Linkedin" class="dm-social">
+                </a>
+                <a href="http://fr.viadeo.com/fr/profile/guillaume.ehret1" target="_blank" rel="noopener">
+                    <img src="img/contact/viadeo.svg" alt="Viadeo" class="dm-social">
+                </a>
+            </p>
+
+            <p class="center">
+                <a href="formations.html" class="btn"  alt="Formations" onclick="app.changeMenu('#formation')">
+                Voir les formations</a>
+            </p>
+
+        </devmind-section>
+    </div>
+    <div class="dm-block--blog">
+        <devmind-section>
+            <h2>Derniers articles de blog</h2>
+            <div class="dm_grid__flexible">
+                {{#firstArticle}}
+                    <article class="dm_grid__element dm-blog--article" onclick="document.location.href='blog/{{dir}}/{{filename}}.html'">
+                        <div class="dm-blog--imgteaser"><img class="dm-img--lazyload" data-src="{{{imgteaser}}}"/></div>
+                        <p class="dm_lead dm-blog--head"><a href="blog/{{dir}}/{{filename}}.html">{{doctitle}}</a></p>
+                        <p class="dm-blog--teaser">{{teaser}}</p>
+                    </article>
+
+                {{/firstArticle}}
+                {{#secondArticles}}
+                    <article class="dm_grid__element dm-blog--article" onclick="document.location.href='blog/{{dir}}/{{filename}}.html'">
+                        <div class="dm-blog--imgteaser"><img class="dm-img--lazyload" data-src="{{{imgteaser}}}"/></div>
+                        <p class="dm_lead dm-blog--head"><a href="blog/{{dir}}/{{filename}}.html">{{doctitle}}</a></p>
+                        <p class="dm-blog--teaser">{{teaser}}</p>
+                    </article>
+                {{/secondArticles}}
+            </div>
+            <p class="center">
+                <a href="blog.html" class="btn"  alt="Blog" onclick="app.changeMenu('#blog')">
+                    Voir le blog</a>
+            </p>
+        </devmind-section>
+    </div>
+    <div class="dm-block--news">
+        <devmind-section>
+            <h2>Actualités</h2>
+
+            <p class="dm_lead">Vous pouvez visualiser ma page <a href="experience.html" alt="Experience" onclick="app.changeMenu('#experience')">expériences</a> pour voir mes
+                 clients ou employeurs depuis pratiquement 20 ans. J'interviens en tant que speaker dans des conférence et je fais aussi partie de
+                l'équipe des organisateurs de la conférence <a
+                    href="https://mixitconf.org/" rel="noopener">MiXiT</a> qui a lieu tous
+                les ans à Lyon qui regroupe 800 personnes pendant 2 jours autour de conférences, d'ateliers avec des speakers venant du monde entier.</p>
+
+
+            <div class="btn">
+                <p class="dm_lead"> Retrouvez Dev-Mind les 27 et 28 novembre à <a href="https://www.devoxx.ma/">Devoxx Maroc</a> pour une session sur Android & Kotlin.</p>
+                <p>Dans cette session de 2 heures je reviendrai sur les bases de la création d'une application Android. En live coding nous verrons les concepts de la programmation Android et nous développerons en Kotlin une réelle application. </p>
+
+                <p class="center">
+                    <picture>
+                        <source srcset="img/formation/conf-devoxx_ma_android_600.webp 640w, img/formation/conf-devoxx_ma_android.webp"
+                                type="image/webp"/>
+                        <source srcset="img/formation/conf-devoxx_ma_android_600.png 640w, img/formation/conf-devoxx_ma_android.png"/>
+                        <img src="img/formation/conf-devoxx_ma_android_600.png" alt="Devoxx MAroc ">
+                    </picture>
+                </p>
+            </div>
+
+            <p class="dm_lead">Je participe également à des projets Open Source. Vous pouvez consulter mon <a
+                    href="https://github.com/javamind" rel="noopener">Github</a> pour plus d'informations.
+                J'interviens également régulièrement dans des conférences et voici mon <a
+                        href="https://speakerdeck.com/javamind" rel="noopener">Speaker Deck</a>
+            </p>
+        </devmind-section>
+    </div>
+    <div class="dm-block--blog">
+        <devmind-section>
+            <h2>Contact</h2>
+            <p class="dm_lead">
+                N'hésitez pas à me contacter si vous souhaitez plus d'informations<br>
+            </p>
+
+            <p class="dm_lead">
+                <b>Guillaume EHRET</b><br>
+                <a>guillaume (@) dev-mind.fr</a>
+            </p>
+            <address class="dm_lead">
+                <b>Dev-Mind</b><br>
+                17 rue de la Vivaraize<br>
+                42100 St Etienne<br>
+                France
+            </address>
+        </devmind-section>
+    </div>
+    {{> _page_footer}}
+</main>
+{{> _html_footer}}
+</body>
+</html>

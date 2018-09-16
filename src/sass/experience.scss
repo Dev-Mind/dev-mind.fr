@@ -1,11 +1,17 @@
-.dm_experience__container{
-  background-color: white;
+.dm-experience--container{
   margin: 1em 0;
   padding: 1em;
   border-radius: 4px;
 }
 
-.dm_experience__label{
+.dm-experience--container-past{
+  background-color: #CFD8DC;
+  margin: 1em 0;
+  padding: 1em;
+  border-radius: 4px;
+}
+
+.dm-experience--label{
   border-radius: 4px;
   border: 1px solid #c9c9c9;
   background-color: white;
@@ -14,15 +20,15 @@
   color: #5f5346;
 }
 
-.dm_experience__section{
+.dm-experience--section{
   padding-bottom: 1em;
 }
 
-.dm_experience__graph{
+.dm-experience--graph{
   display: flex
 }
 
-@mixin dm_experience__elt(){
+@mixin dm-experience--elt(){
   border: 2px solid white;
   padding: 0 1em 1em 1em;
   color: white;
@@ -32,41 +38,41 @@
   }
 }
 
-.dm_experience__step{
+.dm-experience--step{
   text-align: center;
 }
 
-.dm_experience__date{
+.dm-experience--date{
   position:relative;
   top: -1.2em;
   left:-2em;
 }
 
-.dm_experience__before{
-  @include dm_experience__elt;
+.dm-experience--before{
+  @include dm-experience--elt;
   border-left: none;
 }
-.dm_experience__after{
-  @include dm_experience__elt;
+.dm-experience--after{
+  @include dm-experience--elt;
   border-right: none;
 }
-.dm_experience__solutec{
-  @include dm_experience__elt;
+.dm-experience--solutec{
+  @include dm-experience--elt;
   flex: 2;
 }
-.dm_experience__casino{
-  @include dm_experience__elt;
+.dm-experience--casino{
+  @include dm-experience--elt;
   flex:6;
 }
-.dm_experience__iorga{
-  @include dm_experience__elt;
+.dm-experience--iorga{
+  @include dm-experience--elt;
   flex:1;
 }
-.dm_experience__boiron{
-  @include dm_experience__elt;
+.dm-experience--boiron{
+  @include dm-experience--elt;
   flex:4;
 }
-.dm_experience__devmind{
-  @include dm_experience__elt;
+.dm-experience--devmind{
+  @include dm-experience--elt;
   flex:3;
 }

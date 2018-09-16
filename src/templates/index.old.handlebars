@@ -10,6 +10,66 @@
 <body class="dev-mind">
 {{> _page_header}}
 <main>
+    <div class="dm-block--intro">
+        <devmind-section>
+            <h1>Développement & Formation</h1>
+            <p class="dm_lead">
+            Je me nomme <a href="https://twitter.com/guillaumeehret" rel="noopener" target="_blank">Guillaume EHRET</a> et je propose mes services
+            pour aider les entreprises qui souhaitent créer de nouveaux logiciels ou s'organiser pour réussir leurs défis. Je peux intervenir en
+            tant que développeur expérimenté pour du conseil, de la programmation et de la formation.
+            </p>
+            <p>
+                <a href="https://twitter.com/guillaumeehret" target="_blank" rel="noopener">
+                    <img src="img/contact/twitter.svg" alt="Twitter" class="dm-social">
+                </a>
+                <a href="https://github.com/javamind" target="_blank" rel="noopener">
+                    <img src="img/contact/github.svg" alt="Github" class="dm-social">
+                </a>
+                <a href="https://plus.google.com/+GuillaumeEhret" target="_blank" rel="noopener">
+                    <img src="img/contact/googlep.svg" alt="Google+" class="dm-social">
+                </a>
+                <a href="https://www.linkedin.com/pub/guillaume-ehret/7/668/999" target="_blank" rel="noopener">
+                    <img src="img/contact/linkedin.svg" alt="Linkedin" class="dm-social">
+                </a>
+                <a href="http://fr.viadeo.com/fr/profile/guillaume.ehret1" target="_blank" rel="noopener">
+                    <img src="img/contact/viadeo.svg" alt="Viadeo" class="dm-social">
+                </a>
+            </p>
+
+            <p class="center">
+                <a href="formations.html" class="btn"  alt="Formations" onclick="app.changeMenu('#formation')">
+                Voir les formations</a>
+            </p>
+
+        </devmind-section>
+    </div>
+    <div class="dm-block--blog">
+        <devmind-section>
+            <h2>Derniers articles de blog</h2>
+            <div class="dm_grid__flexible">
+                {{#firstArticle}}
+                    <article class="dm_grid__element dm-blog--article" onclick="document.location.href='blog/{{dir}}/{{filename}}.html'">
+                        <div class="dm-blog--imgteaser"><img class="dm-img--lazyload" data-src="{{{imgteaser}}}"/></div>
+                        <p class="dm_lead dm-blog--head"><a href="blog/{{dir}}/{{filename}}.html">{{doctitle}}</a></p>
+                        <p class="dm-blog--teaser">{{teaser}}</p>
+                    </article>
+
+                {{/firstArticle}}
+                {{#secondArticles}}
+                    <article class="dm_grid__element dm-blog--article" onclick="document.location.href='blog/{{dir}}/{{filename}}.html'">
+                        <div class="dm-blog--imgteaser"><img class="dm-img--lazyload" data-src="{{{imgteaser}}}"/></div>
+                        <p class="dm_lead dm-blog--head"><a href="blog/{{dir}}/{{filename}}.html">{{doctitle}}</a></p>
+                        <p class="dm-blog--teaser">{{teaser}}</p>
+                    </article>
+                {{/secondArticles}}
+            </div>
+            <p class="center">
+                <a href="blog.html" class="btn"  alt="Blog" onclick="app.changeMenu('#blog')">
+                    Voir le blog</a>
+            </p>
+        </devmind-section>
+    </div>
+
     <div class="home">
         <div class="dm_home_me" id="home">
             <devmind-section>
@@ -249,7 +309,7 @@
                 </p>
 
                 <div align="mdl-center" class="is-large-screen">
-                    <div class="dm_experience__graph">
+                    <div class="dm-experience--graph">
                         <div class="dm_experience__before">
                             <div class="dm_experience__date"><small>&nbsp;</small></div>
                             <div class="dm_experience__step">...</div>
@@ -279,7 +339,7 @@
                     </div>
                 </div>
                 <div align="mdl-center" class="is-small-screen">
-                    <div class="dm_experience__graph">
+                    <div class="dm-experience--graph">
                         <div class="dm_experience__before">
                             <div class="dm_experience__date"><small>&nbsp;</small></div>
                             <div class="dm_experience__step">...</div>
@@ -300,7 +360,7 @@
                         </div>
                     </div>
                     <br>
-                    <div class="dm_experience__graph">
+                    <div class="dm-experience--graph">
                         <div class="dm_experience__iorga">
                             <div class="dm_experience__date"><small>2009</small></div>
                             <div class="dm_experience__step"><a href="experience.html#iorga">IORGA</a></div>

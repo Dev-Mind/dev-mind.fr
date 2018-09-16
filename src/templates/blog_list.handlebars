@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <link rel="preload" href="css/bloglist.css" as="style" onload="this.rel='stylesheet'">
+    {{> _html_header}}
+</head>
+<body class="dev-mind">
+{{> _page_header}}
+<main>
+    <div class="dm-block--blog">
+        <devmind-section>
+            <div class="dm-blog--container-article">
+                {{#firstArticle}}
+                    <article class="dm-blog--article-head"
+                             onclick="document.location.href='blog/{{dir}}/{{filename}}.html'">
+                        <h1><a href="blog/{{dir}}/{{filename}}.html">{{doctitle}}</a></h1>
+                        <div class="dm-blog--imgteaser"><img class="dm-img--lazyload" data-src="{{{imgteaser}}}"/></div>
+                        <p class="dm-blog--teaser">{{teaser}}</p>
+                    </article>
+                {{/firstArticle}}
+                {{#secondArticles}}
+                    <article class="dm-blog--article" onclick="document.location.href='blog/{{dir}}/{{filename}}.html'">
+                        <h2><a href="blog/{{dir}}/{{filename}}.html">{{doctitle}}</a></h2>
+                        <div class="dm-blog--imgteaser"><img class="dm-img--lazyload" data-src="{{{imgteaser}}}"/></div>
+                        <p class="dm-blog--teaser">{{teaser}}</p>
+                    </article>
+                {{/secondArticles}}
+            </div>
+            <div class="dm-blog--container-article" id="dm_extension">
+            </div>
+            <div class="btn-group" style="padding: 1em">
+                <div class="btn-group--element">
+                    <button class="btn-inverse" onclick="blog.findMoreBlogpost()" id="more-article">Plus d'articles...
+                    </button>
+                    <a class="btn-inverse" href="rss/blog.xml">Flux RSS</a>
+                </div>
+            </div>
+            <div class="center">
+                <a href="blog_archive.html" class="btn">Voir tous les articles</a>
+            </div>
+        </devmind-section>
+    </div>
+    {{> _page_footer}}
+</main>
+{{> _html_footer}}
+<script src="js/bloglist.js"></script>
+<script>
+    window.addEventListener("load", function () {
+        blog.init([
+            {{#otherArticles}}
+                {
+                    date: "{{date}}",
+                    dir: "{{dir}}",
+                    filename: "{{filename}}",
+                    doctitle: "{{doctitle}}",
+                    imgteaser: "{{{imgteaser}}}",
+                    teaser: "{{teaser}}"
+                },
+            {{/otherArticles}}
+        ]);
+    });
+</script>
+</body>
+</html>
