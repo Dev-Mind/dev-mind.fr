@@ -185,6 +185,45 @@ gulp.task('html', ['html-indexing'], () =>
     .pipe($.htmlmin(HTMLMIN_OPTIONS))
     .pipe(gulp.dest('build/dist')));
 
+gulp.task('training-indexing', () =>
+  gulp.src('src/training/**/*.adoc')
+    .pipe(readAsciidoc(modeDev))
+    .pipe(convertToHtml())
+    .pipe(convertToJson('trainingindex.json'))
+    .pipe(gulp.dest('build/.tmp'))
+);
+
+gulp.task('training-list', () =>
+  gulp.src('build/.tmp/trainingindex.json')
+    .pipe($.wait2(() => fileExist('build/.tmp/trainingindex.json')))
+    .pipe(readIndex())
+    .pipe(convertToBlogList('src/templates/trainings.handlebars', HANDLEBARS_PARTIALS, 'trainings.html', 100))
+    .pipe(gulp.dest('build/.tmp'))
+    .pipe($.htmlmin(HTMLMIN_OPTIONS))
+    .pipe(gulp.dest('build/dist/training'))
+);
+
+gulp.task('training-page', ['training-indexing', 'training-list'], (cb) => {
+  gulp.src('src/training/**/*.adoc')
+    .pipe(readAsciidoc(modeDev))
+    .pipe(convertToHtml())
+    .pipe(highlightCode({selector: 'pre.highlight code'}))
+    .pipe(convertToBlogPage('src/templates/training.handlebars', HANDLEBARS_PARTIALS, 'build/.tmp/trainingindex.json'))
+    .pipe(gulp.dest('build/.tmp/training'))
+    .pipe($.htmlmin(HTMLMIN_OPTIONS))
+    .pipe(gulp.dest('build/dist/training'))
+    .on('end', () => cb())
+});
+
+gulp.task('training', cb => {
+  $.sequence(
+    'training-indexing',
+    'training-page',
+    'training-list',
+    cb
+  )
+});
+
 gulp.task('local-js', () =>
   gulp.src(['src/js/*.js'])
     .pipe($.sourcemaps.init())
@@ -326,11 +365,11 @@ gulp.task('serveAndWatch', () => {
   });
 
   gulp.watch('src/**/*.html', () => $.sequence('html', 'cache-busting-dev', browserSync.reload));
-  gulp.watch('src/**/*.{scss,css}', () => $.sequence('styles', 'blog', 'html', 'cache-busting-dev', browserSync.reload));
-  gulp.watch('src/**/*.adoc', () => $.sequence('blog', 'cache-busting-dev', browserSync.reload));
-  gulp.watch('src/**/*.js', () => $.sequence('lint', 'local-js', 'blog', 'html', 'cache-busting-dev', browserSync.reload));
+  gulp.watch('src/**/*.{scss,css}', () => $.sequence('styles', 'blog', 'training', 'html', 'cache-busting-dev', browserSync.reload));
+  gulp.watch('src/**/*.adoc', () => $.sequence('blog', 'training', 'cache-busting-dev', browserSync.reload));
+  gulp.watch('src/**/*.js', () => $.sequence('lint', 'local-js', 'blog', 'training', 'html', 'cache-busting-dev', browserSync.reload));
   gulp.watch('src/images/**/*', () => $.sequence('images', browserSync.reload));
-  gulp.watch('src/**/*.handlebars', () => $.sequence('blog', 'html', 'cache-busting-dev', browserSync.reload));
+  gulp.watch('src/**/*.handlebars', () => $.sequence('blog', 'training', 'html', 'cache-busting-dev', browserSync.reload));
 });
 
 
@@ -350,6 +389,7 @@ gulp.task('build', cb => {
     'images-pre',
     'styles',
     'blog',
+    'training',
     'images',
     'images-post',
     'lint',

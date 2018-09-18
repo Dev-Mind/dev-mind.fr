@@ -37,7 +37,7 @@ module.exports = function (modedev) {
     file.attributes.strdate = file.attributes.revdate;
 
     const filename = file.path.substring(file.path.lastIndexOf("/") + 1, file.path.lastIndexOf("."));
-    const dir = file.path.substring(file.path.lastIndexOf("blog/") + 5, file.path.lastIndexOf("/"));
+    const dir = file.path.lastIndexOf("blog/") > 0 ? file.path.substring(file.path.lastIndexOf("blog/") + 5, file.path.lastIndexOf("/")) : '';
 
     // make all model properties accessible through fat-arrow "getters"
     // this way, file.* values can be changed before templating
@@ -71,7 +71,7 @@ module.exports = function (modedev) {
         imgteaser: file.attributes.imgteaser,
         modeDev: modedev,
         blog: true,
-        dir: file.path.substring(file.path.lastIndexOf("blog/") + 5, file.path.lastIndexOf("/"))
+        dir: dir
       };
     }
 
