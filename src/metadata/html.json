@@ -35,6 +35,12 @@
     "description" : "Dev-mind :formation le web de A à Z",
     "priority": 0.4
   },
+  "formation_spring.html" : {
+    "keywords": "Spring Formation",
+    "title": "Dev-Mind - formation Spring",
+    "description" : "Dev-Mind vous aide à vous former au framework Java le plus utilisé",
+    "priority": 0.4
+  },
   "shell.html" : {
     "keywords": "Dev-mind",
     "title": "Dev-Mind - app loading",
