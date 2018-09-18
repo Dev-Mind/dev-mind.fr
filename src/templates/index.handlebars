@@ -42,9 +42,9 @@
     <div class="dm-block--blog">
         <devmind-section>
             <h2>Derniers articles de blog</h2>
-            <div class="dm_grid__flexible">
+            <div class="dm-grid--flexible">
                 {{#firstArticle}}
-                    <article class="dm_grid__element dm-blog--article" onclick="document.location.href='blog/{{dir}}/{{filename}}.html'">
+                    <article class="dm-grid--element dm-blog--article" onclick="document.location.href='blog/{{dir}}/{{filename}}.html'">
                         <div class="dm-blog--imgteaser"><img class="dm-img--lazyload" data-src="{{{imgteaser}}}"/></div>
                         <p class="dm_lead dm-blog--head"><a href="blog/{{dir}}/{{filename}}.html">{{doctitle}}</a></p>
                         <p class="dm-blog--teaser">{{teaser}}</p>
@@ -52,7 +52,7 @@
 
                 {{/firstArticle}}
                 {{#secondArticles}}
-                    <article class="dm_grid__element dm-blog--article" onclick="document.location.href='blog/{{dir}}/{{filename}}.html'">
+                    <article class="dm-grid--element dm-blog--article" onclick="document.location.href='blog/{{dir}}/{{filename}}.html'">
                         <div class="dm-blog--imgteaser"><img class="dm-img--lazyload" data-src="{{{imgteaser}}}"/></div>
                         <p class="dm_lead dm-blog--head"><a href="blog/{{dir}}/{{filename}}.html">{{doctitle}}</a></p>
                         <p class="dm-blog--teaser">{{teaser}}</p>

@@ -11,11 +11,16 @@
   border-radius: 4px;
 }
 
+.dm-experience--label-box{
+  display: flex;
+  flex-wrap: wrap;
+}
 .dm-experience--label{
   border-radius: 4px;
   border: 1px solid #c9c9c9;
   background-color: white;
   padding: 0.3em;
+  margin: 0.1em;
   opacity: 0.7;
   color: #5f5346;
 }

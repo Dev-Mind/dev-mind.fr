@@ -57,3 +57,43 @@
   margin: auto;
   display: flex;
 }
+
+.dm--picture--center{
+  width: 50%;
+  margin: auto;
+
+  @media (max-width: $max_width_mobile) {
+    width: 95%;
+  }
+}
+.dm--picture--inverse{
+  margin: auto;
+
+  @media (max-width: $max_width_mobile) {
+    width: 50% !important;
+  }
+}
+
+.dm-formation--detail{
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  padding: 0;
+
+  li {
+    display: block;
+    padding: 0;
+  }
+}
+
+.dm-formation--step{
+  margin-bottom: 1em;
+  span {
+    font-size: 30px;
+    font-weight: bolder;
+    border-radius: 30%;
+    background-color: #424242;
+    padding: 0.5em 0.8em;
+    color:white;
+  }
+}
