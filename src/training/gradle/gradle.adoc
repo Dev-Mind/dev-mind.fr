@@ -31,3 +31,18 @@ Maven permet de construire un projet principal. Gradle a été pensé pour const
 
 
 
+TP
+First ask your presenter to do a live coding
+All starts with
+
+gradle init
+Firstapp
+Contains the starter kit for minimal gradle with wrapper
+
+ordering
+Contains sample gradle tasks about ordering
+
+On your own
+Use previous Java TP
+
+Tranform them into a Gradle built project

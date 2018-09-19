@@ -133,8 +133,8 @@ FileETag None
 </IfModule>
 
 # Training is not free
-<Directory "/build/dist/training">
-   AuthUserFile /build/dist/.htpasswd
+<Directory "training">
+   AuthUserFile .htpasswd
    AuthName "L'accès à ce répertoire est sécurisé."
    AuthType Basic
    Require valid-user

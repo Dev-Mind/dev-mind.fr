@@ -204,9 +204,9 @@ gulp.task('training-list', () =>
   gulp.src('build/.tmp/trainingindex.json')
     .pipe(readIndex())
     .pipe(convertToBlogList('src/templates/trainings.handlebars', HANDLEBARS_PARTIALS, 'trainings.html', 100))
-    .pipe(gulp.dest('build/.tmp'))
+    //.pipe(gulp.dest('build/.tmp'))
     .pipe($.htmlmin(HTMLMIN_OPTIONS))
-    .pipe(gulp.dest('build/dist/training'))
+    .pipe(gulp.dest('build/dist'))
 );
 
 gulp.task('training-page', (cb) => {
@@ -224,8 +224,8 @@ gulp.task('training-page', (cb) => {
 
 gulp.task('training', cb => {
   $.sequence(
-    'training-security',
     'training-indexing',
+    'training-security',
     'training-page',
     'training-list',
     cb
