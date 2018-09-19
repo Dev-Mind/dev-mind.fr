@@ -189,7 +189,7 @@ gulp.task('html', ['html-indexing'], () =>
 gulp.task('training-security', () =>
   gulp.src('.')
     .pipe(generateSecurityFile())
-    .pipe(gulp.dest('build/dist/training'))
+    .pipe(gulp.dest('build/dist'))
 );
 
 gulp.task('training-indexing', () =>
