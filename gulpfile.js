@@ -202,7 +202,6 @@ gulp.task('training-indexing', () =>
 
 gulp.task('training-list', () =>
   gulp.src('build/.tmp/trainingindex.json')
-    .pipe($.wait2(() => fileExist('build/.tmp/trainingindex.json')))
     .pipe(readIndex())
     .pipe(convertToBlogList('src/templates/trainings.handlebars', HANDLEBARS_PARTIALS, 'trainings.html', 100))
     .pipe(gulp.dest('build/.tmp'))
