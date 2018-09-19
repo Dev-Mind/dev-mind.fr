@@ -39,6 +39,10 @@ h2 {
   line-height: ($h2_screen_fontsize+3);
 }
 
+.small {
+  font-size: small;
+}
+
 .dm_lead {
   font-weight: 300;
   font-size: $text_head_screen;

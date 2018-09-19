@@ -17,6 +17,8 @@ RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^(.+[^/])$          %{HTTP:X-Forwarded-Proto}://%{HTTP_HOST}/$1/  [R=301,L,QSA]
 
 ErrorDocument 404 https://dev-mind.fr/404.html
+ErrorDocument 401 https://dev-mind.fr/401.html
+ErrorDocument 403 https://dev-mind.fr/403.html
 
 #FileETag INode MTime Size
 <IfModule mod_headers.c>
@@ -130,8 +132,11 @@ FileETag None
     AddOutputFilterByType DEFLATE image/svg+xml
 </IfModule>
 
-<FilesMatch firebase.json">
-    Order Deny,Allow
-    Deny from All
-    Allow from localhost
-</FilesMatch>
+<Directory "/build/dist/training">
+   AuthUserFile /build/dist/.htpasswd
+   AuthName "L'accès à ce répertoire est sécurisé."
+   AuthType Basic
+   Require valid-user
+   Order Deny,allow
+   Deny from all
+</Directory>

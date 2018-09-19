@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <link rel="preload" href="../../css/blog.css" as="style" onload="this.rel='stylesheet'">
+    <link rel="preload" href="../../css/bloglist.css" as="style" onload="this.rel='stylesheet'">
+    <link rel="preload" href="../../js/blog.js" as="script">
+    {{> _html_header baseuri='../../'}}
+</head>
+<body class="dev-mind">
+{{> _page_header baseuri='../../'}}
+<main>
+    <div class="dm-block--blog">
+
+
+        <devmind-article>
+            {{#modedev}}
+                <h2>MODE DEV</h2>
+            {{/modedev}}
+            <article>
+                <h1 class="dm-blog--info-title">{{ title }}</h1>
+                <div class="dm-blog--info-date">
+                    <small><b>{{ revdate }}</b></small>
+                    <small id="nbview"></small>
+                </div>
+                <div id="blog-keywords" class="blog-keywords">
+                    {{#keywords}}
+                        <span class="dm-blog--keyword-detail"><small>{{.}}</small></span>&nbsp;
+                    {{/keywords}}
+                </div>
+                <div class="dm-blog--content">
+                    {{{ contents }}}
+                </div>
+            </article>
+        </devmind-article>
+    </div>
+    {{> _page_footer baseuri='../../'}}
+</main>
+{{> _html_footer baseuri='../../'}}
+</body>
+</html>

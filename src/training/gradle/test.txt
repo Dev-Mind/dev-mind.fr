@@ -1,0 +1,436 @@
+==
+----
+Using existing Gradle builds
+Gradle supports many major IDEs, including Android Studio, Eclipse, IntelliJ IDEA, Visual Studio 2017, and XCode. You can also invoke Gradle via its command-line interface in your terminal or through your continuous integration server. Gradle build scans help you understand build results, improve build performance, and collaborate to fix problems faster.
+
+gradle project in IDEgradle on command linegradle build scan
+Getting help
+Forum — The fastest way to get help is through the Gradle Forum. Community members and core contributors answer your questions.
+
+Training — Free, web-based Gradle training from Gradle developers happens every month. Head over to the training page to sign up.
+
+Enterprise Services — Support and training can be purchased alongside a Gradle Enterprise subscription.
+
+Why a build tool?
+to compile your project but not only
+
+to generate your delivery package (.war, .jar, …​) and deploy it!
+
+to generate the doc
+
+to run the tests
+
+to generate the quality reports
+
+…​
+
+“My IDE can’t do this?”
+
+“Only some of these tasks Dud! And a lot of manual configuration, without scripting, and not shareable”
+
+Why automate?
+Write once, run everywhere
+
+Do not forget, not be mistaken
+
+Continuous Integration
+
+Deployment with confidence
+
+During the whole lab, you’re going to practise Gradle and you would need the official doc, so open it : https://docs.gradle.org/4.2/userguide/introduction.html
+What are the differences between Maven and Gradle
+Maven brought good ideas :
+
+plugins
+
+convention over configuration
+
+standard cycle standard
+
+dependency management
+
+But…​
+
+XML ;-(
+
+Verbose
+
+Rigid
+
+Bad documentation
+
+pom.xml
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.ninja-squad</groupId>
+  <artifactId>maven-demo</artifactId>
+  <version>0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>13.0</version>
+    </dependency>
+  </dependencies>
+</project>
+Getting started - Fast!
+Be sure of having a GitHub account!
+Clone the GitHub Project : https://github.com/acrepet/killerapp.git
+
+Check your local workspace, import the project into IDEA (File → New → Project From Existing Sources → Import Project from external model → Gradle)
+
+importgradleproject
+Your build.gradle (at root of your app) file should look like this and let you to configure the object Project
+
+build.gradle
+group 'emse'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+You can now open a new console and run the following command:
+
+$ ./gradlew build
+
+BUILD SUCCESSFUL in 0s
+1 actionable task: 1 executed
+gradlew is the gradle wrapper (see below)
+
+and try to build your project via IDEA → right click on build.gradle → Run Build
+
+Wrapper
+Problems :
+
+Most tools require installation on your computer before you can use them. If the installation is easy, you may think that’s fine. But it can be an unnecessary burden on the users of the build.
+
+Will the team members install the right version of the tool for the build? What if they’re building an old version of the software?
+
+You have to fix a bug in a version of two years ago, which version of gradle is used for this old project
+
+The Gradle Wrapper (henceforth referred to as the “Wrapper”) solves these problems and is the preferred way of starting a Gradle build.
+
+Wrapper ?
+
+a jar : ~50 KBs
+
+a property file
+
+a gradlew.bat file(Windows)
+
+a gradlew file (Unix, MacOS)
+
+These files are saved with all the sources (with Git of course!)
+
+Gradle’s Anatomy
+Projects
+
+Tasks
+
+Dependency Resolution
+
+Lifecycle
+
+Gradle Project
+"build.gradle" configures the project
+
+Project provides the base DSL (Domain Specific Language)
+
+Build steps are performed by Tasks
+
+Plugins provide preconfigured tasks
+
+Task
+Define what we have to do, perform an action
+
+A lot of predefined and configurable tasks
+
+A task could depend on another task or several tasks
+
+Build LifeCycle
+A Gradle build has three distinct phases :
+
+Initialization During this phase, Gradle determines which projects are going to take part in the build (through build.gradle files). Gradle supports single and multi-project builds), and creates a Project instance for each of these projects.
+
+Configuration During this phase Gradle parse the build file’s configuration (several files could be parsed). The project objects are configured. The build scripts of all projects which are part of the build are executed.
+
+Execution Gradle executes the task graph → determines the subset of the tasks, created and configured during the configuration phase, to be executed. The subset is determined by the task name arguments passed to the gradle command and the current directory. Gradle then executes each of the selected tasks.
+
+Dependencies between tasks
+All the tasks create a DAG
+
+DAG = Directed Acyclic Graph
+
+Append these lines to your build.gradle file :
+
+tasks dependencies
+task hello {
+    doLast {
+        println 'Hello'
+    }
+}
+
+task world(dependsOn: hello) {
+    doLast {
+        println 'World'
+    }
+}
+Then, run :
+
+$ ./gradlew hello
+and :
+
+$ ./gradlew world
+Try to replace :
+
+tasks dependencies
+task world(dependsOn: hello) {
+    doLast {
+        println 'World'
+    }
+}
+by these lines :
+
+tasks dependencies
+task world(dependsOn: hello) {
+    println 'World'
+}
+Then, run :
+
+$ ./gradlew world
+Which tasks exist?
+Clean and refator your build.gradle. Keep only these lines :
+
+build.gradle
+group 'emse'
+version '1.0-SNAPSHOT'
+Then, run :
+
+$ ./gradlew tasks
+
+> Task :tasks
+
+------------------------------------------------------------
+All tasks runnable from root project
+------------------------------------------------------------
+
+Build Setup tasks
+-----------------
+init - Initializes a new Gradle build.
+wrapper - Generates Gradle wrapper files.
+
+Help tasks
+----------
+buildEnvironment - Displays all buildscript dependencies declared in root project 'killerapp'.
+components - Displays the components produced by root project 'killerapp'. [incubating]
+dependencies - Displays all dependencies declared in root project 'killerapp'.
+dependencyInsight - Displays the insight into a specific dependency in root project 'killerapp'.
+dependentComponents - Displays the dependent components of components in root project 'killerapp'. [incubating]
+help - Displays a help message.
+model - Displays the configuration model of root project 'killerapp'. [incubating]
+projects - Displays the sub-projects of root project 'killerapp'.
+properties - Displays the properties of root project 'killerapp'.
+tasks - Displays the tasks runnable from root project 'killerapp'.
+
+To see all tasks and more detail, run gradlew tasks --all
+
+To see more detail about a task, run gradlew help --task <task>
+
+
+BUILD SUCCESSFUL in 0s
+Plugins
+Add tasks to the project
+
+Under conventions
+
+Let configure added tasks
+
+We can add new tasks and dependencies!
+
+plugin Java
+apply plugin : 'java'
+Effect of this line :
+
+javaPluginConfigurations
+Run
+2 steps
+
+Configuration :
+
+Which tasks exist?
+
+A graph of dependencies?
+
+Run
+
+Depends on arguments, run the right tasks
+
+More tasks ?
+Append these lines to your build.gradle file
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+println 'This is executed during the configuration phase.'
+
+task configured {
+    println 'This is also executed during the configuration phase.'
+}
+
+task testWrite {
+    doLast {
+        println 'This is executed during the execution phase.'
+    }
+}
+
+task testWriteBoth {
+    doFirst {
+        println 'This is executed first during the execution phase.'
+    }
+    doLast {
+        println 'This is executed last during the execution phase.'
+    }
+    println 'This is executed during the configuration phase as well.'
+}
+Then, run :
+
+$ ./gradlew tasks
+then :
+
+$ ./gradlew testWrite
+and :
+
+$ ./gradlew testWriteBoth
+Try to explain what happened
+
+$ ./gradlew tasks
+
+> Configure project :
+This is executed during the configuration phase.
+This is also executed during the configuration phase.
+This is executed during the configuration phase as well.
+
+> Task :tasks
+
+------------------------------------------------------------
+All tasks runnable from root project
+------------------------------------------------------------
+
+Build tasks
+-----------
+assemble - Assembles the outputs of this project.
+build - Assembles and tests this project.
+buildDependents - Assembles and tests this project and all projects that depend on it.
+buildNeeded - Assembles and tests this project and all projects it depends on.
+classes - Assembles main classes.
+clean - Deletes the build directory.
+jar - Assembles a jar archive containing the main classes.
+testClasses - Assembles test classes.
+
+Build Setup tasks
+-----------------
+init - Initializes a new Gradle build.
+wrapper - Generates Gradle wrapper files.
+
+Documentation tasks
+-------------------
+javadoc - Generates Javadoc API documentation for the main source code.
+
+Help tasks
+----------
+buildEnvironment - Displays all buildscript dependencies declared in root project 'killerapp'.
+components - Displays the components produced by root project 'killerapp'. [incubating]
+dependencies - Displays all dependencies declared in root project 'killerapp'.
+dependencyInsight - Displays the insight into a specific dependency in root project 'killerapp'.
+dependentComponents - Displays the dependent components of components in root project 'killerapp'. [incubating]
+help - Displays a help message.
+model - Displays the configuration model of root project 'killerapp'. [incubating]
+projects - Displays the sub-projects of root project 'killerapp'.
+properties - Displays the properties of root project 'killerapp'.
+tasks - Displays the tasks runnable from root project 'killerapp'.
+
+Verification tasks
+------------------
+check - Runs all checks.
+test - Runs the unit tests.
+
+Rules
+-----
+Pattern: clean<TaskName>: Cleans the output files of a task.
+Pattern: build<ConfigurationName>: Assembles the artifacts of a configuration.
+Pattern: upload<ConfigurationName>: Assembles and uploads the artifacts belonging to a configuration.
+
+To see all tasks and more detail, run gradlew tasks --all
+
+To see more detail about a task, run gradlew help --task <task>
+
+
+BUILD SUCCESSFUL in 0s
+1 actionable task: 1 executed
+Dependencies
+If your build script needs to use external libraries, you can add them to the script’s classpath in the build script itself. You do this using the buildscript() method, passing in a closure which declares the build script classpath.
+
+Example :
+
+buildscript {
+    repositories {
+        mavenCentral()
+        maven { url 'https://repo.spring.io/libs-milestone' }
+    }
+
+    dependencies {
+        classpath 'org.springframework.boot:spring-boot-gradle-plugin:2.0.0.M3'
+    }
+}
+You can add dependencies and repositories in your build.gradle file :
+
+dependencies {
+    compile 'org.springframework.boot:spring-boot-starter-data-jpa'
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+}
+and try to run :
+
+$ ./gradlew dependencies
+Conventions
+MonProjet
+|   build.gradle
++---src
+|   +---main
+|   |   +---java
+|   |   \---resources
+|   |
+|   \---test
+|       +---java
+|       \---resources
+|
+\---build
+----
+

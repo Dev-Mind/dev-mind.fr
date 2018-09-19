@@ -15,5 +15,10 @@
     "title": "Les archives du blog Dev-Mind",
     "description": "Retrouvez l'intégralité des articles du blog Dev-Mind (programmation Java JavaScript, méthodes agiles...)",
     "blog": "findArchiveBlogpost"
+  },
+  "trainings.html": {
+    "keywords": "Formations données par Dev-Mind",
+    "title": "Fomrations étudiants Dev-Mind",
+    "description": "Retrouvez les supports de cours des formations Dev-Mind"
   }
 }
