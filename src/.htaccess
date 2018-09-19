@@ -132,3 +132,11 @@ FileETag None
     AddOutputFilterByType DEFLATE image/svg+xml
 </IfModule>
 
+<Location "/training">
+    Options Indexes FollowSymLinks MultiViews
+    AuthBasicProvider file
+    AuthUserFile /var/www/bas/site/build/dist/.htpasswd
+    AuthName "Restricted"
+    AuthType Basic
+    Require valid-user
+</Location>
