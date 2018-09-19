@@ -148,7 +148,6 @@ gulp.task('blog-page', ['blog-indexing', 'blog-list', 'blog-rss', 'blog-archive'
     .pipe(convertToHtml())
     .pipe(highlightCode({selector: 'pre.highlight code'}))
     .pipe(convertToBlogPage('src/templates/blog.handlebars', HANDLEBARS_PARTIALS, 'build/.tmp/blogindex.json'))
-
     .pipe(gulp.dest('build/.tmp/blog'))
     .pipe($.htmlmin(HTMLMIN_OPTIONS))
     .pipe(gulp.dest('build/dist/blog'))
@@ -204,7 +203,7 @@ gulp.task('training-list', () =>
   gulp.src('build/.tmp/trainingindex.json')
     .pipe(readIndex())
     .pipe(convertToBlogList('src/templates/trainings.handlebars', HANDLEBARS_PARTIALS, 'trainings.html', 100))
-    //.pipe(gulp.dest('build/.tmp'))
+    .pipe(gulp.dest('build/.tmp'))
     .pipe($.htmlmin(HTMLMIN_OPTIONS))
     .pipe(gulp.dest('build/dist'))
 );
@@ -216,9 +215,15 @@ gulp.task('training-page', (cb) => {
     .pipe(convertToHtml())
     .pipe(highlightCode({selector: 'pre.highlight code'}))
     .pipe(convertToBlogPage('src/templates/training.handlebars', HANDLEBARS_PARTIALS, 'build/.tmp/trainingindex.json'))
+    .pipe($.size({title: 'html', showFiles: true}))
     .pipe(gulp.dest('build/.tmp/training'))
+    .on('end', () => cb())
+});
+
+gulp.task('training-copy', (cb) => {
+  gulp.src('build/.tmp/training/**/*.html')
     .pipe($.htmlmin(HTMLMIN_OPTIONS))
-    .pipe(gulp.dest('build/dist'))
+    .pipe(gulp.dest('build/dist/training'))
     .on('end', () => cb())
 });
 
@@ -228,6 +233,7 @@ gulp.task('training', cb => {
     'training-security',
     'training-page',
     'training-list',
+    'training-copy',
     cb
   )
 });
