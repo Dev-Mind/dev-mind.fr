@@ -1,8 +1,30 @@
+<script>
+  function login(form) {
+    var username = form.username.value;
+    var password = form.password.value;
+    console.log(username, password)
+    if (username && password && server) {
+      var htsite = "https://" + username + ":" + password + "@dev-mind.fr";
+      console.log(htsite)
+      //window.location = htsite;
+    }
+    return false;
+  }
+</script>
 <div class="home">
     <div class="dm-block--intro">
         <devmind-section>
             <h1>Accès restreint<span>:(</span></h1>
-            <p class="dm_lead">Désolé mais cette partie du site est sécurisée. Si vous voulez y accéder, vous devez avoir les droits</p>
+
+            <form name="login" onsubmit="return login(this)">
+                Username:
+                <input type="text" name="username" required>
+
+                Password:
+                <input type="password" name="password" required>
+
+                <button>toto</button>
+            </form>
 
             <a href="/" class="btn">
                 Retour accueil
@@ -17,3 +39,4 @@
 
     </div>
 </div>
+

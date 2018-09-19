@@ -133,12 +133,10 @@
 #</IfModule>
 
 # Training is not free
-#<Directory "/var/www/bas/site/build/dist/training">
-#   AuthUserFile /var/www/bas/site/build/dist/.htpasswd
-#   AuthName "L'accès à ce répertoire est sécurisé."
-#   AuthType Basic
-#   Require valid-user
-#   Order Deny,allow
-#   Deny from all
-#</Directory>
+AuthUserFile /var/www/bas/site/build/dist/.htpasswd
+AuthName "L'accès à ce répertoire est sécurisé."
+AuthType Basic
+Require valid-user
+Order Deny,allow
+Deny from all
 
