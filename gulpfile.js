@@ -23,6 +23,7 @@ const applyTemplate = require('./gulp-extensions/apply-template');
 const highlightCode = require('./gulp-extensions/highlight-code');
 const firebaseIndexing = require('./gulp-extensions/firebase-indexing');
 const fileExist = require('./gulp-extensions/file-exist');
+const generateSecurityFile = require('./gulp-extensions/generate-security-file');
 
 const AUTOPREFIXER_BROWSERS = [
   'ie >= 11',
@@ -185,8 +186,14 @@ gulp.task('html', ['html-indexing'], () =>
     .pipe($.htmlmin(HTMLMIN_OPTIONS))
     .pipe(gulp.dest('build/dist')));
 
+gulp.task('training-security', () =>
+  gulp.src('.')
+    .pipe(generateSecurityFile())
+    .pipe(gulp.dest('build/dist/training'))
+);
+
 gulp.task('training-indexing', () =>
-  gulp.src('src/training/**/*.adoc')
+  gulp.src('training')
     .pipe(readAsciidoc(modeDev))
     .pipe(convertToHtml())
     .pipe(convertToJson('trainingindex.json'))
@@ -211,12 +218,13 @@ gulp.task('training-page', ['training-indexing', 'training-list'], (cb) => {
     .pipe(convertToBlogPage('src/templates/training.handlebars', HANDLEBARS_PARTIALS, 'build/.tmp/trainingindex.json'))
     .pipe(gulp.dest('build/.tmp/training'))
     .pipe($.htmlmin(HTMLMIN_OPTIONS))
-    .pipe(gulp.dest('build/dist/training'))
+    .pipe(gulp.dest('build/dist'))
     .on('end', () => cb())
 });
 
 gulp.task('training', cb => {
   $.sequence(
+    'training-security',
     'training-indexing',
     'training-page',
     'training-list',

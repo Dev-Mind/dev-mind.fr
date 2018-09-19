@@ -7,9 +7,60 @@
 <body class="dev-mind">
 {{> _page_header baseuri='../'}}
 <main>
-    <div class="dm-block--blog">
+    <div class="dm-block--intro">
         <devmind-section>
-            TODO
+            <h1>Espace étudiant</h1>
+            <div class="dm-grid--flexible" style="align-items: center">
+                <div class="dm-grid--element">
+                    <div class="center">
+                        <picture alt="Espace étudiant">
+                            <source srcset="../img/experience/formation_600.webp" type="image/webp"/>
+                            <source srcset="../img/experience/formation_600.png"/>
+                            <img src="../img/experience/formation_600.png" alt="Espace étudiant">
+                        </picture>
+                    </div>
+                </div>
+                <div class="dm-grid--element" style="flex: 3 0 0">
+                    <p class="dm_lead">
+                        Cet espace est réservé aux étudiants. Sur cet espace les supports de cours et TP restent la
+                        propriété intellectuelle de Dev-Mind mais ils sont en libre d'accès pour tous les étudiants.
+                    </p>
+
+                    <p>Vous retrouverez ici tous les supports montrés pendant les cours. S'il vous manque des choses n'hésitez pas à me le remonter</p>
+                    <p>
+                        <a href="https://twitter.com/guillaumeehret" target="_blank" rel="noopener">
+                            <img src="../img/contact/twitter.svg" alt="Twitter" class="dm-social">
+                        </a>
+                        <a href="https://github.com/javamind" target="_blank" rel="noopener">
+                            <img src="../img/contact/github.svg" alt="Github" class="dm-social">
+                        </a>
+                        <a href="https://plus.google.com/+GuillaumeEhret" target="_blank" rel="noopener">
+                            <img src="../img/contact/googlep.svg" alt="Google+" class="dm-social">
+                        </a>
+                    </p>
+                </div>
+            </div>
+
+        </devmind-section>
+    </div>
+    <div class="dm-block--news">
+        <devmind-section>
+            <div class="dm-blog--container-article">
+                {{#firstArticle}}
+                    <article class="dm-blog--article" onclick="document.location.href='{{dir}}/{{filename}}.html'">
+                        <h1><a href="{{dir}}/{{filename}}.html">{{doctitle}}</a></h1>
+                        <div class="dm-blog--imgteaser"><img class="dm-img--lazyload" data-src="{{{imgteaser}}}"/></div>
+                        <p class="dm-blog--teaser">{{teaser}}</p>
+                    </article>
+                {{/firstArticle}}
+                {{#secondArticles}}
+                    <article class="dm-blog--article" onclick="document.location.href='{{dir}}/{{filename}}.html'">
+                        <h2><a href="{{dir}}/{{filename}}.html">{{doctitle}}</a></h2>
+                        <div class="dm-blog--imgteaser"><img class="dm-img--lazyload" data-src="{{{imgteaser}}}"/></div>
+                        <p class="dm-blog--teaser">{{teaser}}</p>
+                    </article>
+                {{/secondArticles}}
+            </div>
         </devmind-section>
     </div>
     {{> _page_footer baseuri='../'}}

@@ -1,0 +1,33 @@
+:doctitle: Utiliser Gradle
+:description: Comment construire une application Java interfacée à une base de données et exposant des services REST
+:keywords: Gradle
+:author: Guillaume EHRET - Dev-Mind
+:revdate: 2018-09-02
+:category: Web
+:teaser: Dans ce cours nous allons voir ce qu'est Gradle et comment nous pouvons l'utiliser dans nos projets. Ce n'est qu'une présentation succinte des possibilités offertes par cet outil et vous trouverez plus de documentation sur le site officiel.
+:imgteaser: ../../img/training/gradle.png
+:toc:
+
+Dans ce cours nous allons voir ce qu'est Gradle et comment nous pouvons l'utiliser dans nos projets. Ce n'est qu'une présentation succinte des possibilités offertes par cet outil et vous trouverez plus de documentation sur le site officiel https://docs.gradle.org/current/userguide/userguide.html
+
+image::../../img/training/gradle.png[Gradle by Dev-Mind]
+
+Gradle est un outil open-source permettant d'automatiser la construction de vos projets Java, Kotlin, Android, Web... Il est dans la même lignée que des outils comme Ant et Maven mais il a la souplesse de Ant tout en apportant de nombreuses conventions comme Maven.
+
+Maven permet de construire un projet principal. Gradle a été pensé pour construire plusieurs projets sous projets en même temps et de construire plusieurs livrables. L'exemple le plus courant est sur Android où les projets proposant une partie gratuite et une payante sont gérés via Gradle. L'outil est capable de construire plusieurs livrables.
+
+
+== Introduction
+
+* *Hautement personnalisable* +
+[.small]#vous avez une convention par défaut mais tout est personnailisable. Les scripts sont écrits en Groovy ou en Kotlin#
+* *Rapide*  +
+[.small]#Gradle est capabke de faire de construction incrémentale et relancer que les parties qui ont été modifiées. Il est aussi capable de lancer des tâches en parallèle#
+* *Puissant* +
+[.small]#Gradle supporte de nombreux langages mais il doit sa popularité aux bénéfices apportés aux développeurs Android#
+* *Pratique* +
+[.small]#Basé sur Ivy il simplifie la gestion des dépendances des projets et permet de les gérer transitivement#
+
+
+
+
