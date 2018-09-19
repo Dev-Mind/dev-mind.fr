@@ -1,8 +1,10 @@
-# Training is not free
+Options Indexes FollowSymLinks MultiViews
+AuthBasicProvider file
 AuthUserFile /var/www/bas/site/build/dist/.htpasswd
-AuthName "L'accès à ce répertoire est sécurisé."
+AuthName "Restricted"
 AuthType Basic
 Require valid-user
 Order Deny,allow
 Deny from all
+
 
