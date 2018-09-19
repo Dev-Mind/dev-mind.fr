@@ -199,11 +199,11 @@ gulp.task('training-indexing', () =>
     .pipe(gulp.dest('build/.tmp'))
 );
 
-gulp.task('training-list', () =>
+gulp.task('training-list', (cb) =>
   gulp.src('build/.tmp/trainingindex.json')
     .pipe(readIndex())
     .pipe(convertToBlogList('src/templates/trainings.handlebars', HANDLEBARS_PARTIALS, 'trainings.html', 100))
-    .pipe(gulp.dest('build/.tmp'))
+    .pipe(gulp.dest('build/.tmp/training'))
 );
 
 gulp.task('training-page', (cb) => {
