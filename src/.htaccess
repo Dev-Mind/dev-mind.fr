@@ -132,11 +132,11 @@ FileETag None
     AddOutputFilterByType DEFLATE image/svg+xml
 </IfModule>
 
-<Directory "/build/dist/training">
-   AuthUserFile /build/dist/.htpasswd
-   AuthName "L'accès à ce répertoire est sécurisé."
-   AuthType Basic
-   Require valid-user
-   Order Deny,allow
-   Deny from all
-</Directory>
+#<Directory "/build/dist/training">
+#   AuthUserFile /build/dist/.htpasswd
+#   AuthName "L'accès à ce répertoire est sécurisé."
+#   AuthType Basic
+#   Require valid-user
+#   Order Deny,allow
+#   Deny from all
+#</Directory>
