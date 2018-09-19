@@ -204,8 +204,6 @@ gulp.task('training-list', () =>
     .pipe(readIndex())
     .pipe(convertToBlogList('src/templates/trainings.handlebars', HANDLEBARS_PARTIALS, 'trainings.html', 100))
     .pipe(gulp.dest('build/.tmp'))
-    .pipe($.htmlmin(HTMLMIN_OPTIONS))
-    .pipe(gulp.dest('build/dist'))
 );
 
 gulp.task('training-page', (cb) => {
@@ -220,7 +218,7 @@ gulp.task('training-page', (cb) => {
     .on('end', () => cb())
 });
 
-gulp.task('training-copy', (cb) => {
+gulp.task('training-copy', ['training-list', 'training-page'], (cb) => {
   gulp.src('build/.tmp/training/**/*.html')
     .pipe($.htmlmin(HTMLMIN_OPTIONS))
     .pipe(gulp.dest('build/dist/training'))
@@ -231,8 +229,6 @@ gulp.task('training', cb => {
   $.sequence(
     'training-indexing',
     'training-security',
-    'training-page',
-    'training-list',
     'training-copy',
     cb
   )
@@ -299,7 +295,7 @@ gulp.task('images-post', () =>
 gulp.task('copy', (cb) => {
   gulp.src([
     'src/*.{ico,html,txt,json,webapp,xml}',
-    'src/.htaccess',
+    'src/**/*.htaccess',
     'node_modules/workbox-sw/build/*-sw.js'
   ], {
     dot: true
