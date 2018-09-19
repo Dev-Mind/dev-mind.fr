@@ -6,10 +6,10 @@ Options -Multiviews
 # Follow symbolic links in this directory.
 Options +FollowSymLinks
 
-#RewriteEngine On
-#RewriteCond %{HTTPS} off
-#RewriteCond %{HTTP:X-Forwarded-Proto} !https
-#RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteCond %{HTTP:X-Forwarded-Proto} !https
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
 DirectorySlash Off
 RewriteEngine On
