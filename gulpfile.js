@@ -397,12 +397,12 @@ gulp.task('build', cb => {
     'images-pre',
     'styles',
     'blog',
-    'training',
     'images',
     'images-post',
     'lint',
     ['html', 'local-js', 'vendor-js'],
     'copy',
+    'training',
     'cache-busting',
     'service-worker',
     cb
