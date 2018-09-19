@@ -6,10 +6,10 @@ Options -Multiviews
 # Follow symbolic links in this directory.
 Options +FollowSymLinks
 
-RewriteEngine On
-RewriteCond %{HTTPS} off
-RewriteCond %{HTTP:X-Forwarded-Proto} !https
-RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+#RewriteEngine On
+#RewriteCond %{HTTPS} off
+#RewriteCond %{HTTP:X-Forwarded-Proto} !https
+#RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
 DirectorySlash Off
 RewriteEngine On
@@ -18,7 +18,7 @@ RewriteRule ^(.+[^/])$          %{HTTP:X-Forwarded-Proto}://%{HTTP_HOST}/$1/  [R
 
 ErrorDocument 404 https://dev-mind.fr/404.html
 ErrorDocument 401 https://dev-mind.fr/401.html
-ErrorDocument 403 https://dev-mind.fr/403.html
+ErrorDocument 403 https://dev-mind.fr/401.html
 
 #FileETag INode MTime Size
 <IfModule mod_headers.c>
@@ -131,14 +131,4 @@ FileETag None
     AddOutputFilterByType DEFLATE image/webp
     AddOutputFilterByType DEFLATE image/svg+xml
 </IfModule>
-
-# Training is not free
-#<Directory "/build/www/bas/site/training">
-#   AuthUserFile /var/www/bas/site/.htpasswd
-#   AuthName "L'accès à ce répertoire est sécurisé."
-#   AuthType Basic
-#   Require valid-user
-#   Order Deny,allow
-#   Deny from all
-#</Directory>
 

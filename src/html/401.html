@@ -1,19 +1,34 @@
-<div class="home">
-    <div class="dm-block--intro">
-        <devmind-section>
-            <h1>Accès restreint<span>:(</span></h1>
-            <p class="dm_lead">Désolé mais cette partie du site est sécurisée. Si vous voulez y accéder, vous devez avoir les droits</p>
+<div class="dm-block--intro">
+    <devmind-section>
+        <h1>Accès restreint</h1>
+    </devmind-section>
 
-            <a href="/" class="btn">
-                Retour accueil
-            </a>
-        </devmind-section>
-
-    </div>
-    <div>
-        <devmind-section>
-            &nbsp;
-        </devmind-section>
-
-    </div>
 </div>
+<div class="dm-block--blog">
+    <devmind-section>
+        <div class="dm-grid--flexible">
+            <div class="dm-grid--element">&nbsp;</div>
+            <div class="dm-grid--element">
+                <form name="login" onsubmit="if(this.form.username.value && this.form.password.value) window.location = 'https://' + this.form.username.value + ':' + this.form.password.value + '@dev-mind.fr';return false;">
+                    <label for="username">Identifiant :</label>
+                    <input type="text" name="username" id="username" required>
+
+                    <label for="password">Mot de passe :</label>
+                    <input type="password" name="password" id="password" required>
+
+                    <p>&nbsp;</p>
+                    <div class="btn-group center">
+                        <button class="btn-inverse" style="width: 200px">
+                            Se connecter
+                        </button>
+                        <a href="/" class="btn">
+                            Retour accueil
+                        </a>
+                    </div>
+                </form>
+            </div>
+            <div class="dm-grid--element">&nbsp;</div>
+        </div>
+    </devmind-section>
+</div>
+

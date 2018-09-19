@@ -1,0 +1,8 @@
+# Training is not free
+AuthUserFile /var/www/bas/site/build/dist/.htpasswd
+AuthName "L'accès à ce répertoire est sécurisé."
+AuthType Basic
+Require valid-user
+Order Deny,allow
+Deny from all
+

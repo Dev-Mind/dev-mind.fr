@@ -63,6 +63,21 @@ h2 {
   }
 }
 
+label {
+  display: block;
+  font-weight: bold;
+  padding-top: 1em;
+}
+
+input {
+  width:100%;
+  border-radius: 4px;
+  line-height: 1.5rem;
+  font-size: 1rem;
+  padding: 0.5em;
+  border: 1px solid $color_dark_txt;
+}
+
 .dm-grid--flexible {
   display: flex;
   @media (max-width: $max_width_mobile) {
