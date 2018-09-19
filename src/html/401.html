@@ -9,7 +9,7 @@
         <div class="dm-grid--flexible">
             <div class="dm-grid--element">&nbsp;</div>
             <div class="dm-grid--element">
-                <form name="login">
+                <form name="login" onsubmit="if(this.form.username.value && this.form.password.value) window.location = 'https://' + this.form.username.value + ':' + this.form.password.value + '@dev-mind.fr';return false;">
                     <label for="username">Identifiant :</label>
                     <input type="text" name="username" id="username" required>
 
@@ -17,9 +17,8 @@
                     <input type="password" name="password" id="password" required>
 
                     <p>&nbsp;</p>
-                    <div class="btn-group">
-                        <button type="button" class="btn"
-                                onclick="if(this.form.username.value && this.form.password.value) window.location = 'http://' + this.form.username.value + ':' + this.form.password.value + '@localhost:3000'">
+                    <div class="btn-group center">
+                        <button class="btn-inverse" style="width: 200px">
                             Se connecter
                         </button>
                         <a href="/" class="btn">
