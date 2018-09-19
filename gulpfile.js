@@ -209,7 +209,7 @@ gulp.task('training-list', () =>
     .pipe(gulp.dest('build/dist/training'))
 );
 
-gulp.task('training-page', ['training-indexing', 'training-list'], (cb) => {
+gulp.task('training-page', (cb) => {
   gulp.src('src/training/**/*.adoc')
     .pipe($.wait2(() => fileExist('build/.tmp/trainingindex.json')))
     .pipe(readAsciidoc(modeDev))
