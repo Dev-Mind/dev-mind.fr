@@ -1,144 +1,134 @@
 # Apache Server Configs v2.14.0 | MIT License
 
-#Options -Indexes
-#Options -Multiviews
-#
-## Follow symbolic links in this directory.
-#Options +FollowSymLinks
-#
-##RewriteEngine On
-##RewriteCond %{HTTPS} off
-##RewriteCond %{HTTP:X-Forwarded-Proto} !https
-##RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
-#
-#DirectorySlash Off
+Options -Indexes
+Options -Multiviews
+
+# Follow symbolic links in this directory.
+Options +FollowSymLinks
+
 #RewriteEngine On
-#RewriteCond %{REQUEST_FILENAME} -d
-#RewriteRule ^(.+[^/])$          %{HTTP:X-Forwarded-Proto}://%{HTTP_HOST}/$1/  [R=301,L,QSA]
-#
+#RewriteCond %{HTTPS} off
+#RewriteCond %{HTTP:X-Forwarded-Proto} !https
+#RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+DirectorySlash Off
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^(.+[^/])$          %{HTTP:X-Forwarded-Proto}://%{HTTP_HOST}/$1/  [R=301,L,QSA]
+
 ErrorDocument 404 https://dev-mind.fr/404.html
 ErrorDocument 401 https://dev-mind.fr/401.html
 ErrorDocument 403 https://dev-mind.fr/401.html
-#
-##FileETag INode MTime Size
-#<IfModule mod_headers.c>
-#    Header unset ETag
-#</IfModule>
-#FileETag None
-#
-## Rules to correctly serve gzip compressed CSS and JS files.
-## Requires both mod_rewrite and mod_headers to be enabled.
-#<IfModule mod_headers.c>
-#    # Serve gzip compressed CSS files if they exist and the client accepts gzip.
-#    RewriteCond %{HTTP:Accept-encoding} gzip
-#    RewriteCond %{REQUEST_FILENAME}\.gz -s
-#    RewriteRule ^(.*)\.css $1\.css\.gz [QSA]
-#
-#    # Serve gzip compressed JS files if they exist and the client accepts gzip.
-#    RewriteCond %{HTTP:Accept-encoding} gzip
-#    RewriteCond %{REQUEST_FILENAME}\.gz -s
-#    RewriteRule ^(.*)\.js $1\.js\.gz [QSA]
-#
-#    # Serve correct content types, and prevent mod_deflate double gzip.
-#    RewriteRule \.css\.gz$ - [T=text/css,E=no-gzip:1]
-#    RewriteRule \.js\.gz$ - [T=text/javascript,E=no-gzip:1]
-#
-#    <FilesMatch "(\.js\.gz|\.css\.gz)$">
-#        # Serve correct encoding type.
-#        Header set Content-Encoding gzip
-#        # Force proxies to cache gzipped & non-gzipped css/js files separately.
-#        Header append Vary Accept-Encoding
-#    </FilesMatch>
-#
-#    #Secure Cookie
-#    Header edit Set-Cookie ^(.*)$ $1;HttpOnly;Max-Age=2592000;Domain=dev-mind.fr;Secure;
-#
-#    # Disable unsafe inline/eval, only allow loading of resources (images, fonts, scripts, etc.) over https
-#    Header set Content-Security-Policy "upgrade-insecure-requests"
-#
-#    #Each resource should have a max age
-#    Header set Strict-Transport-Security "max-age=604800; includeSubDomains" env=HTTPS
-#
-#    #It is supported by IE (Internet Explorer) and Chrome and prevents them
-#    #from MIME-sniffing a response from the declared content-type.
-#    Header set X-Content-Type-Options nosniff
-#
-#    #X-Frame-Options is an HTTP header that allows sites control over how your site may be framed
-#    #within an iframe. Clickjacking is a practical attack that allows malicious sites to trick users
-#    #into clicking links on your site even though they may appear to not be on your site at all.
-#    Header set X-Frame-Options DENY
-#
-#    #X-XSS-Protection is a feature of Internet Explorer and Chrome that stops pages from loading when
-#    #they detect reflected cross-site scripting (XSS) attacks.
-#    Header set x-xss-protection "1; mode=block"
-#
-#
-#    <FilesMatch "\.(ico|jpe?g|png|gif|swf|css|webp|svg|svgz)$">
-#       Header set Cache-Control "max-age=691200, public"
-#    </FilesMatch>
-#    <FilesMatch "\.(js)$">
-#       Header set Cache-Control "max-age=14400, private"
-#    </FilesMatch>
-#    <Files "sw.js">
-#       Header set Cache-Control "no-cache, private"
-#    </Files>
-#    <filesMatch "\.(html|htm)$">
-#       Header set Cache-Control "no-cache, public"
-#    </filesMatch>
-#    <FilesMatch "\.(pl|php|cgi|spl|scgi|fcgi)$">
-#       Header unset Cache-Control
-#    </FilesMatch>
-#</IfModule>
-#
-#<IfModule mod_expires.c>
-# ExpiresActive On
-# ExpiresDefault "access 1 day"
-# ExpiresByType image/webp "access 1 month"
-# ExpiresByType image/jpg "access 1 month"
-# ExpiresByType image/jpeg "access 1 month"
-# ExpiresByType image/png "access 1 month"
-# ExpiresByType image/gif "access 1 month"
-# ExpiresByType image/svg+xml "access 1 month"
-# AddType image/x-icon .ico
-# ExpiresByType image/ico "access 1 month"
-# ExpiresByType image/icon "access 1 month"
-# ExpiresByType image/x-icon "access 1 month"
-# ExpiresByType text/css "access 1 month"
-# ExpiresByType text/javascript "access 1 month"
-# ExpiresByType text/html "access plus 7200 seconds"
-# ExpiresByType application/xhtml+xml "access 1 month"
-# ExpiresByType application/javascript "access 1 month"
-# ExpiresByType application/x-javascript "access 1 month"
-#</IfModule>
-## END Expire headers
-#
-##Activation de la compression
-#<IfModule mod_gzip.c>
-#  mod_gzip_on On
-#</IfModule>
-#
-##Compression active uniquement sur les contenus textuels.
-#<IfModule mod_deflate.c>
-#    SetOutputFilter DEFLATE
-#    AddOutputFilterByType DEFLATE text/html
-#    AddOutputFilterByType DEFLATE text/xml
-#    AddOutputFilterByType DEFLATE application/xhtml+xml
-#    AddOutputFilterByType DEFLATE text/plain
-#    AddOutputFilterByType DEFLATE application/javascript
-#    AddOutputFilterByType DEFLATE text/css
-#    AddOutputFilterByType DEFLATE image/jpg
-#    AddOutputFilterByType DEFLATE image/png
-#    AddOutputFilterByType DEFLATE image/webp
-#    AddOutputFilterByType DEFLATE image/svg+xml
-#</IfModule>
 
-# Training is not free
-#<Directory "/var/www/bas/site/build/dist/training">
-#   AuthUserFile /var/www/bas/site/build/dist/.htpasswd
-#   AuthName "L'accès à ce répertoire est sécurisé."
-#   AuthType Basic
-#   Require valid-user
-#   Order Deny,allow
-#   Deny from all
-#</Directory>
+#FileETag INode MTime Size
+<IfModule mod_headers.c>
+    Header unset ETag
+</IfModule>
+FileETag None
+
+# Rules to correctly serve gzip compressed CSS and JS files.
+# Requires both mod_rewrite and mod_headers to be enabled.
+<IfModule mod_headers.c>
+    # Serve gzip compressed CSS files if they exist and the client accepts gzip.
+    RewriteCond %{HTTP:Accept-encoding} gzip
+    RewriteCond %{REQUEST_FILENAME}\.gz -s
+    RewriteRule ^(.*)\.css $1\.css\.gz [QSA]
+
+    # Serve gzip compressed JS files if they exist and the client accepts gzip.
+    RewriteCond %{HTTP:Accept-encoding} gzip
+    RewriteCond %{REQUEST_FILENAME}\.gz -s
+    RewriteRule ^(.*)\.js $1\.js\.gz [QSA]
+
+    # Serve correct content types, and prevent mod_deflate double gzip.
+    RewriteRule \.css\.gz$ - [T=text/css,E=no-gzip:1]
+    RewriteRule \.js\.gz$ - [T=text/javascript,E=no-gzip:1]
+
+    <FilesMatch "(\.js\.gz|\.css\.gz)$">
+        # Serve correct encoding type.
+        Header set Content-Encoding gzip
+        # Force proxies to cache gzipped & non-gzipped css/js files separately.
+        Header append Vary Accept-Encoding
+    </FilesMatch>
+
+    #Secure Cookie
+    Header edit Set-Cookie ^(.*)$ $1;HttpOnly;Max-Age=2592000;Domain=dev-mind.fr;Secure;
+
+    # Disable unsafe inline/eval, only allow loading of resources (images, fonts, scripts, etc.) over https
+    Header set Content-Security-Policy "upgrade-insecure-requests"
+
+    #Each resource should have a max age
+    Header set Strict-Transport-Security "max-age=604800; includeSubDomains" env=HTTPS
+
+    #It is supported by IE (Internet Explorer) and Chrome and prevents them
+    #from MIME-sniffing a response from the declared content-type.
+    Header set X-Content-Type-Options nosniff
+
+    #X-Frame-Options is an HTTP header that allows sites control over how your site may be framed
+    #within an iframe. Clickjacking is a practical attack that allows malicious sites to trick users
+    #into clicking links on your site even though they may appear to not be on your site at all.
+    Header set X-Frame-Options DENY
+
+    #X-XSS-Protection is a feature of Internet Explorer and Chrome that stops pages from loading when
+    #they detect reflected cross-site scripting (XSS) attacks.
+    Header set x-xss-protection "1; mode=block"
+
+
+    <FilesMatch "\.(ico|jpe?g|png|gif|swf|css|webp|svg|svgz)$">
+       Header set Cache-Control "max-age=691200, public"
+    </FilesMatch>
+    <FilesMatch "\.(js)$">
+       Header set Cache-Control "max-age=14400, private"
+    </FilesMatch>
+    <Files "sw.js">
+       Header set Cache-Control "no-cache, private"
+    </Files>
+    <filesMatch "\.(html|htm)$">
+       Header set Cache-Control "no-cache, public"
+    </filesMatch>
+    <FilesMatch "\.(pl|php|cgi|spl|scgi|fcgi)$">
+       Header unset Cache-Control
+    </FilesMatch>
+</IfModule>
+
+<IfModule mod_expires.c>
+ ExpiresActive On
+ ExpiresDefault "access 1 day"
+ ExpiresByType image/webp "access 1 month"
+ ExpiresByType image/jpg "access 1 month"
+ ExpiresByType image/jpeg "access 1 month"
+ ExpiresByType image/png "access 1 month"
+ ExpiresByType image/gif "access 1 month"
+ ExpiresByType image/svg+xml "access 1 month"
+ AddType image/x-icon .ico
+ ExpiresByType image/ico "access 1 month"
+ ExpiresByType image/icon "access 1 month"
+ ExpiresByType image/x-icon "access 1 month"
+ ExpiresByType text/css "access 1 month"
+ ExpiresByType text/javascript "access 1 month"
+ ExpiresByType text/html "access plus 7200 seconds"
+ ExpiresByType application/xhtml+xml "access 1 month"
+ ExpiresByType application/javascript "access 1 month"
+ ExpiresByType application/x-javascript "access 1 month"
+</IfModule>
+# END Expire headers
+
+#Activation de la compression
+<IfModule mod_gzip.c>
+  mod_gzip_on On
+</IfModule>
+
+#Compression active uniquement sur les contenus textuels.
+<IfModule mod_deflate.c>
+    SetOutputFilter DEFLATE
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/xml
+    AddOutputFilterByType DEFLATE application/xhtml+xml
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE image/jpg
+    AddOutputFilterByType DEFLATE image/png
+    AddOutputFilterByType DEFLATE image/webp
+    AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
 
