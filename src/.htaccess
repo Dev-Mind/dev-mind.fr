@@ -135,7 +135,7 @@ FileETag None
 <Location "/training">
     Options Indexes FollowSymLinks MultiViews
     AuthBasicProvider file
-    AuthUserFile /var/www/bas/site/build/dist/.htpasswd
+    AuthUserFile /var/www/bas/site/.htpasswd
     AuthName "Restricted"
     AuthType Basic
     Require valid-user
