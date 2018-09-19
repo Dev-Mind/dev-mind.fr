@@ -133,12 +133,12 @@ FileETag None
 </IfModule>
 
 # Training is not free
-#<Directory "/var/www/bas/site/training">
-#   AuthUserFile /var/www/bas/site/.htpasswd
-#   AuthName "L'accès à ce répertoire est sécurisé."
-#   AuthType Basic
-#   Require valid-user
-#   Order Deny,allow
-#   Deny from all
-#</Directory>
+<Directory "/build/dist/training">
+   AuthUserFile /build/dist/.htpasswd
+   AuthName "L'accès à ce répertoire est sécurisé."
+   AuthType Basic
+   Require valid-user
+   Order Deny,allow
+   Deny from all
+</Directory>
 

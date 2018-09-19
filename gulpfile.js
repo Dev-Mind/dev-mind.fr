@@ -193,7 +193,7 @@ gulp.task('training-security', () =>
 );
 
 gulp.task('training-indexing', () =>
-  gulp.src('training')
+  gulp.src(`src/training/**/*.adoc`)
     .pipe(readAsciidoc(modeDev))
     .pipe(convertToHtml())
     .pipe(convertToJson('trainingindex.json'))
