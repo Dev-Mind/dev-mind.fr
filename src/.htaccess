@@ -133,8 +133,8 @@
 #</IfModule>
 
 # Training is not free
-<Directory "/var/www/bas/site/training">
-   AuthUserFile /var/www/bas/site/.htpasswd
+<Directory "/var/www/bas/site/build/dist/training">
+   AuthUserFile /var/www/bas/site/build/dist/.htpasswd
    AuthName "L'accès à ce répertoire est sécurisé."
    AuthType Basic
    Require valid-user
