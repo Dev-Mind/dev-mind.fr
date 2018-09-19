@@ -212,6 +212,7 @@ gulp.task('training-list', () =>
 
 gulp.task('training-page', ['training-indexing', 'training-list'], (cb) => {
   gulp.src('src/training/**/*.adoc')
+    .pipe($.wait2(() => fileExist('build/.tmp/trainingindex.json')))
     .pipe(readAsciidoc(modeDev))
     .pipe(convertToHtml())
     .pipe(highlightCode({selector: 'pre.highlight code'}))
@@ -304,7 +305,7 @@ gulp.task('copy', (cb) => {
 });
 
 gulp.task('sitemap', () =>
-  gulp.src('build/.tmp/*index.json')
+  gulp.src(['build/.tmp/blogindex.json', 'build/.tmp/pageindex.json'])
     .pipe(readIndex())
     .pipe(convertToSitemap())
     .pipe(gulp.dest('build/dist'))
