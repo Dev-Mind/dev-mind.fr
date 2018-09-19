@@ -17,7 +17,7 @@ module.exports = function () {
 
   function endStream() {
     let target = new gutil.File();
-    const content = trainingUserConfig.users.map(user => `${user.username}:${md5(user.password ? user.password : 'default')}`).join("\n");;
+    const content = trainingUserConfig.users.map(user => `${user.username}:${user.password ? user.password : 'default'}`).join("\n");;
     target.path = '.htpasswd';
     target.contents = new Buffer(content);
     this.emit('data', target);
