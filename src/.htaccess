@@ -132,6 +132,7 @@ FileETag None
     AddOutputFilterByType DEFLATE image/svg+xml
 </IfModule>
 
+# Training is not free
 <Directory "/var/www/bas/site/training">
    AuthUserFile /var/www/bas/site/.htpasswd
    AuthName "L'accès à ce répertoire est sécurisé."
