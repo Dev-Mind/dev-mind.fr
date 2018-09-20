@@ -8,6 +8,7 @@
   "license": "MIT",
   "scripts": {
     "install": "gulp",
+    "start": "node app.js",
     "dev": "gulp serve"
   },
   "engines": {
