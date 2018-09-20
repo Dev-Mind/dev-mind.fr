@@ -9,7 +9,8 @@
         <div class="dm-grid--flexible">
             <div class="dm-grid--element">&nbsp;</div>
             <div class="dm-grid--element">
-                <form name="login" onsubmit="if(this.form.username.value && this.form.password.value) window.location = 'https://' + this.form.username.value + ':' + this.form.password.value + '@dev-mind.fr';return false;">
+                <form action="/login" method="post"
+                      onsubmit="return (this.form.username.value && this.form.password.value)">
                     <label for="username">Identifiant :</label>
                     <input type="text" name="username" id="username" required>
 

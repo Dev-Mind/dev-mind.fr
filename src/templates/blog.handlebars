@@ -96,8 +96,8 @@
 {{> _html_footer baseuri='../../'}}
 <script src="https://www.gstatic.com/firebasejs/4.0.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/4.0.0/firebase-database.js"></script>
-<script src="../../js/blog.js">blog = true;</script>
-<script>
+<script src="../../js/blog.js">
+    blog = true;
     window.addEventListener("load", function () {
         blog.init('{{filename}}', {{modedev}});
     });

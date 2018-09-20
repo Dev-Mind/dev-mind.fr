@@ -23,7 +23,6 @@ const applyTemplate = require('./gulp-extensions/apply-template');
 const highlightCode = require('./gulp-extensions/highlight-code');
 const firebaseIndexing = require('./gulp-extensions/firebase-indexing');
 const fileExist = require('./gulp-extensions/file-exist');
-const generateSecurityFile = require('./gulp-extensions/generate-security-file');
 
 const AUTOPREFIXER_BROWSERS = [
   'ie >= 11',
@@ -185,12 +184,6 @@ gulp.task('html', ['html-indexing'], () =>
     .pipe($.htmlmin(HTMLMIN_OPTIONS))
     .pipe(gulp.dest('build/dist')));
 
-gulp.task('training-security', () =>
-  gulp.src('.')
-    .pipe(generateSecurityFile())
-    .pipe(gulp.dest('build/dist'))
-);
-
 gulp.task('training-indexing', () =>
   gulp.src(`src/training/**/*.adoc`)
     .pipe(readAsciidoc(modeDev))
@@ -228,7 +221,6 @@ gulp.task('training-copy', ['training-list', 'training-page'], (cb) => {
 gulp.task('training', cb => {
   $.sequence(
     'training-indexing',
-    'training-security',
     'training-copy',
     cb
   )
@@ -365,7 +357,7 @@ gulp.task('compress', ['compress-svg'], (cb) => {
     .on('end', () => cb())
 });
 
-gulp.task('serveAndWatch', () => {
+gulp.task('serve', () => {
   browserSync.init({
     server: {
       baseDir: "./build/dist/"
@@ -373,13 +365,21 @@ gulp.task('serveAndWatch', () => {
     notify: false,
     port: 3000
   });
-
+});
+gulp.task('watch', () => {
   gulp.watch('src/**/*.html', () => $.sequence('html', 'cache-busting-dev', browserSync.reload));
   gulp.watch('src/**/*.{scss,css}', () => $.sequence('styles', 'blog', 'training', 'html', 'cache-busting-dev', browserSync.reload));
   gulp.watch('src/**/*.adoc', () => $.sequence('blog', 'training', 'cache-busting-dev', browserSync.reload));
   gulp.watch('src/**/*.js', () => $.sequence('lint', 'local-js', 'blog', 'training', 'html', 'cache-busting-dev', browserSync.reload));
   gulp.watch('src/images/**/*', () => $.sequence('images', browserSync.reload));
   gulp.watch('src/**/*.handlebars', () => $.sequence('blog', 'training', 'html', 'cache-busting-dev', browserSync.reload));
+});
+gulp.task('serveAndWatch', cb => {
+  $.sequence(
+    'serve',
+    'watch',
+    cb
+  )
 });
 
 
