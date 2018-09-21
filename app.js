@@ -8,7 +8,7 @@ const session = require('express-session');
 
 const DEVMIND = {
   static: 'build/dist',
-  port: process.env.PORT || 3302,
+  port: process.env.PORT || 8000,
   secret: process.env.DEVMIND_SESSION_SECRET || 'SMHQs7cLAC3x',
   securedUrls: ['/training/'],
   users : process.env.DEVMIND_USERS || [{username: 'guillaume', password: '5f4dcc3b5aa765d61d8327deb882cf99'}]
