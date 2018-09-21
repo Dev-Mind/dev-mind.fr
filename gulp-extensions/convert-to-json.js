@@ -1,8 +1,8 @@
 'use strict';
 
-const gutil = require('gulp-util');
+const Vinyl = require('vinyl');
 const through = require('through');
-const PluginError = gutil.PluginError;
+const PluginError = require('plugin-error');
 
 /**
  * This plugin writes the blog metadata in a local index
@@ -17,11 +17,7 @@ module.exports = function (filename) {
   }
 
   function endStream() {
-    let target = new gutil.File();
-
-    target.path = filename;
-    target.contents = new Buffer(`[${json}]`);
-
+    let target = new Vinyl({ path: filename, contents: new Buffer(`[${json}]`)});
     this.emit('data', target);
     this.emit('end');
   }

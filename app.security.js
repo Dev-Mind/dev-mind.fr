@@ -73,6 +73,7 @@ exports.loginHandler = (users) => {
     if (!req.body || !req.body.password || !req.body.username) {
       return sendErrorPage(401, res);
     }
+    console.log(users)
     if (users.filter(user => user.username === req.body.username && user.password === md5(req.body.password)).length > 0) {
       req.session.user = {username: req.body.username};
       return res.redirect('/');

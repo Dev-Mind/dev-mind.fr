@@ -1,8 +1,8 @@
 'use strict';
 
-const gutil = require('gulp-util');
+const Vinyl = require('vinyl');
 const through = require('through');
-const PluginError = gutil.PluginError;
+const PluginError = require('plugin-error');
 const moment = require('moment');
 const rssMetadata = require('../src/metadata/rss');
 
@@ -48,10 +48,7 @@ module.exports = function (filename) {
     }
 
   function endStream() {
-    let target = new gutil.File();
-    target.path = filename;
-    target.contents = new Buffer(xml);
-
+    let target = new Vinyl({ path: filename, contents: new Buffer(xml)});
     this.emit('data', target);
     this.emit('end');
   }

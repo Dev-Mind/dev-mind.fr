@@ -1,7 +1,6 @@
 'use strict';
 
-const gutil = require('gulp-util');
-const PluginError = gutil.PluginError;
+const PluginError = require('plugin-error');
 const handlebars = require('handlebars');
 const fs = require('fs');
 const path = require('path');

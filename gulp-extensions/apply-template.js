@@ -35,7 +35,7 @@ module.exports = function (handlebarsTemplateFile, partials) {
     const handlebarsTemplate = handlebars.compile(fs.readFileSync(path.resolve(__dirname, '../', handlebarsTemplateFile), 'utf8'));
 
     return map(async (file, next) => {
-        file.contents = Buffer(handlebarsTemplate(file.templateModel));
+        file.contents = new Buffer(handlebarsTemplate(file.templateModel));
         next(null, file);
     });
 };

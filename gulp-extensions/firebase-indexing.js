@@ -1,7 +1,6 @@
 'use strict';
 
-const gutil = require('gulp-util');
-const PluginError = gutil.PluginError;
+const PluginError = require('plugin-error');
 const map = require('map-stream');
 const firebase = require('firebase');
 const firebaseConfig = require('../firebase.js');
