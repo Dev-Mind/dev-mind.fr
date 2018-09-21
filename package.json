@@ -75,6 +75,7 @@
     "workbox-build": "^3.0.1"
   },
   "resolutions": {
-    "gulp-decompress": "~2.0.2"
+    "gulp-decompress": "~2.0.2",
+    "node-sass": "4.8.3"
   }
 }
