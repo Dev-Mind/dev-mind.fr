@@ -1,5 +1,5 @@
 const express = require('express');
-const http = require('http2');
+const http = require('http');
 const compression = require('compression');
 const serveStatic = require('serve-static');
 const helmet = require('helmet');
@@ -27,7 +27,6 @@ const app = express()
   .use(express.static(DEVMIND.static, { setHeaders: cachePolicy.setCustomCacheControl }))
   .get('/logout', security.logoutHandler())
   .post('/login', security.loginHandler(DEVMIND.users))
-  .all('*', security.notFoundHandler())
-  .listen(DEVMIND.port, () => console.log(`Webapp started and listening on port ${DEVMIND.port}!`))
+  .all('*', security.notFoundHandler());
 
-http.createServer(app);
+http.Server(app).listen(DEVMIND.port, () => console.log(`Webapp started and listening on port ${DEVMIND.port}!`));

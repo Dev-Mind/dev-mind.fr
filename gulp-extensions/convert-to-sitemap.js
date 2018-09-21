@@ -1,6 +1,6 @@
 'use strict';
 
-const gutil = require('gulp-util');
+const Vinyl = require('vinyl');
 const through = require('through');
 const siteMetadata = require('../src/metadata/sitemap');
 
@@ -47,10 +47,7 @@ module.exports = function () {
   }
 
   function endStream() {
-    let target = new gutil.File();
-    target.path = 'sitemap.xml';
-
-    target.contents = new Buffer(`<?xml version="1.0" encoding="UTF-8"?>
+    const fileContent = `<?xml version="1.0" encoding="UTF-8"?>
       <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
         <url>
           <loc>${siteMetadata.url}/</loc>
@@ -68,8 +65,9 @@ module.exports = function () {
           <priority>0.9</priority>
         </url>
         ${xml}
-      </urlset>`);
+      </urlset>`;
 
+    let target = new Vinyl({ path: 'sitemap.xml',  contents: new Buffer(fileContent)});
     this.emit('data', target);
     this.emit('end');
   }

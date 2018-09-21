@@ -1,7 +1,7 @@
 'use strict';
 
-const gutil = require('gulp-util');
-const PluginError = gutil.PluginError;
+const Vinyl = require('vinyl');
+const PluginError = require('plugin-error');
 const handlebars = require('handlebars');
 const fs = require('fs');
 const path = require('path');
@@ -13,12 +13,16 @@ const pages = require('../src/metadata/blog');
  * (everything has to be static for indexing bots)
  */
 module.exports = (handlebarsTemplateFile, partials, filename, nbArticleMax) => {
-  if (!handlebarsTemplateFile) throw new PluginError('convert-to-blog-list', 'Missing source handlebarsTemplateFile for convert-to-blog-list');
+  if (!handlebarsTemplateFile) throw new PluginError('convert-to-blog-list',
+                                                     'Missing source handlebarsTemplateFile for convert-to-blog-list');
   if (!filename) throw new PluginError('convert-to-blog-list', 'Missing target filename for convert-to-blog-list');
   if (!partials) throw new PluginError('convert-to-blog-list', 'Missing source partials for convert-to-blog-list');
 
-  partials.forEach(partial => handlebars.registerPartial(partial.key, fs.readFileSync(path.resolve(__dirname, '../', partial.path), 'utf8')));
-  const handlebarsTemplate = handlebars.compile(fs.readFileSync(path.resolve(__dirname, '../', handlebarsTemplateFile), 'utf8'));
+  partials.forEach(partial => handlebars.registerPartial(partial.key,
+                                                         fs.readFileSync(path.resolve(__dirname, '../', partial.path),
+                                                                         'utf8')));
+  const handlebarsTemplate = handlebars.compile(
+    fs.readFileSync(path.resolve(__dirname, '../', handlebarsTemplateFile), 'utf8'));
 
   const metadata = {
     keywords: () => pages[filename].keywords,
@@ -50,9 +54,9 @@ module.exports = (handlebarsTemplateFile, partials, filename, nbArticleMax) => {
         .filter((value, index, array) => array.indexOf(value) === index)
         .sort((a, b) => a < b ? 1 : -1)
         .forEach(year => metadata.articleByYears.push({
-          key: year,
-          value: []
-        }));
+                                                        key: year,
+                                                        value: []
+                                                      }));
 
       blogIndex.forEach(article => metadata
         .articleByYears
@@ -64,9 +68,7 @@ module.exports = (handlebarsTemplateFile, partials, filename, nbArticleMax) => {
   }
 
   function endStream() {
-    let target = new gutil.File();
-    target.path = filename;
-    target.contents = Buffer(handlebarsTemplate(metadata));
+    let target = new Vinyl({ path: filename, contents: new Buffer(handlebarsTemplate(metadata))});
     this.emit('data', target);
     this.emit('end');
   }

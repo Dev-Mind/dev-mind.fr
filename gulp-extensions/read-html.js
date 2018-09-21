@@ -2,8 +2,7 @@
 
 const map = require('map-stream')
 const fs = require('fs');
-const gutil = require('gulp-util');
-const PluginError = gutil.PluginError;
+const PluginError = require('plugin-error');
 const moment = require('moment');
 const pageMetadata = require('../src/metadata/html');
 const path = require('path');
