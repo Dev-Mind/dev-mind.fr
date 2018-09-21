@@ -20,7 +20,7 @@ const readHtml = require('./gulp-extensions/read-html');
 const readIndex = require('./gulp-extensions/read-index');
 const applyTemplate = require('./gulp-extensions/apply-template');
 const highlightCode = require('./gulp-extensions/highlight-code');
-const firebaseIndexing = require('./gulp-extensions/firebase-indexing');
+//const firebaseIndexing = require('./gulp-extensions/firebase-indexing');
 const fileExist = require('./gulp-extensions/file-exist');
 
 const AUTOPREFIXER_BROWSERS = [
@@ -81,18 +81,18 @@ gulp.task('styles', (cb) => {
       .on('end', () => cb())
 });
 
-gulp.task('blog-firebase', (cb) => {
-  // Hack to be able to stop the task when the async firebase requests are complete
-  gulp.on('stop', () => {
-    if (!modeDev) {
-      process.nextTick(() => process.exit(0));
-    }
-  });
-  gulp.src('src/blog/**/*.adoc')
-      .pipe(readAsciidoc(modeDev))
-      .pipe(firebaseIndexing(modeDev))
-      .on('end', () => cb())
-});
+// gulp.task('blog-firebase', (cb) => {
+//   // Hack to be able to stop the task when the async firebase requests are complete
+//   gulp.on('stop', () => {
+//     if (!modeDev) {
+//       process.nextTick(() => process.exit(0));
+//     }
+//   });
+//   gulp.src('src/blog/**/*.adoc')
+//       .pipe(readAsciidoc(modeDev))
+//       .pipe(firebaseIndexing(modeDev))
+//       .on('end', () => cb())
+// });
 
 gulp.task('blog-indexing', () =>
   gulp.src('src/blog/**/*.adoc')
