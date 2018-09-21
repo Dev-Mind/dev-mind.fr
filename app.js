@@ -11,7 +11,7 @@ const DEVMIND = {
   port: process.env.PORT || 8080,
   secret: process.env.DEVMIND_SESSION_SECRET || 'SMHQs7cLAC3x',
   securedUrls: ['/training/'],
-  users : process.env.DEVMIND_USERS || [{username: 'guillaume', password: '5f4dcc3b5aa765d61d8327deb882cf99'}]
+  users : JSON.stringify(process.env.DEVMIND_USERS) || [{username: 'guillaume', password: '5f4dcc3b5aa765d61d8327deb882cf99'}]
 };
 
 
