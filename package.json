@@ -7,6 +7,7 @@
   "author": "Guillaume EHRET <guillaume@dev-mind.fr>",
   "license": "MIT",
   "scripts": {
+    "preinstall": "yarn install",
     "install": "gulp",
     "start": "node app.js",
     "dev": "gulp serve"
