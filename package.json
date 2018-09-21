@@ -7,7 +7,6 @@
   "author": "Guillaume EHRET <guillaume@dev-mind.fr>",
   "license": "MIT",
   "scripts": {
-    "preinstall": "yarn install",
     "install": "gulp",
     "start": "node app.js",
     "dev": "gulp serve"
@@ -66,6 +65,7 @@
     "md5": "^2.2.1",
     "merge-stream": "^1.0.1",
     "moment": "^2.18.1",
+    "node-prismjs": "^0.1.2",
     "plugin-error": "^1.0.1",
     "run-sequence": "2.2.1",
     "serve-static": "^1.13.2",

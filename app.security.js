@@ -24,13 +24,18 @@ exports.sessionAttributes = (secret) => ({
  */
 exports.securityPolicy = () => ({
   directives: {
-    defaultSrc: ["'self'"],
+    defaultSrc: ["'self'", "https://*.firebaseio.com"],
     // We have to authorize inline CSS used to improve firstload
     styleSrc: ["'unsafe-inline'", "'self'"],
     // We have to authorize data:... for SVG images
     imgSrc: ["'self'", 'data:', 'https:'],
     // We have to authorize inline script used to load our JS app
-    scriptSrc: ["'self'", "'unsafe-inline'", 'https://www.google-analytics.com/analytics.js']
+    scriptSrc: ["'self'", "'unsafe-inline'", 'https://www.google-analytics.com/analytics.js',
+      "https://*.gstatic.com",
+      //"https://www.gstatic.com/firebasejs/4.0.0/firebase-database.js",
+      "https://*.firebaseio.com"],
+    objectSrc: ["'self'"],
+    connectSrc: ["'self'", "wss://*.firebaseio.com", "https://*.firebaseio.com"]
   }
 });
 

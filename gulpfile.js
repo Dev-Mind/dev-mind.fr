@@ -348,28 +348,39 @@ gulp.task('compress-svg', (cb) => {
       .on('end', () => cb())
 });
 
-gulp.task('compres-img', (cb) => {
+gulp.task('compress-img', (cb) => {
   gulp.src('build/dist/**/*.{js,css,png,webp,jpg,html}')
       .pipe($.gzip())
       .pipe(gulp.dest('build/dist'))
       .on('end', () => cb())
 });
 
-gulp.task('compress', gulp.parallel('compress-svg', 'compres-img'));
+gulp.task('compress', gulp.parallel('compress-svg', 'compress-img'));
 
-gulp.task('watch', () => {
-  gulp.watch('src/**/*.html', () => $.sequence('html', 'cache-busting-dev'));
-  gulp.watch('src/**/*.{scss,css}', () => $.sequence('styles', 'blog', 'training', 'html', 'cache-busting-dev'));
-  gulp.watch('src/**/*.adoc', () => $.sequence('blog', 'training', 'cache-busting-dev'));
-  gulp.watch('src/**/*.js',() => $.sequence('lint', 'local-js', 'blog', 'training', 'html', 'cache-busting-dev'));
-  gulp.watch('src/images/**/*', () => $.sequence('images'));
-  gulp.watch('src/**/*.handlebars', () => $.sequence('blog', 'training', 'html', 'cache-busting-dev'));
-});
+
+gulp.task('watch-html', () =>
+  gulp.watch('src/**/*.html', gulp.series('html', 'cache-busting-dev')));
+gulp.task('watch-scss', () =>
+  gulp.watch('src/**/*.{scss,css}', gulp.series('styles', 'blog', 'training', 'html', 'cache-busting-dev')));
+gulp.task('watch-adoc', () =>
+  gulp.watch('src/**/*.adoc', gulp.series('blog', 'training', 'cache-busting-dev')));
+gulp.task('watch-js', () =>
+  gulp.watch('src/**/*.js', gulp.series('lint', 'local-js', 'blog', 'training', 'html', 'cache-busting-dev')));
+gulp.task('watch-img', () =>
+  gulp.watch('src/images/**/*', gulp.series('images')));
+gulp.task('watch-template', () =>
+  gulp.watch('src/**/*.handlebars', gulp.series('blog', 'training', 'html', 'cache-busting-dev')));
+
+
+gulp.task('watch', gulp.parallel('watch-html', 'watch-scss', 'watch-adoc', 'watch-js', 'watch-img', 'watch-template'));
 
 
 gulp.task('clean', () => del('build', {dot: true}));
 
-gulp.task('initModeDev', () => modeDev = true);
+gulp.task('initModeDev', (cb) => {
+  modeDev = true;
+  cb();
+});
 
 gulp.task('build', gulp.series('images-pre',
                                'styles',

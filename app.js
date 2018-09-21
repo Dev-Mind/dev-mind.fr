@@ -1,7 +1,6 @@
 const express = require('express');
 const http = require('http');
 const compression = require('compression');
-const serveStatic = require('serve-static');
 const helmet = require('helmet');
 const cachePolicy = require('./app.webcache');
 const security = require('./app.security');
@@ -20,9 +19,9 @@ const DEVMIND = {
 const app = express()
   .use(session(security.sessionAttributes(DEVMIND.secret)))
   .use(compression())
-  .use(express.urlencoded())
+  .use(express.urlencoded({ extended: false }))
   .use(helmet())
-  .use(helmet.contentSecurityPolicy(security.securityPolicy()))
+  //.use(helmet.contentSecurityPolicy(security.securityPolicy()))
   .use(security.checkAuth(DEVMIND.securedUrls))
   .use(express.static(DEVMIND.static, { setHeaders: cachePolicy.setCustomCacheControl }))
   .get('/logout', security.logoutHandler())
