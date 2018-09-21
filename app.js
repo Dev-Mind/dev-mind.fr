@@ -8,7 +8,7 @@ const session = require('express-session');
 
 const DEVMIND = {
   static: 'build/dist',
-  port: process.env.PORT || 8000,
+  port: process.env.PORT || 8080,
   secret: process.env.DEVMIND_SESSION_SECRET || 'SMHQs7cLAC3x',
   securedUrls: ['/training/'],
   users : process.env.DEVMIND_USERS || [{username: 'guillaume', password: '5f4dcc3b5aa765d61d8327deb882cf99'}]
@@ -28,4 +28,30 @@ const app = express()
   .post('/login', security.loginHandler(DEVMIND.users))
   .all('*', security.notFoundHandler());
 
-http.Server(app).listen(DEVMIND.port, () => console.log(`Webapp started and listening on port ${DEVMIND.port}!`));
+app.set('port', DEVMIND.port);
+
+http.Server(app)
+    .listen(DEVMIND.port)
+    .on('error', onError)
+    .on('listening', () => console.debug('Listening on ' + DEVMIND.port));
+
+
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error('DevMind.fr requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error('Port is already in use : ' + DEVMIND.port);
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
