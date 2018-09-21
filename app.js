@@ -37,15 +37,12 @@ http.Server(app)
 
 
 function onError(error) {
+  console.error("Unxpected error " + error.syscall)
   if (error.syscall !== 'listen') {
     throw error;
   }
   // handle specific listen errors with friendly messages
   switch (error.code) {
-    case 'EACCES':
-      console.error('DevMind.fr requires elevated privileges');
-      process.exit(1);
-      break;
     case 'EADDRINUSE':
       console.error('Port is already in use : ' + DEVMIND.port);
       process.exit(1);
