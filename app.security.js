@@ -1,7 +1,11 @@
 const md5 = require('md5');
 
 // Function which return a status code and the good page error
-const sendErrorPage = (status, res) => res.status(status).redirect(`/${status}.html`);
+const sendErrorPage = (status, req, res, next) => {
+  req.url = `/${status}.html`;
+  res.status(status);
+  next();
+}
 
 /**
  * used to initailize session
@@ -50,7 +54,7 @@ exports.checkAuth = (securedUrls) => {
 
     if (isSecuredUrl && isNotAuthenticated) {
       console.log(`Erreur lors de la verif des droits ${401}`);
-      sendErrorPage(401, res);
+      sendErrorPage(401, req, res, next);
     }
     else {
       next();
@@ -59,7 +63,7 @@ exports.checkAuth = (securedUrls) => {
 };
 
 exports.notFoundHandler = () =>{
-  return (req, res) => sendErrorPage(404, res);
+  return (req, res, next) => sendErrorPage(404, req, res, next);
 };
 
 /**
@@ -76,11 +80,11 @@ exports.logoutHandler = () => {
  * Handler used to log somedy
  */
 exports.loginHandler = (users) => {
-  return (req, res) => {
+  return (req, res, next) => {
     if (!req.body || !req.body.password || !req.body.username) {
-      return sendErrorPage(401, res);
+      return sendErrorPage(401, req, res, next);
     }
-    console.log(users)
+    console.log('want to connect' +users)
     if (users.filter(user => user.username === req.body.username && user.password === md5(req.body.password)).length > 0) {
       req.session.user = {username: req.body.username};
       return res.redirect('/');
