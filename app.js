@@ -11,10 +11,10 @@ const DEVMIND = {
   port: process.env.PORT || 8080,
   secret: process.env.DEVMIND_SESSION_SECRET || 'SMHQs7cLAC3x',
   securedUrls: ['/training/'],
-  users : process.env.DEVMIND_USERS ? JSON.stringify(process.env.DEVMIND_USERS) : [{username: 'guillaume', password: '5f4dcc3b5aa765d61d8327deb882cf99'}]
+  users : process.env.DEVMIND_USERS ? JSON.parse(process.env.DEVMIND_USERS) : [{username: 'guillaume', password: '5f4dcc3b5aa765d61d8327deb882cf99'}]
 };
 
-console.log('config', DEVMIND);
+console.log('config', DEVMIND.users[0]);
 
 
 const app = express()
