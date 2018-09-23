@@ -20,7 +20,6 @@ const readHtml = require('./gulp-extensions/read-html');
 const readIndex = require('./gulp-extensions/read-index');
 const applyTemplate = require('./gulp-extensions/apply-template');
 const highlightCode = require('./gulp-extensions/highlight-code');
-//const firebaseIndexing = require('./gulp-extensions/firebase-indexing');
 const fileExist = require('./gulp-extensions/file-exist');
 
 const AUTOPREFIXER_BROWSERS = [

@@ -43,11 +43,13 @@ exports.securityPolicy = () => ({
  * We have to check if user is authenticated when secured URL are used
  */
 exports.checkAuth = (securedUrls) => {
+
   return (req, res, next) => {
     const isSecuredUrl = securedUrls.map(pattern => req.url.indexOf(pattern)).filter(i => i >= 0).length > 0;
     const isNotAuthenticated = (!req.session || !req.session.user || !req.session.user.username);
 
     if (isSecuredUrl && isNotAuthenticated) {
+      console.log(`Erreur lors de la verif des droits ${401}`);
       sendErrorPage(401, res);
     }
     else {
