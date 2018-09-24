@@ -1,10 +1,5 @@
 const md5 = require('md5');
 
-// Function which return a status code and the good page error
-const sendErrorPage = (status, req, res, next) => {
-  return res.status(status).redirect(`/${status}.html`);
-};
-
 /**
  * used to initailize session
  */
@@ -51,7 +46,7 @@ exports.checkAuth = (securedUrls) => {
     const isNotAuthenticated = (!req.session || !req.session.user || !req.session.user.username);
 
     if (isSecuredUrl && isNotAuthenticated) {
-      return sendErrorPage(401, req, res, next);
+      return res.redirect(`/401.html`);
     }
     else {
       next();
@@ -60,7 +55,7 @@ exports.checkAuth = (securedUrls) => {
 };
 
 exports.notFoundHandler = () =>{
-  return (req, res, next) => sendErrorPage(404, req, res, next);
+  return (req, res) => res.redirect(`/${404}.html`);
 };
 
 /**
@@ -79,7 +74,7 @@ exports.logoutHandler = () => {
 exports.loginHandler = (users) => {
   return (req, res, next) => {
     if (!req.body || !req.body.password || !req.body.username) {
-      return sendErrorPage(401, req, res, next);
+      return res.redirect(`/401.html`);
     }
     if (users.filter(user => user.username === req.body.username && user.password === md5(req.body.password)).length > 0) {
       req.session.user = {username: req.body.username};
