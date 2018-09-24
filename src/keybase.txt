@@ -1,0 +1,56 @@
+==================================================================
+https://keybase.io/devmind
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://dev-mind.fr
+  * I am devmind (https://keybase.io/devmind) on keybase.
+  * I have a public key ASBoySxTtNsPO48NdRFFN0PQPzGd_76CJ1Iwy8qcJvcUego
+
+To do so, I am signing this object:
+
+{
+  "body": {
+    "key": {
+      "eldest_kid": "012068c92c53b4db0f3b8f0d7511453743d03f319dffbe82275230cbca9c26f7147a0a",
+      "host": "keybase.io",
+      "kid": "012068c92c53b4db0f3b8f0d7511453743d03f319dffbe82275230cbca9c26f7147a0a",
+      "uid": "52346722da0ba81038ff14ba4f619d19",
+      "username": "devmind"
+    },
+    "merkle_root": {
+      "ctime": 1537769700,
+      "hash": "c27fc05f4cf287c7936372278ff743c93058a7198191234e6ea761765b8ddba6de043c569ed70398039f390f57207b4e4ea3aec6891915177ce3764990965758",
+      "hash_meta": "b67a975760ff02edd32c0db931c50ad9d1553b4527934aafc1f08eee5ebaf8fe",
+      "seqno": 3674178
+    },
+    "service": {
+      "entropy": "IsSaKPpVODJNdOOgIlsj5Ndb",
+      "hostname": "dev-mind.fr",
+      "protocol": "https:"
+    },
+    "type": "web_service_binding",
+    "version": 2
+  },
+  "client": {
+    "name": "keybase.io go client",
+    "version": "2.7.0"
+  },
+  "ctime": 1537769718,
+  "expire_in": 504576000,
+  "prev": "19a3aa9f7e096e1a08f5bd1b7d1ae6d809efb77ec17deec99ed55ae6968e2bc9",
+  "seqno": 7,
+  "tag": "signature"
+}
+
+which yields the signature:
+
+hKRib2R5hqhkZXRhY2hlZMOpaGFzaF90eXBlCqNrZXnEIwEgaMksU7TbDzuPDXURRTdD0D8xnf++gidSMMvKnCb3FHoKp3BheWxvYWTESpcCB8QgGaOqn34JbhoI9b0bfRrm2Anvt37Bfe7JntVa5paOK8nEIFJyw+BasykbaLXKo/WDXrVvIs2ovoJV0c1Z/SssRQE2AgHCo3NpZ8RAmqXMiUryzbPyHNCfH45USTRNyQnvDlYOKF34CJCB4iPPmMjZ0DV8XYXehib0Eq/E+o0jZ5PbN1dRFF6VnY52B6hzaWdfdHlwZSCkaGFzaIKkdHlwZQildmFsdWXEIDCq1Jcn+GbVt0r8hMVUmr/Je4Qu9mO4oqq7tI4MAM/0o3RhZ80CAqd2ZXJzaW9uAQ==
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/devmind
+
+==================================================================
