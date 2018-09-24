@@ -6,15 +6,27 @@ const cachePolicy = require('./app.webcache');
 const security = require('./app.security');
 const session = require('express-session');
 
+const parseJsonEnv = (value) => {
+  const fields = value.replace("{", "").replace("}", "").replace("[", "").replace("]", "").trim().split(",")
+  const users = [];
+  for(let i=0 ; i< fields.length ; i = i+2){
+    users.push({
+                 username: fields[0].split(":")[1].trim(),
+                 password: fields[1].split(":")[1].trim()
+               });
+  }
+  return users
+};
+
 const DEVMIND = {
   static: 'build/dist',
   port: process.env.PORT || 8080,
   secret: process.env.DEVMIND_SESSION_SECRET || 'SMHQs7cLAC3x',
   securedUrls: ['/training/'],
-  users : process.env.DEVMIND_USERS ? JSON.parse(process.env.DEVMIND_USERS) : [{username: 'guillaume', password: '5f4dcc3b5aa765d61d8327deb882cf99'}]
+  users : process.env.DEVMIND_USERS ? parseJsonEnv(process.env.DEVMIND_USERS) : [{username: 'guillaume', password: '5f4dcc3b5aa765d61d8327deb882cf99'}]
 };
 
-console.log('config', DEVMIND.users[0]);
+
 
 
 const app = express()
