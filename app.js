@@ -26,9 +26,6 @@ const DEVMIND = {
   users : process.env.DEVMIND_USERS ? parseJsonEnv(process.env.DEVMIND_USERS) : [{username: 'guillaume', password: '5f4dcc3b5aa765d61d8327deb882cf99'}]
 };
 
-
-
-
 const app = express()
   .use(session(security.sessionAttributes(DEVMIND.secret)))
   .use(compression())
