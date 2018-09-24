@@ -42,9 +42,10 @@ exports.securityPolicy = () => ({
 exports.checkAuth = (securedUrls) => {
 
   return (req, res, next) => {
+    console.log('Check security', securedUrls);
     const isSecuredUrl = securedUrls.map(pattern => req.url.indexOf(pattern)).filter(i => i >= 0).length > 0;
     const isNotAuthenticated = (!req.session || !req.session.user || !req.session.user.username);
-
+    console.log('User in session', req.session.user);
     if (isSecuredUrl && isNotAuthenticated) {
       return res.redirect(`/401.html`);
     }
@@ -73,9 +74,7 @@ exports.logoutHandler = () => {
  */
 exports.loginHandler = (users) => {
   return (req, res) => {
-    console.log('EEE');
     if (!req.body || !req.body.password || !req.body.username) {
-      console.log('pas tous les champs',req.body);
       return res.redirect(`/401.html`);
     }
     if (users.filter(user => user.username === req.body.username && user.password === md5(req.body.password)).length > 0) {
