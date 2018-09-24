@@ -42,15 +42,17 @@ exports.securityPolicy = () => ({
 exports.checkAuth = (securedUrls) => {
 
   return (req, res, next) => {
-    console.log('Check security', securedUrls);
+    console.log('Check security', req.url);
     const isSecuredUrl = securedUrls.map(pattern => req.url.indexOf(pattern)).filter(i => i >= 0).length > 0;
     const isHtmlPage = req.url.indexOf(".html").length > 0;
     const isNotAuthenticated = (!req.session || !req.session.user || !req.session.user.username);
-    console.log('User in session', req.session.user, isSecuredUrl, isNotAuthenticated, isHtmlPage);
+
     if (isSecuredUrl && isNotAuthenticated && isHtmlPage) {
+      console.log('User is redirected in session', req.session.user, isSecuredUrl, isNotAuthenticated, isHtmlPage);
       return res.redirect(`/401.html`);
     }
     else {
+      console.log('User is not redirected in session', req.session.user, isSecuredUrl, isNotAuthenticated, isHtmlPage);
       next();
     }
   };
