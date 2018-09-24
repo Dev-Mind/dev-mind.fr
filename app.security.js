@@ -44,9 +44,10 @@ exports.checkAuth = (securedUrls) => {
   return (req, res, next) => {
     console.log('Check security', securedUrls);
     const isSecuredUrl = securedUrls.map(pattern => req.url.indexOf(pattern)).filter(i => i >= 0).length > 0;
+    const isHtmlPage = req.url.indexOf(".html").length > 0;
     const isNotAuthenticated = (!req.session || !req.session.user || !req.session.user.username);
-    console.log('User in session', req.session.user);
-    if (isSecuredUrl && isNotAuthenticated) {
+    console.log('User in session', req.session.user, isSecuredUrl, isNotAuthenticated, isHtmlPage);
+    if (isSecuredUrl && isNotAuthenticated && isHtmlPage) {
       return res.redirect(`/401.html`);
     }
     else {
@@ -56,7 +57,7 @@ exports.checkAuth = (securedUrls) => {
 };
 
 exports.notFoundHandler = () =>{
-  return (req, res) => res.redirect(`/${404}.html`);
+  return (req, res) => res.redirect(`/404.html`);
 };
 
 /**
