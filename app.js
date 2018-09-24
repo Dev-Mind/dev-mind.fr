@@ -43,7 +43,10 @@ app.set('port', DEVMIND.port);
 http.Server(app)
     .listen(DEVMIND.port)
     .on('error', onError)
-    .on('listening', () => console.debug('Listening on ' + DEVMIND.port));
+    .on('listening', () => {
+      console.debug('Listening on ' + DEVMIND.port);
+      console.debug('Config ', DEVMIND);
+    });
 
 
 function onError(error) {
