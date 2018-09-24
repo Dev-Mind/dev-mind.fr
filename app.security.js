@@ -42,17 +42,14 @@ exports.securityPolicy = () => ({
 exports.checkAuth = (securedUrls) => {
 
   return (req, res, next) => {
-    console.log('Check security', req.url);
     const isSecuredUrl = securedUrls.map(pattern => req.url.indexOf(pattern)).filter(i => i >= 0).length > 0;
     const isHtmlPage = req.url.indexOf(".html") >= 0;
     const isNotAuthenticated = (!req.session || !req.session.user || !req.session.user.username);
 
     if (isSecuredUrl && isNotAuthenticated && isHtmlPage) {
-      console.log('User is redirected in session', req.session.user, isSecuredUrl, isNotAuthenticated, isHtmlPage);
       return res.redirect(`/401.html`);
     }
     else {
-      console.log('User is not redirected in session', req.session.user, isSecuredUrl, isNotAuthenticated, isHtmlPage);
       next();
     }
   };
@@ -81,12 +78,10 @@ exports.loginHandler = (users) => {
       return res.redirect(`/401.html`);
     }
     if (users.filter(user => user.username === req.body.username && user.password === md5(req.body.password)).length > 0) {
-      console.log('user trouve');
       req.session.user = {username: req.body.username};
       return res.redirect('/training/trainings.html');
     }
     else {
-      console.log('user pas trouve');
       req.session.user = {};
       return res.redirect('/401.html?authentication_failed');
     }

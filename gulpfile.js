@@ -302,7 +302,8 @@ gulp.task('service-worker-bundle', () => {
                                   swSrc: 'src/sw.js',
                                   swDest: 'build/.tmp/sw.js',
                                   globDirectory: './build/dist',
-                                  globPatterns: ['**\/*.{js,html,css,svg}']
+                                  globIgnores: ['training/**/*.*'],
+                                  globPatterns: ['**/*.{js,html,css,svg}']
                                   // we don't load image files on SW precaching step
                                 })
                 .catch((err) => {
