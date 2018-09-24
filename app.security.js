@@ -72,15 +72,19 @@ exports.logoutHandler = () => {
  * Handler used to log somedy
  */
 exports.loginHandler = (users) => {
-  return (req, res, next) => {
+  return (req, res) => {
+    console.log('EEE');
     if (!req.body || !req.body.password || !req.body.username) {
+      console.log('pas tous les champs',req.body);
       return res.redirect(`/401.html`);
     }
     if (users.filter(user => user.username === req.body.username && user.password === md5(req.body.password)).length > 0) {
+      console.log('user trouve');
       req.session.user = {username: req.body.username};
       return res.redirect('/training/trainings.html');
     }
     else {
+      console.log('user pas trouve');
       req.session.user = {};
       return res.redirect('/401.html?authentication_failed');
     }
