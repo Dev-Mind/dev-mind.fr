@@ -2,7 +2,7 @@
 :description: Comment construire une application Java interfacée à une base de données et exposant des services REST
 :keywords: Gradle
 :author: Guillaume EHRET - Dev-Mind
-:revdate: 2018-09-02
+:revdate: 2018-11-02
 :category: Web
 :teaser: Dans ce cours nous allons voir ce qu'est Gradle et comment nous pouvons l'utiliser dans nos projets. Ce n'est qu'une présentation succinte des possibilités offertes par cet outil et vous trouverez plus de documentation sur le site officiel.
 :imgteaser: ../../img/training/gradle.png
@@ -20,29 +20,84 @@ Maven permet de construire un projet principal. Gradle a été pensé pour const
 == Introduction
 
 * *Hautement personnalisable* +
-[.small]#vous avez une convention par défaut mais tout est personnailisable. Les scripts sont écrits en Groovy ou en Kotlin#
+[.small]#vous avez une convention par défaut mais tout est personnlisable. Les scripts sont écrits en Groovy ou en Kotlin#
 * *Rapide*  +
-[.small]#Gradle est capabke de faire de construction incrémentale et relancer que les parties qui ont été modifiées. Il est aussi capable de lancer des tâches en parallèle#
+[.small]#Construction incrémentale : on ne relance que les parties qui ont été modifiées. Il est aussi capable de lancer des tâches en parallèle#
 * *Puissant* +
 [.small]#Gradle supporte de nombreux langages mais il doit sa popularité aux bénéfices apportés aux développeurs Android#
 * *Pratique* +
 [.small]#Basé sur Ivy il simplifie la gestion des dépendances des projets et permet de les gérer transitivement#
 
+== Pourquoi un outil de build ?
 
+[%steps]
+* Pour compiler votre projet
+* Pour générer le ou les livrables de votre application (apk, jar, war...)
+* Pour exécuter les tests
+* Pour générer de la documentation et des rapports
+* Pour déployer
+* ...
 
+== Pourquoi un outil de build
 
-TP
-First ask your presenter to do a live coding
-All starts with
+* Write once, run everywhere
+* Continuous Integration
+* Deployment with confidence
 
+== Utilisation
+
+* En ligne de commande
+* Dans votre IDE (outil de dev) comme NetBeans, Eclipse ou IntelliJ
+* La documentation en ligne est très complète https://docs.gradle.org/current/userguide/userguide.html
+
+== Principe
+
+* Gradle n'est pas le premier outil. Maven était l'outil le plus utilisé avant
+* Mais Maven
+** est verbeux (utilise XML)
+** n'est pas très souple (gouvernance et exécution)
+
+== Démarrer avec Gradle
+
+Une manière simple d'initialiser un projet
+
+[source,shell]
+----
+mkdir gradle-demo
 gradle init
-Firstapp
-Contains the starter kit for minimal gradle with wrapper
+----
 
-ordering
-Contains sample gradle tasks about ordering
+Vous devez avoir le retour suivant
 
-On your own
-Use previous Java TP
+[source,shell]
+----
+❯ gradle init
+Starting a Gradle Daemon (subsequent builds will be faster)
 
-Tranform them into a Gradle built project
+BUILD SUCCESSFUL in 3s
+2 actionable tasks: 2 executed
+----
+
+[%notitle]
+== Démarrer avec Gradle
+
+Gradle a généré l'arborescence suivante
+
+[source,shell]
+----
+|-- build.gradle  // <1>
+|-- gradle
+|   | -- wrapper
+|       | -- gradle-wrapper.jar  // <2>
+|       | -- gradle-wrapper.properties  // <3>
+|-- gradlew  // <4>
+|-- gradlew.bat  // <5>
+|-- settings.gradle  // <6>
+----
+
+[.small]#1. Script de configuration de Gradle pour le projet +
+2. Le jar permettant d'exécuter Gradle via le wrapper +
+3. Le fichier de configuration du wrapper +
+4. et 5. Script permettant de lancer Gradle via le wrapper pour Unix et Windows +
+6. Configuration générale du build (permet de déclarer les sous modules par exemple)#
+
