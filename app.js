@@ -1,5 +1,4 @@
 const express = require('express');
-const http2 = require('http2');
 const http = require('http');
 const fs = require('fs');
 const compression = require('compression');
@@ -30,6 +29,8 @@ const DEVMIND = {
 };
 
 const app = express()
+  .enable('trust proxy')
+  .use(security.rewrite())
   .use(session(security.sessionAttributes(DEVMIND.secret)))
   .use(compression())
   .use(express.urlencoded({extended: false}))
@@ -48,28 +49,14 @@ const HTTPS_CONFIG = {
   cert: fs.readFileSync('server-cert.pem')
 };
 
-if(DEVMIND.http2){
-  http2.createSecureServer(HTTPS_CONFIG)
-       .listen(DEVMIND.port)
-       .on('error', onError)
-       .on('listening', () => {
-         console.debug(`Listening on ${DEVMIND.port}`);
-         console.debug(`Environnement ${process.env.NODE_ENV}`);
-         console.debug(`Users ${DEVMIND.users.map(u => u.username)}`);
-         console.debug('Mode HTTP2');
-       });
-}
-else{
-  http.Server(app)
-      .listen(DEVMIND.port)
-      .on('error', onError)
-      .on('listening', () => {
-        console.debug('Listening on ' + DEVMIND.port);
-        console.debug(`Environnement ${process.env.NODE_ENV}`);
-        console.debug(`Users ${DEVMIND.users.map(u => u.username)}`);
-        console.debug('Mode HTTP');
-      });
-}
+http.Server(app)
+    .listen(DEVMIND.port)
+    .on('error', onError)
+    .on('listening', () => {
+      console.debug('Listening on ' + DEVMIND.port);
+      console.debug(`Environnement ${process.env.NODE_ENV}`);
+      console.debug(`Users ${DEVMIND.users.map(u => u.username)}`);
+    });
 
 function onError(error) {
   console.error(error);
