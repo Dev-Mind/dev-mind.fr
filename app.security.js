@@ -36,19 +36,36 @@ exports.securityPolicy = () => ({
   }
 });
 
+exports.rewrite = () => {
+  return (req, res, next) => {
+    const httpInForwardedProto = req.headers && req.headers['x-forwarded-proto'] && req.headers['x-forwarded-proto'] === 'http';
+    const httpInReferer = req.headers && req.headers.referer && req.headers.referer.indexOf('http://') >=0;
+    const isHtmlPage = req.url.indexOf(".html") >= 0;
+
+    if(req.url === '/')
+    console.log(req.url, req.headers)
+    if((isHtmlPage || req.url === '/')  && (httpInForwardedProto || httpInReferer)){
+      console.log('User is not in HTTP, he is redirected');
+      res.redirect('https://dev-mind.fr' + req.url);
+    }
+    else{
+      next();
+    }
+  };
+};
+
 /**
  * We have to check if user is authenticated when secured URL are used
  */
 exports.checkAuth = (securedUrls) => {
 
   return (req, res, next) => {
-    console.log(req.headers)
     const isSecuredUrl = securedUrls.map(pattern => req.url.indexOf(pattern)).filter(i => i >= 0).length > 0;
     const isHtmlPage = req.url.indexOf(".html") >= 0;
     const isNotAuthenticated = (!req.session || !req.session.user || !req.session.user.username);
 
     if (isSecuredUrl && isNotAuthenticated && isHtmlPage) {
-      return res.redirect(`/401.html`);
+      res.redirect(`/401.html`);
     }
     else {
       next();
