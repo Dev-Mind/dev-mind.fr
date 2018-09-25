@@ -12,7 +12,7 @@
     "dev": "gulp serve"
   },
   "engines": {
-    "node": ">8.0.0"
+    "node": ">10.0.0"
   },
   "dependencies": {
     "@babel/core": "^7.1.0",
@@ -58,7 +58,6 @@
     "handlebars": "^4.0.12",
     "helmet": "^3.13.0",
     "highlights": "^3.1.1",
-    "http": "^0.0.0",
     "imagemin-jpegtran": "^5.0.2",
     "map-stream": "^0.0.7",
     "md5": "^2.2.1",

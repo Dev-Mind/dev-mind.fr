@@ -1,0 +1,10 @@
+:doctitle: Introduction Spring
+:description: Présentation de l'écosystème de Spring
+:keywords: Web, Blog, Asciidoc, Asciidoctor, CMS, Clever Cloud
+:author: Guillaume EHRET - Dev-Mind
+:revdate: 2018-09-25
+:category: Java
+:teaser:  Présentation de l'écosystème de Spring afin de connaître les différents projets et le mode de fonctionnement de Spring
+:imgteaser: ../../img/training/spring-intro.png
+
+fsdf
