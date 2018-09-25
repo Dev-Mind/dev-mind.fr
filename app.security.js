@@ -42,6 +42,7 @@ exports.securityPolicy = () => ({
 exports.checkAuth = (securedUrls) => {
 
   return (req, res, next) => {
+    console.log(req.headers)
     const isSecuredUrl = securedUrls.map(pattern => req.url.indexOf(pattern)).filter(i => i >= 0).length > 0;
     const isHtmlPage = req.url.indexOf(".html") >= 0;
     const isNotAuthenticated = (!req.session || !req.session.user || !req.session.user.username);
