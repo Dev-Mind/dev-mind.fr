@@ -1,6 +1,5 @@
 const express = require('express');
 const http = require('http');
-const fs = require('fs');
 const compression = require('compression');
 const helmet = require('helmet');
 const cachePolicy = require('./app.webcache');
@@ -43,11 +42,6 @@ const app = express()
   .all('*', security.notFoundHandler());
 
 app.set('port', DEVMIND.port);
-
-const HTTPS_CONFIG = {
-  key: fs.readFileSync('server-key.pem'),
-  cert: fs.readFileSync('server-cert.pem')
-};
 
 http.Server(app)
     .listen(DEVMIND.port)

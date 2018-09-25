@@ -40,11 +40,10 @@ exports.rewrite = () => {
   return (req, res, next) => {
     const httpInForwardedProto = req.headers && req.headers['x-forwarded-proto'] && req.headers['x-forwarded-proto'] === 'http';
     const httpInReferer = req.headers && req.headers.referer && req.headers.referer.indexOf('http://') >=0;
+    const hostWwwInHeader = req.headers && req.headers.host && req.headers.host.indexOf('www') >=0;
     const isHtmlPage = req.url.indexOf(".html") >= 0;
 
-    if(req.url === '/')
-    console.log(req.url, req.headers)
-    if((isHtmlPage || req.url === '/')  && (httpInForwardedProto || httpInReferer)){
+    if((isHtmlPage || req.url === '/')  && (httpInForwardedProto || httpInReferer || hostWwwInHeader)){
       console.log('User is not in HTTP, he is redirected');
       res.redirect('https://dev-mind.fr' + req.url);
     }
