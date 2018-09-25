@@ -1,6 +1,7 @@
 const express = require('express');
 const http2 = require('http2');
-const fs = require('vinyl-fs');
+const http = require('http');
+const fs = require('fs');
 const compression = require('compression');
 const helmet = require('helmet');
 const cachePolicy = require('./app.webcache');
@@ -20,6 +21,7 @@ const DEVMIND = {
   static: 'build/dist',
   port: process.env.PORT || 8081,
   secret: process.env.DEVMIND_SESSION_SECRET || 'SMHQs7cLAC3x',
+  http2: process.env.DEVMIND_HTTP2,
   securedUrls: ['/training/'],
   users: process.env.DEVMIND_USERS ? parseJsonEnv(process.env.DEVMIND_USERS) : [{
     username: 'guillaume',
@@ -42,17 +44,32 @@ const app = express()
 app.set('port', DEVMIND.port);
 
 const HTTPS_CONFIG = {
-  key: fs.readFileSync('localhost-privkey.pem'),
-  cert: fs.readFileSync('localhost-cert.pem')
+  key: fs.readFileSync('server-key.pem'),
+  cert: fs.readFileSync('server-cert.pem')
 };
-http2.createSecureServer(HTTPS_CONFIG)
-     .listen(DEVMIND.port)
-     .on('error', onError)
-     .on('listening', () => {
-       console.debug(`Listening on ${DEVMIND.port}`);
-       console.debug(`Environnement ${process.env.NODE_ENV}`);
-       console.debug(`Users ${DEVMIND.users.map(u => u.username)}`);
-     });
+
+if(DEVMIND.http2){
+  http2.createSecureServer(HTTPS_CONFIG)
+       .listen(DEVMIND.port)
+       .on('error', onError)
+       .on('listening', () => {
+         console.debug(`Listening on ${DEVMIND.port}`);
+         console.debug(`Environnement ${process.env.NODE_ENV}`);
+         console.debug(`Users ${DEVMIND.users.map(u => u.username)}`);
+         console.debug('Mode HTTP2');
+       });
+}
+else{
+  http.Server(app)
+      .listen(DEVMIND.port)
+      .on('error', onError)
+      .on('listening', () => {
+        console.debug('Listening on ' + DEVMIND.port);
+        console.debug(`Environnement ${process.env.NODE_ENV}`);
+        console.debug(`Users ${DEVMIND.users.map(u => u.username)}`);
+        console.debug('Mode HTTP');
+      });
+}
 
 function onError(error) {
   console.error(error);
