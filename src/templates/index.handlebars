@@ -45,7 +45,7 @@
             <div class="dm-grid--flexible">
                 {{#firstArticle}}
                     <article class="dm-grid--element dm-blog--article" onclick="document.location.href='blog/{{dir}}/{{filename}}.html'">
-                        <div class="dm-blog--imgteaser"><img class="dm-img--lazyload" data-src="{{{imgteaser}}}"/></div>
+                        <div class="dm-blog--imgteaser"><img class="dm-img--lazyload" data-src="{{{imgteaser}}}" alt="{{doctitle}}"/></div>
                         <p class="dm_lead dm-blog--head"><a href="blog/{{dir}}/{{filename}}.html">{{doctitle}}</a></p>
                         <p class="dm-blog--teaser">{{teaser}}</p>
                     </article>
@@ -53,7 +53,7 @@
                 {{/firstArticle}}
                 {{#secondArticles}}
                     <article class="dm-grid--element dm-blog--article" onclick="document.location.href='blog/{{dir}}/{{filename}}.html'">
-                        <div class="dm-blog--imgteaser"><img class="dm-img--lazyload" data-src="{{{imgteaser}}}"/></div>
+                        <div class="dm-blog--imgteaser"><img class="dm-img--lazyload" data-src="{{{imgteaser}}}" alt="{{doctitle}}"/></div>
                         <p class="dm_lead dm-blog--head"><a href="blog/{{dir}}/{{filename}}.html">{{doctitle}}</a></p>
                         <p class="dm-blog--teaser">{{teaser}}</p>
                     </article>

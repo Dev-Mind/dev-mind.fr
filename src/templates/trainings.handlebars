@@ -49,14 +49,14 @@
                 {{#firstArticle}}
                     <article class="dm-blog--article" onclick="document.location.href='{{dir}}/{{filename}}.html'">
                         <h1><a href="{{dir}}/{{filename}}.html">{{doctitle}}</a></h1>
-                        <div class="dm-blog--imgteaser"><img class="dm-img--lazyload" data-src="{{{imgteaser}}}"/></div>
+                        <div class="dm-blog--imgteaser"><img class="dm-img--lazyload" data-src="{{{imgteaser}}}" alt="{{doctitle}}"/></div>
                         <p class="dm-blog--teaser">{{teaser}}</p>
                     </article>
                 {{/firstArticle}}
                 {{#secondArticles}}
                     <article class="dm-blog--article" onclick="document.location.href='{{dir}}/{{filename}}.html'">
                         <h2><a href="{{dir}}/{{filename}}.html">{{doctitle}}</a></h2>
-                        <div class="dm-blog--imgteaser"><img class="dm-img--lazyload" data-src="{{{imgteaser}}}"/></div>
+                        <div class="dm-blog--imgteaser"><img class="dm-img--lazyload" data-src="{{{imgteaser}}}" alt="{{doctitle}}"/></div>
                         <p class="dm-blog--teaser">{{teaser}}</p>
                     </article>
                 {{/secondArticles}}
