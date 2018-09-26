@@ -25,7 +25,7 @@ Pour vous former à Spring vous devez avoir
 
 Rendre le développement Java plus simple
 
-image::../../img/training/spring-intro/spring.png[]
+image::../../img/training/spring-intro/icon-spring-framework.svg[]
 
 Spring est le framework Java le plus utilisé
 
@@ -87,7 +87,7 @@ image::../../img/training/spring-intro/spring-projects.png[canvas, size=70%]
 
 Spring implémente les normes EE Umbrella
 |===
-| |
+|
 | [.small]#JSR 330 : Dependency injection#
 | [.small]#JSR 340 : Servlet API#
 | [.small]#JSR 250 : Common annotations#
