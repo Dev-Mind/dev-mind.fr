@@ -72,7 +72,7 @@
     "stream-to-array": "^2.3.0",
     "vinyl": "^2.2.0",
     "vinyl-fs": "^2.4.4",
-    "workbox-build": "^3.0.1"
+    "workbox-build": "^3.6.1"
   },
   "resolutions": {
     "gulp-decompress": "~2.0.2",

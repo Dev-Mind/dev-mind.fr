@@ -22,6 +22,9 @@ window.app = (function() {
             var installingWorker = registration.installing;
             installingWorker.onstatechange = function () {
               switch (installingWorker.state) {
+                case 'installing':
+                  console.log(caches)
+                  break;
                 case 'installed':
                   if (navigator.serviceWorker.controller) {
                     console.log('new update available');

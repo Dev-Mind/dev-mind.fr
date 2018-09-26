@@ -4,7 +4,9 @@ exports.setCustomCacheControl = (res, path) => {
   switch(serveStatic.mime.lookup(path)){
     case 'application/xhtml+xml':
     case 'text/html':
-      res.setHeader('Cache-Control', 'public, max-age=0');
+      res.setHeader('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+      res.setHeader('Expires', '-1');
+      res.setHeader('Pragma', 'no-cache');
       break;
 
     case 'text/javascript':
