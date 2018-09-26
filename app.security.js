@@ -12,7 +12,11 @@ exports.sessionAttributes = (secret) => ({
   resave: false,
   saveUninitialized: true,
   // Secured cookies are only set in production
-  cookie: {secure: isProd},
+  cookie: {
+    secure: isProd,
+    maxAge: 60 * 60 * 1000,
+    sameSite: true
+  },
   // User by default is empty
   user: {}
 });
