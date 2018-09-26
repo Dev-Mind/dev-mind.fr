@@ -10,7 +10,7 @@ const parseJsonEnv = (value) => {
   const fields = value.replace("{", "").replace("}", "").replace("[", "").replace("]", "").trim().split(",")
   const users = [];
   for (let i = 0; i < fields.length; i = i + 2) {
-    users.push({username: fields[0].split(":")[1].trim(), password: fields[1].split(":")[1].trim()});
+    users.push({username: fields[i].split(":")[1].trim(), password: fields[i+1].split(":")[1].trim()});
   }
   return users
 };
