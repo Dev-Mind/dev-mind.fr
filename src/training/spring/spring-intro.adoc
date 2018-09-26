@@ -7,4 +7,105 @@
 :teaser:  Présentation de l'écosystème de Spring afin de connaître les différents projets et le mode de fonctionnement de Spring
 :imgteaser: ../../img/training/spring-intro.png
 
-fsdf
+Spring est depuis ces débuts un ensemble d'outils à vocation de simplifier le dévelopemment d'application Java en entreprise. Il supporte d'ailleurs d'autres langages que Java comme Groovy ou Kotlin. Vous pouvez construire tout type d'applications avec Spring
+
+image::../../img/training/spring-intro.png[]
+
+== Prérequis
+
+Pour vous former à Spring vous devez avoir
+
+* certaines bases en Java et JEE
+* maîtriser les tests unitaires en Java
+* avoir des connaissances en Web
+* connaître JDBC et Hibernate
+* un PC avec un bon IDE (IntelliJ, Netbeans...)
+
+== Spring framework
+
+Rendre le développement Java plus simple
+
+image::../../img/training/spring-intro/spring.png[]
+
+Spring est le framework Java le plus utilisé
+
+
+== Historique
+
+image::../../img/training/spring-intro/historique.png[canvas, size=90%]
+
+
+== Framework ?
+
+Un framework amène un "cadre de développement"
+
+[%step]
+* Bonnes pratiques
+* Abstraction de la complexité
+* Fournit des classes utilitaires
+* Aide à se concentrer sur le code métier
+
+== C'est quoi Spring
+
+Spring désigne
+
+[%step]
+* un framework Java
+* tout un écosystème
+* une société
+
+== Spring framework
+
+* Spring Core fournit un cadre de travail, pour simplifier les aspects techniques des projets
+* Les sous-projets traitent de problématiques techniques plus spécifiques
+* Rien n’est obligatoire, tout est configurable
+* Gros effort sur la rétrocompatibilité
+* Spring Frmaework 5.0 et JDK > 1.8
+
+[%notitle]
+== Tout un écosystème
+
+image::../../img/training/spring-intro/spring-projects.png[canvas, size=70%]
+
+* Spring Batch
+* Spring Mobile
+* Spring LDAP
+* Spring Social
+* Spring web services
+* ...
+
+== Projet Open source
+
+[%step]
+* Spring est un projet Open Source
+* Mais piloter par la société Pivotal
+* Licence «Apache 2.0»
+* https://github.com/spring-projects
+
+
+== Spécifications EE Umbrella
+
+Spring implémente les normes EE Umbrella
+|===
+| |
+| [.small]#JSR 330 : Dependency injection#
+| [.small]#JSR 340 : Servlet API#
+| [.small]#JSR 250 : Common annotations#
+| [.small]#JSR 356 : WebSocket API#
+| [.small]#JSR 236 : Concurrency Utilities#
+| [.small]#JSR 367 : JSON Binding API#
+| [.small]#JSR 303 : Bean validation#
+| [.small]#JSR 338 : JPA#
+| [.small]#JSR 914 : JMS#
+| [.small]#...#
+|===
+
+Spring n'est pas incompatible avec JEE. Il se base sur les spec JEE, il les anticipe parfois. Le but n'est pas d'être en opposition mais de vous faciliter la vie
+
+== Spring n'est pas un serveur d'application
+
+[%step]
+* Peut fonctionner en standalone ou dans un serveur d'applications
+* Généralemet il est utilisé conjointement à un serveur d'applications "léger" (Tomcat, Jetty, Undertow)
+* Pour les applications réactives on pourra utiliser Netty
+* Se cale à votre architecture

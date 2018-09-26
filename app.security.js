@@ -53,9 +53,13 @@ exports.rewrite = () => {
       const hostWwwInHeader = req.headers && req.headers.host && req.headers.host.indexOf('www') >=0;
       const isHtmlPage = req.url.indexOf(".html") >= 0;
 
-      if((isHtmlPage || req.url === '/')  && (httpInForwardedProto || httpInReferer || hostWwwInHeader)){
+      if((isHtmlPage || req.url === '/')  && (httpInForwardedProto || httpInReferer)){
         console.log('User is not in HTTP, he is redirected');
         res.redirect('https://dev-mind.fr' + req.url);
+      }
+      else if((isHtmlPage || req.url === '/')  && hostWwwInHeader){
+        console.log('User is not on www, he is redirected');
+        res.redirect('https://dev-mind.fr/index.html');
       }
       else{
         next();
