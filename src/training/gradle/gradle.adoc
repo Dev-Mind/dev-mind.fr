@@ -113,7 +113,7 @@ Fixe une version de Gradle à un projet
 
 Fournit les utilitaires pour se télécharger automatiquement, même si vous n'avez pas Gradle en local
 
-image::../../img/training/gradle/wrapper.png[width=60%]
+image::../../img/training/gradle/wrapper.png[width=100%]
 
 
 [.code-height]
@@ -212,7 +212,7 @@ Gradle exécute des tâches et ici via le plugin Java il en a lancé 5 pour cons
 
 Intelli J donne une vue synthétique des dépendances et des tâches dans l'IDE
 
-image::../../img/training/gradle/idea3.png[width=80%]
+image::../../img/training/gradle/idea3.png[width=100%]
 
 [.small]
 [.code-height]
@@ -283,7 +283,7 @@ BUILD SUCCESSFUL in 0s
 
 == Fonctionnement de Gradle
 
-image::../../img/training/gradle/gradle.png[Fonctionnement de Gradle, width=80%]
+image::../../img/training/gradle/gradle.png[Fonctionnement de Gradle, width=100%]
 
 [.small]#1. Gradle se connecte à un dépôt de plugin pour les charger. Un plugin amène un ensemble de tâches +
 2. Gradle se connecte à un dépôt de librairies et récupère celles déclarées pour l'exécution et les tests  +
@@ -297,7 +297,6 @@ Un projet managé par Gradle c'est donc un fichier de configuration qui va indiq
 * les tâches définissent un cycle de vie +
 * le tout se configure via un DSL (Domain Specific Language)#
 
-image::../../img/training/gradle/gradle.png[Fonctionnement de Gradle, width=50%]
 
 == Tâche
 

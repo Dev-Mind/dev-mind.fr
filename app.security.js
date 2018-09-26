@@ -1,4 +1,5 @@
 const md5 = require('md5');
+const isProd = process.env.NODE_ENV && process.env.NODE_ENV === 'prod';
 
 /**
  * used to initailize session
@@ -11,10 +12,18 @@ exports.sessionAttributes = (secret) => ({
   resave: false,
   saveUninitialized: true,
   // Secured cookies are only set in production
-  cookie: {secure: process.env.NODE_ENV && process.env.NODE_ENV === 'production'},
+  cookie: {secure: isProd},
   // User by default is empty
   user: {}
 });
+
+exports.corsPolicy = () => {
+  return (req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "https://dev-mind.fr");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+  }
+};
 
 /**
  * used with helmet.contentSecurityPolicy
@@ -38,14 +47,19 @@ exports.securityPolicy = () => ({
 
 exports.rewrite = () => {
   return (req, res, next) => {
-    const httpInForwardedProto = req.headers && req.headers['x-forwarded-proto'] && req.headers['x-forwarded-proto'] === 'http';
-    const httpInReferer = req.headers && req.headers.referer && req.headers.referer.indexOf('http://') >=0;
-    const hostWwwInHeader = req.headers && req.headers.host && req.headers.host.indexOf('www') >=0;
-    const isHtmlPage = req.url.indexOf(".html") >= 0;
+    if(isProd){
+      const httpInForwardedProto = req.headers && req.headers['x-forwarded-proto'] && req.headers['x-forwarded-proto'] === 'http';
+      const httpInReferer = req.headers && req.headers.referer && req.headers.referer.indexOf('http://') >=0;
+      const hostWwwInHeader = req.headers && req.headers.host && req.headers.host.indexOf('www') >=0;
+      const isHtmlPage = req.url.indexOf(".html") >= 0;
 
-    if((isHtmlPage || req.url === '/')  && (httpInForwardedProto || httpInReferer || hostWwwInHeader)){
-      console.log('User is not in HTTP, he is redirected');
-      res.redirect('https://dev-mind.fr' + req.url);
+      if((isHtmlPage || req.url === '/')  && (httpInForwardedProto || httpInReferer || hostWwwInHeader)){
+        console.log('User is not in HTTP, he is redirected');
+        res.redirect('https://dev-mind.fr' + req.url);
+      }
+      else{
+        next();
+      }
     }
     else{
       next();
