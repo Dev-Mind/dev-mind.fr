@@ -19,9 +19,7 @@ exports.sessionAttributes = (secret) => ({
 
 exports.corsPolicy = () => {
   return (req, res, next) => {
-    const hostWwwInHeader = req.headers && req.headers.host && req.headers.host.indexOf('www') >=0;
-
-    res.header('Access-Control-Allow-Origin', hostWwwInHeader ? 'https://www.dev-mind.fr' : 'https://dev-mind.fr');
+    res.header('Access-Control-Allow-Origin', 'https://www.dev-mind.fr, https://dev-mind.fr');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     next();
   }
