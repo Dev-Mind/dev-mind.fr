@@ -1,0 +1,70 @@
+:doctitle: Préparer son environnement de travail
+:description: Quels sont les outils à installer pour être un développeur full stack, Java Android et Web
+:keywords: Développement, Installation
+:author: Guillaume EHRET - Dev-Mind
+:revdate: 2018-09-24
+:category: Java
+:teaser:  Le but de cette partie est de vous présenter les liens et la procédure à suivre pour préparer votre poste de travail de développeur Java Web
+:imgteaser: ../../img/training/environnement.png
+
+Nous voulons développer nos propres applications mais quelles sont les meilleures solutions ? Que dois je faire pour commencer ? Quels logiciels dois je installer ? Un bon artisan a des bons outils. Il en est de même pour un développeur
+
+image::../../img/training/environnement.png[Environnement de travail]
+
+== Installation de Java
+
+Quand vous êtes un utilisateur lambda vous pouvez installer un environnement d'exécution Java => Java Runtime Environment. Pour faire du développement nous avons besoin de plus d'outils pour compiler, monitorer... et nous allons utiliser un Java Development Kit (JDK)
+
+.logo Java
+image::../../img/training/outil/java.svg[Java]
+
+Vous pouvez télécharger une version de Java 1.8+ à cette http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html[URL]. C'est très bien pour les utilisateurs Windows ou Linux (choisir la version rpm)
+
+Si vous êtes sous Linux (Fedora, CentOS) vous pouvez exécuter
+
+[source,shell]
+----
+~$ cd ~/Downloads/
+~$ sudo yum install jdk-8u181-linux-x64.rpm
+----
+
+sous Linux (Debian, Ubuntu) vous pouvez exécuter
+
+[source,shell]
+----
+~$ cd ~/Downloads/
+~$ sudo alien jdk-8u181-linux-x64.rpm
+~$ sudo dpkg -i jdk-8u181-linux-x64.deb
+----
+
+Vous pouvez aussi télécharger une version plus récente mais tous les outils ne sont pas forcément compatibles. Si vous avez plusieurs versions de Java sous Linux vous pouvez utiliser la commande suivante pour définir la version par défaut
+
+[source,shell]
+----
+~$  update-alternatives --config java
+----
+
+Vérifier que Java est installer
+
+[source,shell]
+----
+~$  java -version
+java version "1.8.0_181"
+Java(TM) SE Runtime Environment (build 1.8.0_181-b13)
+Java HotSpot(TM) 64-Bit Server VM (build 25.181-b13, mixed mode)
+----
+
+== Installation d'un IDE
+
+> Un IDE (integrated development environment) est en français un environnement de développement intégré. C'est en fait un ensemble d'outils qui permet d'augmenter la productivité des développeurs logiciel. Il comporte un éditeur de texte destiné à la programmation, des fonctions qui permettent, de démarrer le compilateur, lancer des tests, lancer des exécutables, déboguer en ligne... Il existe plusieurs IDE sur le marché.
+
+Quand on fait du développement Java Web il y a plusieurs alternatives : http://www.eclipse.org/downloads/[Eclipse], https://netbeans.org/[NetBeans], https://www.jetbrains.com/idea/[IntelliJ Idea]
+
+Après 20 ans de développement, IntelliJ Idea est pour moi le meilleur des trois mais la version Premium est payante. Elle est en version d'essai pendant 30 jours et la version community est gratuite https://www.jetbrains.com/idea/download.
+
+Nous allons utiliser la version Community pour les TP. Vous pouvez la télécharger et l'installer. Pour info cette version community est aussi la base de https://developer.android.com/studio/[Android Studio] utilsié pour le développement Android
+
+Lancez votre IDE pour vérifier que tout fonctionne
+
+.logo IntelliJ
+image::../../img/training/outil/idea.svg[IntelliJ]

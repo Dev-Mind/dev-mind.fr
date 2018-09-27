@@ -87,3 +87,11 @@ devmind-article {
     color: $color_flash;
   }
 }
+
+blockquote > .paragraph {
+  @include dm_box__shadow;
+  padding: 1em;
+  background-color: $color_dark;
+  color: white;
+  border-radius: 4px;
+}

@@ -367,7 +367,7 @@ gulp.task('watch-adoc', () =>
 gulp.task('watch-js', () =>
   gulp.watch('src/**/*.js', gulp.series('lint', 'local-js', 'blog', 'training', 'html', 'cache-busting-dev')));
 gulp.task('watch-img', () =>
-  gulp.watch('src/images/**/*', gulp.series('images')));
+  gulp.watch('src/images/**/*', gulp.series('images', 'blog', 'training', 'html', 'cache-busting-dev')));
 gulp.task('watch-template', () =>
   gulp.watch('src/**/*.handlebars', gulp.series('blog', 'training', 'html', 'cache-busting-dev')));
 
