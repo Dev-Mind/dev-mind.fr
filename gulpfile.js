@@ -6,21 +6,8 @@ const path = require('path');
 const imagemin = require('gulp-imagemin');
 const imageminJpegtran = require('imagemin-jpegtran');
 const wbBuild = require('workbox-build');
-
+const website = require('devmind-website')();
 const $ = require('gulp-load-plugins')();
-
-const convertToHtml = require('./gulp-extensions/convert-to-html');
-const convertToBlogList = require('./gulp-extensions/convert-to-blog-list');
-const convertToBlogPage = require('./gulp-extensions/convert-to-blog-page');
-const convertToJson = require('./gulp-extensions/convert-to-json');
-const convertToRss = require('./gulp-extensions/convert-to-rss');
-const convertToSitemap = require('./gulp-extensions/convert-to-sitemap');
-const readAsciidoc = require('./gulp-extensions/read-asciidoctor');
-const readHtml = require('./gulp-extensions/read-html');
-const readIndex = require('./gulp-extensions/read-index');
-const applyTemplate = require('./gulp-extensions/apply-template');
-const highlightCode = require('./gulp-extensions/highlight-code');
-const fileExist = require('./gulp-extensions/file-exist');
 
 const AUTOPREFIXER_BROWSERS = [
   'ie >= 11',
@@ -80,40 +67,27 @@ gulp.task('styles', (cb) => {
       .on('end', () => cb())
 });
 
-// gulp.task('blog-firebase', (cb) => {
-//   // Hack to be able to stop the task when the async firebase requests are complete
-//   gulp.on('stop', () => {
-//     if (!modeDev) {
-//       process.nextTick(() => process.exit(0));
-//     }
-//   });
-//   gulp.src('src/blog/**/*.adoc')
-//       .pipe(readAsciidoc(modeDev))
-//       .pipe(firebaseIndexing(modeDev))
-//       .on('end', () => cb())
-// });
-
 gulp.task('blog-indexing', () =>
   gulp.src('src/blog/**/*.adoc')
-      .pipe(readAsciidoc(modeDev))
-      .pipe(convertToHtml())
-      .pipe(convertToJson('blogindex.json'))
+      .pipe(website.readAsciidoc())
+      .pipe(website.convertToHtml())
+      .pipe(website.convertToJson('blogindex.json'))
       .pipe(gulp.dest('build/.tmp'))
 );
 
 gulp.task('blog-rss', () =>
   gulp.src('build/.tmp/blogindex.json')
-      .pipe($.wait2(() => fileExist('build/.tmp/blogindex.json')))
-      .pipe(readIndex())
-      .pipe(convertToRss('blog.xml'))
+      .pipe($.wait2(() => website.fileExist('build/.tmp/blogindex.json')))
+      .pipe(website.readIndex())
+      .pipe(website.convertToRss('blog.xml'))
       .pipe(gulp.dest('build/dist/rss'))
 );
 
 gulp.task('blog-index', () =>
   gulp.src('build/.tmp/blogindex.json')
-      .pipe($.wait2(() => fileExist('build/.tmp/blogindex.json')))
-      .pipe(readIndex())
-      .pipe(convertToBlogList('src/templates/index.handlebars', HANDLEBARS_PARTIALS, 'index.html', 1))
+      .pipe($.wait2(() => website.fileExist('build/.tmp/blogindex.json')))
+      .pipe(website.readIndex())
+      .pipe(website.convertToBlogList('src/templates/index.handlebars', HANDLEBARS_PARTIALS, 'index.html', 1))
       .pipe(gulp.dest('build/.tmp'))
       .pipe($.htmlmin(HTMLMIN_OPTIONS))
       .pipe(gulp.dest('build/dist'))
@@ -121,9 +95,9 @@ gulp.task('blog-index', () =>
 
 gulp.task('blog-list', () =>
   gulp.src('build/.tmp/blogindex.json')
-      .pipe($.wait2(() => fileExist('build/.tmp/blogindex.json')))
-      .pipe(readIndex())
-      .pipe(convertToBlogList('src/templates/blog_list.handlebars', HANDLEBARS_PARTIALS, 'blog.html', 4))
+      .pipe($.wait2(() => website.fileExist('build/.tmp/blogindex.json')))
+      .pipe(website.readIndex())
+      .pipe(website.convertToBlogList('src/templates/blog_list.handlebars', HANDLEBARS_PARTIALS, 'blog.html', 4))
       .pipe(gulp.dest('build/.tmp'))
       .pipe($.htmlmin(HTMLMIN_OPTIONS))
       .pipe(gulp.dest('build/dist'))
@@ -131,9 +105,9 @@ gulp.task('blog-list', () =>
 
 gulp.task('blog-archive', () =>
   gulp.src('build/.tmp/blogindex.json')
-      .pipe($.wait2(() => fileExist('build/.tmp/blogindex.json')))
-      .pipe(readIndex())
-      .pipe(convertToBlogList('src/templates/blog_archive.handlebars', HANDLEBARS_PARTIALS, 'blog_archive.html'))
+      .pipe($.wait2(() => website.fileExist('build/.tmp/blogindex.json')))
+      .pipe(website.readIndex())
+      .pipe(website.convertToBlogList('src/templates/blog_archive.handlebars', HANDLEBARS_PARTIALS, 'blog_archive.html'))
       .pipe(gulp.dest('build/.tmp'))
       .pipe($.htmlmin(HTMLMIN_OPTIONS))
       .pipe(gulp.dest('build/dist'))
@@ -141,10 +115,10 @@ gulp.task('blog-archive', () =>
 
 gulp.task('blog-page', (cb) => {
   gulp.src('src/blog/**/*.adoc')
-      .pipe(readAsciidoc(modeDev))
-      .pipe(convertToHtml())
-      .pipe(highlightCode({selector: 'pre.highlight code'}))
-      .pipe(convertToBlogPage('src/templates/blog.handlebars', HANDLEBARS_PARTIALS, 'build/.tmp/blogindex.json'))
+      .pipe(website.readAsciidoc())
+      .pipe(website.convertToHtml())
+      .pipe(website.highlightCode({selector: 'pre.highlight code'}))
+      .pipe(website.convertToBlogPage('src/templates/blog.handlebars', HANDLEBARS_PARTIALS, 'build/.tmp/blogindex.json'))
       .pipe(gulp.dest('build/.tmp/blog'))
       .pipe($.htmlmin(HTMLMIN_OPTIONS))
       .pipe(gulp.dest('build/dist/blog'))
@@ -167,14 +141,14 @@ gulp.task('lint', () =>
 
 gulp.task('html-indexing', () =>
   gulp.src(`src/html/**/*.html`)
-      .pipe(readHtml(modeDev))
-      .pipe(convertToJson('pageindex.json'))
+      .pipe(website.readHtml())
+      .pipe(website.convertToJson('pageindex.json'))
       .pipe(gulp.dest('build/.tmp')));
 
 gulp.task('html-template', () =>
   gulp.src(`src/html/**/*.html`)
-      .pipe(readHtml(modeDev))
-      .pipe(applyTemplate(`src/templates/site.handlebars`, HANDLEBARS_PARTIALS))
+      .pipe(website.readHtml())
+      .pipe(website.applyTemplate(`src/templates/site.handlebars`, HANDLEBARS_PARTIALS))
       .pipe($.size({title: 'html', showFiles: true}))
       .pipe(gulp.dest('build/.tmp'))
       .pipe($.htmlmin(HTMLMIN_OPTIONS))
@@ -184,27 +158,27 @@ gulp.task('html', gulp.parallel('html-indexing', 'html-template'));
 
 gulp.task('training-indexing', () =>
   gulp.src(`src/training/**/*.adoc`)
-      .pipe(readAsciidoc(modeDev))
-      .pipe(convertToHtml())
-      .pipe(convertToJson('trainingindex.json'))
+      .pipe(website.readAsciidoc())
+      .pipe(website.convertToHtml())
+      .pipe(website.convertToJson('trainingindex.json'))
       .pipe(gulp.dest('build/.tmp'))
 );
 
 gulp.task('training-list', (cb) =>
   gulp.src('build/.tmp/trainingindex.json')
-      .pipe(readIndex())
-      .pipe(convertToBlogList('src/templates/trainings.handlebars', HANDLEBARS_PARTIALS, 'trainings.html', 100))
+      .pipe(website.readIndex())
+      .pipe(website.convertToBlogList('src/templates/trainings.handlebars', HANDLEBARS_PARTIALS, 'trainings.html', 100))
       .pipe(gulp.dest('build/.tmp/training'))
 );
 
 gulp.task('training-page', (cb) => {
   gulp.src('src/training/**/*.adoc')
-      .pipe($.wait2(() => fileExist('build/.tmp/trainingindex.json')))
-      .pipe(readAsciidoc(modeDev))
-      .pipe(convertToHtml())
-      .pipe(highlightCode({selector: 'pre.highlight code'}))
+      .pipe($.wait2(() => website.fileExist('build/.tmp/trainingindex.json')))
+      .pipe(website.readAsciidoc())
+      .pipe(website.convertToHtml())
+      .pipe(website.highlightCode({selector: 'pre.highlight code'}))
       .pipe(
-        convertToBlogPage('src/templates/training.handlebars', HANDLEBARS_PARTIALS, 'build/.tmp/trainingindex.json'))
+        website.convertToBlogPage('src/templates/training.handlebars', HANDLEBARS_PARTIALS, 'build/.tmp/trainingindex.json'))
       .pipe($.size({title: 'html', showFiles: true}))
       .pipe(gulp.dest('build/.tmp/training'))
       .on('end', () => cb())
@@ -292,8 +266,8 @@ gulp.task('copy', (cb) => {
 
 gulp.task('sitemap', () =>
   gulp.src(['build/.tmp/blogindex.json', 'build/.tmp/pageindex.json'])
-      .pipe(readIndex())
-      .pipe(convertToSitemap())
+      .pipe(website.readIndex())
+      .pipe(website.convertToSitemap())
       .pipe(gulp.dest('build/dist'))
 );
 
@@ -394,14 +368,7 @@ gulp.task('build', gulp.series('images-pre',
                                'copy',
                                'training',
                                'cache-busting',
-                               'service-worker'), cb => {
-  // Hack to be able to stop the task when the async firebase requests are complete
-  gulp.on('stop', () => {
-    if (!modeDev) {
-      process.nextTick(() => process.exit(0));
-    }
-  });
-});
+                               'service-worker'));
 
 
 // Build production files, the default task
