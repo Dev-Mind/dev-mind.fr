@@ -2,8 +2,8 @@ const express = require('express');
 const http = require('http');
 const compression = require('compression');
 const helmet = require('helmet');
-const cachePolicy = require('./app.webcache');
-const security = require('./app.security');
+const cachePolicy = require('./server/app.webcache');
+const security = require('./server/app.security');
 const session = require('express-session');
 
 const parseJsonEnv = (value) => {

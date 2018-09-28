@@ -12,7 +12,7 @@ Je vais revenir sur l'intervention de Jose Paumard au Lyon Jug pour nous parler 
 == Pourquoi les lambdas ?
 On peut se demander pourquoi les lambdas ont été introduites dans Java 8 ? Le mieux est de prendre un exemple. Considérons une classe Person
 
-[source, java, subs="none"]
+[source,java]
 ----
 public class Person {
     public int age;
@@ -20,9 +20,10 @@ public class Person {
 }
 ----
 
+
 Le but est ici d'agir sur un ensemble de personnes (une Collection) et de calculer la moyenne d'âge de toutes les personnes de plus de 20 ans. En Java on fait généralement de la programmation impérative où l'on décrit les différentes instructions qui seront exécutées par la machine pour modifier des états. Par exemple
 
-[source, java, subs="none"]
+[source,java]
 ----
 int sum = 0;
 int average = 0;
@@ -46,7 +47,7 @@ Si on essaye de décomposer les opérations pour obtenir le résultat nous avons
 
 On aimerait faire du  fonctionnel et repenser notre code mais en Java 7 ceci est difficile. La base serait de définir des interfaces du style
 
-[source, java, subs="none"]
+[source,java]
 ----
 public interface Mapper<O, P> {
     P map(O o);
@@ -61,7 +62,7 @@ public interface Reducer<R> {
 
 et des implémentations...
 
-[source, java, subs="none"]
+[source,java]
 ----
 Mapper<Person, Integer> mapper = new Mapper<Person, Integer>() {
     @Override
@@ -85,7 +86,7 @@ Reducer<Integer> reducer = new Reducer<Integer>() {
 
 On pourrait aussi utiliser la programmation fonctionnelle à la sauce  Guava  mais cette librairie ne permet pas de faire la dernière opération de reduce. On devrait écrire
 
-[source, java, subs="none"]
+[source,java]
 ----
 List<Integer> agesPersons = FluentIterable
         .from(persons)
@@ -114,7 +115,7 @@ if(!agesPersons.isEmpty()) {
 
 On peut voir que le code est assez verbeux et que notre boucle for initiale est beaucoup simple. Passons maintenant à  Java8 et utilisons les lambdas expressions pour simplifier l'écriture des implémentations de nos interfaces.
 
-[source, java, subs="none"]
+[source,java]
 ----
 Mapper<Person, Integer> mapper = (Person person) -> person.getAge();
 //ou
@@ -155,7 +156,7 @@ Java 8 arrive avec 43 nouvelles interfaces fonctionnelles mises à disposition d
 
 Revenons à notre exemple. Pour le moment les lambdas n'ont pas permis de répondre à notre besoin intial. Pour cela il faudrait que l'API Collection fournissent des classes utilitaires permettant d'effectuer ces fonctions de base pour manipuler ces listes. Ça donnerait par exemple
 
-[source, java, subs="none"]
+[source,java]
 ----
 List<Integer> ages = Lists.map(persons, person -> person.getAge());
 List<Integer> ages20 = Lists.filter(ages, age -> age>=20);
@@ -176,7 +177,7 @@ Une Stream peut être définie de plusieurs manières
 
 Si on revient à notre besoin initial de vouloir calculer la moyenne d'âge des personnes de plus de 20 ans on peut écrire le code suivante
 
-[source, java, subs="none"]
+[source,java]
 ----
 double moyenne = persons.stream()
                         .filter(person -> person.getAge() >= 20)
@@ -202,7 +203,7 @@ Un peu plus haut j'ai indiqué que nous trouvions une nouvelle méthode dans l'A
 
 Il a fallu inventer un nouveau concept, les default methods. Elles permettent de déclarer une méthode dans une interface et proposer une implémentation par défaut qui sera exécutée si elle n'est pas surcharger. Prenons par exemple l'interface Collection on trouve une nouvelle méthode
 
-[source, java, subs="none"]
+[source,java]
 ----
 default Stream<E> stream() {
     return StreamSupport.stream(spliterator(), false);
@@ -211,7 +212,7 @@ default Stream<E> stream() {
 
 Si on réfléchit, par ce principe on est train d'introduire l'héritage multiple dans le langage... Prenons l'exemple de deux interfaces et une implémentation
 
-[source, java, subs="none"]
+[source,java]
 ----
 public interface A {
     public String a();
@@ -229,7 +230,7 @@ public class C implements A,B {
 
 Dans ce cas nous n'avons pas de problème mais si on transforme la méthode en default method que ce passe t'il pour la classe C si la méthode n'est pas surchargée ?
 
-[source, java, subs="none"]
+[source,java]
 ----
 public interface A {
     default public String a() { return "a";}
@@ -251,7 +252,7 @@ Les default method ont un réel intérêt quand vous définissez une API. Prenon
 
 Vous pouvez aussi à partir de Java 8 définir des méthodes static dans les interfaces. Ceci facilitera la mise à disposition de classe Helper dans une API. Par exemple si je prends l'interface Stream
 
-[source, java, subs="none"]
+[source,txt]
 ----
 public static<T> Stream<T> empty() {
     return StreamSupport.stream(Spliterators.<T>emptySpliterator(), false);
@@ -267,7 +268,7 @@ Les optionals sont un nouveau concept pour éviter les NullPointerException. Opt
 
 Par exemple quand vous faites une réduction d'un ensemble
 
-[source, java, subs="none"]
+[source,java]
 ----
 Optional<Integer> sum =  persons.stream()
                                 .map(person -> person.getAge())
@@ -283,7 +284,7 @@ Avec Java 8 vous n'avez plus besoin de déclarer vos variables ou paramètres en
 
 Pour terminer ce voyage dans les arcanes de Java 8 il est important de parler des Collectors. Les Collectors offrent tout un tas d'utilitaire pour effectuer des réductions d'ensemble un peu plus avancées. Prenons plusieurs exemples
 
-[source, java, subs="none"]
+[source,java]
 ----
 //Age moyen des personnes de plus de 20 ans
 double moyenne = persons.stream()
@@ -292,7 +293,7 @@ double moyenne = persons.stream()
 ----
 donnera 42.5
 
-[source, java, subs="none"]
+[source,java]
 ----
 //map repartissant les personnes par age
 Map<Integer, List<Person>> repartition =  persons.stream()
@@ -301,7 +302,7 @@ Map<Integer, List<Person>> repartition =  persons.stream()
 ----
 donnera {50=[com.javamind.domain.Person@122bbb7, com.javamind.domain.Person@1a4555e], 70=[com.javamind.domain.Person@30f1c0], 60=[com.javamind.domain.Person@1ed3c8d]}
 
-[source, java, subs="none"]
+[source,java]
 ----
 //map repartissant les personnes par age selon leur nom
         Map<Integer, List<String>> repartition2 =  persons.stream()
