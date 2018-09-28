@@ -2446,9 +2446,9 @@ detect-newline@2.X:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/detect-newline/-/detect-newline-2.1.0.tgz#f41f1c10be4b00e87b5f13da680759f2c5bfd3e2"
 
-"devmind-website@https://github.com/Dev-Mind/devmind-website.git#0.0.3":
+"devmind-website@https://github.com/Dev-Mind/devmind-website.git#0.0.4":
   version "1.0.0"
-  resolved "https://github.com/Dev-Mind/devmind-website.git#005bba68e252cce5b40b1bc3843327b829e0253f"
+  resolved "https://github.com/Dev-Mind/devmind-website.git#ee952c29a976ec7da759ef76c9dcfa553951853b"
   dependencies:
     asciidoctor.js "^1.5.6-preview.3"
     cheerio "^0.22.0"
