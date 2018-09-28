@@ -7,10 +7,13 @@ const security = require('./server/app.security');
 const session = require('express-session');
 
 const parseJsonEnv = (value) => {
-  const fields = value.replace("{", "").replace("}", "").replace("[", "").replace("]", "").trim().split(",")
+  const valueWithoutSpace = value.replace(/[ ]/g, '');
+  const userBlock = valueWithoutSpace.split("},{");
+
   const users = [];
-  for (let i = 0; i < fields.length; i = i + 2) {
-    users.push({username: fields[i].split(":")[1].trim(), password: fields[i+1].split(":")[1].trim()});
+  for (let i = 0; i < userBlock.length; i ++) {
+    const userBlockSantizied = userBlock[i].replace(/[\[{}\]]/g, '').split(",");
+    users.push({username: userBlockSantizied[0].split(':')[1], password: userBlockSantizied[1].split(':')[1]});
   }
   return users
 };
