@@ -34,16 +34,22 @@ const app = express()
   .enable('trust proxy')
   .use(security.rewrite())
   .use(session(security.sessionAttributes(DEVMIND.secret)))
-  .use(compression())
   .use(express.urlencoded({extended: false}))
   .use(helmet())
   .use(helmet.contentSecurityPolicy(security.securityPolicy()))
   .use(security.checkAuth(DEVMIND.securedUrls))
   .use(security.corsPolicy())
   .use(express.static(DEVMIND.static, {setHeaders: cachePolicy.setCustomCacheControl}))
+  .use(compression())
   .get('/logout', security.logoutHandler())
   .post('/login', security.loginHandler(DEVMIND.users))
   .all('*', security.notFoundHandler());
+
+
+if(!process.env.NODE_ENV || process.env.NODE_ENV !== 'prod'){
+  console.log('Activates livereload');
+  app.use(require('connect-livereload')({ src: "localhost:8081" }));
+}
 
 app.set('port', DEVMIND.port);
 

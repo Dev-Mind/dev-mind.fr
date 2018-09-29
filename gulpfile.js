@@ -107,7 +107,8 @@ gulp.task('blog-archive', () =>
   gulp.src('build/.tmp/blogindex.json')
       .pipe($.wait2(() => website.fileExist('build/.tmp/blogindex.json')))
       .pipe(website.readIndex())
-      .pipe(website.convertToBlogList('src/templates/blog_archive.handlebars', HANDLEBARS_PARTIALS, 'blog_archive.html'))
+      .pipe(
+        website.convertToBlogList('src/templates/blog_archive.handlebars', HANDLEBARS_PARTIALS, 'blog_archive.html'))
       .pipe(gulp.dest('build/.tmp'))
       .pipe($.htmlmin(HTMLMIN_OPTIONS))
       .pipe(gulp.dest('build/dist'))
@@ -118,7 +119,8 @@ gulp.task('blog-page', (cb) => {
       .pipe(website.readAsciidoc())
       .pipe(website.convertToHtml())
       .pipe(website.highlightCode({selector: 'pre.highlight code'}))
-      .pipe(website.convertToBlogPage('src/templates/blog.handlebars', HANDLEBARS_PARTIALS, 'build/.tmp/blogindex.json'))
+      .pipe(
+        website.convertToBlogPage('src/templates/blog.handlebars', HANDLEBARS_PARTIALS, 'build/.tmp/blogindex.json'))
       .pipe(gulp.dest('build/.tmp/blog'))
       .pipe($.htmlmin(HTMLMIN_OPTIONS))
       .pipe(gulp.dest('build/dist/blog'))
@@ -178,7 +180,8 @@ gulp.task('training-page', (cb) => {
       .pipe(website.convertToHtml())
       .pipe(website.highlightCode({selector: 'pre.highlight code'}))
       .pipe(
-        website.convertToBlogPage('src/templates/training.handlebars', HANDLEBARS_PARTIALS, 'build/.tmp/trainingindex.json'))
+        website.convertToBlogPage('src/templates/training.handlebars', HANDLEBARS_PARTIALS,
+                                  'build/.tmp/trainingindex.json'))
       .pipe($.size({title: 'html', showFiles: true}))
       .pipe(gulp.dest('build/.tmp/training'))
       .on('end', () => cb())
@@ -332,6 +335,7 @@ gulp.task('compress-img', (cb) => {
 gulp.task('compress', gulp.parallel('compress-svg', 'compress-img'));
 
 
+gulp.task('livereload', () => $.livereload.listen());
 gulp.task('watch-html', () =>
   gulp.watch('src/**/*.html', gulp.series('html', 'cache-busting-dev')));
 gulp.task('watch-scss', () =>
@@ -345,8 +349,17 @@ gulp.task('watch-img', () =>
 gulp.task('watch-template', () =>
   gulp.watch('src/**/*.handlebars', gulp.series('blog', 'training', 'html', 'cache-busting-dev')));
 
+gulp.task('launch', () =>
+  $.nodemon({script: './app.js'}).on('restart', () => console.log('Server restarted!')));
 
-gulp.task('watch', gulp.parallel('watch-html', 'watch-scss', 'watch-adoc', 'watch-js', 'watch-img', 'watch-template'));
+gulp.task('launchServerAndWatch', gulp.parallel('watch-html',
+                                 'watch-scss',
+                                 'watch-adoc',
+                                 'watch-js',
+                                 'watch-img',
+                                 'watch-template',
+                                 //'livereload',
+                                 'launch'));
 
 
 gulp.task('clean', () => del('build', {dot: true}));
@@ -376,5 +389,5 @@ gulp.task('build', gulp.series('images-pre',
 gulp.task('default', gulp.series('clean', 'build', 'sitemap'));
 
 // Build dev files
-gulp.task('serve', gulp.series('initModeDev', 'build', 'watch'));
+gulp.task('serve', gulp.series('initModeDev', 'build', 'launchServerAndWatch'));
 

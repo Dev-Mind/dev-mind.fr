@@ -62,10 +62,10 @@ exports.rewrite = () => {
         res.redirect('https://dev-mind.fr' + req.url);
       }
       //Redirection on domain without www don't work. So this feature is disabled
-      else if((isHtmlPage || req.url === '/')  && hostWwwInHeader){
-        console.log('User is not on www, he is redirected');
-        res.status(301).redirect('https://dev-mind.fr/index.html');
-      }
+      // else if((isHtmlPage || req.url === '/')  && hostWwwInHeader){
+      //   console.log('User is not on www, he is redirected');
+      //   res.status(301).redirect('https://dev-mind.fr/index.html');
+      // }
       else{
         next();
       }
