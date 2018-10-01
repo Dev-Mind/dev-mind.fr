@@ -1,4 +1,4 @@
-:doctitle: Gérer les sources avec Git
+:doctitle: Gérer les sources avec Git (FR)
 :description: Quels sont les outils à installer pour être un développeur full stack, Java Android et Web
 :keywords: Développement, Source
 :author: Guillaume EHRET - Dev-Mind

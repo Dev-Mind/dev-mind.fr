@@ -6,8 +6,8 @@ const isProd = process.env.NODE_ENV && process.env.NODE_ENV === 'prod';
  */
 exports.sessionAttributes = (secret) => ({
   secret: secret,
-  // A session life is 30min
-  duration: 30 * 60 * 1000,
+  // A session life is 3h
+  duration: 3 * 60 * 60 * 1000,
   // We don't authorize a session resave
   resave: false,
   saveUninitialized: true,
@@ -40,7 +40,7 @@ exports.securityPolicy = () => ({
     // We have to authorize data:... for SVG images
     imgSrc: ["'self'", 'data:', 'https:'],
     // We have to authorize inline script used to load our JS app
-    scriptSrc: ["'self'", "'unsafe-inline'", 'https://www.google-analytics.com/analytics.js',
+    scriptSrc: ["'self'", "'unsafe-inline'", 'https://www.google-analytics.com/analytics.js', 'https://storage.googleapis.com/workbox-cdn/*',
       "https://*.gstatic.com",
       //"https://www.gstatic.com/firebasejs/4.0.0/firebase-database.js",
       "https://*.firebaseio.com"],
