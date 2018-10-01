@@ -2,7 +2,7 @@
 :description: Présentation de l'écosystème de Spring
 :keywords: Web, Blog, Asciidoc, Asciidoctor, CMS, Clever Cloud
 :author: Guillaume EHRET - Dev-Mind
-:revdate: 2018-09-25
+:revdate: 2018-10-04
 :category: Java
 :teaser:  Présentation de l'écosystème de Spring afin de connaître les différents projets et le mode de fonctionnement de Spring
 :imgteaser: ../../img/training/spring-intro.png
@@ -82,6 +82,168 @@ image::../../img/training/spring-intro/spring-projects.png[canvas, size=70%]
 * Licence «Apache 2.0»
 * https://github.com/spring-projects
 
-== Démarrer un application Spring
+== Documentation
 
+* Spring Core
+[.small]#https://docs.spring.io/spring/docs/5.0.8.RELEASE/spring-framework-reference/#
+* Spring Boot
+[.small]#https://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/htmlsingle#
+* Spring Data JPA
+[.small]#https://docs.spring.io/spring-data/jpa/docs/2.0.9.RELEASE/reference/html/#
+* Spring Security
+[.small]#https://docs.spring.io/spring-security/site/docs/5.0.7.RELEASE/reference/htmlsingle/#
+
+== Démarrer avec Spring
+
+Pour démarrer, utilisez un générateur https://start.spring.io/
+
+image:../../img/training/spring-intro/springboot-init.png[size=90%]
+
+* Un peu de paramétrage
+** *génération* à partir de Gradle
+** *version de Spring*  la plus haute (non suffixée snapshot ou Mx)
+** *group* : com.esme.spring  +
+** *artifact* :  faircorp +
+** *dependencies* : Web, JPA, DevTools
+
+1. Cliquez sur le bouton générer
+2. Dézipper le projet dans un répertoire (vous pouvez le mettre à côté du premier projet que nous avons fait dans le TP)
+3. Ouvrir le projet dans un IDE
+
+image:../../img/training/spring-intro/springboot-ide.png[size=80%]
+
+
+== Arborescence projet
+
+|===
+| |
+|  image:../../img/training/spring-intro/springboot-tree.png[]
+a|
+* Suit la convention Maven pour les sources
+* Configure Gradle
+** [.small]#Wrapper (répertoire gradle, gradlew, gradlew.bat)#
+** [.small]#build.gradle, settings.gradle#
+* Application générée avec des tests +
+{nbsp}
+|===
+
+== Configuration Gradle
+
+`settings.gradle`
+[source,groovy]
+----
+rootProject.name = 'faircorp'
+----
+
+* contient le nom du projet
+* peut aussi contenir la définition des sous modules +
+[.small .small-block]#avec `include 'backend', 'frontend'`#
+
+
+`build.gradle`
+[source,groovy]
+----
+buildscript {
+ ext {
+  springBootVersion = '2.0.4.RELEASE' // <1>
+ }
+ repositories {
+  	mavenCentral() // <2>
+ }
+ dependencies { // <3>
+  classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+ }
+}
+
+apply plugin: 'java' // <4>
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group = 'com.training.spring' // <5>
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories { // <6>
+ mavenCentral()
+}
+
+dependencies { // <7>
+ compile('org.springframework.boot:spring-boot-starter-aop') // <8>
+ testCompile('org.springframework.boot:spring-boot-starter-test') // <9>
+}
+----
+
+1. version de Spring +
+2. Dépôt contenant les dépendances des plugins
+3. Ajout du plugin springBoot
+4. Plugins utilisés : boot pour piloter l'application, dependency-management pour les dépendances
+5. Identifiants du projet
+6. Dépôt contenant les dépendances du projet
+7. Déclaration des dépendance utilisées pour la compilation, l'exécution ou les tests (pour les dépendances tirées par Spring vous n'avez pas besoin de spécifier les numéros de version des librairies,grâce au plugin `io.spring.dependency-management`)
+8. `spring-boot-starter-aop` est le starter qui permet de faire de l'AOP
+9. `spring-boot-starter-test` est le starter qui importe les dépendances utilisées dans les tests (SpringTest, Junit, Mockito...)
+
+== FaircorpApplication
+
+
+[source,java]
+----
+@SpringBootApplication
+public class FaircorpApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(FaircorpApplication.class, args);
+	}
+}
+----
+
+* `@SpringBootApplication` permet d'initialiser et lancer l'application Spring Boot
+
+== FaircorpApplicationTests
+
+[source,java]
+----
+@RunWith(SpringRunner.class) // <1>
+@SpringBootTest // <2>
+public class FaircorpApplicationTests {
+
+	@Test
+	public void contextLoads() {
+	}
+
+}
+----
+<1> Runner à utiliser dans les tests pour dire que l'on fait du Spring
+<2> Annotation qui va créer un application context comme le fait `@SpringBootApplication`
+
+== application.properties
+
+* Ce fichier situé dans `src/main/resources` contient les paramètres de l'application
+* Si vous ajouter un fichier `application-prod.properties` il ne sera pris en compte que si le profile `prod` est activé
+
+== Lancer l'application
+
+[source,shell]
+----
+./gradlew --continuous bootRun
+----
+
+* [.small .small-block]#L'option *--continuous* permet de laisser l'application lancée et de la mettre à jour dès que vous faites des modifications dans votre code et que ce dernier est recompilé#
+* Pour arrêter l'application utiliser kbd:[Ctrl+c]
+
+== Packager application
+
+[source,shell]
+----
+./gradlew assemble
+----
+
+* [.small .small-block]#Cette tâche lance le packaging du projet dans `build/libs`.#
+* [.small .small-block]#Le jar généré `faircorp-0.0.1-SNAPSHOT.jar` contient tout ce qu'il faut pour lancer l'application#
+* Pour lancer une application Spring Boot vous pouvez lancer
+
+[source,shell]
+----
+java -jar build/libs/faircorp-0.0.1-SNAPSHOT.jar
+----
 

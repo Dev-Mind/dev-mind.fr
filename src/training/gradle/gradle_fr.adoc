@@ -1,8 +1,8 @@
-:doctitle: Utiliser Gradle
+:doctitle: Gradle en pratique (FR)
 :description: Comment construire une application Java interfacée à une base de données et exposant des services REST
 :keywords: Gradle
 :author: Guillaume EHRET - Dev-Mind
-:revdate: 2018-11-02
+:revdate: 2018-10-02
 :category: Web
 :teaser: Dans ce cours nous allons voir ce qu'est Gradle et comment nous pouvons l'utiliser dans nos projets. Ce n'est qu'une présentation succinte des possibilités offertes par cet outil et vous trouverez plus de documentation sur le site officiel.
 :imgteaser: ../../img/training/gradle.png
