@@ -473,7 +473,7 @@ If you want to retrieve local changes made by your colleagues do
 
 The `git fetch` command retrieves the history of all branches locally.
 
-=== Git Projet Workflow
+=== Git Project Workflow
 
 When we are working in team, the workflow will be
 
