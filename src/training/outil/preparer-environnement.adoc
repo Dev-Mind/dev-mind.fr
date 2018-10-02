@@ -3,7 +3,7 @@
 :keywords: Développement, Installation
 :author: Guillaume EHRET - Dev-Mind
 :revdate: 2018-09-24
-:category: Java
+:category: Java, IntelliJ
 :teaser:  Le but de cette partie est de vous présenter les liens et la procédure à suivre pour préparer votre poste de travail de développeur Java Web
 :imgteaser: ../../img/training/environnement.png
 
