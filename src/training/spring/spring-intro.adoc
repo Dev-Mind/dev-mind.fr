@@ -1,4 +1,4 @@
-:doctitle: Spring in practice : intro & boot (EN)
+:doctitle: Spring in practice : introduction (EN)
 :description: Présentation de l'écosystème de Spring
 :keywords: Java, Spring
 :author: Guillaume EHRET - Dev-Mind
