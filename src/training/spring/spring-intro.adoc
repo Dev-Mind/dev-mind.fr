@@ -240,10 +240,17 @@ public class FaircorpApplicationTests {
 
 [source,shell]
 ----
-./gradlew --continuous bootRun
+./gradlew --continuous bootRun // <1>
+
+[...]
+INFO 9740 --- [  restartedMain] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 8080 (http)
+INFO 9740 --- [  restartedMain] f.i.tc.s.SpringBootIntroApplication : Started SpringBootIntroApplication in 2.971 seconds
+<==========---> 80% EXECUTING
+> :bootRun  // <2>
 ----
 
-* [.small .small-block]#Option *--continuous* allows to let the application running. App will be updated as soon as you will make changes in your code AND WHEN this code will be recompiled#
+* [.small .small-block]#the --continuous gradle option will restart the server when we recompile the project#
+* the build gets "stuck" at 80%, but the server is actually started and ready to accept connections
 * To stop the application use kbd: [Ctrl + c]
 
 == Application packaging
@@ -281,7 +288,8 @@ image::../../img/training/spring-intro/faircorp.svg[size=80%]
 * Use the Spring generator
 * Import the app in IntelliJ
 * Use the different ways to launch app (gradlew, java -jar, IDE)
-* Open URL localhost:8080 in your browser
+* Open URL localhost:8080 in your browser +
+[.small]#You should see a message "Whitelabel Error Page", Don’t panic : since we’ve defined no web endpoint, Spring answers with a custom HTTP 404 error message…​ We’re going to understand what happened#
 * Launch tests in your IDE
 * Create a new file in `src/main/resources/static`. The name will be `index.html`
 * In this file copy the following code
