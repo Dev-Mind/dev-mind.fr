@@ -157,7 +157,7 @@ drwxr-xr-x  8 devmind devmind  4096 sept. 26 22:46 .git
 === Linking files to Git
 Let's start by creating files in this `git-demo` directory
 
-[source,shell]
+[source,shell,linenums,subs=""]
 ----
 ~$ echo "Hello world" > hello.txt
 ~$ echo "<html><body><h1>Hello World</h1></body></html>" > hello.html
@@ -201,7 +201,7 @@ The following command saves the snapshot in the project history and completes th
 
 We will delete the `hello.txt` file, update` hello.md` and add a `hello.adoc` file
 
-[source,shell]
+[source,shell,linenums,subs=""]
 ----
 ~$ rm hello.md
 ~$ echo "My first Git example" > hello.md
@@ -238,7 +238,7 @@ What do you see ?
 === See history
 
 Use the log command
-[source,shell]
+[source,shell,linenums,subs=""]
 ----
 ~$ git log
 
@@ -285,7 +285,7 @@ You can use a `reset` to go back to the state of the last commit
 
 Run the following command to see the current branch
 
-[source,shell]
+[source,shell,linenums,subs=""]
 ----
 ~$ git branch
 * master
@@ -364,7 +364,7 @@ This command should show nothing because `test` is based on` master` and it is j
 
 This time, as `test` branch is the reference, Git detects that there are differences
 
-[source,shell]
+[source,shell,linenums,subs=""]
 ----
 ~$ git log
 
@@ -387,7 +387,7 @@ Date:   Wed Sep 26 23:51:10 2018 +0200
 
 You can go back to `master` and create another branch` test2`
 
-[source,shell]
+[source,shell,linenums,subs=""]
 ----
 ~$ git checkout master
 ~$ git branch test2
@@ -401,7 +401,7 @@ You can go back to `master` and create another branch` test2`
 
 If you want to post your changes from the `test` branch to` master`, you're going to do a merge
 
-[source,shell]
+[source,shell,linenums,subs=""]
 ----
 ~$ git checkout master
 ~$ git merge test

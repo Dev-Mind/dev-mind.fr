@@ -238,7 +238,7 @@ public class FaircorpApplicationTests {
 
 === Launch application
 
-[source,shell]
+[source,shell,linenums,subs=""]
 ----
 ./gradlew --continuous bootRun // <1>
 

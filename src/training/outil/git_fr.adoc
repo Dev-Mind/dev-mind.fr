@@ -142,7 +142,7 @@ Initialized empty Git repository in /home/devmind/Workspace/java/git-demo/.git/
 ----
 Un répertoire `.git` a été ajouté et les différents fichiers, logs, suivis seront placés dans ce répertoire
 
-[source,shell]
+[source,shell,linenums,subs=""]
 ----
 ~$ cd git-demo/
 ~$ ls -la
@@ -155,7 +155,7 @@ drwxr-xr-x  8 devmind devmind  4096 sept. 26 22:46 .git
 === Liés des fichiers à Git
 Commençons par créer des fichiers dans ce répertoire `git-demo`
 
-[source,shell]
+[source,shell,linenums,subs=""]
 ----
 ~$ echo "Hello world" > hello.txt
 ~$ echo "<html><body><h1>Hello World</h1></body></html>" > hello.html
@@ -198,7 +198,7 @@ La commande suivante enregistre le snapshot dans l'historique du projet et termi
 
 Nous allons supprimer le fichier `hello.txt`, modifier `hello.md` et ajouter un fichier  `hello.adoc`
 
-[source,shell]
+[source,shell,linenums,subs=""]
 ----
 ~$ rm hello.md
 ~$ echo "My first Git example" > hello.md
@@ -234,7 +234,7 @@ Que voyez vous ?
 
 === Voir l'historique
 C'est une commande log
-[source,shell]
+[source,shell,linenums,subs=""]
 ----
 ~$ git log
 
@@ -257,7 +257,7 @@ On retrouve nos deux commits, avec qui a fait les modifications (les noms que no
 
 Nous allons modifier un fichier et lancer la commande `diff`
 
-[source,shell]
+[source,shell,linenums,subs=""]
 ----
 ~$ echo "Fichier Asciidoc" > hello.adoc
 ~$ git diff
@@ -322,7 +322,7 @@ La branche `test` est maintenant celle par défaut
 
 Vous pouvez faire une modification et l'enregistrer
 
-[source,shell]
+[source,shell,linenums,subs=""]
 ----
 ~$ echo "Fichier Asciidoc updated" > hello.adoc
 ~$ git add .
@@ -381,7 +381,7 @@ Date:   Wed Sep 26 23:51:10 2018 +0200
 
 Vous pouvez revenir à `master` et créer une autre branche `test2`
 
-[source,shell]
+[source,shell,linenums,subs=""]
 ----
 ~$ git checkout master
 ~$ git branch test2
