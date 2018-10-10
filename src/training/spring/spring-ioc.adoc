@@ -1,0 +1,479 @@
+:doctitle: Spring in practice : dependency injection (EN)
+:description: Présentation de l'écosystème de Spring
+:keywords: Java, Spring
+:author: Guillaume EHRET - Dev-Mind
+:revdate: 2018-10-10
+:category: Java
+:teaser:  In this course you will learn one of the main principle of software design, the dependency injection
+:imgteaser: ../../img/training/spring-core.png
+:toc:
+
+In this course you will learn one of the main principle of software design, the dependency injection
+
+== Dependency injection
+
+This section explains the concept of Dependency Injection.
+
+* Fundamental principle of software design
+* Introduced by Martin Folwer (famous english computer engineer)
+* Helps to split responsabilities in your code => weakly coupled components
+* Facilitates testing
+
+== Objects and application
+
+When writing an application, as developers, we break the problem we’re trying to solve into smaller ones and do our best keep in line with the architecture and design principles we’ve chosen for our application: flexible, decoupled, testable, easy to understand, etc.
+
+For that we use a lot of objects
+
+image::../../img/training/spring-intro/java-objects.png[background,size=90%]
+
+
+* Service contains implementations of your business rules
+* Components help to resolve a technical problem
+* Repository interacts with external systems as datase, webapi...
+* Controllers are in front of your app to read and check data sent by users
+* And you have object to transport data DTO, entities
+
+When we want to create an object we write for example
+
+[.small]
+[source,Java]
+----
+public class NameService {
+
+    public String getName() {
+        return "Guillaume";
+    }
+}
+----
+
+And to use this object elsewhere we have to create a new instance with `new` instruction
+
+[.small]
+[source,Java]
+----
+public class WelcomeService {
+
+    public void sayHello() {
+        NameService nameService = new NameService();
+        System.out.println("Hello " +
+            nameService.getName();
+    }
+
+}
+----
+
+We have a strong coupling between the classes WelcomeService and NameService.
+If we want to change NameService we have a good chance of having to update WelcomeService
+
+For example, if `NameService` need to use others objects, you have to update `WelcomeService` to update the class constructor
+
+[.small]
+[source,Java]
+----
+public class NameService {
+
+    private UserService userService;
+    private SettingService settingService;
+    private UserRepository userRepository;
+
+    public NameService(UserService userService, SettingService settingService, UserRepository userRepository) {
+        this.userService = userService;
+        this.settingService = settingService;
+        this.userRepository = userRepository;
+    }
+
+    public String getName() {
+        return "Guillaume";
+    }
+
+    // ...
+}
+----
+
+We have to break this coupling between components and the solution is *Inversion of Control*
+
+If a class A uses a class B
+
+[.small]
+|===
+| |
+a|
+[source,Java]
+----
+public class A {
+
+    public void hello() {
+        B b = new B();
+        System.out.println("Hello " + b.name();
+    }
+}
+----
+
+
+a|
+[source,Java]
+----
+public class B {
+
+    public String name() {
+
+        return "Guillaume";
+    }
+}
+----
+2+| image:../../img/training/spring-intro/ioc1.png[size=80%]
+|===
+
+
+
+== Principle
+
+A client, a factory will instantiate class B and inject it into class A. This middleware is Spring Framework
+
+image:../../img/training/spring-intro/ioc2.png[size=80%]
+
+If an object needs other objects, it does not instantiate itself  but they are provided by a factory (in our case Spring).
+
+*The only exception is for Entity and DTO*
+
+== Beans Spring
+
+Objects instantiated, assembled, and managed by Spring container are called beans
+
+image:../../img/training/spring-intro/ioc-beans.png[size=400,600]
+
+In Spring, we can use a stereotype on our classes to defined them as a Bean Spring :  @Service, @Component, @Repository, @Controller
+
+[source,Java]
+----
+@Service
+public class MyGreetingService {
+   // Code ...
+}
+
+@Controller
+public class MyGreetingController {
+   // Code ...
+}
+----
+
+Spring Boot is able to scan classpath to auto-detect and auto-configure beans annotated
+
+One stereotype (@Service, @Component, @Repository, @Controller) by object type
+
+image::../../img/training/spring-intro/java-objects.png[size=90%]
+
+
+When a class need another object, we use @Autowired to inject them via Spring
+
+[.small]
+[source,Java]
+----
+@Service
+public class AuthenticationService {
+
+  private final UserStore userStore;
+  private final CertificateManager certManager;
+
+  @Autowired
+  public AuthenticationService(UserStore userStore, CertificateManager certManager) {
+    this.userStore = userStore;
+    this.certManager = certManager;
+  }
+
+  public AcccountStatus getAccountStatus(UserAccount account) {
+    // here we can use the UserStore with this.userStore
+  }
+}
+----
+
+[.small .small-block]#In this example UserStore and CertificateManager are injected into AuthenticationService#
+
+You have 2 way to inject a bean in another
+
+*Injection by setter*
+[source,Java]
+----
+@Component
+public class AImpl implements A {
+
+    @Autowired
+    private B b;
+
+    public void setB(B b) {
+        this.b = b;
+    }
+}
+----
+
+*Injection by constructor*
+[source,Java]
+----
+@Component
+public class AImpl implements A {
+
+    private B b;
+
+    @Autowired
+    public void setB(B b) {
+        this.b = b;
+    }
+}
+----
+
+Also, we can create  a bean Spring in a configuration file, when we need to configure them.  +
+[.small .small-block]#For components we can’t annotate (not in our codebase) or if we want to instantiate them ourselves.#
+
+Annotating a class with the @Configuration indicates that the class can be used by the Spring IoC container as a source of bean definitions
+
+[.small]
+[source,Java]
+----
+@Configuration
+public class MyAppConfiguration {
+
+  @Bean
+  public UserStore userStore(DataStoreConnectionPool connectionPool) {
+    return new UserStore(connectionPool.fetchConnection());
+  }
+
+}
+----
+
+[.small .small-block]#"Beans" are components instances. A method annotated with @Bean will return an object that should be registered as a bean in the Spring application context @Bean is used to explicitly declare a single bean, rather than letting Spring do it automatically as @Component#
+
+In this example we said to Spring that our UserStore object needs a `DataStoreConnectionPool`
+
+[.small]
+[source,java]
+----
+@Configuration
+public class MyAppConfiguration {
+
+  @Bean
+  public UserStore userStore(DataStoreConnectionPool connectionPool) { // <1>
+    return new UserStore(connectionPool.fetchConnection());
+  }
+
+}
+----
+It's another way to inject an object in another
+
+Spring looks for components by scanning your application classpath [.small .small-block]#(e.g. looking for annotated classes in the packages or the beans you’ve declared in your configuration)#
+
+image:../../img/training/spring-intro/appcontext1.png[]
+
+All those components are registered in an application context
+Z
+Spring search a Bean by its type or else by its name
+
+image:../../img/training/spring-intro/appcontext2.png[]
+
+Spring throws a NoSuchBeanDefinitionException if a bean can't be found
+
+image:../../img/training/spring-intro/appcontext3.png[]
+
+Spring throws a NoUniqueBeanDefinitionException if several beans are found and if it doesn't know which bean use
+
+image:../../img/training/spring-intro/appcontext4.png[]
+
+
+== Lab 2 : Using Dependency Injection
+
+=== Create a first bean
+
+First, let’s create an interface for our application called `GreetingService` in package `com.emse.spring.faircorp.hello`
+
+[source,Java]
+----
+package com.emse.spring.faircorp.hello;
+
+public interface GreetingService {
+
+  void greet(String name);
+}
+----
+
+> Good habits fall to the wayside ;-( Don’t forget to commit periodically your work. For this, you can run the `git init` cmd to convert this unversioned project to a Git repo. You can linked this repo to Github
+
+Your first job is to output "Hello, Spring!" in the console as the application starts.
+
+For that, do the following:
+
+1. Create in package `com.emse.spring.faircorp.hello` an implementation of interface `GreetingService`
+2. Call this implementation `ConsoleGreetingService`
+3. Mark it as a service.
+4. The implementation of the greet method should write to the console using `System.out.println`.
+
+To check your work you have to create this test in folder `src/test`
+
+[.small]
+[source,java]
+----
+package com.emse.spring.faircorp.hello;
+
+import org.hamcrest.Matchers;
+import org.junit.Rule;
+import org.junit.Test;
+
+import org.springframework.boot.test.rule.OutputCapture;
+
+public class ConsoleGreetingServiceTests {
+
+  @Rule
+  public OutputCapture outputCapture = new OutputCapture();
+
+  @Test
+  public void testGreeting() {
+    ConsoleGreetingService greetingService = new ConsoleGreetingService(); // <1>
+    greetingService.greet("Spring");
+    outputCapture.expect(Matchers.startsWith("Hello, Spring!"));
+  }
+}
+----
+
+[.small]#1.We’re testing our service implementation without Spring being involved#
+
+You can verify that your implementation is working properly by running `./gradlew test` command.
+
+=== Inject your bean
+
+Your second Job is to create a new interface UserService in package `com.emse.spring.faircorp.hello`
+
+[source,Java]
+----
+package com.emse.spring.faircorp.hello;
+
+public interface UserService {
+  void greetAll();
+}
+----
+
+You can now +
+1. create an implementation of this interface called DummyUserService +
+2. Mark it as a service. +
+3. Inject service GreetingService (use interface and not implementation) +
+4. Write `greetAll` method. You have to create a List of String with 2 elements ("Elodie" and "Charles") and for each one you have to call method `greet` of the GreetingService
+
+As for the first service, we're going to check this new service with a unit test
+
+[source,java]
+----
+@RunWith(SpringRunner.class) // <1>
+public class DummyUserServiceTest {
+
+    @Configuration // <2>
+    @ComponentScan("com.esme.spring.faircorp.hello")
+    public static class DummyUserServiceTestConfig{}
+
+    @Autowired // <3>
+    public DummyUserService dummyUserService;
+
+    @Rule
+    public OutputCapture outputCapture = new OutputCapture();
+
+    @Test
+    public void testGreetingAll() {
+        dummyUserService.greetAll();
+        outputCapture.expect(Matchers.stringContainsInOrder(
+            Arrays.asList("Hello, Elodie!", "Hello, Elodie!")));
+    }
+}
+----
+
+[.small .small-block]#1. We use `SpringRunner` to link our test to Spring. With this annotation a Spring Context will be loaded when this test will run +
+2. We have to configure how the context is loaded. In our case we added `@ComponentScan("com.esme.spring.faircorp.hello")` to help Spring to found our classes. In our app this scan is made by SpringBoot, but in our test SpringBoot is not loaded  +
+3. As our test has is own Spring Context we can inject inside the bean to test#
+
+You can verify that your implementation is working properly by running `./gradlew test` command.
+
+=== Inject your bean in configuration bean
+
+Now, create next to the `FaircorpApplication` class, a new class `FaircorpApplicationConfig`. We want to create a new bean of type `CommandLineRunner`.
+
+[.small .small-block]#CommandLineRunner instances are found by Spring Boot in the Spring context and are executed during the application startup phase.#
+
+[.small]
+[source,java]
+----
+// <1>
+public class FaircorpApplicationConfig {
+
+  // <2>
+  public CommandLineRunner greetingCommandLine() { // <3>
+      return new CommandLineRunner() {
+        @Override
+        public void run(String... args) throws Exception {
+            // <4>
+        }
+      };
+  }
+}
+----
+
+[.small .small-block]#1. First, annotate this class to mark it as a configuration bean +
+2. Add annotation to say that this method return a new Bean Spring +
+3. Then, tell Spring that here we need here a GreetingService component, by declaring it as a method argument +
+4. Finally, call here some service method to output the "Hello, Spring!" message at startup; since we’re getting GreetingService, no need to instantiate one manually.#
+
+Starting your application, you should see something like:
+
+[source,shell]
+----
+INFO 10522 --- [  restartedMain] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 8080 (http)
+Hello, Spring!
+INFO 10522 --- [  restartedMain] f.i.tc.s.SpringBootIntroApplication      : Started SpringBootIntroApplication in 4.431 seconds (JVM running for 4.886)
+----
+
+=== Other cases
+
+Now, we’re going to test a few cases to understand how a Spring Application reacts to some situations. For each case, try the suggested modifications, restart your application and see what happens.
+
+Of course, after each case, *revert those changes*, to get "back to normal". (You can use Git for that)
+
+1. What happens if you comment the @Component / @Service annotation on your ConsoleGreetingService?
+
+2. Now, try adding AnotherConsoleGreetingService (which says "Bonjour" instead of "Hello"), marked as a component as well. Try again this time after adding a @Primary annotation on ConsoleGreetingService.
+
+3. Finally, try the following - what happens and why?
+
+[.small]
+[source,java]
+----
+@Service
+public class ConsoleGreetingService implements GreetingService {
+
+  private final CycleService cycleService;
+
+  @Autowired
+  public ConsoleGreetingService(CycleService cycleService) {
+    this.cycleService = cycleService;
+  }
+
+  @Override
+  public void greet(String name) {
+    System.out.println("Hello, " + name + "!");
+  }
+}
+----
+
+[.small]
+[source,java]
+----
+@Service
+public class CycleService {
+
+  private final ConsoleGreetingService consoleGreetingService;
+
+  @Autowired
+  public CycleService(ConsoleGreetingService consoleGreetingService) {
+    this.consoleGreetingService = consoleGreetingService;
+  }
+}
+----
+
+> @Primary is not the only way to resolve multiple candidates, you can also use @Qualifier; check its javadoc to see how you could use it.
+
+
+Does Spring Framework stop with Dependency Injection? No. It builds on the core concept of Dependeny Injection but comes with a number of other features (Web, Persistence, etc.) which bring simple abstractions. Aim of these abstractions is to reduce Boilerplate Code and Duplication Code, promoting Loose Coupling of your application architecture. Let’s the persistance support.

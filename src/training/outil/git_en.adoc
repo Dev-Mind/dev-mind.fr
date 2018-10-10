@@ -4,7 +4,7 @@
 :author: Guillaume EHRET - Dev-Mind
 :revdate: 2018-08-23
 :category: Git
-:teaser:  This course presents Git & Github. Git is used to centralize and log the changes on your code.
+:teaser:  This course presents Git and Github. Git is used to centralize and log the changes on your code.
 :imgteaser: ../../img/training/git.png
 :toc:
 

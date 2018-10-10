@@ -280,7 +280,7 @@ image::../../img/training/spring-intro/mvc-run.png[size=80%]
 java -jar build/libs/faircorp-0.0.1-SNAPSHOT.jar
 ----
 
-== TP 1 : generate a new app
+== Lab 1 : generate a new app
 The aim is to build a Spring Boot application called FairCorp
 
 image::../../img/training/spring-intro/faircorp.svg[size=80%]
@@ -309,7 +309,7 @@ image::../../img/training/spring-intro/faircorp.svg[size=80%]
 * Recompile your code or restart your app
 * Reopen localhost:8080 in your browser
 
-== Next TPs
+== Next labs
 
 During all your courses (Java, Spring, Web, IOT, Security...) you will develop a real app on a concrete case
 
