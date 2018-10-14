@@ -965,7 +965,7 @@ Write now 2 DAO LightDao and RoomDao. We will use them in our code to load data
 Update the file `application.properties` and add this keys
 
 [.small]
-[source,shell]
+[source,java]
 ----
 # Spring boot : JPA
 spring.jpa.database-platform=org.hibernate.dialect.H2Dialect // <1>
