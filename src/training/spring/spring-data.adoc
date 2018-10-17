@@ -1036,7 +1036,7 @@ You have to test your DAO. When Spring context is loaded, the database is popula
 public class LightDaoImplTest {
 
     @Autowired
-    LightDaoCustom lightDao;
+    LightDao lightDao;
 
     @Test
     public void shouldFindOnLights() {
