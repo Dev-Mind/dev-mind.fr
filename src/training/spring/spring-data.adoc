@@ -278,8 +278,8 @@ We’re going to use https://projects.spring.io/spring-data-jpa/[Spring Data JPA
 import javax.persistence.*;
 
 @Entity // <1>
-@Table(name = "SP_CAPTOR") // <2>
-public class Captor {
+@Table(name = "SP_SENSOR") // <2>
+public class Sensor {
     @Id // <3>
     @GeneratedValue
     private Long id;
@@ -298,10 +298,10 @@ public class Captor {
     @Enumerated(EnumType.STRING) // <6>
     private PowerSource powerSource;
 
-    public Captor() { // <7>
+    public Sensor() { // <7>
     }
 
-    public Captor(String name) { // <8>
+    public Sensor(String name) { // <8>
         this.name = name;
     }
 
@@ -423,7 +423,7 @@ public class SiteServiceImpl implements SiteService {
 
     public Site addSite(String name){
         Site site = new Site(name);
-        site.addCaptor(new Captor("default", site)
+        site.addSensor(new Sensor("default", site)
                                .withPowerSource(PowerSource.FIXED)
                                .withDefaultPowerInWatt(1_000_000));
         siteDao.save(site);
@@ -522,7 +522,7 @@ public class Town {
 
 == @OneToMany
 
-Example of *unidirectional* relation: a site has one or more captors (captor does not link to a site)
+Example of *unidirectional* relation: a site has one or more sensors (sensor does not link to a site)
 
 image::../../img/training/spring-intro/relation1ton.png[]
 
@@ -532,7 +532,7 @@ A join table is added (with 2 foreign keys)
 [source,java]
 ----
 @Entity
-public class Captor {
+public class Sensor {
     @Id
     private Long id;
     private String name;
@@ -548,7 +548,7 @@ public class Site {
     private String name;
 
     @OneToMany
-    private Set<Captor> captors;
+    private Set<Sensor> sensors;
 
     // ...
 }
@@ -561,13 +561,13 @@ Example of *unidirectional* relation: a measurement is linked to a sensor and th
 
 image::../../img/training/spring-intro/relationnto1.png[]
 
-A captor_id column will be added to the Measure table and a foreign key will be created
+A sensor_id column will be added to the Measure table and a foreign key will be created
 
 [.langage-small]
 [source,java]
 ----
 @Entity
-public class Captor {
+public class Sensor {
     @Id
     private Long id;
     private String name;
@@ -582,7 +582,7 @@ public class Measure {
     private Long id;
 
     @ManyToOne(optional = false)
-    private Captor captor;
+    private Sensor sensor;
 
     // ...
 }
@@ -592,7 +592,7 @@ public class Measure {
 == @OneToMany @ManyToOne
 
 
-Example of *bidirectional* relation: a site has n captors and captor knows his site
+Example of *bidirectional* relation: a site has n sensors and sensor knows his site
 
 image::../../img/training/spring-intro/relation1ton2.png[]
 
@@ -603,7 +603,7 @@ Only the @OneToMany annotation has a `mappedBy` property (which is used to desig
 ----
 // Slave
 @Entity
-public class Captor {
+public class Sensor {
     @Id
     private Long id;
     private String name;
@@ -619,7 +619,7 @@ public class Site {
     private String name;
 
     @OneToMany(mappedBy = "site")
-    private Set<Captor> captors;
+    private Set<Sensor> sensors;
 
     // ...
 }
@@ -704,18 +704,18 @@ An example of Spring Data Jpa repository
 [.langage-small]
 [source,java]
 ----
-public interface CaptorDao extends JpaRepository<Captor, Long> {
+public interface SensorDao extends JpaRepository<Sensor, Long> {
 }
 ----
 
-This extends a Spring Data interface, which provides common methods such as findOne, save and more. This repository will handle Captors entities, and those are identified by an Id of type Long
+This extends a Spring Data interface, which provides common methods such as findOne, save and more. This repository will handle Sensors entities, and those are identified by an Id of type Long
 
 [.small .small-block]#If you want to create your own methods, you have to create a new interface#
 [.langage-verysmall]
 [source,java]
 ----
-public interface CaptorCustomDao {
-    List<Captor> findBySiteId(String siteId);
+public interface SensorCustomDao {
+    List<Sensor> findBySiteId(String siteId);
 }
 ----
 
@@ -723,25 +723,25 @@ public interface CaptorCustomDao {
 [.langage-verysmall]
 [source,java]
 ----
-public interface CaptorDao extends JpaRepository<Captor, String>, CaptorCustomDao {
+public interface SensorDao extends JpaRepository<Sensor, String>, SensorCustomDao {
 }
 ----
 
-[.small .small-block]#And now you can implement your `CaptorCustomDao` and use entitiy manager to execute requests#
+[.small .small-block]#And now you can implement your `SensorCustomDao` and use entitiy manager to execute requests#
 
 [.langage-verysmall]
 [source,java]
 ----
 @Repository
-public class CaptorCustomDaoImpl implements CaptorCustomDao {
+public class SensorCustomDaoImpl implements SensorCustomDao {
 
     @PersistenceContext
     private EntityManager em;
 
     @Override
-    public List<Captor> findBySiteId(String siteId) {
-        return em.createQuery("select c from Captor c inner join c.site s where s.id = :siteId",
-                              Captor.class)
+    public List<Sensor> findBySiteId(String siteId) {
+        return em.createQuery("select c from Sensor c inner join c.site s where s.id = :siteId",
+                              Sensor.class)
                  .setParameter("siteId", siteId)
                  .getResultList();
     }
@@ -757,26 +757,26 @@ In SQL we select a list of columns belonging to one or more tables. In JPQL we s
 [.langage-small]
 [source,java]
 ----
-// Selection captors
-select c from Captor c
+// Selection sensors
+select c from Sensor c
 
-// Selection sites linked to a captor
-select c.site from Captor c
+// Selection sites linked to a sensor
+select c.site from Sensor c
 ----
 
 You can use implicit join
 [.langage-small]
 [source,java]
 ----
-select c from Captor c where c.site.id = :siteId
+select c from Sensor c where c.site.id = :siteId
 ----
 
 Or you can use explicit join
 [.langage-small]
 [source,java]
 ----
-select c from Captor c join c.site s where s.id = :siteId
-select c from Captor c left join c.site s where s.id = :siteId
+select c from Sensor c join c.site s where s.id = :siteId
+select c from Sensor c left join c.site s where s.id = :siteId
 ----
 
 == Spring Data JPA
@@ -786,15 +786,15 @@ With Spring Data Jpa, if you respect conventions you don't need to create a DAO 
 [.langage-small]
 [source,java]
 ----
-public interface CaptorDao extends JpaRepository<Captor, String>, CaptorCustomDao {
+public interface SensorDao extends JpaRepository<Sensor, String>, SensorCustomDao {
 
-    List<Captor> findBySiteId(String siteId); // <1>
+    List<Sensor> findBySiteId(String siteId); // <1>
 
-    @Query("select c from Captor c where c.name=:name")  // <2>
-    Captor findByName(@Param("name") String name);
+    @Query("select c from Sensor c where c.name=:name")  // <2>
+    Sensor findByName(@Param("name") String name);
 
     @Modifying
-    @Query("delete from Captor c where c.name = ?1")
+    @Query("delete from Sensor c where c.name = ?1")
     void deleteByName(String name);
 }
 ----
@@ -810,22 +810,22 @@ You can after add a property
 [.langage-small]
 [source,java]
 ----
-List<Captor> findByName(String name);
+List<Sensor> findByName(String name);
 ----
 
 You can add a property of a property
 [.langage-small]
 [source,java]
 ----
-List<Captor> findBySiteId(String siteId);
+List<Sensor> findBySiteId(String siteId);
 ----
 
 You can cumulate criteria
 [.langage-small]
 [source,java]
 ----
-List<Captor> findByNameAndSiteId(String name, String siteId);
-List<Captor> findByNameOrSiteId(String name, String siteId);
+List<Sensor> findByNameAndSiteId(String name, String siteId);
+List<Sensor> findByNameOrSiteId(String name, String siteId);
 ----
 
 
@@ -833,23 +833,23 @@ You can ignore upper or lower case
 [.langage-small]
 [source,java]
 ----
-List<Captor> findByNameIgnoreCase(String name);
-List<Captor> findByNameAndSiteIdAllIgnoreCase(String name, String siteId);
+List<Sensor> findByNameIgnoreCase(String name);
+List<Sensor> findByNameAndSiteIdAllIgnoreCase(String name, String siteId);
 ----
 
 You can sort data
 [.langage-small]
 [source,java]
 ----
-List<Captor> findByNameOrderByNameAsc(String name);
-List<Captor> findByNameOrderByNameDesc(String name);
+List<Sensor> findByNameOrderByNameAsc(String name);
+List<Sensor> findByNameOrderByNameDesc(String name);
 ----
 
 Vous can select only one element (if you have for example an unicity constraint). But in this case if several elements are found an exception is thrown
 [.langage-small]
 [source,java]
 ----
-Captor findByName(String name);
+Sensor findByName(String name);
 ----
 
 You can read link:https://docs.spring.io/spring-data/jpa/docs/2.0.9.RELEASE/reference/html/#repositories.query-methods.details[the documentation] to know more things
@@ -865,7 +865,7 @@ Allows you to specify the loading strategy.
 [source,java]
 ----
 @OneToMany(fetch = FetchType.EAGER)
-private Set<Captor> captors;
+private Set<Sensor> sensors;
 ----
 
 By default we are in Lazy because the goal is to load the minimum of things
