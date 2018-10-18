@@ -59,7 +59,7 @@
     "md5": "^2.2.1",
     "moment": "^2.18.1",
     "serve-static": "^1.13.2",
-    "workbox-build": "^3.6.1"
+    "workbox-build": "3.6.2"
   },
   "resolutions": {
     "gulp-decompress": "~2.0.2",
