@@ -50,18 +50,18 @@ if (workbox) {
       })
   );
 
-  // use a stale while revalidate for CSS and JavaScript files that aren't precached.
-  // workbox.routing.registerRoute(
-  //   /\.(?:html)$/,
-  //   workbox.strategies.networkFirst(
-  //     {
-  //       cacheName: 'html-resources',
-  //       networkTimeoutSeconds: 4,
-  //       plugins: [
-  //         new workbox.expiration.Plugin({ maxEntries: 60, maxAgeSeconds: 30 * 60 })
-  //       ]
-  //     })
-  // );
+  //use a stale while revalidate for CSS and JavaScript files that aren't precached.
+  workbox.routing.registerRoute(
+    /\.(?:html)$/,
+    workbox.strategies.networkFirst(
+      {
+        cacheName: 'html-resources',
+        networkTimeoutSeconds: 4,
+        plugins: [
+          new workbox.expiration.Plugin({ maxEntries: 60, maxAgeSeconds: 30 * 60 })
+        ]
+      })
+  );
 }
 else {
   console.error('Error on workbox initialization');
