@@ -42,7 +42,7 @@ exports.securityPolicy = () => ({
     // We have to authorize inline script used to load our JS app
     scriptSrc: ["'self'", "'unsafe-inline'", 'https://www.google-analytics.com/analytics.js',
       "https://storage.googleapis.com/workbox-cdn/*",
-      "https://storage.googleapis.com/workbox-cdn/releases/3.6.2/workbox-core.prod.js",
+      "https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-core.prod.js",
       "https://*.gstatic.com",
       //"https://www.gstatic.com/firebasejs/4.0.0/firebase-database.js",
       "https://*.firebaseio.com"],
