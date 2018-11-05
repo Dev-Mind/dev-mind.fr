@@ -1,19 +1,23 @@
 const serveStatic = require('serve-static');
 
+const nocache = (res) => {
+  res.setHeader('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+  res.setHeader('Expires', '-1');
+  res.setHeader('Pragma', 'no-cache');
+};
+
 exports.setCustomCacheControl = (res, path) => {
   switch(serveStatic.mime.lookup(path)){
     case 'application/xhtml+xml':
     case 'text/html':
-      res.setHeader('Cache-Control', 'private, no-cache, no-store, must-revalidate');
-      res.setHeader('Expires', '-1');
-      res.setHeader('Pragma', 'no-cache');
+      nocache(res);
       break;
 
     case 'text/javascript':
     case 'application/x-javascript':
     case 'application/javascript':
       if(path.indexOf('sw.js') >= 0){
-        res.setHeader('Cache-Control', 'private, max-age=0');
+        nocache(res);
       }
       else{
         res.setHeader('Cache-Control', 'private, max-age=14400');
@@ -21,6 +25,12 @@ exports.setCustomCacheControl = (res, path) => {
       break;
 
     case 'text/css':
+      if(process.env.NODE_ENV === 'prod'){
+        res.setHeader('Cache-Control', 'private, max-age=14400');
+      }
+      else{
+        nocache(res);
+      }
       break;
 
     case 'image/gif':

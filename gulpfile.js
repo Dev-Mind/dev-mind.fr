@@ -297,23 +297,17 @@ gulp.task('service-worker-optim', () =>
 
 gulp.task('service-worker', gulp.series('service-worker-bundle', 'service-worker-optim'));
 
-gulp.task('cache-busting-dev', () =>
-  gulp.src(['build/dist/**/*.{html,js,css}'])
+const cacheBusting = (path) =>
+  gulp.src(path)
       .pipe($.revReplace(
         {manifest: gulp.src('build/dist/img/rev-manifest.json'), replaceInExtensions: CACHE_BUSTING_EXTENSIONS}))
       .pipe($.revReplace({manifest: gulp.src('build/dist/css/rev-manifest.json')}))
       .pipe($.revReplace({manifest: gulp.src('build/dist/js/rev-manifest.json')}))
       .pipe(gulp.dest('build/dist'))
-);
 
-gulp.task('cache-busting', () =>
-  gulp.src(['build/dist/**/*.{html,js,css,xml,json,webapp}'])
-      .pipe($.revReplace(
-        {manifest: gulp.src('build/dist/img/rev-manifest.json'), replaceInExtensions: CACHE_BUSTING_EXTENSIONS}))
-      .pipe($.revReplace({manifest: gulp.src('build/dist/css/rev-manifest.json')}))
-      .pipe($.revReplace({manifest: gulp.src('build/dist/js/rev-manifest.json')}))
-      .pipe(gulp.dest('build/dist'))
-);
+gulp.task('cache-busting-dev', () => cacheBusting('build/dist/**/*.{html,js,css}'));
+gulp.task('cache-busting', () => cacheBusting('build/dist/**/*.{html,js,css,xml,json,webapp}'));
+
 
 gulp.task('compress-svg', (cb) => {
   gulp.src('build/dist/**/*.svg')

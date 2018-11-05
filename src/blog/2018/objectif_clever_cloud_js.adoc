@@ -1,0 +1,336 @@
+:doctitle: Objectif web server JS sur Clever Cloud
+:description: Comment installer un serveur web en JS sur Clever Cloud et le sécuriser pour la production
+:keywords: Web, Clever Cloud
+:author: Guillaume EHRET - Dev-Mind
+:revdate: 2018-11-02
+:category: Web
+:teaser: Comment installer un serveur web JS utilisant Express sur Clever Cloud et comment le sécuriser et l'optimiser pour la production
+:imgteaser: ../../img/blog/2018/objectif_clever_cloud_00.png
+
+Une application web est constituée de ressources, d'images, de fichiers JavaScript, de feuilles de styles... Pour pouvoir répondre à des requêtes HTTP nous avons besoin d'un serveur Web. Les plus connus sont peut être http://httpd.apache.org/[Apache] et http://nginx.org/[nginx]. Souvent, nous avons besoin de coupler à nos sites, une application côté serveur (pour gérer la sécurité, stocker des données, lancer des traitements...). Nous devons mettre en place un serveur d'application, qui jouera double rôle : serveur web gérant les ressources statiques et application effectuant des actions et générant des réponses à la volée en fonction des actions utilisateurs.
+
+Dans cet article, j'explique comment écrire ce serveur en JS et comment déployer le tout sur https://www.clever-cloud.com[Clever Cloud]. Vous pouvez voir un exemple concret avec mon https://github.com/Dev-Mind/dev-mind.fr[site web]. Nous verrons également les aspects  sécurité et optimisation des performances.
+
+image::../../img/blog/2018/objectif_clever_cloud_00.png[Conférence]
+
+== Serveur application JavaScript
+
+Le JavaScript s'exécute sur une machine virtuelle qui est présente dans votre navigateur Internet. Quand on fait du JavaScript côté serveur, nous avons aussi besoin d'une machine virtuelle JavaScript. Nous pouvons utiliser la plateforme https://nodejs.org[Node.js] qui se base sur le moteur https://v8.dev/[V8] de Google Chrome. Il fournit également plusieurs librairies pour répondre aux besoins des développeurs côté serveur. Nous avons notamment l'intégration de la librairie https://nodejs.org/api/http.html[http] qui permet de gérer un serveur Web
+
+Le code suivant permet de lancer un serveur sur le port 8080 et d'afficher un message `HelloWorld`
+
+[source,javascript]
+----
+const http = require('http');
+
+//create a server object which listens on port 8080
+http.createServer((req, res) => {
+  //write a response to the client
+  res.write('Hello World!');
+  //end the response
+  res.end();
+}).listen(8080);
+----
+
+Pour lancer ce script (appelé par exemple `app.js`) vous pouvez lancer la commande et ensuite ouvrir http:localhost:8080 dans votre navigateur Internet
+
+[source,shell]
+----
+node app.js
+----
+
+Le module https://nodejs.org/api/http.html[http] est un peu minimaliste. Quand nous voulons écrire une application nous avons besoin de plus de fonctionnalités. http://expressjs.com/[Express JS] fournit plusieurs utilitaires pour
+
+* étendre ce serveur https://nodejs.org/api/http.html[http]  de base
+* ajouter des routes et exécuter un traitement en fonction de cette route
+* servir des ressources statiques
+* facilement exécuter des traitements sur les requêtes entrantes et sortantes. En Java dans le monde des servlets, nous parlons de `filters`. En express nous utilisons plutôt le terme de `middlewares`
+
+Modifiez le premier exemple de cette manière
+
+[source,javascript]
+----
+const express = require('express');
+
+express()
+  .get('/', (req, res) => res.send('Hello World!')) // <1>
+  .get('/users/:userName', (req, res) => res.send(`Hello ${req.params.userName}!`)) // <2>
+  .listen(8085); // <3>
+----
+
+[.small]
+1. le message `Hello World!` s'affiche quand vous lancez `http://localhost:8085`
+2. on peut récupérer des élements dans la route spécifiée. Ici on affichera `Hello Guillaume!` quand `http://localhost:8085/users/Guillaume` sera utilisée
+3. permet de spécifier le port d'écoute
+
+Si vous voulez servir un répertoire contenant des ressources statiques (ressources CSS, JS, HTML...) vous pouvez ajouter
+
+[source,javascript]
+----
+.use(express.static(`build/dist`))
+----
+
+== Comment assurer les performances de son serveur web
+
+Nous venons de voir comment paramétrer un serveur JS de base. Mais si vous voulez mettre votre application en production vous allez devoir en faire plus.
+
+> Si vous n'êtes pas familier avec les performances d'une application Web vous pouvez suivre https://www.dev-mind.fr/formation_optimiser.html[la formation Dev-Mind] ou suivre la vidéo de mon intervention à https://www.youtube.com/watch?time_continue=2&v=9PRPPJFaF_o[Devoxx 2017].
+
+=== Mesurer les performances
+
+Si vous utilisez Chrome, vous pouvez utiliser Lighthouse qui est intégré aux ChromeDevTools (Ctrl+Shift+I)
+
+image::../../img/blog/2018/objectif_clever_cloud_01.png[Lighthouse]
+
+Lighthouse va analyser votre site sur mobile ou desktop et vous proposer des rapports de performance. Il vous indique ce qui est bon ou moins bon, et propose des chemins de résolution quand des problèmes sont détectés. Par exemple
+
+image::../../img/blog/2018/objectif_clever_cloud_02.png[Rapport Lighthouse]
+
+Il existe d'autres outils en ligne comme https://developers.google.com/speed/pagespeed/insights/[PageSpeed], https://www.webpagetest.org/[WebpageTest]...
+
+=== La compression
+
+Le plus gros problème sur un site web est la taille des ressources. La taille moyenne des ressources utilisées sur une page, ne fait que grossir depuis des années. Pour limiter la quantité de données à envoyer, vous pouvez faire de la compression. Les pages HTML, CSS ou JS sont écrites au format texte qui est facilement compressable. De plus tous les navigateurs aujourd'hui acceptent des ressources compressées.
+
+Pour activer la compression avec express.js, vous pouvez utiliser le middleware  https://www.npmjs.com/package/compression[compression]
+
+[source,javascript]
+----
+const express = require('express');
+const compression = require('compression');
+
+express()
+  .use(compression())
+  .use(express.static(`build/dist`))
+  .get('/', (req, res) => res.send('Hello World!'))
+  .get('/users/:userName', (req, res) => res.send(`Hello ${req.params.userName}!`))
+  .listen(8085);
+----
+
+=== Le cache
+
+Comme le dit https://twitter.com/addyosmani[Addy Osmani], la ressource web la plus optimisée est celle que l'on ne transfert pas du serveur au client web. Pour mettre en place cette magie, vous devez activer le cache de ressources, et donner des informations au navigateur sur la durée de validité de chaque fichier.
+
+Voici par exemple la configuration utilisée sur mon site
+
+[source,javascript]
+----
+const nocache = (res) => {
+  res.setHeader('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+  res.setHeader('Expires', '-1');
+  res.setHeader('Pragma', 'no-cache');
+};
+
+const CACHE_MIDDLEWARE = (res, path) => {
+  switch(serveStatic.mime.lookup(path)){
+    case 'application/xhtml+xml':
+    case 'text/html':
+      nocache(res);
+      break;
+
+    case 'text/javascript':
+    case 'application/x-javascript':
+    case 'application/javascript':
+      if(path.indexOf('sw.js') >= 0){
+        nocache(res);
+      }
+      else{
+        res.setHeader('Cache-Control', 'private, max-age=14400');
+      }
+      break;
+
+    case 'text/css':
+      if(process.env.NODE_ENV === 'prod'){
+        res.setHeader('Cache-Control', 'private, max-age=14400');
+      }
+      else{
+        nocache(res);
+      }
+      break;
+
+    case 'image/gif':
+    case 'image/jpg':
+    case 'image/jpeg':
+    case 'image/png':
+    case 'image/tiff':
+    case 'image/svg+xml':
+    case 'image/webp':
+    case 'image/vnd.microsoft.icon':
+    case 'image/icon':
+    case 'image/ico':
+    case 'image/x-ico':
+      res.setHeader('Cache-Control', 'public, max-age=691200');
+      break;
+
+    default:
+  }
+};
+----
+
+[.small]
+1. il est important de ne pas mettre vos pages HTML en cache. Une page HTML est le point d'entrée de votre site et il est important que les utilisateurs puissent charger les dernières versions. Contrairement aux autres ressources, avec lesquelles vous pouvez faire du cache busting, le nom des pages HTML doit être fixe. Si ce n'est pas le cas, les robotos ne pourront pas indexé votre site. Pour optimiser le chargement vous pouvez passer par les services workers
+2. pour le JS vous pouvez mettre une durée de cache de quelques heures. Par contre il est important de ne pas mettre de cache sur votre fichier de configuration des services workers. Ce fichier est très sensible et il vaut mieux que le navigateur essaie de le recharger tout le temps afin de récupérer les dernières mises à jour. Les services workers viennent avec un autre système de cache
+3. en production plusieurs optimisations sont faites quand la variable d'environnement `NODE_ENV` a la valeur `prod`. Dans mon cas j'ajoute un cache sur les ressources CSS
+4. pour les images vous pouvez mettre une durée de cache plus longue.
+
+Avec Express.js vous pouvez indiquer dans la configuration, l'emplacement de vos ressources statiques et indiquer la politique de cache. Dans mon cas elles sont dans `build/dist`
+
+[source,javascript]
+----
+.use(express.static(`build/dist`, {setHeaders: CACHE_MIDDLEWARE}))
+----
+
+=== Autres optimisations
+
+Pour plus d'informations vous pouvez suivre la http://expressjs.com/fr/advanced/best-practice-performance.html[page dédiée aux performances] de express.js. Vous pouvez aussi mettre en place des services workers. Si vous ne savez pas comment faire, vous pouvez suivre https://www.dev-mind.fr/blog/2017/workboxjs.html[cet article]
+
+== Comment sécuriser son serveur web
+
+=== Connaître les problèmes
+
+Comme pour les performances, avant de faire quelque chose, il faut savoir qu'elles sont les problèmes de votre site. Je vous conseille d'utiliser le site de Mozilla https://observatory.mozilla.org/. Cet outil en ligne parse votre site et vérifie le paramétrage
+
+* des redirections
+* des cookies
+* de l'HTTPS
+* des différents headers
+
+Il existe plusieurs solutions pour simplifier cette configuration. Je suis parti sur le middleware https://github.com/helmetjs/helmet[helmet] qui
+
+* contrôle la prélecture DNS du navigateur (https://helmetjs.github.io/docs/dns-prefetch-control[dnsPrefetchControl])
+* prémunit votre site du clickjacking (https://helmetjs.github.io/docs/frameguard/[frameguard])
+* supprime l'en-tête X-Powered-By (https://helmetjs.github.io/docs/hide-powered-by[hidePoweredBy])
+* contrôle HTTPS (https://helmetjs.github.io/docs/hsts/[hsts])
+* définit les options de téléchargement pour IE8 (https://helmetjs.github.io/docs/ienoopen[ieNoOpen])
+* empêche les clients de renifler le type MIME (https://helmetjs.github.io/docs/dont-sniff-mimetype[noSniff])
+* ajoute quelques petites protections XSS (https://helmetjs.github.io/docs/xss-filter[xssFilter])
+* ...
+
+Par exemple
+
+[source,javascript]
+----
+const express = require('express');
+const helmet = require('helmet');
+
+const SECURITY_POLICY = {
+  directives: {
+    defaultSrc: ["'self'"],
+    // We have to authorize inline CSS used to improve firstload
+    styleSrc: ["'unsafe-inline'", "'self'"],
+    // We have to authorize data:... for SVG images
+    imgSrc: ["'self'", 'data:', 'https:'],
+    // We have to authorize inline script used to load our JS app
+    scriptSrc: ["'self'", "'unsafe-inline'", 'https://www.google-analytics.com/analytics.js',
+      "https://storage.googleapis.com/workbox-cdn/*",
+      "https://storage.googleapis.com/workbox-cdn/releases/3.6.2/workbox-core.prod.js"]
+  }
+};
+
+express()
+  .use(helmet())
+  .use(helmet.contentSecurityPolicy(SECURITY_POLICY))
+  // Reste de la config
+  .listen(8085);
+----
+
+Vous pouvez et vous devez encore aller plus loin. Si vous utilisez de l'authentification vous devez préciser comment les cookies seront gérés lorsqu'une session sera ouverte
+
+[source,javascript]
+----
+const express = require('express');
+const session = require('express-session');
+
+const app = express()
+  .enable('trust proxy')
+  .use(session({
+      secret: 'zezaeazezaeza',
+      // A session life is 3h
+      duration: 3 * 60 * 60 * 1000,
+      // We don't authorize a session resave
+      resave: false,
+      saveUninitialized: true,
+      // Secured cookies are only set in production
+      cookie: {
+        secure: process.env.NODE_ENV === 'prod',
+        maxAge: 60 * 60 * 1000,
+        sameSite: true
+      },
+      // User by default is empty
+      user: {}
+    })
+  // Reste de la config
+  .listen(8085);
+----
+
+Vous pouvez aussi réorienter les utilisateurs qui n'utilisent pas le HTTPS, paramétrer le CORS, ouvrir une page 404 quand un utilisateur essaye d'accéder à une mauvaise ressource
+
+[source,javascript]
+----
+const express = require('express');
+
+const app = express()
+  .enable('trust proxy')
+  // Reorientation pour ceux qui ne font pas de HTTPS
+  .use((req, res, next) => {
+         const httpInForwardedProto = req.headers && req.headers['x-forwarded-proto'] && req.headers['x-forwarded-proto'] === 'http';
+         const httpInReferer = req.headers && req.headers.referer && req.headers.referer.indexOf('http://') >=0;
+         const isHtmlPage = req.url.indexOf(".html") >= 0;
+
+         if((isHtmlPage || req.url === '/')  && (httpInForwardedProto || httpInReferer)){
+           console.log('User is not in HTTP, he is redirected');
+           res.redirect('https://dev-mind.fr' + req.url);
+         }
+         else{
+           next();
+         }
+     })
+  // Paramétrage CORS
+  use((req, res, next) => {
+          res.header('Access-Control-Allow-Origin', '*');
+          res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+          next();
+        })
+  // Reste de la config
+  // En dernier on dit que pour toutes les autres requêtes on ouvre une page 404
+  .all('*', (req, res) => res.redirect(`/404.html`));
+  .listen(8085);
+----
+
+== Déployer sur Clever Cloud
+
+Maintenant que notre application fonctionne, nous pouvons la déployer sur clever cloud. Pour celà vous devez identifier les scripts qui seront lancés par la plateforme dans le fichier `package.json`
+
+[source,javascript]
+----
+{
+  "name": "dev-mind.com",
+  "scripts": {
+    "install": "gulp",
+    "start": "node app.js",
+    "dev": "gulp serve"
+  },
+  "dependencies": { }
+}
+----
+
+Sur Clever Cloud vous deveez créer une application Node.js
+
+image::../../img/blog/2018/objectif_clever_cloud_03.png[Node JS]
+
+Vous n'avez qu'à suivre les instructions par contre il est important de paramétrer les variables d'environnement suivantes
+
+[source,javascript]
+----
+NODE_BUILD_TOOL=yarn
+NODE_ENV=prod
+PORT=8080
+----
+
+* La première ligne permet d'indiquer à la plateforme que vous utilisez Yarn plutôt que Npm pour charger les dépendances Node.
+* Vous devez ensuite activer le mode `prod` et
+* démarrer votre application sur le port 8080. Si vous n'utilisez pas ce port votre application ne fonctionnera pas.
+
+
+Voila c'est à vous de jouer...
+

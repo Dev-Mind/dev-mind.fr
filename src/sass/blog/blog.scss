@@ -94,6 +94,12 @@ blockquote > .paragraph {
   background-color: $color_dark;
   color: white;
   border-radius: 4px;
+
+  > p{
+    > a {
+      color: white !important;
+    }
+  }
 }
 
 .tableblock{
