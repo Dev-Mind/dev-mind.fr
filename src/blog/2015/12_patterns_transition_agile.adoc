@@ -1,0 +1,115 @@
+:doctitle: 12 patterns pour une transition agile
+:description: 12 patterns pour la transition agile par Christophe Addinquy
+:keywords: Agilité, Leadership, Management
+:author: Guillaume EHRET - Dev-Mind
+:revdate: 2015-11-03
+:category: Agilité
+:teaser: Retour sur la session « 12+1 patterns opérationnels pour la transition agile d'un grand projet » présentée par Christophe Addinquy au CARA Lyon.
+:imgteaser: ../../img/blog/2015/transition_00.png
+
+L'agilité c'est simple mais par où commencer ? J'ai l'impression que c'est une question de plus en plus fréquente. Je trouve que c'est très encourageant car si des personnes se posent cette question, c'est qu'elles prennent conscience que l'agilité est peut être un facteur de réussite.
+
+Si vous êtes débutant je vous conseille ce très https://www.linkedin.com/pulse/mon-entreprise-veut-devenir-agile-mais-cest-quoi-par-o%C3%B9-almendra[bon article] d'https://twitter.com/AlfredAlmendra[Alfred Almendra] qui explique par des mots simples ce qu'est l'agilité et comment débuter.
+
+Mais je vais plutôt vous faire un retour dans cet article, sur la session « 12+1 patterns opérationnels pour la transition agile d'un grand projet » présentée par https://twitter.com/addinquy[Christophe Addinquy] au http://lyon.clubagilerhonealpes.org/[CARA Lyon]. Ce genre de session s’appuie sur l'expérience de l'orateur. Christophe a participé à un gros projet au sein d'ERDF qui a mobilisé de nombreuses personnes entre Paris et Lyon.
+
+image::../../img/blog/2018/transition_00.png[12+1 patterns opérationnels pour la transition agile]
+
+Il est toujours plus difficile d'agir dans une grosse société car individuellement on se sent tous noyés dans la masse. Nos actions ne comptent pas vraiment et les enjeux politiques ont souvent tendance à mettre de côté les bonnes pratiques.
+
+== 1. L’immersion agile
+
+Comment démarrer quand on est devant sa feuille blanche ? Une solution efficace qui peut tenir sur une journée est d'immerger l'équipe dans un contexte agile en lui faisant pratiquer des serious games afin de voir certains principes, aborder quelques méthodes et répondre aux questions des personnes.
+
+Ce n'est jamais évident pour une personne de changer et le sortir de son contexte de travail permet de faciliter la transmission des mécanismes de l'agilité.
+
+== 2. Commencer lentement
+
+C'est un peu un paradoxe, où généralement on demande aux équipes d'aller vite. Là il faut prendre le temps de se poser et de faire le focus sur certains principes.
+
+Le but n'est pas de faire vite mais de faire bien. Il ne faut surtout pas faire de compromis sur la qualité qui est un gage de sérénité sur le long terme.
+
+Une chose à garder à l'esprit, c'est que les équipes ne sont pas sensibles aux messages mais plutôt aux actions que vous faites
+
+== 3. Commencer par la fin
+
+C'est une démarche assez originale. Avant de commencer vous pouvez déjà réfléchir à comment vous allez terminer une tâche, une story, une itération.
+
+Un perfectionniste peut rester des mois sur le même sujet. Quelqu'un de moins consciencieux peut essayer de se débarrasser vite fait de sa tâche courante pour passer à une nouvelle.
+
+Cet exercice consiste à définir les règles du DOD (Definition Of Done) et il va faire émerger une structure de travail.
+
+Il faut ensuite essayer de se doter des moyens de vérifier les règles que vous venez d'établir, les tests. Il existe différentes manières de faire des tests et en fonction de votre contexte vous pourrez mettre en place plusieurs types de ces tests
+
+
+== 4. Le droit à l’erreur
+
+Dans la culture française, le droit à l'erreur est une notion difficile à accepter. Pour n'importe quels évènements de la vie courante ou non, nous cherchons à chercher un responsable pour le faire payer.
+
+Mais tout le monde fait des erreurs et il est important de le rappeler. De dire à une personne oui nous allons nous tromper permet de casser une barrière. Ce n'est pas grave de faire des erreurs. Il faut plutôt les voir comme des opportunités de montrer ce qui ne marche pas et ce qui peut nous permettre de nous améliorer.
+
+== 5. N'ignorez pas la dimension culturelle
+
+Cette dimension culturelle est plutôt interne du côté de l'organisation et externe du côté des prestataires. Vous pouvez essayer de repérer des personnes dans l'équipe qui seront les bons émissaires pour relayer votre message et faire émerger les pratiques agiles.
+
+Du côté organisationnel il est important de chercher les appuis des mangers car ils ont un pouvoir de rayonnement dont vous pourrez bénéficier par la suite. C'est d'autant plus vrai dans les grandes organisations, où les gens ont l'habitude des modes de management à l'ancienne.
+
+Au niveau des managers, il faut leur faire comprendre qu'ils doivent être clairs dans la définition des objectifs et de la vision de l'entreprise. Ils doivent agir sur le cadre mais ne jamais imposer aux personnes une manière de faire. Un bon manager ne s’occupe pas du comment mais mais plutôt du pourquoi.
+
+== 6. Favoriser l'auto-organisation
+
+Il faut que les personnes de l'équipe s'approprient la façon de faire. C'est parfois triste de voir des gens avec bac +5 qui ressemblent à des personnes à qui on a lessivé le cerveau, et qui attendent de leur supérieur des ordres pour savoir ce qu'ils doivent faire.
+
+Chacun doit être acteur
+
+== 7. Craftmanship
+
+L'agilité s'est développée grâce aux bienfaits observés dans le développement logiciel. Pourquoi ? Parce que la qualité induite et poussée par l'agilité nous aide à créer des logiciels performants, évolutifs et répondant simplement aux besoins utilisateurs.
+
+Il faut essayer de cultiver cet esprit "craftmanship" dans les équipes. Plusieurs recettes sont possibles
+
+* éveiller la curiosité grâce à des sensibilisations (exemple des Brown Bag Lunchs)
+* recruter des personnes qualifiées et motivées
+* …
+
+Pour résumer cet état d'esprit, Christophe a rappelé une phrase de Scott Meyers : "une interface doit être facile à bien utiliser et difficile à mal utiliser…"
+
+== 8. Le fond et non la forme
+
+Que ce soit au niveau management ou technique il est toujours important de comprendre les principes plutôt que de savoir comment les mettre en pratique.
+
+Le pourquoi est beaucoup plus important que le comment. C'est d'autant plus vrai dans la technique où les frameworks se multiplient mais où les concepts eux se rapprochent.
+
+== 9. Apprendre à s’améliorer
+
+Un des piliers de l'agilité est l'amélioration continue. Enclenchez des boucles d'amélioration, expérimentez et si vous vous trompez essayez autre chose….
+
+== 10. L’architecture compte !
+
+Quand on souhaite mettre en place un middleware, créer un logiciel, souvent on regarde
+
+* le nombre de fonctionnalités
+* la maturité des éditeurs
+* les retours des autres clients
+* …
+
+Mais ce ne sont que des métriques annexes. Pensez plutôt en fonction de votre contexte ou de vos utilisateurs. Il faut privilégier les solutions simples à tester et à utiliser.
+
+
+== 11. Off/on : comment faire la transition agile ?
+
+Pour Christophe la meilleure manière de faire, est d'imposer un changement radical pour basculer au plus vite vers le nouveau mode. Sur ce point je ne suis pas d'accord avec lui car les changements brutaux ont du mal à être acceptés, et je suis plutôt partisan des méthodes comme Kanban qui vont enclencher en boucle, des petites améliorations permanentes qui transformerons l'organisation dans le temps et la durée.
+
+== 12. Parfois il faut plonger pour mieux réussir
+
+Tout n'est pas rose et comme dit un peu plus haut, il arrive à tout le monde de faire fausse route, de se planter… En tant que coach on ne peut pas forcer les gens à écouter.
+
+Après l'introduction de l'agilité il y aura des phases de dégradation plus ou moins longues. Elles sont importantes pour que les personnes comprennent leurs erreurs et repartent de l'avant.
+
+== Conclusion
+
+Les différents points évoqués décrivent la recette que Christophe a utilisé dans son contexte. Elles ne seront peut être pas utiles à tout le monde mais son but est de proposer une base pour ouvrir la réflexion. Merci à lui et au CARA pour son intervention
+
+
+
+

@@ -1,0 +1,152 @@
+:doctitle: Pousser un message Slack en Java
+:description: Pousser un message Slack en Java
+:keywords: Java
+:author: Guillaume EHRET - Dev-Mind
+:revdate: 2016-01-29
+:category: Java
+:teaser: Au niveau de nos applications nous pouvons aussi avoir besoin de centraliser des notifications dans cet outil. Nous allons voir comment utiliser l'API  Incoming WebHooks.
+:imgteaser: ../../img/blog/2016/slack_00.png
+
+Depuis que j'ai découvert Slack, j'ai migré beaucoup de mes flux de mails vers cet outil. Au niveau de nos applications nous pouvons aussi avoir besoin de centraliser des notifications dans cet outil. Nous allons voir comment utiliser l'API  Incoming WebHooks.
+
+image::../../img/blog/2016/slack_01.png[Slack]
+
+Le principe est très simple. Connectez vous à votre compte Slack et en allant sur https://my.slack.com/services/new/incoming-webhook/ vous pourrez accéder à une liste des différents channels auxquelles vous êtes abonnés.
+
+image::../../img/blog/2016/slack_02.png[Slack]
+
+Une fois fois que vous avez choisi votre channel, Slack vous génère les tokens vous permettant d'utiliser leurs API. Par exemple vous obtiendrez une URL du type https://hooks.slack.com/services/DSFDSFSDF/QSDQSDSQD/DFSDFdfkslksdDSF
+
+
+Plusieurs exemples de messages sont fournis. Le payload ci dessous permet par exemple d'envoyer dans le channel « général »
+
+
+[source, javascript, subs="none"]
+----
+payload={
+    "channel": "#general",
+    "username": "Dev-Mind", "text":
+    "This is my post to #general.",
+    "icon_emoji": ":ghost:"
+}
+----
+
+Vous pouvez utiliser un outil comme https://curl.haxx.se/[CURL] pour pousser vos messages
+
+
+[source, shell, subs="none"]
+----
+curl -X POST --data-urlencode 'payload={"channel": "#general", "username": "webhookbot", "text": "This is posted to #general and comes from a bot named webhookbot.", "icon_emoji": ":ghost:"}' https://hooks.slack.com/services/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
+----
+
+Et il existe de nombreuses librairies externes pour les différents langages https://api.slack.com/community mais pour un beoin aussi simple on peut se poser la question de l'intérêt d'utiliser une librairie externe.
+
+
+Regardons comment créer une application Java pour envoyer des informations dans Slack. Nous allons le faire dans une application Spring Boot. Pour démarrer un nouveau projet vous pouvez aller sur http://javamind-fr.blogspot.fr/2016/01/demarrer-une-application-springboot.html[mon article] sur le sujet.
+
+
+Le but est de démarrer le projet https://github.com/Dev-Mind/devmind-slack[devmind-slack] qui est un projet que vous pouvez récupérer sur Github si vous voulez voir les sources directement.
+
+
+Nous allonc commencer par créer un DTO contenant les différentes informations que nous pouvons envoyer
+
+[source,java]
+----
+public class SlackMessage {
+
+    private String channel;
+    private String text;
+    private String username;
+    private String icon_emoji;
+    private String icon_url;
+
+    public String getChannel() {
+        return channel;
+    }
+
+    public SlackMessage setChannel(String channel) {
+        this.channel = "#" + channel;
+        return this;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public SlackMessage setUsername(String username) {
+        this.username = username;
+        return this;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public SlackMessage setText(String text) {
+        this.text = text;
+        return this;
+    }
+
+    public String getIcon_emoji() {
+        return icon_emoji;
+    }
+
+    public SlackMessage setIcon_emoji(String icon_emoji) {
+        this.icon_emoji = ":" + icon_emoji + ":";
+        return this;
+    }
+
+    public String getIcon_url() {
+        return icon_url;
+    }
+
+    public SlackMessage setIcon_url(String icon_url) {
+        this.icon_url = icon_url;
+        return this;
+    }
+}
+----
+
+Le but est de coller à l'API https://api.slack.com/methods/chat.postMessage
+
+Il ne nous reste plus qu'à écrire le code qui va interagir avec le service distant et générer le payload attendu. La petite spécificité est que le format des données attendu doit être encodé
+
+[source,java]
+----
+@RestController
+public class SlackMessageSender {
+
+    @Value("${slack.services.incoming}")
+    private String slackServiceIncomingUrl;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+
+    @RequestMapping(value = "/slack/{message}")
+    public ResponseEntity<String> hello(@PathVariable(value = "message") String message)
+                throws JsonProcessingException {
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        SlackMessage slackMessage = new SlackMessage()
+                .setChannel("random")
+                .setText(message)
+                .setUsername("guillaume")
+                .setIcon_url("http://dev-mind.fr/logo/logo_48.png");
+
+        try{
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+            HttpEntity<String> request = new HttpEntity<>(objectMapper.writeValueAsString(slackMessage), headers);
+            restTemplate.exchange(slackServiceIncomingUrl, HttpMethod.POST, request, String.class);
+        }
+        catch (RuntimeException e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+        return ResponseEntity.ok().body("Message sent");
+    }
+}
+----
+
+Voila vous pouvez dès à présent envoyer encore plus d'infos vers vos channels favoris
