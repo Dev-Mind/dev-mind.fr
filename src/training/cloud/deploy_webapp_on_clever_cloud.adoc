@@ -1,0 +1,110 @@
+:doctitle: Deploy your webapp on Clever Cloud (EN)
+:description: Deploy your webapp on Clever Cloud (EN)
+:keywords: Gradle, Spring
+:author: Guillaume EHRET - Dev-Mind
+:revdate: 2018-11-18
+:category: JAva
+:teaser: Deploy your Spring Boot webapp on Clever Cloud (EN)
+:imgteaser: ../../img/training/clever-cloud.png
+
+
+== Clever Cloud
+
+Clever cloud is a platform designed by developers for developers.
+
+image::../../img/training/clever-cloud.png[]
+
+You Write Code. They Run It.
+
+When you write code, you push sources on Github. Clever Cloud is able to install your Github app
+
+Sign in on https://github.com/ with your account. If you haven't an account you have to create one
+
+When you are connected, you can create a new account on https://www.clever-cloud.com/en/
+
+https://www.youtube.com/embed/vfO2eBK17TY[see video]
+
+> It's important to create your account from your Github account. When you receive this email, click on "Join CoursEsme2018" Button
+
+image::../../img/training/cloud/mail.png[]
+
+[.small]#ESME space will be added on your clever cloud environment#
+
+image::../../img/training/cloud/clever0.png[]
+
+
+Before this deployment you have to create a folder called "clevercloud" in your Spring Boot project
+
+Inside, add a file `gradle.json`. This file will contain
+
+[source,java]
+----
+{
+  "build": {
+    "type": "gradle",
+    "goal": "assemble"
+  },
+  "deploy": {
+    "jarName": "./build/libs/faircorp-0.0.1-SNAPSHOT.jar"
+  }
+}
+----
+
+To know the name of your jar go on folder `./build/libs/`
+
+Push your change on a Github repository. If can create a new directory
+
+image::../../img/training/cloud/gitfaircoro.png[]
+
+We will create a new app on the Clever Cloud console in the ESME organization
+
+image::../../img/training/cloud/clever0.png[]
+
+You will create a new application. This application will be generated from a Github repository
+
+image::../../img/training/cloud/clever1.png[]
+
+You have to choose the kind of your application. For a Spring Boot application it will be a Java and Gradle application
+
+image::../../img/training/cloud/clever2.png[]
+
+The next step consist to choose the type of your server. You can keep the default configuration or click on the edit button.
+
+image::../../img/training/cloud/clever3.png[]
+
+You have several available configurations but more your server will be powerful more the price is expensive
+
+image::../../img/training/cloud/clever4.png[]
+
+You can use a specific name. It's important when you have several apps
+
+image::../../img/training/cloud/clever5.png[]
+
+In the next step you can define environment variables. It's not very important in our example. You can click on the Next button
+
+image::../../img/training/cloud/clever6.png[]
+
+Installation starts and you have to wait several minutes.
+
+image::../../img/training/cloud/clever7.png[]
+
+You can explore different section to update your parameters
+
+* Overview : contains buttons to reinstall your app and the link to access to your app
+* Information
+* Scalability
+* Domain names : helps to personalize the URL of its application or parameter its own domain main
+* Environment variables
+* Service dependencies
+* Exposed configuration
+* Activity
+* Logs
+* Metrics
+
+Define a custom URL to access to your application and click on the star to use it by default
+
+image::../../img/training/cloud/clever8.png[]
+image::../../img/training/cloud/clever9.png[]
+
+
+Now you can use your app deployed on the Internet. This app will be automatically redeployed, when you will push a new commit on Github.
