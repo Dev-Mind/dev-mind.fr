@@ -76,7 +76,7 @@ You have several available configurations but more your server will be powerful 
 
 image::../../img/training/cloud/clever4.png[]
 
-You can use a specific name. It's important when you have several apps
+You can use a specific name. It's important when you have several apps. In our case you have to use `faircorp-firstname-lastname`. For me for example the app should be called `faircorp-guillaume-ehret`
 
 image::../../img/training/cloud/clever5.png[]
 
