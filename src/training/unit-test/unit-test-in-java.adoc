@@ -54,7 +54,7 @@ Manual tests are cheaper on short-term but more expensive on long-term
 
 Automated tests are expensive on short-term but cheaper on long-term
 
-A human will tire when he has to execute the same tests continuously. He will be less conscientious  and less attentive. It's not the case of a test program
+A human will tire when he has to execute the same tests continuously. He will be less conscientious  and less attentive. It's not the case for a test program
 
 image::../../img/training/unit-test/systemrobot.png[]
 
@@ -74,7 +74,8 @@ Portion to test, can be viewed as an independent system. We talk about System Un
 
 image::../../img/training/unit-test/test1.png[]
 
-For example we want to test a service which follows this contract
+For example, if we want to test a service which follows this contract
+
 [source,java]
 ----
 public interface FriendService {
@@ -99,22 +100,7 @@ public class FriendServiceImpl implements FriendService {
 }
 ----
 
-When you write a test you have to test all the cases
-
-In our example you have to check when the user is null
-
-[source,java]
-----
-if(friend == null){
-    throw new IllegalArgumentException("Friend is required");
-}
-----
-
-... and when user is defined and has a birth year
-[source,java]
-----
-LocalDate.now().getYear() - friend.getBirthYear();
-----
+When you write a test you have to test all the cases. In our example you have to check when the user is nulland  when a user is defined and has a birth year
 
 In an application this system SUT will interact with other components
 
@@ -174,10 +160,10 @@ The code to test is not important, it's the black box...  you have to focus on i
 image::../../img/training/unit-test/test7.png[]
 
 
-Your black box is a method with paramaters or not (inputs) +
+Your black box can have inputs (method parameters for example) +
 [.small .small-block]#In your test you will invoke the SUT and you test this one by sending inputs#
 
-Your black box is a method which returns a result or which updates the system state (output) +
+Your black box can return a result or update the system state (we have an output) +
 [.small .small-block]#In your test you will check the result and assert if this result is equals to the expected behavior#
 
 When you write you can follow the AAA pattern : *arrange /act /assert*
