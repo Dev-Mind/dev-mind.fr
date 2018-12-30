@@ -342,7 +342,6 @@ gulp.task('watch-template', () =>
 
 gulp.task('watch', gulp.parallel('watch-html', 'watch-scss', 'watch-adoc', 'watch-js', 'watch-img', 'watch-template'));
 
-
 gulp.task('clean', () => del('build', {dot: true}));
 
 gulp.task('initModeDev', (cb) => {

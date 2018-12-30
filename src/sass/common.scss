@@ -79,8 +79,8 @@ $header__heigth: 64px;
 @mixin dm-btn--sized($bgcolor, $txtcolor, $bordercolor, $size) {
   background-color: $bgcolor;
   border: 2px solid $bordercolor;
+  border-radius: 4px;
   color: $txtcolor !important;
-  border-radius: 2px;
   padding: 1em;
   margin: auto;
   font-weight: 700;

@@ -26,6 +26,9 @@
     @include dm-btn--sized(#424242, white, #424242, 'auto');
     margin-left: 2px;
   }
+  .btn-inverse:hover {
+    @include dm-btn--hover(#585858, white, #424242);
+  }
 }
 
 .dm-block--news{
@@ -45,6 +48,14 @@
     a {
       color: white;
     }
+  }
+  .btn-inverse {
+    @include dm-btn--sized(#424242, white, #424242, 230px);
+    padding: 0;
+  }
+  .btn-inverse:hover {
+    @include dm-btn--hover(#585858, white, #424242);
+    padding: 0;
   }
 }
 
