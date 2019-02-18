@@ -42,4 +42,3 @@ Il ne vous reste plus qu'à jouer... Si vous avez besoin d'avoir plus de types d
 
 image::../../img/blog/2019/score_05.png[Page à propos, width=35%]
 
-
