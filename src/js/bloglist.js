@@ -44,7 +44,7 @@ window.blog = (function () {
   }
 
   function sendMessage(target) {
-    const page = 'https://www.dev-mind.fr/blog.html';
+    const page = 'https://dev-mind.fr/blog.html';
     const title = 'le blog ' + ('twitter' === target ? '@DevMindFr' : 'Dev-Mind');
 
     if ('twitter' === target) {
