@@ -1,6 +1,7 @@
 {
   "name": "Dev-Mind",
   "short_name": "Dev-Mind",
+  "scope": "/",
   "icons": [{
         "src": "img/touch/logo-icon.png",
         "sizes": "128x128",
@@ -22,7 +23,7 @@
         "sizes": "512x512",
         "type": "image/png"
       }],
-  "start_url": "/index.html",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#ECEFF1",
   "theme_color": "#424242"

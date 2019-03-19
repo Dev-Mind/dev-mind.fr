@@ -5,9 +5,15 @@ const del = require('del');
 const path = require('path');
 const imagemin = require('gulp-imagemin');
 const imageminJpegtran = require('imagemin-jpegtran');
-const wbBuild = require('workbox-build');
+const workboxBuild = require('workbox-build');
 const website = require('devmind-website')();
+const fs = require('fs');
+
 const $ = require('gulp-load-plugins')();
+
+// Service worker version is read in a file
+const FILE_VERSION = './version';
+const serviceWorkerVersion = require(FILE_VERSION).swVersion;
 
 const AUTOPREFIXER_BROWSERS = [
   'ie >= 11',
@@ -203,6 +209,7 @@ gulp.task('local-js', () =>
       .pipe($.sourcemaps.write())
       .pipe($.uglify())
       .pipe($.size({title: 'scripts'}))
+      .pipe($.replace('$serviceWorkerVersion', serviceWorkerVersion))
       .pipe(gulp.dest('build/dist/js'))
       .pipe($.rev.manifest())
       .pipe(gulp.dest('build/dist/js'))
@@ -218,12 +225,14 @@ gulp.task('vendor-js', () =>
  * Image pre processing is used to minify these assets
  */
 gulp.task('images-pre', () =>
-  gulp.src('src/images/**/*.{svg,png,jpg}')
-      .pipe($.if(!modeDev, imagemin([imagemin.gifsicle(), imageminJpegtran(), imagemin.optipng(), imagemin.svgo()], {
+  modeDev ?
+    gulp.src('src/images/**/*.{svg,png,jpg}').pipe(gulp.dest('build/.tmp/img')) :
+    gulp.src('src/images/**/*.{svg,png,jpg}')
+      .pipe(imagemin([imagemin.gifsicle(), imageminJpegtran(), imagemin.optipng(), imagemin.svgo()], {
         progressive: true,
         interlaced: true,
         arithmetic: true,
-      })))
+      }))
       .pipe(gulp.dest('build/.tmp/img'))
       .pipe($.if('**/*.{jpg,png}', $.webp()))
       .pipe($.size({title: 'images', showFiles: false}))
@@ -272,12 +281,12 @@ gulp.task('sitemap', () =>
 );
 
 gulp.task('service-worker-bundle', () => {
-  return wbBuild.injectManifest({
+  return workboxBuild.injectManifest({
                                   swSrc: 'src/sw.js',
                                   swDest: 'build/.tmp/sw.js',
                                   globDirectory: './build/dist',
-                                  globIgnores: ['training/**/*.*'],
-                                  globPatterns: ['**/*.{js,css,svg}']
+                                  globIgnores: ['training/**/*.*', '**/sw*.js', '**/workbox*.js'],
+                                  globPatterns: ['**/*.{js,svg}']
                                   // we don't load image files on SW precaching step
                                 })
                 .catch((err) => {
@@ -286,16 +295,31 @@ gulp.task('service-worker-bundle', () => {
 });
 
 gulp.task('service-worker-optim', () =>
-  gulp.src(`build/.tmp/sw.js`)
+  gulp.src(`build/.tmp/*.js`)
+      .pipe($.rev())
+      .pipe($.replace('$serviceWorkerVersion', serviceWorkerVersion))
       .pipe($.sourcemaps.init())
       .pipe($.sourcemaps.write())
       .pipe($.uglify())
       .pipe($.size({title: 'scripts'}))
       .pipe($.sourcemaps.write('.'))
       .pipe(gulp.dest(`build/dist`))
+      .pipe($.rev.manifest())
+      .pipe(gulp.dest(`build/dist`))
 );
 
-gulp.task('service-worker', gulp.series('service-worker-bundle', 'service-worker-optim'));
+gulp.task('service-worker-updgrade', (fg) => {
+  // We have to save the new service worker version for next build
+  fs.writeFile(FILE_VERSION + '.json', '{ "swVersion" : ' + (serviceWorkerVersion + 1) +'}', function (err, file) {
+    if (err) throw err;
+    console.log('File with version saved!');
+  });
+  fg();
+});
+
+gulp.task('service-worker', gulp.series('service-worker-bundle', 'service-worker-optim', 'service-worker-updgrade'));
+
+
 
 const cacheBusting = (path) =>
   gulp.src(path)
@@ -307,7 +331,9 @@ const cacheBusting = (path) =>
 
 gulp.task('cache-busting-dev', () => cacheBusting('build/dist/**/*.{html,js,css}'));
 gulp.task('cache-busting', () => cacheBusting('build/dist/**/*.{html,js,css,xml,json,webapp}'));
-
+gulp.task('cache-busting-sw', () =>  gulp.src('build/dist/**/main*.js')
+                                         .pipe($.revReplace({manifest: gulp.src('build/dist/rev-manifest.json'), replaceInExtensions: ['.js']}))
+                                         .pipe(gulp.dest('build/dist')));
 
 gulp.task('compress-svg', (cb) => {
   gulp.src('build/dist/**/*.svg')
@@ -361,8 +387,10 @@ gulp.task('build', gulp.series('images-pre',
                                'copy',
                                'training',
                                'cache-busting',
-                               'service-worker'));
+                               'service-worker',
+                               'cache-busting-sw'));
 
+gulp.task('build-dev', gulp.series('clean', 'initModeDev', 'build'));
 
 // Build production files, the default task
 // Before a delivery we need to launch blog-firebase to update the pages on database
