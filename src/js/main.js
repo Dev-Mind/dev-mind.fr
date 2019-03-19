@@ -27,6 +27,10 @@ window.app = (function () {
         if (!isActualSwFiles) {
           console.log('Purge old SW cache entry : ' + key);
           caches.delete(key);
+          if(window.indexedDB){
+            console.log('delete database', key);
+            window.indexedDB.deleteDatabase(key);
+          }
         }
         return true;
       };
