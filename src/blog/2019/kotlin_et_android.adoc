@@ -17,6 +17,7 @@ En mai à Google I/O 2019, Google a https://android-developers.googleblog.com/20
 
 Dans cet article, nous allons revenir sur les intérêts du langage pour comprendre pourquoi Kotlin est devenu le langage de référence pour les développements Android.
 
+image::../../img/blog/2019/kotlin_et_android.png[Kotlin et Android]
 
 == Kotlin simplifie la syntaxe
 
