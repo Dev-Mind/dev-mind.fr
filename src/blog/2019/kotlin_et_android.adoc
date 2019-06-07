@@ -6,8 +6,9 @@
 :category: Android
 :teaser: Google a annoncé que Kotlin devenait le langage de réference pour la programmation Android. Revenons sur l'intérêt d'utiliser ce langage
 :imgteaser: :../../img/blog/2019/kotlin_et_android.png
+:toc:
 
-En 2017 une grande annonce a été faite à https://www.youtube.com/watch?v=fPzxfeDJDzY&list=PLWz5rJ2EKKc-odHd6XEaf7ykfsosYyCKp&index=51&t=0s[Google IO]. Le langage https://kotlinlang.org/[Kotlin] devenait le deuxième langage de référence pour développer des applications Android. https://kotlinlang.org/[Kotlin] a été créé par la société https://www.jetbrains.com/[JetBrains], éditeur de https://developer.android.com/studio/[Android Studio] (IDE de référénce pour le développement Android). https://www.jetbrains.com/[JetBrains] collabore depuis plusieurs année avec Google pour toujours améliorer ce studio de développement. Ce studio a été initialement été écrit en Java puis en Kotlin.
+En 2017 une grande annonce a été faite à https://www.youtube.com/watch?v=fPzxfeDJDzY&list=PLWz5rJ2EKKc-odHd6XEaf7ykfsosYyCKp&index=51&t=0s[Google IO]. Le langage https://kotlinlang.org/[Kotlin] devenait le deuxième langage de référence pour développer des applications Android. https://kotlinlang.org/[Kotlin] a été créé par la société https://www.jetbrains.com/[JetBrains], éditeur de https://developer.android.com/studio/[Android Studio] (IDE de référence pour le développement Android). https://www.jetbrains.com/[JetBrains] collabore depuis plusieurs année avec Google pour toujours améliorer ce studio de développement. Ce studio a été initialement été écrit en Java puis en Kotlin.
 
 Pourquoi Google a t'il fait cette annonce ? Etait ce lié au procès avec la société Oracle sur l'utilisation de Java ?  Etait ce lié aux possibilités offertes par ce langage ? Etait ce lié aux possibilités offertes par cette collabiration étroite entre les deux sociétés ?
 
