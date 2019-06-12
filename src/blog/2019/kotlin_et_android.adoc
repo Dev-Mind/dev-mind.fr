@@ -72,7 +72,7 @@ var name = "Dev-Mind"   // Valide et pas besoin de définir un type car le compi
 var name:String? = null // Valide car on utilise le type String? qui veut dire String nullable
 ----
 
-Au premier abord, cette fonctionnalité peut paraître contraignante mais c'est un réeel plaisir à l'utiliser et ceci évite bon nombre de bugs d'inadvertance.
+Au premier abord, cette fonctionnalité peut paraître contraignante mais c'est un réel plaisir à l'utiliser et ceci évite bon nombre de bugs d'inadvertance.
 
 == Immutabilité
 
@@ -87,7 +87,7 @@ var name2 = "Dev-Mind"
 name2 = "Guillaume"     // OK car mutable
 ----
 
-Kotlin implémente les API Java pour les listes mais distingues les listes mutables et non mutables. Par défaut tout est immutable. Si vous voulez une liste mutable vous devez le préciser
+Kotlin implémente les API Java pour les listes mais distingue les listes mutables et non mutables. Par défaut tout est immutable. Si vous voulez une liste mutable vous devez le préciser
 
 [source, kotlin, subs="none"]
 ----
@@ -113,7 +113,7 @@ Par exemple avec le code suivant,
 fun formatDate(string: Date, format: String = "yyyy-MM-dd", addDay: Int =0) : String
 ----
 
-vous pouvez avez différentes manières d'appeler cette méthode
+vous pouvez avoir différentes manières d'appeler cette méthode
 
 [source, kotlin, subs="none"]
 ----
