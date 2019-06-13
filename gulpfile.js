@@ -6,7 +6,8 @@ const path = require('path');
 const imagemin = require('gulp-imagemin');
 const imageminJpegtran = require('imagemin-jpegtran');
 const workboxBuild = require('workbox-build');
-const website = require('devmind-website')();
+const devMindGulpBuilder = require('devmind-website');
+const website = new devMindGulpBuilder.DevMindGulpBuilder();
 const fs = require('fs');
 
 const $ = require('gulp-load-plugins')();
@@ -14,18 +15,6 @@ const $ = require('gulp-load-plugins')();
 // Service worker version is read in a file
 const FILE_VERSION = './version';
 const serviceWorkerVersion = require(FILE_VERSION).swVersion;
-
-const AUTOPREFIXER_BROWSERS = [
-  'ie >= 11',
-  'ie_mob >= 11',
-  'ff >= 45',
-  'chrome >= 45',
-  'safari >= 7',
-  'opera >= 23',
-  'ios >= 9',
-  'android >= 4.4',
-  'bb >= 10'
-];
 
 const HTMLMIN_OPTIONS = {
   removeComments: true,
@@ -60,7 +49,7 @@ gulp.task('styles', (cb) => {
       .pipe($.sass({
                      precision: 10
                    }).on('error', $.sass.logError))
-      .pipe($.autoprefixer(AUTOPREFIXER_BROWSERS))
+      .pipe($.autoprefixer())
       .pipe(gulp.dest('build/.tmp/css'))
       // Concatenate and minify styles
       .pipe($.if('*.css', $.cssnano()))
@@ -228,11 +217,7 @@ gulp.task('images-pre', () =>
   modeDev ?
     gulp.src('src/images/**/*.{svg,png,jpg}').pipe(gulp.dest('build/.tmp/img')) :
     gulp.src('src/images/**/*.{svg,png,jpg}')
-      .pipe(imagemin([imagemin.gifsicle(), imageminJpegtran(), imagemin.optipng(), imagemin.svgo()], {
-        progressive: true,
-        interlaced: true,
-        arithmetic: true,
-      }))
+      .pipe(imagemin([imagemin.gifsicle({interlaced: true}), imagemin.jpegtran({progressive: true}), imagemin.optipng(), imagemin.svgo()]))
       .pipe(gulp.dest('build/.tmp/img'))
       .pipe($.if('**/*.{jpg,png}', $.webp()))
       .pipe($.size({title: 'images', showFiles: false}))
