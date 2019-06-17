@@ -82,9 +82,6 @@ Je suis rédacteur du blog http://javamind-fr.blogspot.fr[JavaMind] depuis maint
 
 == Remontons dans le temps
 
-...
-----
-
 Si vous voulez en savoir plus sur la syntaxe Asciidoc vous pouvez consulter la http://asciidoctor.org/docs/asciidoc-syntax-quick-reference/[documentation].
 
 === Cycle de vie de mon site

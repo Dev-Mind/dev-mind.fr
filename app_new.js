@@ -5,6 +5,7 @@ const helmet = require('helmet');
 const cachePolicy = require('./server/app.webcache');
 const security = require('./server/app.security');
 const session = require('express-session');
+const mongodb = require('mongodb');
 
 const parseJsonEnv = (value) => {
   const valueWithoutSpace = value.replace(/[ ]/g, '');
@@ -27,9 +28,21 @@ const DEVMIND = {
   users: process.env.DEVMIND_USERS ? parseJsonEnv(process.env.DEVMIND_USERS) : [{
     username: 'guillaume',
     password: '5f4dcc3b5aa765d61d8327deb882cf99'
-  }]
+  }],
+  mongodb: {
+    url: 'mongodb://localhost:27017/mydb',
+    options: {}
+  }
 };
 
+// The mongodb pool connection is initialized
+const mongoClient = mongodb.MongoClient;
+mongoClient.connect(DEVMIND.mongodb.url,DEVMIND.mongodb.options, function(err, database) {
+  if(err) throw err;
+
+  db = database;
+
+  // Start the application after the database connection is ready
   const app = express()
     .enable('trust proxy')
     .use(security.rewrite())
@@ -41,9 +54,11 @@ const DEVMIND = {
     .use(security.checkAuth(DEVMIND.securedUrls))
     .use(security.corsPolicy())
     .use(express.static(DEVMIND.static, {setHeaders: cachePolicy.setCustomCacheControl}))
+    .get('/stats', visitHandler())
     .get('/logout', security.logoutHandler())
     .post('/login', security.loginHandler(DEVMIND.users))
     .all('*', security.notFoundHandler());
+
 
   app.set('port', DEVMIND.port);
 
@@ -71,3 +86,41 @@ const DEVMIND = {
         throw error;
     }
   }
+});
+
+/**
+ * Handler used to clean up a session after logout
+ */
+const visitHandler = () => {
+  return (req, res) => {
+    console.log('Test save stats');
+    var mongoClient = mongodb.MongoClient;
+
+
+    // mongoClient.connect('mongodb://ukm5p5yczugga3tnjiam:Sgt1nx5Q3cJUfbrNjqhm@b4nvkpu9sifrbi9-mongodb.services.clever-cloud.com:27017/b4nvkpu9sifrbi9', {
+    //   auth: {
+    //     user: 'ukm5p5yczugga3tnjiam',
+    //     password: 'Sgt1nx5Q3cJUfbrNjqhm'
+    //   }
+    // }, (err, db) => {
+    //   if(err) throw err;
+    //
+    //   console.log('Yo man');
+    //   // var collection = db.collection('statistiques');
+    //   // collection.insert({a:2}, function(err, docs) {
+    //   //   collection.count(function(err, count) {
+    //   //     console.log(format("count = %s", count));
+    //   //   });
+    //   // });
+    //   //
+    //   // // Locate all the entries using find
+    //   // collection.find().toArray(function(err, results) {
+    //   //   console.dir(results);
+    //   //   // Let's close the db
+    //   //   db.close();
+    //   // });
+    // });
+    return res.redirect('/');
+  };
+};
+
