@@ -15,7 +15,7 @@ image::../../img/blog/2019/android_pf_00.png[Comprendre la programmation Android
 == Ecosystème Android
 
 === Android l'OS le plus utilisé
-Il y a deux acteurs majeurs dans le monde du mobile : Apple (https://www.apple.com/fr/ios/[IOs]) et Google (https://www.android.com/[Android]). Android est aujourd'hui l'OS sur mobile le plus utilisé dans le monde. Près de 70% des utilisateurs dans les pays occidentaux utilisent cette plateforme. En Afrique ou en Asie, la politique tarifaire d'Apple, fait que les parts de marché Android sont encore plus fortes et continuent à grimper.
+Il y a deux acteurs majeurs dans le monde du mobile : Apple (https://www.apple.com/fr/ios/[iOS]) et Google (https://www.android.com/[Android]). Android est aujourd'hui l'OS sur mobile le plus utilisé dans le monde. Près de 70% des utilisateurs dans les pays occidentaux utilisent cette plateforme. En Afrique ou en Asie, la politique tarifaire d'Apple, fait que les parts de marché Android sont encore plus fortes et continuent à grimper.
 
 .Répartition des OS mobiles (source statscounter 2019)
 [caption=""]
@@ -57,7 +57,7 @@ Android s'appuie sur les forces de Linux pour fournir un OS stable et fiable : g
 
 Android définit une couche abstraite pour s'interfacer avec les différents capteurs ou élements de bas niveau d'un device :  HAL (Hardware Abstraction Layer). Les différents constructeurs de mobile doivent implémenter cette couche pour que leur téléphone puisse fonctionner. Ils doivent également prouver que leurs téléphones sont capables de répondre aux exigences de tests demandées par Google. Il existe des tests de compatibilités avec une version de l'OS (https://source.android.com/compatibility/cts[CTS compatibility test suite]) et des d'autres tests complémentaires (https://source.android.com/compatibility/vts[VTS Vendor test suite]).
 
-Ces développements peuvent être longs et coûteux. C'est pour cette raison, que les constructeurs ne font pas évoluer leurs téléphones. Leur but est de vendre toujours plus de nouveaux devices, et non de maintenir les anciens. Ces problèmes de mises à jour entraînent une grosse fragmentation dans l'utilisation des versions de l'OS. Cette fragmentation liée aux versions du système d'exploitation, est moins présente dans le monde IOs. Comme Apple est à la fois éditeur et constructeur, tout est fait pour que chaque nouvelle version soit supportée par les anciens devices (troll: sauf quand ils introduident de l'obsolescence programmée).
+Ces développements peuvent être longs et coûteux. C'est pour cette raison, que les constructeurs ne font pas évoluer leurs téléphones. Leur but est de vendre toujours plus de nouveaux devices, et non de maintenir les anciens. Ces problèmes de mises à jour entraînent une grosse fragmentation dans l'utilisation des versions de l'OS. Cette fragmentation liée aux versions du système d'exploitation, est moins présente dans le monde iOS. Comme Apple est à la fois éditeur et constructeur, tout est fait pour que chaque nouvelle version soit supportée par les anciens devices (troll: sauf quand ils introduident de l'obsolescence programmée).
 
 === Langages de programmation
 
