@@ -1,0 +1,198 @@
+:doctitle: Comprendre la programmation Android
+:description: Eco-système Android
+:keywords: Android
+:author: Guillaume EHRET - Dev-Mind
+:revdate: 2019-06-12
+:category: Android
+:teaser: Regardons en détail comment fonctionne Android afin d'avoir les bases pour commencer à programmer sur la plateforme
+:imgteaser: :../../img/blog/2019/android_pf_00.png
+:toc:
+
+Mon objectif est de vous montrer comment développer une application Android de A à Z en utilisant les dernières préconisations de Google. Il y a beaucoup de choses à écrire sur le sujet et je le ferai dans plusieurs articles. Dans cette première partie nous allons parler de l'écosystème Android et de la plateforme : chose essentielle si vous voulez comprendre les spécificités du développement Android.
+
+image::../../img/blog/2019/android_pf_00.png[Comprendre la programmation Android]
+
+== Ecosystème Android
+
+=== Android l'OS le plus utilisé
+Il y a deux acteurs majeurs dans le monde du mobile : Apple (https://www.apple.com/fr/ios/[IOs]) et Google (https://www.android.com/[Android]). Android est aujourd'hui l'OS sur mobile le plus utilisé dans le monde. Près de 70% des utilisateurs dans les pays occidentaux utilisent cette plateforme. En Afrique ou en Asie, la politique tarifaire d'Apple, fait que les parts de marché Android sont encore plus fortes et continuent à grimper.
+
+.Répartition des OS mobiles (source statscounter 2019)
+[caption=""]
+image::../../img/blog/2019/android_eco_01.png[Répartition des OS mobiles]
+
+Faire de la programmation mobile a un intérêt. L'accès à l'informatique (web ou autre) se fait de plus en plus avec des mobiles et tablettes. Android est devenu l'OS le plus utilisé au niveau mondial tout systême confondu
+
+.Répartition mobile vs desktop (source statscounter 2019)
+[caption=""]
+image::../../img/blog/2019/android_eco_03.png[Desktop vs mobile]
+
+.Répartition des OS (source statscounter 2019)
+[caption=""]
+image::../../img/blog/2019/android_eco_02.png[Répartition des OS]
+
+=== Principe de la programmation mobile
+La mobilité a transformé les devices que nous utilisons. Quand vous êtes sur un PC fixe ou un portable vous avez toujours à peu près les mêmes composants : CPU, carte graphique, disque dur, lecteur carte photo, ports d'entrée/sortie. Sur un mobile vous allez avoir plus de composants pour vous aider dans ce contexte de mobilité : GPS, caméra, appareil photo, accélomètre, podomètre... Nous avons de plus en plus de capteurs pour interpréter le contexte d'utilisation du device
+
+.Capteurs des devices mobiles
+[caption=""]
+image::../../img/blog/2019/android_eco_04.png[Capteurs des devices mobiles]
+
+La spécificité de la programmation mobile, est de proposer des applications qui récupérent et aggrègent les données émises par les différents capteurs pour répondre à un besoin utilisateur. Quand vous voulez vous interfacer avec ces capteurs, apporter de la réactivité dans vos application, le développement natif est la solution.
+
+Créer une application mobile pour simplement afficher du contenu statique n'a pas de sens. Pour ce besoin, on préférera les applications web responsives (PWA) qui sont beaucoup plus optimales et moins coûteuses. Une application native doit être dynamique et profiter des API et des capteurs exposés par les devices.
+
+== Plateforme Android
+
+Voici une image simplifiée de la plateforme Android
+
+image::../../img/blog/2019/android_pf_01.png[Android se base sur Linux]
+
+=== Noyau Linux
+Android a été construit sur un https://www.kernel.org/[noyau Linux]. Mais Android n'est pas totalement Open Source. Seule une https://source.android.com/[partie] est libre de droit.
+
+Android s'appuie sur les forces de Linux pour fournir un OS stable et fiable : gestion de la mémoire, gestion des processus, sécurité...
+
+=== Couche d'abstraction hardware
+
+Android définit une couche abstraite pour s'interfacer avec les différents capteurs ou élements de bas niveau d'un device :  HAL (Hardware Abstraction Layer). Les différents constructeurs de mobile doivent implémenter cette couche pour que leur téléphone puisse fonctionner. Ils doivent également prouver que leurs téléphones sont capables de répondre aux exigences de tests demandées par Google. Il existe des tests de compatibilités avec une version de l'OS (https://source.android.com/compatibility/cts[CTS compatibility test suite]) et des d'autres tests complémentaires (https://source.android.com/compatibility/vts[VTS Vendor test suite]).
+
+Ces développements peuvent être longs et coûteux. C'est pour cette raison, que les constructeurs ne font pas évoluer leurs téléphones. Leur but est de vendre toujours plus de nouveaux devices, et non de maintenir les anciens. Ces problèmes de mises à jour entraînent une grosse fragmentation dans l'utilisation des versions de l'OS. Cette fragmentation liée aux versions du système d'exploitation, est moins présente dans le monde IOs. Comme Apple est à la fois éditeur et constructeur, tout est fait pour que chaque nouvelle version soit supportée par les anciens devices (troll: sauf quand ils introduident de l'obsolescence programmée).
+
+=== Langages de programmation
+
+Le coeur d'Android est écrit en http://www.open-std.org/jtc1/sc22/wg21/[C ou C++] et plusieurs librairies natives sont accessibles (https://developer.android.com/ndk/[NDK Native development kit]). Vous pouvez écrire vos applications en C mais pour faciliter la mise en place d'applications, Google a poussé les développeurs à utiliser le langage Java depuis les débuts. Java est parfois verbeux mais il a l'avantage d'être simple et d'amener un cadre de développement.
+
+==== Machine virtuelle
+
+Android propose donc une machine virtuelle pour exécuter du bytecode. Ce n'est pas une JVM classique. Les ingénieurs de chez Google ont essayé de travailler sur un bytecode avec une plus faible empreinte mémoire. En Android le compilateur va créer des fichier .dex (Dalvik executable). https://javamind-fr.blogspot.com/2012/10/dalvik-la-vm-android.html[Dalvik] était le premier compilateur utilisé sur la plateforme. Comme les JVM actuelles, Dalvik transformait le bytecode en langage machine à l'exécution : compilation Just In Time (JIT).
+
+Aujourd'hui cette machine virtuelle a été remplacée par http://javamind-fr.blogspot.com/2014/06/art-nouvelle-machine-virtuelle-java.html[ART (Android Runtime)]. La transformation en langage machine est faite à l'installation de l'application : compilation AOT (ahead of time). Comme le bytecode est compilé plus tôt en langage machine, les applications se lancent plus vite et le CPU est moins solliciter lors de l'exécution (et donc préservation de votre batterie).
+
+image::../../img/blog/2019/android_pf_02.png[Android compilation]
+
+J'ai volontairement fait un abus de langage en indiquant que le bytecode était transformé en langage machine. Ce n'est pas vraiment le cas. Si nous avions vraiment du langage machine nous n'aurions plus besoin de VM. En fait à l'installation le bytecode est transformé en un format intermédiaire : fichiers .oat (ahead of time). La VM est nécessaire car elle va gérer les allocations mémoires et la libération de l'espace avec le Garbage collector. Même si la compilation n'est plus Just In Time, des optimisations sont toujours faites à l'exécution pour que le code s'exécute le plus vite possible.
+
+Vous trouverez plus d'informations dans la https://source.android.com/devices/tech/dalvik/index.html[documentation].
+
+Toutes ces adaptations par rapport à une machine virtuelle Java sont au coeur du procès entre Google et Oracle. Oracle n'a pas racheté Java à Sun pour se lancer dans l'Open Source. Ils l'ont surtout racheté en pensant faire payer des licences à Google pour chaque appareil vendus. Cette guerre commerciale est en train à mon sens de tuer l'utilisation de Java sur la plateforme. Mais pour une fois c'est aussi dans l'intérêt des développeurs car l'aspect financier a certainement été un catalyseur pour l'adoption de Kotlin.
+
+==== Langage Kotlin
+
+En 2017 une grande annonce a été faite à Google IO. Le langage https://kotlinlang.org/[Kotlin] devenait le deuxième langage de référence pour développer des applications. 2 ans après 50% des développeurs utilisent Kotlin et Google a https://android-developers.googleblog.com/2019/05/google-io-2019-empowering-developers-to-build-experiences-on-Android-Play.html[annoncé à Google I/O 2019] que la plateforme devenait Kotlin-first. Ils préconisent de démarrer les nouveaux développements en Kotlin.
+
+Si vous voulez en savoir plus sur le langage Kotlin et les avantages à l'utiliser sur la plateforme Android, vous pouvez lire https://dev-mind.fr/blog/2019/kotlin_et_android.html[mon article] sur le sujet.
+
+==== Studio de développement
+
+Initialement le studio de développement préconisé était Eclipse mais plus les fonctionnalités s'enrichissaient, plus l'IDE était long et devenait inutilisable. Google a donc travaillé en partenariat avec https://www.jetbrains.com/[JetBrains] (éditeur de Webstorm, IntelliJ, Kotlin) pour adapter leur version Open Source et créer https://developer.android.com/studio/[Android Studio].
+
+Vous trouverez à l'intérieur de cet IDE toutes les fonctionnalités nécéssaires aux développements. Vous avez des utilitaires pour
+
+* vérifier votre code
+* gérer les différentes versions du SDK Android
+* lancer un device virtuel sur votre machine pour tester manuellement ou automatiquement votre code
+* monitorer et debugguer votre application
+* packager votre application afin de la publier sur le store Google
+* ...
+
+=== Sécurité
+
+Comme Android est basé sur un noyau Linux, la plateforme bénéficie de la sécurité implémentée au niveau du noyau.
+
+Quand une application est installée, Android lui assigne un user ID. Chaque application est lancée dans un processus séparé et utilise sa propre instance d’ART (machine virtuel). Les droits d’exécution sont propres à cet utilisateur applicatif. L’application n’a pas de notion de cet ID. Ainsi une application ne peut pas accéder aux données d’une autre application car tout est bouclé par cet artifice. C’est la même chose pour les applications natives.
+
+Chaque application est donc isolée des autres et possèdent ses propres ressources CPU, mémoire....
+
+Au dessus de cette sécurité "bas niveau", Android a ajouté au fil du temps un niveau de sécurité plus "haut niveau". Chaque action externe pouvant être demandée par votre application doit être déclarée dans un fichier manifest. Par exemple
+
+* lire les contacts,
+* prendre une photo,
+* accéder à Internet
+* ...
+
+Un utilisateur peut choisir de laisser les droits demandés à l'installation, mais il peut aussi choisir d'enlever certains droits. Personnellement je limite le nombre d'application pouvant se connecter au réseau, pouvant utiliser mes contacts, mes fichiers.... (sur un Android sans surcouche vous devez aller dans les paramètres dans le menu "Appli et notifications", dans les options avancées et sur l'entrée "Autorisation des applications").
+
+== La fragmentation
+
+La fragmentation est un réel problème sur la plateforme et en tant que développeur vous devrez faire des choix en fonction de votre cible utilisateur.
+
+Android est un OS utilisable par n'importe quel fabricant de téléphone (on mettra à part le cas https://www.frandroid.com/marques/huawei/595661_huawei-android-google-et-les-etats-unis-toutes-les-reponses-a-vos-questions[Huawei]). Comme je l'ai dit plus haut, le coup pour adapter une version à un device n'est pas négligeable. C'est pour cette raison  que les constructeurs limitent ces mises à jour. Leur intérêt est de vendre de nouveaux devices et non de les maintenir.
+
+La fragmentation n'est pas liée qu'aux versions de l'OS mais nous avons également une fragmentation liée aux devices et à leurs composants. En fonction des gammes de prix, chaque device peut avoir des caractéristiques techniques différentes.
+
+=== Fragmentation au niveau des versions
+
+Depuis quelques années, Google sort une nouvelle version d'Android par an. Généralement les développeurs peuvent commencer à tester et faire des retours sur le second et troisième trimestre et la version est mise à disposition au dernier trimestre d'une année civile.
+
+Chaque nouvelle version est associée à une lettre (qui s'incrémente à chaque version) et à un dessert (choisi par l'équipe Android).
+
+image::../../img/blog/2019/android_fg_01.png[Versions Android]
+
+Vous pouvez voir que certains de ces desserts sont des desserts français. Depuis les débuts, l'équipe Android comprend plusieurs français. Vous connaissez peut être https://twitter.com/romainguy[Romain Guy] qui est régulièrement présent dans les conférences.
+
+Quand vous démarrez un nouveau développement vous devez faire un choix de version. En fait vous devez faire deux choix
+
+* définir une version cible : généralement vous devez toujours choisir la dernière version de l'OS
+* définir une version minimale : vous définissez quelle est la version minimale de l'OS supportée. Le compilateur est capable de vous alertez quand vous essayez d'utiliser une API qui n'est pas supportée
+
+image::../../img/blog/2019/android_fg_02.png[Choix de la version Android]
+
+Les statistiques d'utilisation des versions sont publiées régulièrement sur https://developer.android.com/about/dashboards/[ce tableau de bord] qui compile les données remontées par Google Store (la source officielle des applications Android).
+
+Dans le monde du web, vous pouvez utiliser des polyfills pour utiliser les dernières nouveautés du langage dans des navigateurs qui n'implémentent pas encore ces fonctionnalités. Dans le monde Android, Google vous propose aussi d'utiliser des objets particuliers qui gèrent cette rétrocompatibilité. La classe de base pour développer un écran est `android.app.Activity`, mais dans la pratique nous utiliserons toujours `androidx.appcompat.app.AppCompatActivity` qui a été développée pour porter les dernières nouveautés sur les anciennes releases Android.
+
+
+=== Fragmentation au niveau des écrans
+
+Après les versions, la plus grosse différence entre les devices concerne la qualité et la taille de l'écran.
+
+Pour rappel
+
+* la *résolution d'un écran* représente le nombre de pixels en horizontal multiplé par le nombre de pixel en vertical. Par exemple (800 x 600)
+* la *taille d'un écran* est le nombre de pouce de la diagonale de l'écran
+
+Android propose une classification liée à la largeur d'un écran.
+
+image::../../img/blog/2019/android_fg_03.png[taille ecran Android]
+
+Comme dans le monde du web, vous devez adpater votre UI soit en utilisant des composants et layout redimensionnable, soit en utilisant des layouts différents en fonction de la taille (en Android vous pouvez utiliser des fragments)
+
+image::../../img/blog/2019/android_fg_04.png[UI flexible sous Android]
+
+La *densité de pixels* est le nombre de points par pouce (dot per inch => dpi). La densité est importante sur un device. Par exemple si vous affichez une image exprimée en pixel sur 2 écrans de densité différentes vous n'aurez pas le même rendu
+
+image::../../img/blog/2019/android_fg_05.png[Densité sous Android avec image en px]
+
+Si on affiche les mêmes images exprimées avec l'unité *dp* (density-independent pixels) vous aurez le rendu suivant
+
+image::../../img/blog/2019/android_fg_06.png[Densité sous Android avec image en dp]
+
+La règle est de ne *jamais exprimer des tailles en px dans une application mais toujours en dp* (dans le monde du web on utilisera l'unité em). Pour exprimer la taille des polices d'écriture, vous utiliserez plutôt l'unité *sp* (scalable pixels) qui a l'avantage de grossir en fonction des paramètres d'accessibilité utilisateur.
+
+Vous allez pouvoir créer des ressources différentes en fonction de la taille. Quand vous avez un bel écran avec une bonne résolution, une forte densité, vous attendrez des images de qualité. Ces mêmes images n'ont aucun intérêt sur des écrans qui ne sont pas capables de les afficher.
+
+=== Fragmentation au niveau matériel
+
+Nous nous sommes arrếtés sur les 2 plus grosses différences entre device mais on pourrait aller plus loin car vous avez aussi une grosse différence de qualité et de performances au niveau des composants de base d'un mobile ou d'une tablette. Vous n'avez pas les mêmes composants dans les devices d'entrée de gamme et ceux plus luxueux
+
+image::../../img/blog/2019/android_fg_07.png[Fragmentation matérielle]
+
+Pour offrir une bonne expérience utilisateur, vous pouvez appliquer quelques règles simples
+
+Comme vos utilisateurs peuvent et ont pour la plupart des ressources limitées essayer de
+
+* limiter les appels réseaux qui consomment beaucoup de ressources et donc usent la batterie,
+* veiller à avoir un livrable d'une taille raisonnable. Si vous intégrez beaucoup d'images faites plusieurs archives avec des cibles différentes en fonction de la qualité des devices
+* éviter de stocker trop de données sur le téléphone de vos utilisateurs (que ce soit sur le disque ou dans la base de données partagées). Si vous devez stocker des éléments prévoyer de purger les éléments inutiles
+* privilégier des UI sombres qui préservent la batterie
+* appliquer le principe KISS (keep it simple, stupid)
+* ...
+
+== Conclusion
+
+Nous venons de voir comment la plateforme a été construite et les problèmes liés à la fragementation. Dans le prochain article nous rentrerons dans le concret et nous regarderons comment développer une première application Android.
+
+Si la plateforme vous intéresse je vous conseille de suivre quelques passionnés (Googlers ou non) : https://twitter.com/chethaase[Chet Haase], https://twitter.com/JakeWharton[Jake Wharton], https://twitter.com/romainguy[Romain Guy], https://twitter.com/cyrilmottier[Cyril Mottier]
+
+Si vous voulez plus d'informations vous pouvez consulter https://developer.android.com et si vous êtes fan de podcast en français je vous conseille de suivre http://androidleakspodcast.com/

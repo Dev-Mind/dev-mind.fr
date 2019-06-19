@@ -6,7 +6,7 @@ import * as del from 'del';
 import * as fs from 'fs';
 import * as sourcemaps from 'gulp-sourcemaps';
 import * as sass from 'gulp-sass';
-import * as postcss from 'gulp-postcss'
+import * as postcss from 'gulp-postcss';
 import * as cssnano from 'cssnano';
 import * as rev from 'gulp-rev';
 import * as size from 'gulp-size';
@@ -337,7 +337,7 @@ task('watch-scss', () =>
 task('watch-adoc', () =>
   watch('src/**/*.adoc', series('blog', 'training', 'cache-busting-dev')));
 task('watch-js', () =>
-  watch('src/**/*.js', series('lint', 'local-js', 'blog', 'training', 'html', 'cache-busting-dev')));
+  watch('src/**/*.js', series('local-js', 'blog', 'training', 'html', 'cache-busting-dev')));
 task('watch-img', () =>
   watch('src/images/**/*', series('images', 'blog', 'training', 'html', 'cache-busting-dev')));
 task('watch-template', () =>
@@ -382,5 +382,5 @@ task('build-dev', series(
 task('default', series('clean', 'build', 'sitemap'));
 
 // // Build dev files
-task('serve', series('build', 'watch'));
+task('serve', series('build-dev', 'watch'));
 
