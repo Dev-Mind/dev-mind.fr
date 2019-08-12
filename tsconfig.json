@@ -1,14 +1,13 @@
 {
   "compilerOptions": {
     /* Basic Options */
-    "target": "es5",
+    "target": "ES5",
     /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', or 'ESNEXT'. */
     "module": "commonjs",
     /* Specify module code generation: 'commonjs', 'amd', 'system', 'umd' or 'es2015'. */
     "lib": [
       /* Specify library files to be included in the compilation:  */
-      "es2016",
-      "dom"
+      "esnext"
     ],
     "sourceMap": true,
     /* Strict Type-Checking Options */
@@ -26,6 +25,10 @@
     "typeRoots": [
       "node_modules/@types",
       "src/typings"
-    ]
-  }
+    ],
+    "outDir": "./build"
+  },
+  "exclude": [
+    "node_modules"
+  ]
 }

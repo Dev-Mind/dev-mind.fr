@@ -1,0 +1,37 @@
+<div class="dm-block--blog">
+  <devmind-section>
+    {{^afterSent}}
+      <p>If you have already a token, copy it in this form and send it</p>
+    {{/afterSent}}
+    {{#afterSent}}
+      <p>Check your email inbox. An email with a connection token was sent. Copy this token and copy it in this form and
+        send it.</p>
+    {{/afterSent}}
+
+    <form action="/token" method="post" onsubmit="return true && this.form.token.value">
+      <fieldset style="text-align: justify">
+        <label for="email">Email :</label>
+        <input type="text" name="email" id="email" value="{{user.email}}" readonly>
+
+        <label for="email">Token :</label>
+        <input type="text" name="token" id="token" value="{{user.token}}"
+               {{#errors.token.has}}class="error"{{/errors.token.has}} required>
+        <small class="txt-error">{{errors.token.msg}}</small>
+
+        <p>&nbsp;</p>
+        <div class="btn-group center">
+            <button class="btn-inverse" style="margin-right:0.5em">Send</button>
+            {{^afterSent}}
+              <a href="/login" class="btn" style="margin:1em">Go back to login</a>
+            {{/afterSent}}
+            {{#afterSent}}
+              <a href="/" class="btn" style="margin:1em">Go back home</a>
+            {{/afterSent}}
+            <div style="flex-grow: 1">&nbsp;</div>
+        </div>
+
+      </fieldset>
+    </form>
+
+  </devmind-section>
+</div>

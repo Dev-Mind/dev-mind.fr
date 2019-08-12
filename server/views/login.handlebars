@@ -1,0 +1,76 @@
+<div class="dm-block--blog">
+  <devmind-section>
+    <form action="/login{{#extended}}/create{{/extended}}" method="post"
+          onsubmit="return true && this.form.email.value">
+      <fieldset style="text-align: justify">
+        <small>
+          If you want to log in on Dev-Mind website, you need to give your email address. We use this email to create an
+          account and send you a token when you want
+          to connect to our website. We store no password, data are secured and we never sell or exchange your personal
+          data with any partner.
+          If you want to delete your account, you can send us an email (see contact).
+        </small>
+        <label for="email">Email :</label>
+        <input type="text" name="email" id="email" value="{{user.email}}"
+               {{#errors.email.has}}class="error"{{/errors.email.has}} required>
+        <small class="txt-error">{{errors.email.msg}}</small>
+        <small class="txt-error" id="emailError" style="display: none">Email is required</small>
+
+        {{#extended}}
+          <p>&nbsp;</p>
+          <small>
+            On your first connection, you have to set your firstname and lastname and agree the terms of service.
+          </small>
+          <label for="firstname">Firstname</label>
+          <input type="text" name="firstname" id="firstname" value="{{user.firstname}}"
+                 {{#errors.firstname.has}}class="error"{{/errors.firstname.has}}>
+          <small class="txt-error">{{errors.firstname.msg}}</small>
+
+          <label for="lastname">Lastname</label>
+          <input type="text" name="lastname" id="lastname" value="{{user.lastname}}"
+                 {{#errors.lastname.has}}class="error"{{/errors.lastname.has}}>
+          <small class="txt-error">{{errors.lastname.msg}}</small>
+
+          <label><input type="radio" style="width: auto;margin-right: 1em;" name="agreement" id="agreement"
+                        value="agree"
+                        {{#errors.agreement.has}}class="error"{{/errors.agreement.has}}>I agree to my data being stored to
+            receive a connection token by email and I accept to receive a cookie for authentication (<small style="font-weight: normal">Cookies are only used to store your credentials to prevent a reconnection for each request</small>)</label>
+          <small class="txt-error">{{errors.agreement.msg}}</small>
+
+        {{/extended}}
+
+        <p>&nbsp;</p>
+        <div class="btn-group center">
+          {{#extended}}
+            <button class="btn-inverse" style="margin-right:0.5em">
+              Create my account
+            </button>
+          {{/extended}}
+          {{^extended}}
+            <input type="hidden" name="newtoken" id="newtoken" value="1">
+            <button class="btn-inverse" style="margin-right:0.5em">Generate a new token</button>
+            <script>
+              function displayToken(){
+                var email = document.getElementById('email');
+                if(email.value){
+                  document.location.href = '/token?email=' + email.value
+                }
+                else{
+                  email.classList.add('error');
+                  document.getElementById('emailError').style.display = 'inline';
+                }
+              }
+            </script>
+            <button class="btn-inverse" onclick="displayToken()" type="button" style="margin-right:0.5em">
+              Send an existing token
+            </button>
+          {{/extended}}
+          <a href="/" class="btn" style="margin:1em">
+            Go back home
+          </a>
+          <div style="flex-grow: 1">&nbsp;</div>
+        </div>
+      </fieldset>
+    </form>
+  </devmind-section>
+</div>

@@ -43,7 +43,7 @@ const HANDLEBARS_PARTIALS = [
   {key: '_html_footer', path: 'src/templates/_html_footer.handlebars'}
 ];
 
-const CACHE_BUSTING_EXTENSIONS = ['.js', '.css', '.html', '.xml'];
+const CACHE_BUSTING_EXTENSIONS = ['.js', '.css', '.html', '.xml', '.handlebars'];
 
 
 const website = new DevMindGulpBuilder();
@@ -61,6 +61,7 @@ task('clean', () => del('build', {dot: true}));
 task('styles', (cb) => {
   src(['src/sass/devmind.scss', 'src/sass/main.scss', 'src/sass/bloglist.scss', 'src/sass/blog/blog.scss'])
     .pipe(sass({precision: 10}).on('error', sass.logError))
+    .pipe(dest('build/.tmp/css'))
     .pipe(rev())
     .pipe(sourcemaps.init())
     .pipe(postcss([autoPrefixer(), cssnano()]))
@@ -71,6 +72,8 @@ task('styles', (cb) => {
     .pipe(dest('build/dist/css'))
     .on('end', () => cb())
 });
+
+task('styles-backend-dev', (cb) => src('build/.tmp/css/*.css').pipe(dest('build/dist/css')));
 
 // Blog generation
 // =============================
@@ -257,6 +260,11 @@ task('copy', (cb) =>
     .pipe(dest('build/dist'))
     .on('end', () => cb())
 );
+task('copy-backend', (cb) =>
+  src(['server/**/*.handlebars'], {dot: true})
+    .pipe(dest('build/server'))
+    .on('end', () => cb())
+);
 
 // Service workers
 // =============================
@@ -311,16 +319,23 @@ task('sitemap', () =>
 
 // Cache busting
 // =============================
-const cacheBusting = (path) =>
+const cacheBusting = (path, target?:string) =>
   src(path)
     .pipe(revReplace({
       manifest: src('build/dist/img/rev-manifest.json'),
       replaceInExtensions: CACHE_BUSTING_EXTENSIONS
     }))
-    .pipe(revReplace({manifest: src('build/dist/css/rev-manifest.json')}))
-    .pipe(revReplace({manifest: src('build/dist/js/rev-manifest.json')}))
-    .pipe(dest('build/dist'));
+    .pipe(revReplace({
+      manifest: src('build/dist/css/rev-manifest.json'),
+      replaceInExtensions: CACHE_BUSTING_EXTENSIONS
+    }))
+    .pipe(revReplace({
+      manifest: src('build/dist/js/rev-manifest.json'),
+      replaceInExtensions: CACHE_BUSTING_EXTENSIONS
+    }))
+    .pipe(dest(target ? target : 'build/dist'));
 
+task('cache-busting-backend', () => cacheBusting('build/server/views/**/*.handlebars', 'build/server/views'));
 task('cache-busting-dev', () => cacheBusting('build/dist/**/*.{html,js,css}'));
 task('cache-busting', () => cacheBusting('build/dist/**/*.{html,js,css,xml,json,webapp}'));
 task('cache-busting-sw', () =>
@@ -342,8 +357,10 @@ task('watch-img', () =>
   watch('src/images/**/*', series('images', 'blog', 'training', 'html', 'cache-busting-dev')));
 task('watch-template', () =>
   watch('src/**/*.handlebars', series('blog', 'training', 'html', 'cache-busting-dev')));
+task('watch-backend', () =>
+  watch('server/**/*.{handlebars,ts}', series('build-backend')));
 
-task('watch', parallel('watch-html', 'watch-scss', 'watch-adoc', 'watch-js', 'watch-img', 'watch-template'));
+task('watch', parallel('watch-html', 'watch-scss', 'watch-adoc', 'watch-js', 'watch-img', 'watch-template', 'watch-backend'));
 
 task('build', series(
   'images-minify',
@@ -360,6 +377,8 @@ task('build', series(
   'cache-busting',
   'service-worker',
   'cache-busting-sw'));
+
+task('build-backend', series('copy-backend', 'cache-busting-backend'));
 
 task('build-dev', series(
   'clean',

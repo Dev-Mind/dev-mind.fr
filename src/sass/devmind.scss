@@ -9,6 +9,9 @@
   .btn:hover {
     @include dm-btn--hover(#ECEFF1, #424242, #ECEFF1);
   }
+  .btn:disabled {
+    @include dm-btn--hover(#ECEFF1, #424242, #ECEFF1);
+  }
 }
 
 .dm-block--blog {

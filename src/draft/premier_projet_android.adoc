@@ -1,0 +1,65 @@
+:doctitle: Premier projet Android
+:description: Comment créer son premier projet Android avec Android Studio
+:keywords: Android
+:author: Guillaume EHRET - Dev-Mind
+:revdate: 2019-06-12
+:category: Android
+:teaser: TODO
+:imgteaser: :../../img/blog/2019/android_pf_00.png
+:toc:
+
+Nous allons voir comment développer notre première application Android. Pour celà nous allons nous baser sur https://developer.android.com/studio/[Android Studio] l'IDE open source préconisé par https://www.google.com/[Google] et développé par la société https://www.jetbrains.com/[JetBrains].
+
+Avant de démarrer vous allez devoir charger le studio de développement https://developer.android.com/studio/[Android Studio]. Cet IDE est écrit en Kotlin et vous devrez avoir une version de Java installé sur votre poste
+
+== Générer un nouveau projet
+
+Pour générer un nouveau projet vous pouvez aller dans le menu "File" > "New" > "New project..."
+
+Le générateur vous propose de générer une première activité. Nous allons dans notre exemple, créer une activité vide. Vous pouvez tester les autres activités et c'est toujours intéressant de lire le code généré.
+
+image::../../img/blog/2019/studio_01.png[Générer une activité]
+
+Dans l'étape suivante, vous allez définir
+
+* le nom de votre application
+* le package de base de votre projet
+* l'emplacement où votre projet sera sauvegardé
+* le langage de programmation Kotlin, et non Java :-) (plus d'info dans cet https://dev-mind.fr/blog/2019/kotlin_et_android.html[article])
+* le niveau d'API minimal (vous pouvez lire cette partie sur la https://dev-mind.fr/blog/2019/comprendre_programation_android.html#_fragmentation_au_niveau_des_versions[fragmentation des versions] sur Android)
+* Vous pouvez ensuite choisir des options. Dans la version 3.4.1 vous pouvez et devriez choisir l'option "androidx.* artifacts". Depuis le passage à Kotlin il y a eu un vent de renouveau jusqu'aux équipes de développeurs Google. Un gros travail de réécriture des classes utilitaires fournies par Google a été lancé. Les artifacts `androidx` permettent de bénéficier de ce travail et les bénéfices sont très intéressants quand vous développez en Kotlin.
+
+image::../../img/blog/2019/studio_02.png[Générer projet]
+
+
+Vous pouvez maintenant cliquer sur le bouton "Finish..." pour lancer la génération
+
+== Parcourir un projet Android
+
+Nous allons voir ce que le générateur a créé pour vous
+
+=== Projet Gradle
+
+TODO référence pour chaque partie
+
+=== AndroidManifest.xml carte d'identité de votre application
+
+=== Les activités
+
+=== Les layouts
+
+=== Les ressources
+
+== Lancer l'application
+
+=== Utilisation de l'émulateur
+
+=== Débugguer une application
+
+=== Monitorer une application
+
+== Gérer les mises à jour
+
+== Conclusion
+
+

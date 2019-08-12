@@ -1,0 +1,41 @@
+<div class="dm-block--blog">
+  <devmind-section>
+    <a href="/users/create" class="btn">
+      Créer utilisateur
+    </a>
+    <br>
+    <table style="width: 100%; border: 1px;">
+      <thead>
+      <tr>
+        <th width="15%">Firstname</th>
+        <th width="15%">Lastname</th>
+        <th width="15%">Last token generation</th>
+        <th width="15%">E-Mail</th>
+        <th width="15%">Droits</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      {{#users}}
+        <tr>
+          <td>{{firstname}}</td>
+          <td>{{lastname}}</td>
+          <td>{{lastConnection}}</td>
+          <td>{{email}}</td>
+          <td>{{rights}}</td>
+          <td>
+            <form action="/users/{{_id}}/delete" method="post" onsubmit="return confirm('Voulez vous vraiment supprimer cet utilisateur ? ')">
+              <a href="/users/{{_id}}" class="btn">
+                Modifier
+              </a>
+              <button class="btn-inverse" style="width: 200px">
+                Supprimer
+              </button>
+            </form>
+          </td>
+        </tr>
+      {{/users}}
+      </tbody>
+    </table>
+  </devmind-section>
+</div>
