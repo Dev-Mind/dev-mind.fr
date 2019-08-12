@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <link rel="preload" href="/css/main.css" as="style" onload="this.rel='stylesheet'">
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>{{ title }}</title>
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+
+  <!-- Color the status bar on mobile devices -->
+  <meta name="theme-color" content="#303e5e">
+
+  <style>
+    body {
+      min-height: 100vh;
+      max-height: 100vh;
+      font-family: "Helvetica", "Arial", "sans-serif";
+      padding: 0;
+      margin: 0;
+    }
+
+    header {
+      height: 90px;
+      max-height: 90px;
+      box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+      background-color: white;
+      display: -webkit-flex;
+      display: flex;
+      flex-direction: column;
+      box-sizing: border-box;
+      z-index: 99;
+      transition-duration: 0.2s;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-property: max-height, box-shadow;
+      position: fixed;
+      width: 100%;
+      text-align: center;
+    }
+    header hr {
+      width:100%;
+      background-color: #424242;
+      border-color: #424242;
+      display: block;
+      border: 0;
+      height: 0.5em;
+      margin: 0;
+    }
+    .header-img {
+      margin: auto;
+      width: 50%;
+      padding-top: 0.5em;
+      height: 30px;
+    }
+    .header-img img {
+      max-height: 30px !important;
+    }
+    .header-space {
+      min-height: 90px;
+    }
+
+
+    @media screen and (min-width: 901px) {
+      header {
+        height: 120px;
+        max-height: 120px;
+      }
+      .header-img {
+        height: 60px;
+      }
+      .header-img img {
+        max-height: 60px !important;
+      }
+      .header-space {
+        min-height: 120px;
+      }
+      nav a {
+        padding: 6px 24px;
+      }
+      .nav-home{
+        display: block !important;
+      }
+    }
+
+
+    nav {
+      display: -webkit-flex;
+      display: flex;
+      margin: auto;
+    }
+
+    nav a {
+      padding: 0 12px;
+      line-height: 28px;
+      height: 28px;
+      color: #424242;
+      margin: auto;
+      text-decoration: none;
+      text-transform: uppercase;
+      font-weight: 600;
+      font-size: 13px;
+    }
+    .nav-home{
+      display: none;
+    }
+    nav a > img {
+    // height: 20px;
+    }
+
+    nav a:hover {
+      background-color: #9e9e9e;
+    }
+
+    nav .is-active {
+      background-color: rgba(0, 0, 0, 0.14);
+    }
+
+    main {
+      overflow-x: hidden;
+    }
+
+    img, picture {
+      max-width: 100%;
+      height: auto;
+      margin: auto;
+    }
+
+    * {
+      box-sizing: border-box; /* pour maîtriser width et flex-basis */
+    }
+
+    devmind-section {
+      display: block;
+      margin: 0 auto;
+      max-width: 1600px;
+      padding: 80px 40px;
+    }
+
+    @media (max-width: 700px) {
+      devmind-section {
+        padding: 25px 10px;
+      }
+    }
+
+    @media (min-width: 701px) and (max-width: 900px) {
+      devmind-section {
+        padding: 40px 25px;
+      }
+    }
+
+    .dm-social {
+      min-width: 2em;
+      max-width: 2em;
+      width: 2em;
+      height: 2em;
+    }
+
+    form {
+      display: flex;
+    }
+    table {
+      border-collapse: collapse;
+    }
+    td, th{
+      border: 1px solid #424242;
+      padding: 0.5em;
+    }
+    th {
+      color: #ffffff;
+      background-color: #424242;
+    }
+    fieldset {
+      width: 100%;
+      padding: 1em;
+    }
+    input[readonly]{
+      border: none;
+      background-color: transparent;
+    }
+    .error{
+      background-color: #ff7979 !important;
+    }
+    .txt-error{
+      color: #ff2211;
+    }
+  </style>
+
+</head>
+<body>
+<header>
+  <div class="header-img">
+    <a href="/index.html" alt="Accueil" onclick="app.changeMenu('#home')">
+      <img src="/img/logo/logo_long.svg" alt="Dev-Mind" title="Dev-Mind">
+    </a>
+  </div>
+  <nav>
+    <a href="/index.html" class="nav-home" alt="Accueil" id="#home" onclick="app.changeMenu('#home')">
+      <img src="/img/ic_home_white_24px.svg" rel="start" alt="Accueil"></a>
+    <a href="/formations.html" alt="Formations" id="#formation" onclick="app.changeMenu('#formation')">
+      Formations</a>
+    <a href="/blog.html" alt="Blog" id="#blog" onclick="app.changeMenu('#blog')">Blog</a>
+    <a href="/experience.html" alt="Experience"id="#experience" onclick="app.changeMenu('#experience')">
+      Exp&eacute;rience</a>
+    <a href="/training/trainings.html" alt="Espace étudiant" id="#training" onclick="app.changeMenu('#training')">
+      &eacute;tudiant</a>
+  </nav>
+  <hr>
+</header>
+<div class="header-space"></div>
+<main>
+  <div class="dm-block--intro">
+    <devmind-section>
+      <h1>{{ title }}</h1>
+    </devmind-section>
+  </div>
+
+  {{{body}}}
+</main>
+<footer>
+  <div class="dm_footer">
+    <div class="is-small-screen">
+      <p>
+        SARL au capital de <i>5000€</i><br>
+        SIREN : 808 720 759, au RCS de Saint-Etienne<br>
+        All right reserved - @2017 Guillaume EHRET
+      </p>
+    </div>
+    <div class="is-large-screen">
+      <div class="dm_footer__middle">
+        <div class="dm_society">
+          Dev-Mind
+        </div>
+        <div>SARL au capital de <i>5000€</i></div>
+        <div>SIREN : 808 720 759, au RCS de Saint-Etienne</div>
+        <div><small title="{{ genInstant }}">Mise à jour le {{ gendate }}</small></div>
+      </div>
+
+      <div class="dm_footer__right">
+        All right reserved - @2019 Guillaume EHRET
+      </div>
+    </div>
+  </div>
+</footer>
+<script async defer src="/js/loadCSS.js"></script>
+<script async defer src="/js/cssrelpreload.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,42 @@
+<div class="dm-block--blog">
+  <devmind-section>
+
+    <form action="/users" method="post">
+      <fieldset>
+
+        {{#errors.has}}<p class="dm_lead">You have to fix errors if you want to save</p>{{/errors.has}}
+
+        <input type="hidden" name="_id" value="{{user._id}}">
+
+        <label for="firstname">Firstname</label>
+        <input type="text" placeholder="devmind" name="firstname" id="firstname" value="{{user.firstname}}" {{#errors.firstname.has}}class="error"{{/errors.firstname.has}}>
+        <small class="txt-error">{{errors.firstname.msg}}</small>
+
+        <label for="lastname">Lastname</label>
+        <input type="text" placeholder="Guillaume" name="lastname" id="lastname" value="{{user.lastname}}" {{#errors.lastname.has}}class="error"{{/errors.lastname.has}}>
+        <small class="txt-error">{{errors.lastname.msg}}</small>
+
+        <label for="email">Email</label>
+        <input type="text" placeholder="guillaume@dev-mind.fr" name="email" id="email" value="{{user.email}}" {{#errors.email.has}}class="error"{{/errors.email.has}}>
+        <small class="txt-error">{{errors.email.msg}}</small>
+
+        <label for="rights">Rights</label>
+        <select name="rights" id="rights" multiple="true" {{#errors.rights.has}}class="error"{{/errors.rights.has}}>
+          <option {{#rights.admin}}selected{{/rights.admin}}>ADMIN</option>
+          <option {{#rights.training}}selected{{/rights.training}}>TRAINING</option>
+        </select>
+        <small class="txt-error">{{errors.rights.msg}}</small>
+
+        <label>Last connection</label>
+        <input type="text" readonly name="lastConnection" value="{{user.lastConnection}}">
+
+        <br>
+        <br>
+        <div style="display: inline-flex">
+          <button class="btn btn-inverse">Save</button>&nbsp;&nbsp;
+          <a class="btn" href="/users">Cancel</a>
+        </div>
+      </fieldset>
+    </form>
+  </devmind-section>
+</div>
