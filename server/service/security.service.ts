@@ -1,7 +1,8 @@
 import {NextFunction, Request, Response} from "express";
-import {RESOURCES_EXTENSION} from "./cache";
-import {Right, User, UserDao} from "./user-dao";
-import {Mailer} from "./mailer";
+import {RESOURCES_EXTENSION} from "./cache.service";
+import {Right, User} from "../model/user";
+import {MailerService} from "./mailer.service";
+import {UserDao} from "../model/user.dao";
 import moment = require("moment");
 
 export interface SecuredUrl {
@@ -14,10 +15,10 @@ const IS_PROD = process.env.NODE_ENV && (process.env.NODE_ENV === 'prod' || proc
 
 export class SecurityService {
 
-  constructor(private userDao: UserDao, private mailer: Mailer) {
+  constructor(private userDao: UserDao, private mailer: MailerService) {
   }
 
-  static create(userDao: UserDao, mailer: Mailer) {
+  static create(userDao: UserDao, mailer: MailerService) {
     return new SecurityService(userDao, mailer);
   }
 
@@ -47,6 +48,18 @@ export class SecurityService {
     }
   }
 
+  getUser(req: Request): Promise<User> {
+    if (req.signedCookies && req.signedCookies[COOKIE_ID_PARAM]) {
+      const credentials = Buffer.from(req.signedCookies[COOKIE_ID_PARAM], 'base64').toString('ascii').split(':');
+      const user = {
+        email: credentials[0],
+        token: credentials[1]
+      } as User;
+      return this.checkAuthentication(user);
+    }
+    return new Promise<User>((resolve) => resolve(undefined));
+  }
+
   checkAuth(securedUrls: Array<SecuredUrl>) {
     return (req: Request, res: Response, next: NextFunction) => {
       const optionalSecuredUrls = securedUrls.filter(pattern => req.url.indexOf(pattern.url) >= 0);
@@ -60,11 +73,6 @@ export class SecurityService {
             email: credentials[0],
             token: credentials[1]
           } as User;
-          var ip = req.headers['x-forwarded-for'] ||
-            req.connection.remoteAddress ||
-            req.socket.remoteAddress;
-
-          console.log(ip)
 
           this.checkAuthentication(user)
             .then(result => this.checkRight(result, optionalSecuredUrls[0]))
@@ -88,10 +96,15 @@ export class SecurityService {
     return this.userDao.findByEmail(user.email)
       .then(result =>
         new Promise<User>((resolve) => {
-          const tokenAge = moment().diff(moment(result.lastTokenGeneration), 'hours');
-          if (user.token === result.token && tokenAge <= 24) {
-            resolve(result);
-          } else {
+          if(result){
+            const tokenAge = result.lastTokenGeneration ? moment().diff(moment(result.lastTokenGeneration), 'hours') : 999;
+            if (user.token === result.token && tokenAge <= 24) {
+              resolve(result);
+            } else {
+              resolve(null);
+            }
+          }
+          else{
             resolve(null);
           }
         }));
@@ -112,7 +125,7 @@ export class SecurityService {
     return user.rights && user.rights.indexOf(right) >= 0;
   }
 
-  updateToken(user: User): Promise<User>{
+  updateToken(user: User): Promise<User> {
     return this.userDao
       .updateToken(user)
       .then(result => {
@@ -130,7 +143,7 @@ export class SecurityService {
 
   addCredentialInCookies(res: Response, user: User) {
     res.cookie(COOKIE_ID_PARAM, new Buffer(user.email + ':' + user.token).toString('base64'), {
-      maxAge: 60 * 60 * 1000,
+      maxAge: 60 * 60 * 1000 * 24,
       signed: true,
       httpOnly: true,
       secure: IS_PROD,
@@ -159,11 +172,10 @@ export class SecurityService {
         // We have to authorize data:... for SVG images
         imgSrc: ["'self'", 'data:', 'https:'],
         // We have to authorize inline script used to load our JS app
-        scriptSrc: ["'self'", "'unsafe-inline'", 'https://www.google-analytics.com/analytics.js',
+        scriptSrc: ["'self'", "'unsafe-inline'",
           "https://storage.googleapis.com/workbox-cdn/*",
           "https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-core.prod.js",
-          "https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-precaching.prod.js",
-          "https://*.gstatic.com"],
+          "https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-precaching.prod.js"],
         objectSrc: ["'self'"]
       }
     })

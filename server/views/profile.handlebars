@@ -1,0 +1,31 @@
+<div class="dm-block--blog">
+  <devmind-section>
+
+    <p><b>Remember</b> : you were agree to send your firstname, lastname and your email to use the secured part of this website.
+      The website is server less and to manage your authentication Dev-Mind uses cookies.
+    </p>
+
+    <h2>Your data</h2>
+
+    <ul>
+      <li>You are <b>{{user.firstname}} {{user.lastname}}</b></li>
+      <li>Your email is <b>{{user.email}}</b></li>
+      <li>You can use the free website{{#rights.training}} and you can see the <a href="training/trainings.html">training section</a>{{/rights.training}}.
+        {{#rights.admin}}You are also an admin{{/rights.admin}}</li>
+    </ul>
+
+    <a href="/logout" class="btn">
+      Logout
+    </a>
+
+    <br>
+    {{#rights.admin}}
+      <nav style="background-color: white">
+        <a href="/users" alt="Manage users">Manage users</a>
+        <a href="/statistics/pages" alt="Stats pages">See page statistics</a>
+        <a href="/statistics/visit" alt="Stats site">See site visits</a>
+      </nav>
+    {{/rights.admin}}
+    <p>If you want to delete or update your account, you can send us an email (see contact).</p>
+  </devmind-section>
+</div>

@@ -91,7 +91,7 @@ window.app = (function () {
 
   function changeMenu(section) {
     if (!section) {
-      const paths = ['blog', 'experience', 'formation', 'training'].filter(
+      const paths = ['blog', 'experience', 'formation', 'training', 'profile'].filter(
         path => window.location.href.indexOf(path) > 0);
       section = paths.length > 0 ? '#' + paths[0] : '#home';
     }

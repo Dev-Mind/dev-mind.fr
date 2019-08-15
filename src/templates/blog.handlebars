@@ -56,50 +56,17 @@
                     {{#next}}
                         Article suivant : <a href="../{{dir}}/{{filename}}.html">{{doctitle}}</a>
                     {{/next}}
+
+                    <small>Vous pouvez laisser un commentaire ou poser une question sur cet article par mail ou sur twitter. </small>
                 </div>
-            </div>
-            <div class="dm-blog-comment--add">
-                <h2>Commentaires</h2>
-                <div id="comments"></div>
-                <article>
-                    <h3><button class="btn" onclick="blog.displayCommentForm()">Ajouter un commentaire</button></h3>
-                    <form name="comment" id="commentFrm" style="display: none">
-                            <textarea class="dm-blog-comment--control" required name="comment" rows="6"
-                                      onchange="blog.onFormCommentChange()"></textarea>
-                        <label for="name"><b>Prénom</b></label>
-                        <input class="dm-blog-comment--control" required id="name" name="name" type="text"
-                               onchange="blog.onFormCommentChange()">
-                        <label for="mail">Mail</label>
-                        <input class="dm-blog-comment--control" id="mail" name="mail" type="email"
-                               placeholder="identifiant@fournisseur.com" pattern=".+@.+.com"
-                               onchange="blog.onFormCommentChange()">
-                        <small>Le mail n'est jamais affiché et me sert uniquement à vous contacter pour répondre
-                            à
-                            vos
-                            questions
-                        </small>
-                        <br>
-                        <button type="button" class="btn-inverse" onclick="blog.saveComment('{{filename}}', {{modedev}})"
-                                id="saveComments"
-                                style="margin-top: 1em" disabled="true">Envoyer
-                        </button>
-                    </form>
-                </article>
             </div>
         </devmind-article>
     </div>
     {{> _page_footer baseuri='../../'}}
 </main>
 {{> _html_footer baseuri='../../'}}
-<script src="https://www.gstatic.com/firebasejs/4.0.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/4.0.0/firebase-database.js"></script>
 <script src="../../js/blog.js">
     blog = true;
-</script>
-<script>
-    window.addEventListener("load", function () {
-        blog.init('{{filename}}', {{modedev}});
-    });
 </script>
 </body>
 </html>

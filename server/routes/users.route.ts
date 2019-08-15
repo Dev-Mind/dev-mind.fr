@@ -1,8 +1,9 @@
 import {Request, Response} from "express";
-import {BaseRoute} from "./base-route";
+import {BaseRoute} from "./base.route";
 import {Router} from "express-serve-static-core";
-import {User, UserDao, UserValidator} from "../service/user-dao";
+import {UserDao, UserValidator} from "../model/user.dao";
 import {ObjectId} from "bson";
+import {User} from "../model/user";
 
 export class UsersRoute extends BaseRoute {
 
@@ -32,14 +33,18 @@ export class UsersRoute extends BaseRoute {
 
 
   private findAll(req: Request, res: Response) {
-    this.userDao.findAll(list => {
-      super.addToModel('users', list);
-      this.render(req, res, 'users', 'User list');
-    });
+    this.userDao
+      .findAll()
+      .then(list => {
+        super.addToModel('users', list);
+        this.render(req, res, 'users', 'User list');
+      })
+      .catch(reason => this.renderError(req, res, reason));
   }
 
   private findById(req: Request, res: Response, id: string) {
-    this.userDao.findById(id)
+    this.userDao
+      .findById(id)
       .then(user => {
         this.addUserInModel(user);
         this.render(req, res, 'user', 'User update');
@@ -62,16 +67,15 @@ export class UsersRoute extends BaseRoute {
     this.userDao.findByEmail(user.email)
       .then(result => {
         const errors = UserValidator.check(user);
-        if((result && !user._id) || (result && !new ObjectId(user._id).equals(result._id))){
+        if ((result && !user._id) || (result && !new ObjectId(user._id).equals(result._id))) {
           errors.set('email', 'This email is already used');
         }
 
-        if(errors.size > 0){
+        if (errors.size > 0) {
           this.addUserInModel(user);
           super.addErrorsToModel(errors);
           this.render(req, res, 'user', 'User creation');
-        }
-        else {
+        } else {
           this.userDao.upsert(user)
             .then(result => this.findAll(req, res))
             .catch(reason => this.renderError(req, res, reason));
@@ -80,9 +84,9 @@ export class UsersRoute extends BaseRoute {
       .catch(reason => this.renderError(req, res, reason));
   }
 
-  private addUserInModel(user: User){
+  private addUserInModel(user: User) {
     super.addToModel('user', user);
-    if(user && user.rights){
+    if (user && user.rights) {
       super.addToModel('rights', {
         admin: user.rights.indexOf('ADMIN') >= 0,
         training: user.rights.indexOf('TRAINING') >= 0

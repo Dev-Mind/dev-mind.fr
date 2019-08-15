@@ -13,10 +13,16 @@ export abstract class BaseDao<T> {
     return this.db.collection(this._collection);
   }
 
-  findAll(callback: (elements: Array<T>) => any) {
-    this.collection.find({}).toArray((err, docs: Array<T>) => {
-      callback(docs);
-    });
+}
+
+export abstract class CrudDao<T> extends BaseDao<T>{
+
+  constructor(collection: string, db: Db) {
+    super(collection, db);
+  }
+
+  findAll() {
+    return this.collection.find({}).toArray();
   }
 
   findById(id: string): Promise<T> {

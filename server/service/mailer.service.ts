@@ -9,7 +9,7 @@ export interface MailerConfig {
   password: string;
 }
 
-export class Mailer {
+export class MailerService {
 
   transport: Mail;
 
