@@ -2971,9 +2971,9 @@ detect-newline@2.X:
   resolved "https://registry.yarnpkg.com/detect-newline/-/detect-newline-2.1.0.tgz#f41f1c10be4b00e87b5f13da680759f2c5bfd3e2"
   integrity sha1-9B8cEL5LAOh7XxPaaAdZ8sW/0+I=
 
-"devmind-website@https://github.com/Dev-Mind/devmind-website.git#2.0.0":
+"devmind-website@https://github.com/Dev-Mind/devmind-website.git#2.0.1":
   version "1.0.0"
-  resolved "https://github.com/Dev-Mind/devmind-website.git#c8a14aa77ff1922c4200e964c5d80cd58ffae27c"
+  resolved "https://github.com/Dev-Mind/devmind-website.git#ee65fad95b45022441321aeca4de25ee9bb78e47"
   dependencies:
     "@types/gulp" "^4.0.6"
     asciidoctor.js "^1.5.9"

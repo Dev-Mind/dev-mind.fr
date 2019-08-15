@@ -1,68 +1,112 @@
-import {LoginRoute} from "./routes/login-route";
-import {UsersRoute} from "./routes/users-route";
+import {LoginRoute} from "./routes/login.route";
+import {UsersRoute} from "./routes/users.route";
 import {Db} from "mongodb";
 import {Router} from "express";
-import {UserDao} from "./service/user-dao";
-import {Mailer, MailerConfig} from "./service/mailer";
-import {SecurityService} from "./service/security";
-import {CacheService} from "./service/cache";
+import {UserDao} from "./model/user.dao";
+import {SiteDailyVisitDao, UniquePageVisitDao, UserPageVisitDao} from "./model/statistic.dao";
+import {MailerConfig, MailerService} from "./service/mailer.service";
+import {SecurityService} from "./service/security.service";
+import {CacheService} from "./service/cache.service";
+import {StatisticService} from "./service/statistic.service";
+import {StatisticsRoute} from "./routes/statistics.route";
 
 export class Context {
 
   private _loginRoute: LoginRoute;
   private _userRoute: UsersRoute;
+  private _statisticsRoute: StatisticsRoute;
   private _userDao: UserDao;
-  private _mailer: Mailer;
+  private _uniquePageVisitDao: UniquePageVisitDao;
+  private _userPageVisitDao: UserPageVisitDao;
+  private _siteDailyVisitDao: SiteDailyVisitDao;
+  private _mailer: MailerService;
   private _securityService: SecurityService;
   private _cacheService: CacheService;
+  private _statisticService: StatisticService;
 
-  constructor(private db: Db, private router: Router, private mailerConfig: MailerConfig){
+  constructor(private db: Db, private router: Router, private mailerConfig: MailerConfig) {
 
   }
 
-  loadRoutes(){
+  loadRoutes() {
     this.loginRoute;
     this.userRoute;
+    this.statisticsRoute;
+  }
+
+  get statisticService(): StatisticService {
+    if (!this._statisticService) {
+      this._statisticService = new StatisticService(this.uniquePageVisitDao, this.userPageVisitDao, this.siteDailyVisitDao);
+    }
+    return this._statisticService;
   }
 
   get securityService(): SecurityService {
-    if(!this._securityService){
+    if (!this._securityService) {
       this._securityService = SecurityService.create(this.userDao, this.mailer);
     }
     return this._securityService;
   }
 
   get cacheService(): CacheService {
-    if(!this._cacheService){
+    if (!this._cacheService) {
       this._cacheService = CacheService.create();
     }
     return this._cacheService;
   }
 
   get loginRoute(): LoginRoute {
-    if(!this._loginRoute){
+    if (!this._loginRoute) {
       this._loginRoute = LoginRoute.create(this.router, this.userDao, this.securityService);
     }
     return this._loginRoute;
   }
 
   get userRoute(): UsersRoute {
-    if(!this._userRoute){
+    if (!this._userRoute) {
       this._userRoute = UsersRoute.create(this.router, this.userDao);
     }
     return this._userRoute;
   }
 
+  get statisticsRoute(): StatisticsRoute {
+    if (!this._statisticsRoute) {
+      this._statisticsRoute = StatisticsRoute.create(this.router, this.uniquePageVisitDao, this.siteDailyVisitDao);
+    }
+    return this._statisticsRoute;
+  }
+
   get userDao(): UserDao {
-    if(!this._userDao){
+    if (!this._userDao) {
       this._userDao = new UserDao(this.db);
     }
     return this._userDao;
   }
 
-  get mailer(): Mailer {
-    if(!this._mailer){
-      this._mailer = new Mailer(this.mailerConfig);
+  get uniquePageVisitDao(): UniquePageVisitDao {
+    if (!this._uniquePageVisitDao) {
+      this._uniquePageVisitDao = new UniquePageVisitDao(this.db);
+    }
+    return this._uniquePageVisitDao;
+  }
+
+  get userPageVisitDao(): UserPageVisitDao {
+    if (!this._userPageVisitDao) {
+      this._userPageVisitDao = new UserPageVisitDao(this.db);
+    }
+    return this._userPageVisitDao;
+  }
+
+  get siteDailyVisitDao(): SiteDailyVisitDao {
+    if (!this._siteDailyVisitDao) {
+      this._siteDailyVisitDao = new SiteDailyVisitDao(this.db);
+    }
+    return this._siteDailyVisitDao;
+  }
+
+  get mailer(): MailerService {
+    if (!this._mailer) {
+      this._mailer = new MailerService(this.mailerConfig);
     }
     return this._mailer;
   }

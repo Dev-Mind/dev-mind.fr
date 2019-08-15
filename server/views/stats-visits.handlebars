@@ -1,0 +1,62 @@
+<div class="dm-block--blog">
+  <devmind-section>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+
+    <div id="container"></div>
+
+    <script>
+      function displayChart() {
+        Highcharts.chart('container', {
+
+          title: {
+            text: 'Visit on dev-mind website'
+          },
+
+          yAxis: {
+            title: {
+              text: 'Number of vists'
+            }
+          },
+          xAxis: {
+            type: 'datetime',
+          },
+          plotOptions: {
+            area: {
+              stacking: 'normal',
+            }
+          },
+          series: [{
+            name: 'Visites',
+            type: 'area',
+            data: {{chart}}
+          }],
+
+          responsive: {
+            rules: [{
+              condition: {
+                maxWidth: 500
+              }
+            }]
+          }
+        });
+      }
+      window.onload = displayChart
+    </script>
+    <table style="width: 100%; border: 1px;">
+      <thead>
+      <tr>
+        <th width="80%">Url</th>
+        <th width="20%">Count</th>
+      </tr>
+      </thead>
+      <tbody>
+      {{#stats}}
+        <tr>
+          <td>{{_id}}</td>
+          <td>{{count}}</td>
+        </tr>
+      {{/stats}}
+      </tbody>
+    </table>
+  </devmind-section>
+</div>

@@ -1,26 +1,26 @@
 import {Express} from './server/express';
 import * as http from 'http';
-import {SecuredUrl} from "./server/service/security";
+import {SecuredUrl} from "./server/service/security.service";
 
 const options = {
-  static: `build/dist`,
-  port: 8081,
+  static: process.env.DEVMIND_SITE_PATH || `build/dist`,
+  port: process.env.PORT || 8081,
   mongodb: {
-    url: 'mongodb://localhost:27017/devminddb',
-    user: 'devmind',
-    password: 'pass'
+    url: process.env.DEVMIND_MONGO_URL || 'mongodb://localhost:27017/devminddb',
+    user: process.env.DEVMIND_MONGO_USER || 'devmind',
+    password: process.env.DEVMIND_MONGO_PASSWORD || 'pass'
   },
-  //TODO
   mail: {
     host: process.env.DEVMIND_MAIL_HOST || 'ssl0.ovh.net',
-    port: process.env.DEVMIND_MAIL_PORT || 465,
+    port: process.env.DEVMIND_MAIL_PORT ?  parseInt(process.env.DEVMIND_MAIL_PORT) : 465,
     secure: true,
-    user: process.env.DEVMIND_MAIL_USER || 'guillaume@dev-mind.fr',
+    user: process.env.DEVMIND_MAIL_USER,
     password: process.env.DEVMIND_MAIL_PASSWORD
   },
   securedUrls: [
-    {url: '/training', right: 'ADMIN'} as SecuredUrl,
-    {url: '/users', right: 'TRAINING'} as SecuredUrl
+    {url: '/training', right: 'TRAINING'} as SecuredUrl,
+    {url: '/users', right: 'ADMIN'} as SecuredUrl,
+    {url: '/statistics', right: 'ADMIN'} as SecuredUrl
   ],
   secret: process.env.DEVMIND_SESSION_SECRET || 'SMHQs7cLAC3x'
 };

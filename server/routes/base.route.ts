@@ -53,6 +53,8 @@ export class BaseRoute {
     //add title
     res.locals.title = title;
 
+    res.type('.html')
+
     if (this.model.size > 0) {
       this.model.forEach((value, key) => res.locals[key] = value);
     }

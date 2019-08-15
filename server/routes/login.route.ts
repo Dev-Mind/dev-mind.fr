@@ -1,8 +1,9 @@
 import {Request, Response} from "express";
-import {BaseRoute} from "./base-route";
+import {BaseRoute} from "./base.route";
 import {Router} from "express-serve-static-core";
-import {User, UserDao, UserValidator} from "../service/user-dao";
-import {SecurityService} from "../service/security";
+import {UserDao, UserValidator} from "../model/user.dao";
+import {SecurityService} from "../service/security.service";
+import {User} from "../model/user";
 
 export class LoginRoute extends BaseRoute {
 
@@ -10,8 +11,24 @@ export class LoginRoute extends BaseRoute {
     super();
   }
 
-  public static create(router: Router, userDao: UserDao,security: SecurityService): LoginRoute {
+  public static create(router: Router, userDao: UserDao, security: SecurityService): LoginRoute {
     const route = new LoginRoute(userDao, security);
+
+    router.get("/login", (req: Request, res: Response) => {
+      route.loginView(req, res, undefined);
+    });
+
+    router.get("/logout", (req: Request, res: Response) => {
+      route.logout(req, res);
+    });
+
+    router.get("/token", (req: Request, res: Response) => {
+      route.displayToken(req, res);
+    });
+
+    router.get("/profile", (req: Request, res: Response) => {
+      route.displayProfile(req, res);
+    });
 
     router.post("/login", (req: Request, res: Response) => {
       const user = req.body as User;
@@ -46,18 +63,6 @@ export class LoginRoute extends BaseRoute {
       } else {
         route.create(req, res, user);
       }
-    });
-
-    router.get("/login", (req: Request, res: Response) => {
-      route.loginView(req, res, undefined);
-    });
-
-    router.get("/logout", (req: Request, res: Response) => {
-      route.logout(req, res);
-    });
-
-    router.get("/token", (req: Request, res: Response) => {
-      route.displayToken(req, res);
     });
 
     return route;
@@ -110,6 +115,24 @@ export class LoginRoute extends BaseRoute {
       .catch(reason => this.renderError(req, res, reason));
   }
 
+  public displayProfile(req: Request, res: Response) {
+    this.security
+      .getUser(req)
+      .then(user => {
+        if (user) {
+          this.addToModel('user', {email: user.email});
+          this.addToModel('rights', {
+            admin: user.rights.indexOf('ADMIN') >= 0,
+            training: user.rights.indexOf('TRAINING') >= 0,
+          });
+          this.render(req, res, 'profile', 'Your profile');
+        } else {
+          this.loginView(req, res, undefined);
+        }
+      })
+      .catch(reason => this.renderError(req, res, reason));
+  }
+
   public tokenView(req: Request, res: Response, user: User, afterSent: boolean = true, errors ?: Map<String, String>) {
     this.addToModel('user', {email: user.email});
     if (errors) {
@@ -141,7 +164,7 @@ export class LoginRoute extends BaseRoute {
       .then(result => {
         if (result) {
           this.security.addCredentialInCookies(res, result);
-          res.redirect('/');
+          res.redirect('/profile');
         } else {
           const errors = new Map<String, String>();
           errors.set('token', 'Token or email is invalid. Try to generate a new one');
