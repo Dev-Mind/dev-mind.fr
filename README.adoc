@@ -1,4 +1,4 @@
-image::src/images/logo/logo_1500.png[Dev-Mind]
+image::src/main/client/images/logo/logo_1500.png[Dev-Mind]
 
 == Overview
 

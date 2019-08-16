@@ -37,16 +37,23 @@ const HTMLMIN_OPTIONS = {
 };
 
 const HANDLEBARS_PARTIALS = [
-  {key: '_html_header', path: 'src/templates/_html_header.handlebars'},
-  {key: '_page_header', path: 'src/templates/_page_header.handlebars'},
-  {key: '_page_footer', path: 'src/templates/_page_footer.handlebars'},
-  {key: '_html_footer', path: 'src/templates/_html_footer.handlebars'}
+  {key: '_html_header', path: 'src/main/client/templates/_html_header.handlebars'},
+  {key: '_page_header', path: 'src/main/client/templates/_page_header.handlebars'},
+  {key: '_page_footer', path: 'src/main/client/templates/_page_footer.handlebars'},
+  {key: '_html_footer', path: 'src/main/client/templates/_html_footer.handlebars'}
 ];
 
 const CACHE_BUSTING_EXTENSIONS = ['.js', '.css', '.html', '.xml', '.handlebars'];
 
 
-const website = new DevMindGulpBuilder();
+const website = new DevMindGulpBuilder({
+  metadata: {
+    rss: 'src/main/client/metadata/rss.json',
+    blog: 'src/main/client/metadata/blog.json',
+    html: 'src/main/client/metadata/html.json',
+    sitemap: 'src/main/client/metadata/sitemap.json'
+  }
+});
 // Service worker version is read in a file
 const SW_VERSION_FILE = './version';
 const serviceWorkerVersion = require(SW_VERSION_FILE).swVersion;
@@ -59,7 +66,7 @@ task('clean', () => del('build', {dot: true}));
 // Compile sass file in css
 // =============================
 task('styles', (cb) => {
-  src(['src/sass/devmind.scss', 'src/sass/main.scss', 'src/sass/bloglist.scss', 'src/sass/blog/blog.scss'])
+  src(['src/main/client/sass/devmind.scss', 'src/main/client/sass/main.scss', 'src/main/client/sass/bloglist.scss', 'src/main/client/sass/blog/blog.scss'])
     .pipe(sass({precision: 10}).on('error', sass.logError))
     .pipe(dest('build/.tmp/css'))
     .pipe(rev())
@@ -79,7 +86,7 @@ task('styles-backend-dev', (cb) => src('build/.tmp/css/*.css').pipe(dest('build/
 // =============================
 // Step 1 : create a json file which contains all blog post descriptions
 task('blog-indexing', () =>
-  src('src/blog/**/*.adoc')
+  src('src/main/client/blog/**/*.adoc')
     .pipe(website.readAsciidoc())
     .pipe(website.convertToHtml())
     .pipe(website.convertToJson('blogindex.json'))
@@ -96,7 +103,7 @@ task('blog-rss', () =>
 task('blog-index', () =>
   src('build/.tmp/blogindex.json')
     .pipe(website.readIndex())
-    .pipe(website.convertToBlogList('src/templates/index.handlebars', HANDLEBARS_PARTIALS, 'index.html', 1))
+    .pipe(website.convertToBlogList('src/main/client/templates/index.handlebars', HANDLEBARS_PARTIALS, 'index.html', 1))
     .pipe(dest('build/.tmp'))
     .pipe(htmlmin(HTMLMIN_OPTIONS))
     .pipe(dest('build/dist'))
@@ -105,7 +112,7 @@ task('blog-index', () =>
 task('blog-list', () =>
   src('build/.tmp/blogindex.json')
     .pipe(website.readIndex())
-    .pipe(website.convertToBlogList('src/templates/blog_list.handlebars', HANDLEBARS_PARTIALS, 'blog.html', 4))
+    .pipe(website.convertToBlogList('src/main/client/templates/blog_list.handlebars', HANDLEBARS_PARTIALS, 'blog.html', 4))
     .pipe(dest('build/.tmp'))
     .pipe(htmlmin(HTMLMIN_OPTIONS))
     .pipe(dest('build/dist'))
@@ -114,18 +121,18 @@ task('blog-list', () =>
 task('blog-archive', () =>
   src('build/.tmp/blogindex.json')
     .pipe(website.readIndex())
-    .pipe(website.convertToBlogList('src/templates/blog_archive.handlebars', HANDLEBARS_PARTIALS, 'blog_archive.html', 0))
+    .pipe(website.convertToBlogList('src/main/client/templates/blog_archive.handlebars', HANDLEBARS_PARTIALS, 'blog_archive.html', 0))
     .pipe(dest('build/.tmp'))
     .pipe(htmlmin(HTMLMIN_OPTIONS))
     .pipe(dest('build/dist'))
 );
 // Step 6 (last one) : generate an HTML page for each blog entry write in asciidoc
 task('blog-page', (cb) => {
-  src('src/blog/**/*.adoc')
+  src('src/main/client/blog/**/*.adoc')
     .pipe(website.readAsciidoc())
     .pipe(website.convertToHtml())
     .pipe(website.highlightCode({selector: 'pre.highlight code'}))
-    .pipe(website.convertToBlogPage('src/templates/blog.handlebars', HANDLEBARS_PARTIALS, 'build/.tmp/blogindex.json'))
+    .pipe(website.convertToBlogPage('src/main/client/templates/blog.handlebars', HANDLEBARS_PARTIALS, 'build/.tmp/blogindex.json'))
     .pipe(dest('build/.tmp/blog'))
     .pipe(htmlmin(HTMLMIN_OPTIONS))
     .pipe(dest('build/dist/blog'))
@@ -142,7 +149,7 @@ task('blog', series(
 // =============================
 // Step 1 : create a json file which contains all courses descriptions
 task('training-indexing', () =>
-  src(`src/training/**/*.adoc`)
+  src(`src/main/client/training/**/*.adoc`)
     .pipe(website.readAsciidoc())
     .pipe(website.convertToHtml())
     .pipe(website.convertToJson('trainingindex.json'))
@@ -152,17 +159,17 @@ task('training-indexing', () =>
 task('training-list', () =>
   src('build/.tmp/trainingindex.json')
     .pipe(website.readIndex())
-    .pipe(website.convertToBlogList('src/templates/trainings.handlebars', HANDLEBARS_PARTIALS, 'trainings.html', 100))
+    .pipe(website.convertToBlogList('src/main/client/templates/trainings.handlebars', HANDLEBARS_PARTIALS, 'trainings.html', 100))
     .pipe(htmlmin(HTMLMIN_OPTIONS))
     .pipe(dest('build/dist/training'))
 );
 // Step 3 : generate an HTML page for each blog entry written in asciidoc
 task('training-page', (cb) => {
-  src('src/training/**/*.adoc')
+  src('src/main/client/training/**/*.adoc')
     .pipe(website.readAsciidoc())
     .pipe(website.convertToHtml())
     .pipe(website.highlightCode({selector: 'pre.highlight code'}))
-    .pipe(website.convertToBlogPage('src/templates/training.handlebars', HANDLEBARS_PARTIALS, 'build/.tmp/trainingindex.json'))
+    .pipe(website.convertToBlogPage('src/main/client/templates/training.handlebars', HANDLEBARS_PARTIALS, 'build/.tmp/trainingindex.json'))
     .pipe(htmlmin(HTMLMIN_OPTIONS))
     .pipe(size({title: 'html', showFiles: true}))
     .pipe(dest('build/dist/training'))
@@ -174,15 +181,15 @@ task('training', series('training-indexing', 'training-list', 'training-page'));
 // HTML pages generation
 // =============================
 task('html-indexing', () =>
-  src(`src/html/**/*.html`)
+  src(`src/main/client/html/**/*.html`)
     .pipe(website.readHtml())
     .pipe(website.convertToJson('pageindex.json'))
     .pipe(dest('build/.tmp')));
 
 task('html-template', () =>
-  src(`src/html/**/*.html`)
+  src(`src/main/client/html/**/*.html`)
     .pipe(website.readHtml())
-    .pipe(website.applyTemplate(`src/templates/site.handlebars`, HANDLEBARS_PARTIALS))
+    .pipe(website.applyTemplate(`src/main/client/templates/site.handlebars`, HANDLEBARS_PARTIALS))
     .pipe(size({title: 'html', showFiles: true}))
     .pipe(dest('build/.tmp'))
     .pipe(htmlmin(HTMLMIN_OPTIONS))
@@ -193,7 +200,7 @@ task('html', parallel('html-indexing', 'html-template'));
 // Javascript files
 // =============================
 task('local-js', () =>
-  src(['src/js/*.js'])
+  src(['src/main/client/js/*.js'])
     .pipe(babel({presets: ['@babel/env']}))
     .pipe(rev())
     .pipe(sourcemaps.init())
@@ -216,13 +223,13 @@ task('vendor-js', () =>
 // =============================
 // Converts png and jpg in webp
 task('images-webp', () =>
-  src('src/images/**/*.{png,jpg}')
+  src('src/main/client/images/**/*.{png,jpg}')
     .pipe(cwebp() as Duplex)
     .pipe(dest('build/.tmp/webp'))
 );
 // minify assets
 task('images-minify', () =>
-  src('src/images/**/*.{svg,png,jpg}')
+  src('src/main/client/images/**/*.{svg,png,jpg}')
     .pipe(imagemin([
       imagemin.gifsicle({interlaced: true}),
       imagemin.jpegtran({progressive: true}),
@@ -233,7 +240,7 @@ task('images-minify', () =>
 );
 // In dev mode copy are just copied
 task('images-dev', () =>
-  src('src/images/**/*.{svg,png,jpg}').pipe(dest('build/.tmp/img'))
+  src('src/main/client/images/**/*.{svg,png,jpg}').pipe(dest('build/.tmp/img'))
 );
 
 // Images generated in image pre processing are renamed with a MD5 (cache busting) and copied in the dist directory
@@ -248,28 +255,28 @@ task('images', () =>
 
 // Image post processing is used to copy in dist directory images used without cache busting id
 task('images-logo', () =>
-  src('src/images/**/logo*.*')
+  src('src/main/client/images/**/logo*.*')
     .pipe(dest('build/dist/img'))
 );
 
 // Copy static files
 // =============================
 task('copy', (cb) =>
-  src(['src/*.{ico,html,txt,json,webapp,xml}', 'src/**/*.htaccess', 'node_modules/workbox-sw/build/*-sw.js'], {dot: true})
+  src(['src/main/client/*.{ico,html,txt,json,webapp,xml}', 'src/main/client/**/*.htaccess', 'node_modules/workbox-sw/build/*-sw.js'], {dot: true})
     .pipe(size({title: 'copy', showFiles: true}))
     .pipe(dest('build/dist'))
     .on('end', () => cb())
 );
 task('copy-backend', (cb) =>
-  src(['server/**/*.handlebars'], {dot: true})
-    .pipe(dest('build/server'))
+  src(['src/main/server/**/*.handlebars'], {dot: true})
+    .pipe(dest('build/src/main/server'))
     .on('end', () => cb())
 );
 
 // Service workers
 // =============================
 const SW_MANIFEST_OPTIONS = {
-  swSrc: 'src/sw.js',
+  swSrc: 'src/main/client/sw.js',
   swDest: 'build/.tmp/sw.js',
   globDirectory: './build/dist',
   globIgnores: ['training/**/*.*', '**/sw*.js', '**/workbox*.js'],
@@ -319,7 +326,7 @@ task('sitemap', () =>
 
 // Cache busting
 // =============================
-const cacheBusting = (path, target?:string) =>
+const cacheBusting = (path, target?: string) =>
   src(path)
     .pipe(revReplace({
       manifest: src('build/dist/img/rev-manifest.json'),
@@ -335,7 +342,7 @@ const cacheBusting = (path, target?:string) =>
     }))
     .pipe(dest(target ? target : 'build/dist'));
 
-task('cache-busting-backend', () => cacheBusting('build/server/views/**/*.handlebars', 'build/server/views'));
+task('cache-busting-backend', () => cacheBusting('build/src/main/server/views/**/*.handlebars', 'build/src/main/server/views'));
 task('cache-busting-dev', () => cacheBusting('build/dist/**/*.{html,js,css}'));
 task('cache-busting', () => cacheBusting('build/dist/**/*.{html,js,css,xml,json,webapp}'));
 task('cache-busting-sw', () =>
@@ -346,19 +353,19 @@ task('cache-busting-sw', () =>
 // Watcher used in dev
 // =============================
 task('watch-html', () =>
-  watch('src/**/*.html', series('html', 'cache-busting-dev')));
+  watch('src/main/client/**/*.html', series('html', 'cache-busting-dev')));
 task('watch-scss', () =>
-  watch('src/**/*.{scss,css}', series('styles', 'blog', 'training', 'html', 'cache-busting-dev')));
+  watch('src/main/client/**/*.{scss,css}', series('styles', 'blog', 'training', 'html', 'cache-busting-dev')));
 task('watch-adoc', () =>
-  watch('src/**/*.adoc', series('blog', 'training', 'cache-busting-dev')));
+  watch('src/main/client/**/*.adoc', series('blog', 'training', 'cache-busting-dev')));
 task('watch-js', () =>
-  watch('src/**/*.js', series('local-js', 'blog', 'training', 'html', 'cache-busting-dev')));
+  watch('src/main/client/**/*.js', series('local-js', 'blog', 'training', 'html', 'cache-busting-dev')));
 task('watch-img', () =>
-  watch('src/images/**/*', series('images', 'blog', 'training', 'html', 'cache-busting-dev')));
+  watch('src/main/client/images/**/*', series('images', 'blog', 'training', 'html', 'cache-busting-dev')));
 task('watch-template', () =>
-  watch('src/**/*.handlebars', series('blog', 'training', 'html', 'cache-busting-dev')));
+  watch('src/main/client/**/*.handlebars', series('blog', 'training', 'html', 'cache-busting-dev')));
 task('watch-backend', () =>
-  watch('server/**/*.{handlebars,ts}', series('build-backend')));
+  watch('src/main/server/**/*.{handlebars,ts}', series('build-backend')));
 
 task('watch', parallel('watch-html', 'watch-scss', 'watch-adoc', 'watch-js', 'watch-img', 'watch-template', 'watch-backend'));
 
