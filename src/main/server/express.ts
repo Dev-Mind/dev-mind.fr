@@ -70,6 +70,7 @@ export class Express {
    * Configure application
    */
   public config(db: Db) {
+
     this.app
       .engine('handlebars', handlebars())
       .set('view engine', 'handlebars')

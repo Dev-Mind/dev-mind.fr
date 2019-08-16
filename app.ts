@@ -1,6 +1,6 @@
-import {Express} from './server/express';
+import {Express} from './src/main/server/express';
 import * as http from 'http';
-import {SecuredUrl} from "./server/service/security.service";
+import {SecuredUrl} from "./src/main/server/service/security.service";
 
 const options = {
   static: process.env.DEVMIND_SITE_PATH || `build/dist`,
