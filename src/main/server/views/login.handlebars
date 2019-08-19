@@ -40,15 +40,15 @@
         {{/extended}}
 
         <p>&nbsp;</p>
-        <div class="btn-group center">
+        <div class="btn-group center" style="flex-wrap: wrap">
           {{#extended}}
-            <button class="btn-inverse" style="margin-right:0.5em">
+            <button class="btn-inverse" style="margin:0.5em">
               Create my account
             </button>
           {{/extended}}
           {{^extended}}
             <input type="hidden" name="newtoken" id="newtoken" value="1">
-            <button class="btn-inverse" style="margin-right:0.5em">Generate a new token</button>
+            <button class="btn-inverse" style="margin:0.5em">Generate a new token</button>
             <script>
               function displayToken(){
                 var email = document.getElementById('email');
@@ -61,11 +61,11 @@
                 }
               }
             </script>
-            <button class="btn-inverse" onclick="displayToken()" type="button" style="margin-right:0.5em">
+            <button class="btn-inverse" onclick="displayToken()" type="button" style="margin:0.5em ">
               Send an existing token
             </button>
           {{/extended}}
-          <a href="/" class="btn" style="margin:1em">
+          <a href="/" class="btn" style="margin:0.5em">
             Go back home
           </a>
           <div style="flex-grow: 1">&nbsp;</div>
