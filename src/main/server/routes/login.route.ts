@@ -88,7 +88,7 @@ export class LoginRoute extends BaseRoute {
       .then(result => {
         if (result) {
           // Error because email exists
-          const errors = new Map<String, String>();
+          const errors = new Map<string, string>();
           errors.set('email', 'This email is already used');
           this.loginView(req, res, user, true, errors);
         } else {
@@ -133,7 +133,7 @@ export class LoginRoute extends BaseRoute {
       .catch(reason => this.renderError(req, res, reason));
   }
 
-  public tokenView(req: Request, res: Response, user: User, afterSent: boolean = true, errors ?: Map<String, String>) {
+  public tokenView(req: Request, res: Response, user: User, afterSent: boolean = true, errors ?: Map<string, string>) {
     this.addToModel('user', {email: user.email});
     if (errors) {
       this.addErrorsToModel(errors);
@@ -142,7 +142,7 @@ export class LoginRoute extends BaseRoute {
     this.render(req, res, 'token', afterSent ? 'Token sent' : 'Send your token');
   }
 
-  public loginView(req: Request, res: Response, user: User, ext: boolean = false, errors ?: Map<String, String>) {
+  public loginView(req: Request, res: Response, user: User, ext: boolean = false, errors ?: Map<string, string>) {
     this.addToModel('extended', ext);
     this.addToModel('user', user);
     if (errors) {
@@ -166,7 +166,7 @@ export class LoginRoute extends BaseRoute {
           this.security.addCredentialInCookies(res, result);
           res.redirect('/profile');
         } else {
-          const errors = new Map<String, String>();
+          const errors = new Map<string, string>();
           errors.set('token', 'Token or email is invalid. Try to generate a new one');
           this.tokenView(req, res, user, false, errors);
         }

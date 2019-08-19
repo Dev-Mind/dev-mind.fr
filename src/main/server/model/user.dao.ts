@@ -6,7 +6,7 @@ import moment = require("moment");
 
 export class UserValidator {
   static check(user: User) {
-    const errors = new Map<String, String>();
+    const errors = new Map<string, string>();
     this.checkEmailValue(user, errors);
     if (!user.firstname || user.firstname.length === 0) {
       errors.set('firstname', 'Firstname is required');
@@ -17,20 +17,20 @@ export class UserValidator {
     return errors;
   }
 
-  private static checkEmailValue(user: User, errors: Map<String, String>) {
+  private static checkEmailValue(user: User, errors: Map<string, string>) {
     if (!user.email || user.email.indexOf('@') < 0 || user.email.indexOf('.') < 0) {
       errors.set('email', 'Email is invalid');
     }
   }
 
   static checkEmail(user: User) {
-    const errors = new Map<String, String>();
+    const errors = new Map<string, string>();
     this.checkEmailValue(user, errors);
     return errors;
   }
 
   static checkEmailAndToken(user: User) {
-    const errors = new Map<String, String>();
+    const errors = new Map<string, string>();
     if (!user.token) {
       errors.set('token', 'Token is required');
     }

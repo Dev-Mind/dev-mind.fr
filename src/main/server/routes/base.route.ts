@@ -1,5 +1,15 @@
 import {Request, Response} from "express";
 
+type ErrorDetail = {
+  has: boolean;
+  msg: string
+}
+
+type Errors = {
+  has: boolean;
+  [key: string]: any
+}
+
 /**
  * Each route will implement this class
  */
@@ -27,15 +37,15 @@ export class BaseRoute {
     this.model.set(key, value);
   }
 
-  public addErrorsToModel(errors: Map<String, String>) {
+  public addErrorsToModel(errors: Map<string, string>) {
     const err = {
       has: errors.size > 0
-    };
+    } as Errors;
     errors.forEach((value, field) => {
       err[field] = {
         has: true,
         msg: value
-      };
+      } as ErrorDetail;
     });
     this.addToModel('errors', err);
   }
@@ -53,7 +63,7 @@ export class BaseRoute {
     //add title
     res.locals.title = title;
 
-    res.type('.html')
+    res.type('.html');
 
     if (this.model.size > 0) {
       this.model.forEach((value, key) => res.locals[key] = value);
