@@ -1,6 +1,5 @@
-import {Express} from './src/main/server/express';
+import {Express, ServerOptions} from './src/main/server/express';
 import * as http from 'http';
-import {SecuredUrl} from "./src/main/server/service/security.service";
 
 const options = {
   static: process.env.DEVMIND_SITE_PATH || `build/dist`,
@@ -12,25 +11,25 @@ const options = {
   },
   mail: {
     host: process.env.DEVMIND_MAIL_HOST || 'ssl0.ovh.net',
-    port: process.env.DEVMIND_MAIL_PORT ?  parseInt(process.env.DEVMIND_MAIL_PORT) : 465,
+    port: process.env.DEVMIND_MAIL_PORT ? parseInt(process.env.DEVMIND_MAIL_PORT) : 465,
     secure: true,
     user: process.env.DEVMIND_MAIL_USER,
     password: process.env.DEVMIND_MAIL_PASSWORD
   },
   securedUrls: [
-    {url: '/training', right: 'TRAINING'} as SecuredUrl,
-    {url: '/users', right: 'ADMIN'} as SecuredUrl,
-    {url: '/statistics', right: 'ADMIN'} as SecuredUrl
+    {url: '/training', right: 'TRAINING'},
+    {url: '/users', right: 'ADMIN'},
+    {url: '/statistics', right: 'ADMIN'}
   ],
   secret: process.env.DEVMIND_SESSION_SECRET || 'SMHQs7cLAC3x'
-};
+} as ServerOptions;
 
 const server = Express.bootstrap(options).app;
 
 
 http.createServer(server)
 
-  //listen on provided ports
+//listen on provided ports
   .listen(options.port)
 
   //add error handler
