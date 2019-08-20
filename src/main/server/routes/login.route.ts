@@ -103,13 +103,15 @@ export class LoginRoute extends BaseRoute {
 
   public displayToken(req: Request, res: Response) {
     const email = req.query.email;
+    console.log(email)
     this.userDao
       .findByEmail(email)
       .then(result => {
+        const user = {email: email, token: req.query.token} as User;
         if (result) {
-          this.tokenView(req, res, result, false);
+          this.tokenView(req, res, user, false);
         } else {
-          this.loginView(req, res, {email: email} as User, true);
+          this.loginView(req, res, user, true);
         }
       })
       .catch(reason => this.renderError(req, res, reason));
@@ -134,7 +136,7 @@ export class LoginRoute extends BaseRoute {
   }
 
   public tokenView(req: Request, res: Response, user: User, afterSent: boolean = true, errors ?: Map<string, string>) {
-    this.addToModel('user', {email: user.email});
+    this.addToModel('user', user);
     if (errors) {
       this.addErrorsToModel(errors);
     }
