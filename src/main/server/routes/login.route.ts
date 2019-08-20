@@ -156,7 +156,7 @@ export class LoginRoute extends BaseRoute {
   public sendToken(req: Request, res: Response, user: User) {
     this.security
       .updateToken(user)
-      .then(result => this.tokenView(req, res, result))
+      .then(result => this.tokenView(req, res, { email: result.email} as User))
       .catch(reason => this.renderError(req, res, reason));
   }
 
