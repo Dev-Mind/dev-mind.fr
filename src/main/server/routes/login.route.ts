@@ -122,7 +122,7 @@ export class LoginRoute extends BaseRoute {
       .getUser(req)
       .then(user => {
         if (user) {
-          this.addToModel('user', {email: user.email});
+          this.addToModel('user', {email: user.email, firstname: user.firstname, lastname: user.lastname});
           this.addToModel('rights', {
             admin: user.rights.indexOf('ADMIN') >= 0,
             training: user.rights.indexOf('TRAINING') >= 0,
