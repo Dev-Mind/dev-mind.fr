@@ -4,11 +4,12 @@ import {Db} from "mongodb";
 import {Router} from "express";
 import {UserDao} from "./dao/user.dao";
 import {SiteDailyVisitDao, UniquePageVisitDao, UserPageVisitDao} from "./dao/statistic.dao";
-import {MailerConfig, MailerService} from "./service/mailer.service";
+import {MailerService} from "./service/mailer.service";
 import {SecurityService} from "./service/security.service";
 import {CacheService} from "./service/cache.service";
 import {StatisticService} from "./service/statistic.service";
 import {StatisticsRoute} from "./routes/statistics.route";
+import {MailerConfig} from "./model/mailer.config";
 
 export class Context {
 
@@ -71,7 +72,7 @@ export class Context {
 
   get statisticsRoute(): StatisticsRoute {
     if (!this._statisticsRoute) {
-      this._statisticsRoute = StatisticsRoute.create(this.router, this.uniquePageVisitDao, this.siteDailyVisitDao);
+      this._statisticsRoute = StatisticsRoute.create(this.router, this.uniquePageVisitDao, this.siteDailyVisitDao, this.userPageVisitDao);
     }
     return this._statisticsRoute;
   }

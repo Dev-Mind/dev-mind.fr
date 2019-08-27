@@ -1,0 +1,20 @@
+<div class="dm-block--blog">
+  <devmind-section>
+    <table style="width: 100%; border: 1px;">
+      <thead>
+      <tr>
+        <th width="80%">User</th>
+        <th width="20%">Page</th>
+      </tr>
+      </thead>
+      <tbody>
+      {{#stats}}
+        <tr>
+          <td>{{_id}}</td>
+          <td>{{count}}</td>
+        </tr>
+      {{/stats}}
+      </tbody>
+    </table>
+  </devmind-section>
+</div>
