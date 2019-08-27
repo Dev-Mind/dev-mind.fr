@@ -1,8 +1,11 @@
 import {CrudDao} from "./base.dao";
 import {Db, ObjectId, UpdateQuery} from "mongodb";
 import {v4 as uuid} from "uuid";
-import {User} from "./user";
+import {User} from "../model/user";
 import moment = require("moment");
+
+
+export const COLLECTION_USERS = 'users';
 
 export class UserValidator {
   static check(user: User) {
@@ -42,7 +45,7 @@ export class UserValidator {
 export class UserDao extends CrudDao<User> {
 
   constructor(db: Db) {
-    super('users', db);
+    super(COLLECTION_USERS, db);
   }
 
   findByEmail(email: string): Promise<User> {

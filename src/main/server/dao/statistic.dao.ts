@@ -1,11 +1,16 @@
 import {BaseDao} from "./base.dao";
 import {Db, ObjectId, UpdateQuery} from "mongodb";
-import {DailySiteVisit, UniquePageVisit, UserPageVisit} from "./statistic";
+import {DailySiteVisit, UniquePageVisit, UserPageVisit} from "../model/statistic";
+
+
+export const COLLECTION_STATS_PAGEVISITS = 'pagevisits';
+export const COLLECTION_STATS_USERVISITS = 'userpagevisits';
+export const COLLECTION_STATS_DAILYVISITS = 'dailysitevisits';
 
 export class UniquePageVisitDao extends BaseDao<UniquePageVisit> {
 
   constructor(db: Db) {
-    super('pagevisits', db);
+    super(COLLECTION_STATS_PAGEVISITS, db);
   }
 
   findAll(): Promise<Array<UniquePageVisit>> {
@@ -19,7 +24,10 @@ export class UniquePageVisitDao extends BaseDao<UniquePageVisit> {
         if (element) {
           return this.collection
             .updateOne({_id: new ObjectId((element as any)._id)}, this.updateQuery(element))
-            .then(_ => new Promise<UniquePageVisit>((resolve) => resolve(element)))
+            .then(_ => new Promise<UniquePageVisit>((resolve) => {
+              element.count++;
+              resolve(element)
+            }))
         } else {
           return this.collection.insertOne({url: url, count: 1})
             .then(_ => new Promise<UniquePageVisit>((resolve) => resolve(element)))
@@ -36,7 +44,7 @@ export class UniquePageVisitDao extends BaseDao<UniquePageVisit> {
     return {
       $set: {
         url: element.url,
-        count: element.count++
+        count: ++element.count
       }
     };
   }
@@ -45,7 +53,7 @@ export class UniquePageVisitDao extends BaseDao<UniquePageVisit> {
 export class UserPageVisitDao extends BaseDao<UserPageVisit> {
 
   constructor(db: Db) {
-    super('userpagevisits', db);
+    super(COLLECTION_STATS_USERVISITS, db);
   }
 
   addVisitIfNotExist(ip: string, url: string): Promise<boolean> {
@@ -62,7 +70,7 @@ export class UserPageVisitDao extends BaseDao<UserPageVisit> {
 export class SiteDailyVisitDao extends BaseDao<DailySiteVisit> {
 
   constructor(db: Db) {
-    super('dailysitevisits', db);
+    super(COLLECTION_STATS_DAILYVISITS, db);
   }
 
   findAll(): Promise<Array<DailySiteVisit>> {

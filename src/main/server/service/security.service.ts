@@ -2,7 +2,7 @@ import {NextFunction, Request, Response} from "express";
 import {RESOURCES_EXTENSION} from "./cache.service";
 import {Right, User} from "../model/user";
 import {MailerService} from "./mailer.service";
-import {UserDao} from "../model/user.dao";
+import {UserDao} from "../dao/user.dao";
 import moment = require("moment");
 
 export interface SecuredUrl {

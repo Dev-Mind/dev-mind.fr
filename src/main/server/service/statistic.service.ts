@@ -1,5 +1,5 @@
 import {NextFunction, Request, Response} from "express";
-import {SiteDailyVisitDao, UniquePageVisitDao, UserPageVisitDao} from "../model/statistic.dao";
+import {SiteDailyVisitDao, UniquePageVisitDao, UserPageVisitDao} from "../dao/statistic.dao";
 import moment = require("moment");
 
 

@@ -1,7 +1,7 @@
 import {Request, Response} from "express";
 import {BaseRoute} from "./base.route";
 import {Router} from "express-serve-static-core";
-import {UserDao, UserValidator} from "../model/user.dao";
+import {UserDao, UserValidator} from "../dao/user.dao";
 import {SecurityService} from "../service/security.service";
 import {User} from "../model/user";
 

@@ -7,18 +7,15 @@ import * as cookieParser from "cookie-parser";
 import {Db, MongoClient, MongoClientOptions, MongoError} from "mongodb";
 import {Context} from "./context";
 import {User} from "./model/user";
-import {MailerConfig} from "./service/mailer.service";
 import {SecuredUrl} from "./service/security.service";
+import {MailerConfig} from "./model/mailer.config";
+import {MongoConfig} from "./model/mongo.config";
 import errorHandler = require("errorhandler");
 
 export interface ServerOptions {
   static: string;
   port: number;
-  mongodb: {
-    url: string,
-    user: string,
-    password: string;
-  },
+  mongodb: MongoConfig,
   mail: MailerConfig;
   // URL to check for security
   securedUrls: Array<SecuredUrl>;
@@ -39,7 +36,8 @@ export class Express {
         password: this.options.mongodb.password
       },
       autoReconnect: true,
-      useNewUrlParser: true
+      useNewUrlParser: true,
+      useUnifiedTopology: true
     };
 
 

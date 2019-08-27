@@ -1,13 +1,6 @@
 import * as nodemailer from "nodemailer";
 import * as Mail from "nodemailer/lib/mailer";
-
-export interface MailerConfig {
-  host: string;
-  port: number;
-  secure: boolean;
-  user: string;
-  password: string;
-}
+import {MailerConfig} from "../model/mailer.config";
 
 export class MailerService {
 
