@@ -1,3 +1,8 @@
+export const COLLECTION_STATS_PAGEVISITS = 'pagevisits';
+export const COLLECTION_STATS_USERVISITS = 'userpagevisits';
+export const COLLECTION_STATS_DAILYVISITS = 'dailysitevisits';
+
+
 // We want only store a counter on which page is loaded. For that we want to trace the unique visit on an url.
 export interface UserPageVisit {
   ip: string;

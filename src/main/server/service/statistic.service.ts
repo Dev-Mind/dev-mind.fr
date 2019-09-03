@@ -1,5 +1,7 @@
 import {NextFunction, Request, Response} from "express";
-import {SiteDailyVisitDao, UniquePageVisitDao, UserPageVisitDao} from "../dao/statistic.dao";
+import {UniquePageVisitDao} from "../dao/uniquepage.dao";
+import {UserPageVisitDao} from "../dao/userpage.dao";
+import {SiteDailyVisitDao} from "../dao/sitevisit.dao";
 import moment = require("moment");
 
 
@@ -21,7 +23,7 @@ export class StatisticService {
             .addVisitIfNotExist(ip, req.url)
             .then(added => {
               // If user has never seen the page we increment page count
-              if (!added) {
+              if (!added && req.url.indexOf('/token') < 0) {
                 this.uniquePageVisitDao.updateVisit(req.url);
               }
             });

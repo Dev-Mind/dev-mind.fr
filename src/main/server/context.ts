@@ -3,13 +3,15 @@ import {UsersRoute} from "./routes/users.route";
 import {Db} from "mongodb";
 import {Router} from "express";
 import {UserDao} from "./dao/user.dao";
-import {SiteDailyVisitDao, UniquePageVisitDao, UserPageVisitDao} from "./dao/statistic.dao";
 import {MailerService} from "./service/mailer.service";
 import {SecurityService} from "./service/security.service";
 import {CacheService} from "./service/cache.service";
 import {StatisticService} from "./service/statistic.service";
 import {StatisticsRoute} from "./routes/statistics.route";
 import {MailerConfig} from "./model/mailer.config";
+import {UniquePageVisitDao} from "./dao/uniquepage.dao";
+import {UserPageVisitDao} from "./dao/userpage.dao";
+import {SiteDailyVisitDao} from "./dao/sitevisit.dao";
 
 export class Context {
 

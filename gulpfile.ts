@@ -225,7 +225,7 @@ task('vendor-js', () =>
 task('images-webp', () =>
   src('src/main/client/images/**/*.{png,jpg}')
     .pipe(cwebp() as Duplex)
-    .pipe(dest('build/.tmp/webp'))
+    .pipe(dest('build/.tmp/img'))
 );
 // minify assets
 task('images-minify', () =>

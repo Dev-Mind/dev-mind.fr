@@ -4,7 +4,7 @@ import {COLLECTION_USERS, UserDao} from "../../../main/server/dao/user.dao";
 import {User} from "../../../main/server/model/user";
 
 
-describe('user.dao integration test', () => {
+xdescribe('user.dao integration test', () => {
 
   let mongoClient: MongoClient;
   let mongoDb: Db;
@@ -14,7 +14,7 @@ describe('user.dao integration test', () => {
   /**
    * To execute an integration test we need to open a MongoDB connection
    */
-  beforeAll(async() => {
+  beforeAll(async () => {
     mongoClient = await new MongoClient(MONGO_TEST_URL, MONGO_TEST_OPTIONS).connect();
     mongoDb = await mongoClient.db();
   }, 1000);
@@ -22,15 +22,20 @@ describe('user.dao integration test', () => {
   /**
    * Database as to be closed when all the tests are finished
    */
-  afterAll(async() => {
+  afterAll(async () => {
     await mongoClient.close(true);
   });
 
-  afterEach(async() => {
-    await mongoDb.dropCollection(COLLECTION_USERS);
-  });
+  afterEach(async () => {
+    await mongoDb.collections()
+      .then(collections => {
+        if (collections && collections.filter(c => c.collectionName === COLLECTION_USERS).length > 0) {
+          mongoDb.dropCollection(COLLECTION_USERS);
+        }
+      });
+  }, 1000);
 
-  beforeEach(async() => {
+  beforeEach(async () => {
     user = {
       firstname: "Guillaume",
       lastname: "EHRET",
@@ -42,23 +47,23 @@ describe('user.dao integration test', () => {
   });
 
 
-  test('should find a user with a valid email',  async() => {
+  test('should find a user with a valid email', async () => {
     const userRead = await userDao.findByEmail('test@dev-mind.fr');
     expect(userRead).toEqual(user);
   });
 
-  test('should find null on an unknown email search',  async() => {
+  test('should find null on an unknown email search', async () => {
     const userRead = await userDao.findByEmail('unknown@dev-mind.fr');
     expect(userRead).toBeNull();
   });
 
-  test('should update a user',  async() => {
+  test('should update a user', async () => {
     user.lastname = 'Dev-Mind';
     const userRead = await userDao.upsert(user);
     expect(userRead.lastname).toBe('Dev-Mind');
   });
 
-  test('should insert a new user',  async() => {
+  test('should insert a new user', async () => {
     let nbUser = await userDao.findAll()
     expect(nbUser.length).toBe(1);
 
@@ -76,7 +81,7 @@ describe('user.dao integration test', () => {
     expect(nbUser.length).toBe(2);
   });
 
-  test('should update a user token',  async() => {
+  test('should update a user token', async () => {
     expect(user.token).toBeUndefined();
     expect(user.lastTokenGeneration).toBeUndefined();
 
