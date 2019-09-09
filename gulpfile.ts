@@ -62,6 +62,7 @@ const serviceWorkerVersion = require(SW_VERSION_FILE).swVersion;
 // Clean the working directories
 // =============================
 task('clean', () => del('build', {dot: true}));
+task('clean-backend', () => del('build/src', {dot: true}));
 
 // Compile sass file in css
 // =============================
@@ -385,7 +386,7 @@ task('build', series(
   'service-worker',
   'cache-busting-sw'));
 
-task('build-backend', series('copy-backend', 'cache-busting-backend'));
+task('build-backend', series('clean-backend','copy-backend', 'cache-busting-backend'));
 
 task('build-dev', series(
   'clean',

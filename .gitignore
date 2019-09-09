@@ -6,3 +6,5 @@ build
 *.iws
 *.iml
 *.ipr
+src/main/server/**/*.js
+coverage

@@ -1,12 +1,14 @@
 import {JSDOM} from "jsdom";
 import * as path from "path";
+import {DIST_DIRECTORY} from "../common";
 
 export class HtmlPage{
 
   jsdom: Promise<JSDOM>;
 
   constructor(private url: string){
-    this.jsdom = JSDOM.fromFile(path.resolve(__dirname, `../../../../build/dist/${this.url}`));
+    console.log(path.resolve(__dirname,  DIST_DIRECTORY, this.url))
+    this.jsdom = JSDOM.fromFile(path.resolve(__dirname,  DIST_DIRECTORY, this.url));
   }
 
   async document(): Promise<Document>{
@@ -29,6 +31,16 @@ export class HtmlPage{
   async loadSubSections(): Promise<Array<string>>{
     const sections = await this.loadHeadings('h2');
     return Array.from(sections).map(e => e.innerHTML);
+  }
+
+  async loadBlockByClass(cssClass: string): Promise<Array<string>>{
+    const elements = (await this.document()).getElementsByClassName(cssClass);
+    return Array.from(elements).map(e => e.textContent);
+  }
+
+  async loadOneBlockByClass(cssClass: string): Promise<string>{
+    const elements = (await this.document()).getElementsByClassName(cssClass);
+    return Array.from(elements).map(e => e.textContent)[0];
   }
 
   async checkCommonFooter(){

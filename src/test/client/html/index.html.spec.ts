@@ -1,5 +1,4 @@
-import {HtmlPage} from "./HtmlPage";
-//jest.dontMock('fs');
+import {HtmlPage} from "./html.page";
 
 describe('Page index.html', () => {
 

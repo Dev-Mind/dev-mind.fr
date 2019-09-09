@@ -1,7 +1,9 @@
 import {Request, Response} from "express";
 import {BaseRoute} from "./base.route";
 import {Router} from "express-serve-static-core";
-import {SiteDailyVisitDao, UniquePageVisitDao, UserPageVisitDao} from "../dao/statistic.dao";
+import {UniquePageVisitDao} from "../dao/uniquepage.dao";
+import {SiteDailyVisitDao} from "../dao/sitevisit.dao";
+import {UserPageVisitDao} from "../dao/userpage.dao";
 import moment = require("moment");
 
 export class StatisticsRoute extends BaseRoute {
