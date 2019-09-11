@@ -1,0 +1,357 @@
+:doctitle: Démarrez un projet Typescript et testez le avec Jest
+:description: Tout savoir sur comment Démarrer un projet Typescript et le tester avec Jest
+:keywords: Web, Typescript, Jest
+:author: Guillaume EHRET - Dev-Mind
+:revdate: 2019-08-19
+:category: Web
+:teaser: Toutes les étapes pour démarrer un projet TypeScript et tester son code avec Jest.
+:imgteaser: :../../img/blog/2019/laissez_tomber_javascript.png
+:toc:
+
+Si vous êtes un développeur web, vous avez forcément entendu parler de https://www.typescriptlang.org[TypeScript]. Ce langage se définit comme un sur-ensemble de https://www.javascript.com/[JavaScript]. Votre code est compilé en JavaScript standard pour pouvoir être exécuté sur un moteur JavaScript (node, navigateur).
+
+https://www.typescriptlang.org[TypeScript] comble beaucoup de manque du langage https://www.javascript.com/[JavaScript], en introduisant les types et bien d'autres fonctionnalités. Avec https://www.typescriptlang.org[TypeScript] vous bénéficiez d'une meilleure expérience de développement avec une meilleure complétion, une remontée des erreurs plus rapide... De nombreux frameworks l'ont adopté (https://angular.io/[Angular], https://aurelia.io/[Aurelia], https://www.nativescript.org/[NativeScript]...) car comme pour les langages C# ou Java le langage a un réel avantage en entreprise.
+
+Dans cet article, nous allons voir comment lancer un projet https://www.typescriptlang.org[TypeScript], le compiler, éxécuter des tests via https://jestjs.io/[Jest]. Il existe pas mal de ressources sur le web sur ce sujet mais très souvent les choses sont complexifiées.
+
+== Etape 1 : NodeJS
+
+https://www.javascript.com/[JavaScript] est un langage qui est exécuté sur un moteur JavaScript. Les navigateurs Internet intègrent tous aujourd'hui des moteurs JavaScript. Quand vous voulez créer une application en dehors d'un navigateur, vous allez utiliser NodeJs qui fournit un moteur JavaScript autonome.
+
+https://nodejs.org/[NodeJS] est disponible pour toutes les plateformes https://nodejs.org/en/download/
+
+https://nodejs.org/[NodeJS] fourni un gestionnaire de paquet `npm` qui permet de télécharger et mettre à jour les dépendances d'un projet.
+
+Une fois que vous avez installé NodeJs vous lancer dans un terminal `npm`
+
+[source, shell, subs="none"]
+----
+$ npm
+
+Usage: npm <command>
+
+where <command> is one of:
+    access, adduser, audit, bin, bugs, c, cache, ci, cit,
+    clean-install, clean-install-test, completion, config,
+    create, ddp, dedupe, deprecate, dist-tag, docs, doctor,
+    edit, explore, get, help, help-search, hook, i, init,
+    install, install-ci-test, install-test, it, link, list, ln,
+    login, logout, ls, org, outdated, owner, pack, ping, prefix,
+    profile, prune, publish, rb, rebuild, repo, restart, root,
+    run, run-script, s, se, search, set, shrinkwrap, star,
+    stars, start, stop, t, team, test, token, tst, un,
+    uninstall, unpublish, unstar, up, update, v, version, view,
+    whoami
+
+npm <command> -h  quick help on <command>
+npm -l            display full usage info
+npm help <term>   search for help on <term>
+npm help npm      involved overview
+----
+
+Vous pouvez lancer la commande `node` qui permet de lancer une console node
+
+[source, shell, subs="none"]
+----
+$ node
+> const name = 'Guillaume'
+undefined
+> console.log(name)
+Guillaume
+>
+(To exit, press ^C again or type .exit)
+>
+----
+
+== Etape 2 : Créer un projet
+
+Nous allons commencer par créer l'arborescence de notre projet `myproject`
+
+[source, shell, subs="none"]
+----
+mkdir -p myproject/src/main/typescript
+mkdir -p myproject/src/test/typescript
+----
+
+Nous allons utiliser NodeJS dans notre projet pour bénéficier du gestionnaire de paquet `npm` mais aussi exécuter notre code. Pour initialiser notre projet nous allons utiliser le client fournit avec `npm`. Le client va générer un fichier `package.json` à la racine de votre projet en fonction des réponses que vous aurez donné
+
+[source, shell, subs="none"]
+----
+$ cd myproject
+$ npm init
+This utility will walk you through creating a package.json file.
+It only covers the most common items, and tries to guess sensible defaults.
+
+See `npm help json` for definitive documentation on these fields
+and exactly what they do.
+
+Use `npm install <pkg>` afterwards to install a package and
+save it as a dependency in the package.json file.
+
+Press ^C at any time to quit.
+package name: (myproject)
+version: (1.0.0)
+description: My first example in TypeScript
+entry point: (index.js)
+test command:
+git repository:
+keywords:
+author: Guillaume EHRET
+license: (ISC) MIT
+About to write to /home/devmind/Workspace/web/myproject/package.json:
+
+{
+  "name": "myproject",
+  "version": "1.0.0",
+  "description": "My first example in TypeScript",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Guillaume EHRET",
+  "license": "MIT"
+}
+----
+
+`npm` permet d'installer des packages et des librairies. Par exemple pour installer typescript vous lancerez
+
+
+[source, shell, subs="none"]
+----
+npm install typescript
+----
+
+Cettte commande va ajouter un bloc `dependencies` dans le fichier `package.json`. Comme vous n'avez pas spécifier de version `npm` prend la dernière disponible. `npm` utilise les numéros de version sémantique. Dans l'exemple ci dessous le `^` (caret) indique que `npm` téléchargera au moins une version >= 3.5.3 et < 4.0.0
+
+[source, json, subs="none"]
+----
+"dependencies": {
+  "typescript": "^3.5.3"
+}
+----
+
+Si vous utilisez un `~` à la place de `^`, `npm` ne pourra télécharger que les versions >= 3.5.3 et < 3.6.0
+Si vous n'utilisez aucune marque `npm` chargera la version spécifiée.
+
+Il existe plusieurs autres possibilités et vous trouverez plus d'informations sur https://semver.org/
+
+`npm` télécharge les librairies dans le répertoire `node_modules` de votre projet. Ce répertoire `node_modules` ne doit jamais être commité dans git car il peut être très volumineux et on préférera le réinstaller lors d'un clone d'un projet via
+
+[source, shell, subs="none"]
+----
+npm install
+----
+
+
+== Etape 2 : Installer typescript
+
+Nous avons utilisé `npm` dans l'étape précédente pour installer TypeScript.
+
+Nous pouvons personnaliser la configuration TypeScript en ajoutant un fichier `tsconfig.json`. Les différentes valeurs possibles sont définies sur cette https://www.typescriptlang.org/docs/handbook/tsconfig-json.html[page].
+
+Par exemple dans notre cas nous allons préciser plusieurs options de compilation
+
+[source, json, subs="none"]
+----
+{
+  "compilerOptions": {
+    /* Specify ECMAScript target version: 'ES3' (default). Here ES5 to be compatible with all web browsers */
+    "target": "ES5",
+    /* Specify module code generation: 'commonjs', 'amd', 'system', 'umd' or 'es2015'. */
+    "module": "commonjs",
+    /* Specify library files to be included in the compilation:  */
+    "lib": [
+      "esnext",
+      "dom"
+    ],
+    /* We want to generate a sourcemap  */
+    "sourceMap": true,
+    /* All files will be compiled in build directory  */
+    "outDir": "./build"
+  },
+  "include": [
+      "src/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
+----
+
+En gros avec cette configuration, nous indiquons au compilateur de prendre les fichiers TypeScript dans le répertoire `src` et les compiler en EcmaScript 5 dans le répertoire `build  en utilisant `commonjs` comme gestionnaire de modules.
+
+== Etape 3 : Ecrire du code en TypeScript
+
+Le système de types est la caractéristique essentielle du langage. Si vous avez une fonction
+
+[source, typescript, subs="none"]
+----
+great(name: string){
+    return `Hi, ${name}`;
+}
+----
+
+En Javascript vous pourriez écrire
+[source, javascript, subs="none"]
+----
+console.log(great(123));
+----
+
+Mais en TypeScript le compilateur va retourner l'erreur "Argument type 123 is not assignable to type string". Dans les IDE vous allez avoir l'erreur au moment ou vous écrivez votre code (ceci évite bon nombre de bugs). TypeScript fait aussi de l'inférence de type. Dans le code ci dessous le langage déduit que le type de la variable `age` est un numérique et donc il va vous empêcher de lui attribuer une autre valeur. Vous aurez également une erreur de type sur la deuxième ligne
+
+[source, typescript, subs="none"]
+----
+let age = 42;
+age = "inconnu";
+----
+
+Nous allons créer deux fichiers dans `src/main/typescript`. Le premier `person.ts` contiendra la définition d'une interface `Person` (qui est exportée pour pouvoir l'utiliser dans d'autres fichiers). En TypeScript vous pouvez définir des https://www.typescriptlang.org/docs/handbook/interfaces.html[interfaces] et des types customs. Ceci est très pratique pour étendre le système de types. Nous définissons aussi une https://www.typescriptlang.org/docs/handbook/classes.html[classe]  `Greater` exposant une méthode pour saluer une personne
+
+[source, typescript, subs="none"]
+----
+export interface Person {
+    firstName: string;
+    lastName: string;
+}
+
+export class GreaterService {
+    great(person: Person){
+        return `Hi, ${person.firstName} ${person.lastName}`;
+    }
+}
+----
+
+Vous pouvez maintenant créer un second fichier `index.ts` dans lequel nous allons importer ce que nous venons de créer et l'appeler
+
+[source, typescript, subs="none"]
+----
+import {GreaterService, Person} from "./person";
+
+const person:Person = {
+    firstName: 'Guillaume',
+    lastName: 'EHRET'
+}
+
+console.log(new GreaterService().great(person));
+----
+
+Il ne nous reste plus qu'à compiler (via `tsc`) notre projet et lancer `index.js` qui résulte de cette compilation (dans notre fichier de configuration TypeScript nous avon préciser que le répertoire de compilation était `build`).
+
+[source, shell, subs="none"]
+----
+$ tsc
+$ node build/index.js
+----
+
+Cet exemple est simpliste mais permet de voir rapidement comment le langage fonctionne. Pour démarrer sur TypeScript je vous conseille la https://www.typescriptlang.org/docs/home.html[documentation officielle] qui n'est pas trop mal faite à mon sens.
+
+== Etape 4 : Tester notre code avec Jest
+
+Il existe de nombreuses librairies pour écrire des tests de votre code JavaScript ou TypeScript. https://jestjs.io/[Jest] a été créé par Facebook pour ses projets https://reactjs.org/[React] et le but est d'être le plus simple possible tout en étant le plus performant. Au final vous pouvez utiliser Jest dans d'autres projets que des projets React et c'est ce que nous allons faire.
+
+Nous allons écrire des tests unitaires pour vérifier le comportement de chaque partie de notre code. Quand une portion de code a des dépendances vers d'autres parties nous allons utiliser des mocks pour simuler le fonctionnement de ces dépendances.
+
+
+*Comment installer Jest*
+
+Nous devons installer le package principal et celui dédié à TypeScript
+
+[source, shell, subs="none"]
+----
+npm install jest @types/jest ts-jest -D
+----
+
+
+Pour paramétrer Jest nous allons utiliser le client
+
+[source, shell, subs="none"]
+----
+jest --init
+
+✔ Would you like to use Jest when running "test" script in "package.json"? … yes
+✔ Choose the test environment that will be used for testing › node
+✔ Do you want Jest to add coverage reports? … yes
+✔ Automatically clear mock calls and instances between every test? … yes
+
+
+✏️  Modified /home/devmind/Workspace/web/dev-mind.fr/package.json
+📝  Configuration file created at /home/devmind/Workspace/web/dev-mind.fr/jest.config.js
+----
+
+Jest a été conçu pour exécuter par défaut du JavaScript. Pour paramétrer vos tests en TypeScript vous allez devoir modifier le fichier de configuration `jest.config.js`
+
+[source, json, subs="none"]
+----
+[source, shell, subs="none"]
+transform:  {
+"\\.(ts)$": "ts-jest"
+},
+----
+
+
+Si vous voulez lancer les tests via `yarn test` ou `npm run test` vous pouvez modifier votre fichier `package.json`
+[source, json, subs="none"]
+----
+"scripts": {
+  "test": "jest"
+},
+----
+
+*Utiliser Jest*
+
+Nous allons tester le code typescript que nous avons écrit plus haut. Pour celà créons `person.spec.ts` dans le répertoire `src/test/typescript`. La syntaxe jasmine est disponible si vous souhaitez par exemple migrer votre suite de tests existantes. Mais les https://jestjs.io/docs/en/using-matchers[assertions] sont légéèrement différentes
+
+[source, typescript, subs="none"]
+----
+import {GreaterService, Person} from "../../main/typescript/person";
+
+describe('Test person.ts', () => {
+    let service: GreaterService;
+
+    beforeEach(() => service = new GreaterService());
+
+    test('should say', () => {
+        const person: Person = {
+            firstName: 'Guillaume',
+            lastName: 'EHRET'
+        };
+        expect(service.great(person)).toBe('Hi, Guillaume EHRET');
+    })
+});
+----
+
+Vous pouvez maintenant la lancer la commande `jest` pour exécuter vos tests. Jest permet aussi de https://jestjs.io/docs/en/mock-functions.html[mocker] les dépendances d'une classe. Vous pouvez également appeler du code https://jestjs.io/docs/en/asynchronous[asynchrone] dans vos tests.
+
+
+*Couverture du code par les tests*
+
+Jest comprend tout ce qu'il faut pour vérifier que votre code est bien tester. Vous pouvez ajouter l'option `--coverage` ppour générer un rapport
+
+[source, shell, subs="none"]
+----
+devmind@devmind:~/Workspace/web/myproject$ jest --coverage
+PASS  src/test/typescript/person.spec.ts
+Test person.ts
+✓ should say (4ms)
+
+-----------|----------|----------|----------|----------|-------------------|
+File       |  % Stmts | % Branch |  % Funcs |  % Lines | Uncovered Line #s |
+-----------|----------|----------|----------|----------|-------------------|
+All files  |      100 |      100 |      100 |      100 |                   |
+person.ts  |      100 |      100 |      100 |      100 |                   |
+-----------|----------|----------|----------|----------|-------------------|
+Test Suites: 1 passed, 1 total
+Tests:       1 passed, 1 total
+Snapshots:   0 total
+Time:        1.358s, estimated 2s
+Ran all test suites.
+----
+
+== Conclusion
+
+Vous pouvez donc maintenant commencer à coder en https://www.typescriptlang.org/docs/home.html[TypeScript] et tester votre code avec Jest. Je vous ai laissé les différents points d'entrée si vous voulez aller plus loin.
+
+Au niveau des tests unitaires https://jestjs.io/[Jest] est beaucoup plus rapide que Karma car les tests ne sont pas lancés dans un navigateur headless ou non
+
+
+

@@ -1,0 +1,213 @@
+Si vous êtes un développeur web, vous avez forcément entendu parler de https://www.typescriptlang.org[TypeScript]. https://www.typescriptlang.org[TypeScript] se définit comme un sur-ensemble de https://www.javascript.com/[JavaScript] qui est ensuite compilé en JavaScript standard pour pouvoir être exécuté sur un moteur JavaScript (node, browser).
+
+https://www.typescriptlang.org[TypeScript] comble beaucoup de manque du langage https://www.javascript.com/[JavaScript], en introduisant les types et bien d'autres fonctionnalités. Avec https://www.typescriptlang.org[TypeScript] vous bénéficiez d'une meilleure expérience de développement avec une meilleure complétion, une remontée des erreurs plus rapide... De nombreux frameworks l'ont adopté (https://angular.io/[Angular], https://aurelia.io/[Aurelia], https://www.nativescript.org/[NativeScript]...) car comme pour les langages C# ou Java le langage a un réel avantage en entreprise.
+
+Dans cet article, nous allons voir comment lancer un projet https://www.typescriptlang.org[TypeScript], le compiler, éxécuter des tests via https://jestjs.io/[Jest]. Il existe pas mal de ressources sur le web sur ce sujet mais très souvent les choses sont complexifiées.
+
+== Etape 1 : NodeJS
+
+https://www.javascript.com/[JavaScript] est un langage qui est exécuté sur un moteur JavaScript. Les navigateurs Internet intègrent tous aujourd'hui des moteurs JavaScript. Quand vous voulez créer une application en dehors d'un navigateur, vous allez utiliser NodeJs qui fournit un moteur JavaScript autonome.
+
+https://nodejs.org/[NodeJS] est disponible pour toutes les plateformes https://nodejs.org/en/download/
+
+https://nodejs.org/[NodeJS] fourni un gestionnaire de paquet `npm` qui permet de télécharger et mettre à jour les dépendances d'un projet.
+
+Une fois que vous avez installé NodeJs vous lancer dans un terminal `npm`
+
+====
+$ npm
+
+Usage: npm <command>
+
+where <command> is one of:
+    access, adduser, audit, bin, bugs, c, cache, ci, cit,
+    clean-install, clean-install-test, completion, config,
+    create, ddp, dedupe, deprecate, dist-tag, docs, doctor,
+    edit, explore, get, help, help-search, hook, i, init,
+    install, install-ci-test, install-test, it, link, list, ln,
+    login, logout, ls, org, outdated, owner, pack, ping, prefix,
+    profile, prune, publish, rb, rebuild, repo, restart, root,
+    run, run-script, s, se, search, set, shrinkwrap, star,
+    stars, start, stop, t, team, test, token, tst, un,
+    uninstall, unpublish, unstar, up, update, v, version, view,
+    whoami
+
+npm <command> -h  quick help on <command>
+npm -l            display full usage info
+npm help <term>   search for help on <term>
+npm help npm      involved overview
+====
+
+Vous pouvez lancer la commande `node` qui permet de lancer une console node
+
+====
+$ node
+> const name = 'Guillaume'
+undefined
+> console.log(name)
+Guillaume
+>
+(To exit, press ^C again or type .exit)
+>
+====
+
+== Etape 2 : Créer un projet
+
+Nous allons commencer par créer l'arborescence de notre projet `myproject`
+
+====
+mkdir -p myproject/src/main/typescript
+mkdir -p myproject/src/test/typescript
+====
+
+Nous allons utiliser NodeJS dans notre projet pour bénéficier du gestionnaire de paquet `npm` mais aussi exécuter notre code. Pour initialiser notre projet nous allons utiliser le client fournit avec `npm`. Le client va générer un fichier `package.json` à la racine de votre projet en fonction des réponses que vous aurez donné
+
+====
+$ cd myproject
+$ npm init
+This utility will walk you through creating a package.json file.
+It only covers the most common items, and tries to guess sensible defaults.
+
+See `npm help json` for definitive documentation on these fields
+and exactly what they do.
+
+Use `npm install <pkg>` afterwards to install a package and
+save it as a dependency in the package.json file.
+
+Press ^C at any time to quit.
+package name: (myproject)
+version: (1.0.0)
+description: My first example in TypeScript
+entry point: (index.js)
+test command:
+git repository:
+keywords:
+author: Guillaume EHRET
+license: (ISC) MIT
+About to write to /home/devmind/Workspace/web/myproject/package.json:
+
+{
+  "name": "myproject",
+  "version": "1.0.0",
+  "description": "My first example in TypeScript",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Guillaume EHRET",
+  "license": "MIT"
+}
+====
+
+`npm` permet d'installer des packages et des librairies. Par exemple pour installer typescript vous lancerez
+
+
+====
+npm install typescript
+====
+
+Cettte commande va ajouter un bloc `dependencies` dans le fichier `package.json`. Comme vous n'avez pas spécifier de version `npm` prend la dernière disponible. `npm` utilise les numéros de version sémantique. Dans l'exemple ci dessous le `^` (caret) indique que `npm` téléchargera au moins une version >= 3.5.3 et < 4.0.0
+
+====
+"dependencies": {
+  "typescript": "^3.5.3"
+}
+====
+
+Si vous utilisez un `~` à la place de `^`, `npm ne pourra télécharger que les versions >= 3.5.3 et < 3.6.0
+Si vous n'utilisez aucune marque `npm` chargera la version spécifiée.
+
+Il existe plusieurs autres possibilités et vous trouverez plus d'informations sur https://semver.org/
+
+`npm` télécharge les librairies dans le répertoire `node_modules` de votre projet. Ce répertoire `node_modules` ne doit jamais être commité dans git car il peut être très volumineux et on préférera le réinstaller lors d'un clone d'un projet via
+
+====
+npm install
+====
+
+
+== Etape 2 : Installer typescript
+
+Nous avons utilisé `npm` dans l'étape précédente pour installer TypeScript.
+
+Nous pouvons personnaliser la configuration TypeScript en ajoutant un fichier `tsconfig.json`. Les différentes valeurs possibles sont définies sur cette https://www.typescriptlang.org/docs/handbook/tsconfig-json.html[page].
+
+Par exemple dans notre cas nous allons préciser plusieurs options de compilation
+====
+{
+  "compilerOptions": {
+    /* Specify ECMAScript target version: 'ES3' (default). Here ES5 to be compatible with all web browsers */
+    "target": "ES5",
+    /* Specify module code generation: 'commonjs', 'amd', 'system', 'umd' or 'es2015'. */
+    "module": "commonjs",
+    /* Specify library files to be included in the compilation:  */
+    "lib": [
+      "esnext"
+    ],
+    /* We want to generate a sourcemap  */
+    "sourceMap": true,
+    /* All files will be compiled in build directory  */
+    "outDir": "./build"
+    "include": [
+        "src/**/*"
+    ],
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}
+====
+
+
+== Etape 3 : Ecrire une classe en TypeScript
+
+
+
+Ce fichier sera
+Is this OK? (yes) yes
+
+
+
+Starts and ends with JavaScript
+TypeScript starts from the same syntax and semantics that millions of JavaScript developers know today. Use existing JavaScript code, incorporate popular JavaScript libraries, and call TypeScript code from JavaScript.
+
+TypeScript compiles to clean, simple JavaScript code which runs on any browser, in Node.js, or in any JavaScript engine that supports ECMAScript 3 (or newer).
+
+
+Strong tools for large apps
+Types enable JavaScript developers to use highly-productive development tools and practices like static checking and code refactoring when developing JavaScript applications.
+
+Types are optional, and type inference allows a few type annotations to make a big difference to the static verification of your code. Types let you define interfaces between software components and gain insights into the behavior of existing JavaScript libraries.
+
+
+State of the art JavaScript
+TypeScript offers support for the latest and evolving JavaScript features, including those from ECMAScript 2015 and future proposals, like async functions and decorators, to help build robust components.
+
+These features are available at development time for high-confidence app development, but are compiled into simple JavaScript that targets ECMAScript 3 (or newer) environments.
+
+jest --init
+
+✔ Would you like to use Jest when running "test" script in "package.json"? … yes
+✔ Choose the test environment that will be used for testing › node
+✔ Do you want Jest to add coverage reports? … yes
+✔ Automatically clear mock calls and instances between every test? … yes
+
+✏️  Modified /home/devmind/Workspace/web/dev-mind.fr/package.json
+
+📝  Configuration file created at /home/devmind/Workspace/web/dev-mind.fr/jest.config.js
+
+
+
+mkdir devmind-typescript
+devmind@devmind:~/Workspace/web$ cd devmind-typescript/
+yarn init v1.9.4
+question name (devmind-typescript):
+question version (1.0.0):
+question description:
+question entry point (index.js):
+question repository url:
+question author: Guillaume EHRET
+question license (MIT):
+question private:
+success Saved package.json
+Done in 27.84s.
