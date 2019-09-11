@@ -5,7 +5,7 @@
 :revdate: 2019-08-19
 :category: Web
 :teaser: Toutes les étapes pour démarrer un projet TypeScript et tester son code avec Jest.
-:imgteaser: :../../img/blog/2019/laissez_tomber_javascript.png
+:imgteaser: :../../img/blog/2019/laissez_tomber_javascript1.png
 :toc:
 
 Si vous êtes un développeur web, vous avez forcément entendu parler de https://www.typescriptlang.org[TypeScript]. Ce langage se définit comme un sur-ensemble de https://www.javascript.com/[JavaScript]. Votre code est compilé en JavaScript standard pour pouvoir être exécuté sur un moteur JavaScript (node, navigateur).
@@ -14,7 +14,7 @@ https://www.typescriptlang.org[TypeScript] comble beaucoup de manque du langage 
 
 Dans cet article, nous allons voir comment lancer un projet https://www.typescriptlang.org[TypeScript], le compiler, éxécuter des tests via https://jestjs.io/[Jest]. Il existe pas mal de ressources sur le web sur ce sujet mais très souvent les choses sont complexifiées.
 
-image::../../img/blog/2019/laissez_tomber_javascript.png[laissez_tomber_javascript]
+image::../../img/blog/2019/laissez_tomber_javascript1.png[laissez_tomber_javascript]
 
 == Etape 1 : NodeJS
 
