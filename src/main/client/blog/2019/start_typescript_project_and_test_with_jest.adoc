@@ -14,6 +14,8 @@ https://www.typescriptlang.org[TypeScript] comble beaucoup de manque du langage 
 
 Dans cet article, nous allons voir comment lancer un projet https://www.typescriptlang.org[TypeScript], le compiler, éxécuter des tests via https://jestjs.io/[Jest]. Il existe pas mal de ressources sur le web sur ce sujet mais très souvent les choses sont complexifiées.
 
+image::../../img/blog/2019/laissez_tomber_javascript.png[laissez_tomber_javascript]
+
 == Etape 1 : NodeJS
 
 https://www.javascript.com/[JavaScript] est un langage qui est exécuté sur un moteur JavaScript. Les navigateurs Internet intègrent tous aujourd'hui des moteurs JavaScript. Quand vous voulez créer une application en dehors d'un navigateur, vous allez utiliser NodeJs qui fournit un moteur JavaScript autonome.
