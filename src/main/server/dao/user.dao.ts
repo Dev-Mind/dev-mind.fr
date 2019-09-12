@@ -19,7 +19,7 @@ export class UserValidator {
     }
     return errors;
   }
-
+  
   private static checkEmailValue(user: User, errors: Map<string, string>) {
     if (!user.email || user.email.indexOf('@') < 0 || user.email.indexOf('.') < 0) {
       errors.set('email', 'Email is invalid');
