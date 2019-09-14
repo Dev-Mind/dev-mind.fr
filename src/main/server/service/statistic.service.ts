@@ -23,7 +23,7 @@ export class StatisticService {
             .addVisitIfNotExist(ip, req.url)
             .then(added => {
               // If user has never seen the page we increment page count
-              if (!added && req.url.indexOf('/token') < 0) {
+              if (added && req.url.indexOf('/token') < 0) {
                 this.uniquePageVisitDao.updateVisit(req.url);
               }
             });

@@ -17,7 +17,8 @@ export class UserPageVisitDao extends BaseDao<UserPageVisit> {
 
   addVisitIfNotExist(ip: string, url: string): Promise<boolean> {
     return this.collection.findOne({ip: ip, url: url}).then(result => {
-      if (!result) {
+      if (!result) {console.log('Ajout nouvelle visi')
+
         const visit: UserPageVisit = {ip: ip, url: url};
         this.collection.insertOne(visit);
       }
