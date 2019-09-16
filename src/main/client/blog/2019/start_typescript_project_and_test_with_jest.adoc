@@ -355,5 +355,4 @@ Vous pouvez donc maintenant commencer à coder en https://www.typescriptlang.org
 
 Au niveau des tests unitaires https://jestjs.io/[Jest] est beaucoup plus rapide que Karma car les tests ne sont pas lancés dans un navigateur headless ou non
 
-
-
+Si vous voulez plus d'infos vous pouvez consulter ce repo https://gitlab.com/javamind/typescript-starter[Gitlab]

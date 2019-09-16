@@ -4,12 +4,14 @@
 :author: Guillaume EHRET - Dev-Mind
 :revdate: 2019-08-19
 :category: Web
-:teaser: Toutes les étapes pour démarrer un projet TypeScript et tester son code avec Jest.
+:teaser: Comment aller plus loin avec TypeScript et écrire une application web
 :imgteaser: :../../img/blog/2019/laissez_tomber_javascript1.png
 :toc:
 
-Nous avons vu dans l'https://dev-mind.fr/blog/2019/start_typescript_project_and_test_with_jest.html[article précédent]
+Nous avons vu dans l'https://dev-mind.fr/blog/2019/start_typescript_project_and_test_with_jest.html[article précédent], comment démarrer un nouveau projet en TypeScript et le tester avec Jest. Essayons d'aller plus loin et de mettre en place une application web se connectant à une base de données https://www.mongodb.com/fr[MongoDb]. Cette stack technique correspond à celle de ce site web. J'ai choisi MongoDb car mon hébergeur https://www.clever-cloud.com/en/[Clever Cloud] propose des solutions avantageuses.
 
+
+== Etape 1 : NodeJS
 
 
 
