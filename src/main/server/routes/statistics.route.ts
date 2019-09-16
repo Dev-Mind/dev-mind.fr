@@ -32,6 +32,10 @@ export class StatisticsRoute extends BaseRoute {
       route.findUsers(req, res);
     });
 
+    router.get("/statistics/users2", (req: Request, res: Response) => {
+      route.findUsersBySite(req, res);
+    });
+
     return route;
   }
 
@@ -59,6 +63,15 @@ export class StatisticsRoute extends BaseRoute {
   private findUsers(req: Request, res: Response) {
     this.userPageVisitDao
       .findAll()
+      .then(list => {
+        super.addToModel('stats', list);
+        this.render(req, res, 'stats-users', 'User visits');
+      });
+  }
+
+  private findUsersBySite(req: Request, res: Response) {
+    this.userPageVisitDao
+      .findAllBySite()
       .then(list => {
         super.addToModel('stats', list);
         this.render(req, res, 'stats-users', 'User visits');

@@ -93,9 +93,7 @@ export class LoginRoute extends BaseRoute {
           this.loginView(req, res, user, true, errors);
         } else {
           console.log('Login => Create user ' + user.email);
-          this.userDao.upsert(user);
-          // and send a token
-          this.sendToken(req, res, user);
+          this.userDao.upsert(user).then(_ => this.sendToken(req, res, user));
         }
       })
       .catch(reason => this.renderError(req, res, reason));
