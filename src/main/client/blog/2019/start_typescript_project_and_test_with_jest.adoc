@@ -149,7 +149,8 @@ npm install
 
 Nous avons utilisé `npm` dans l'étape précédente pour installer TypeScript.
 
-Nous pouvons personnaliser la configuration TypeScript en ajoutant un fichier `tsconfig.json`. Les différentes valeurs possibles sont définies sur cette https://www.typescriptlang.org/docs/handbook/tsconfig-json.html[page].
+Nous pouvons personnaliser la configuration TypeScript en ajoutant un fichier `tsconfig.json`. Pour celà vous pouvez exécuter `./node_modules/.bin/tsc --init`. Les différentes valeurs possibles sont définies sur cette https://www.typescriptlang.org/docs/handbook/tsconfig-json.html[page].
+
 
 Par exemple dans notre cas nous allons préciser plusieurs options de compilation
 
