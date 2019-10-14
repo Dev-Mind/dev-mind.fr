@@ -130,7 +130,7 @@ export class SecurityService {
       .updateToken(user)
       .then(result => {
         this.mailer.sendMail(
-          'gui.ehret@gmail.com',
+          result.email,
           '[Dev-Mind] Authentication token',
           `<p>Hello ${user.firstname}</p>
                 <a>You received this email because you tried to log in on Dev-Mind website. To finalize your connection 

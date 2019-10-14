@@ -253,7 +253,7 @@ public class ElasticMailSenderTest {
                 .setBody("{ \"success\" : true }"));
 
         elasticMailSender.send(new EmailMessage(
-                "gui.ehret@gmail.com",
+                "guillaume@test.fr",
                 "Email test",
                 "<h1>Hi Guillaume</h1><p>Waow... you are able to send an email</p>")
         );
@@ -268,7 +268,7 @@ public class ElasticMailSenderTest {
                 .setBody("{ \"success\" : false, \"error\" : \"error expected\" }"));
 
         assertThatThrownBy(() -> elasticMailSender.send(new EmailMessage(
-                "gui.ehret@gmail.com",
+                "guillaume@test.fr",
                 "Email test",
                 "<h1>Hi Guillaume</h1><p>Waow... you are able to send an email</p>")))
                 .isExactlyInstanceOf(RuntimeException.class)
