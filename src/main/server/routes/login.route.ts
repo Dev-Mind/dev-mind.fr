@@ -18,6 +18,9 @@ export class LoginRoute extends BaseRoute {
       route.loginView(req, res, undefined);
     });
 
+    router.get("/noright", (req: Request, res: Response) =>
+      route.render(req, res, 'noright', 'Restricted access'));
+
     router.get("/logout", (req: Request, res: Response) => {
       route.logout(req, res);
     });

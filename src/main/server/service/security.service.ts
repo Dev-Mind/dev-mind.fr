@@ -80,7 +80,7 @@ export class SecurityService {
               if (result) {
                 next();
               } else {
-                res.redirect(`/login`);
+                res.redirect(`/noright`);
               }
             });
         } else {
