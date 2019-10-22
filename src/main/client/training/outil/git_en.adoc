@@ -449,7 +449,7 @@ To link your local project type the following commands
 ~$ git push -u origin master                                       (2)
 ----
 
-[.small] # 1. Git adds remote origin to your local project +
+[.small]#1. Git adds remote origin to your local project +
 2. The push command allows to send what you have on the current branch (local master branch) on the server #
 
 Github allows teams to synchronize throughout the life of a project. You can push any branch.
@@ -461,6 +461,7 @@ Github allows teams to synchronize throughout the life of a project. You can pus
 ----
 
 These commands
+
 * activate the `feat/new_hair` branch and
 * push the changes on Github.
 
