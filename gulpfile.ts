@@ -263,7 +263,7 @@ task('images-logo', () =>
 // Copy static files
 // =============================
 task('copy', (cb) =>
-  src(['src/main/client/*.{ico,html,txt,json,webapp,xml}', 'src/main/client/**/*.htaccess', 'node_modules/workbox-sw/build/*-sw.js'], {dot: true})
+  src(['src/main/client/*.{ico,html,txt,pdf,json,webapp,xml}', 'src/main/client/**/*.htaccess', 'node_modules/workbox-sw/build/*-sw.js'], {dot: true})
     .pipe(size({title: 'copy', showFiles: true}))
     .pipe(dest('build/dist'))
     .on('end', () => cb())

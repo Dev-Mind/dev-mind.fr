@@ -120,19 +120,19 @@ image::../../img/training/gradle/wrapper.png[width=100%]
 [source,shell]
 ----
 $ ./gradlew -v
-Downloading https://services.gradle.org/distributions/gradle-4.2.1-bin.z
+Downloading https://services.gradle.org/distributions/gradle-5.6.2-bin.z
 ip......................................................................
 ........................................................................
 ........................................................................
-Unzipping /home/devmind/.gradle/wrapper/dists/gradle-4.2.1-bin/dajvke9o8
-kmaxbu0kc5gcgeju/gradle-4.2.1-bin.zip to /home/devmind/.gradle/wrapper/d
-ists/gradle-4.2.1-bin/dajvke9o8kmaxbu0kc5gcgeju
+Unzipping /home/devmind/.gradle/wrapper/dists/gradle-5.6.2-bin/dajvke9o8
+kmaxbu0kc5gcgeju/gradle-5.6.2-bin.zip to /home/devmind/.gradle/wrapper/d
+ists/gradle-5.6.2-bin/dajvke9o8kmaxbu0kc5gcgeju
 
 Set executable permissions for: /home/devmind/.gradle/wrapper/dists/grad
-le-4.2.1-bin/dajvke9o8kmaxbu0kc5gcgeju/gradle-4.2.1/bin/gradle
+le-5.6.2-bin/dajvke9o8kmaxbu0kc5gcgeju/gradle-5.6.2/bin/gradle
 
 ------------------------------------------------------------
-Gradle 4.2.1
+Gradle 5.6.2
 ------------------------------------------------------------
 
 Build time:   2017-10-02 15:36:21 UTC
