@@ -98,7 +98,7 @@ export class SecurityService {
         new Promise<User>((resolve) => {
           if(result){
             const tokenAge = result.lastTokenGeneration ? moment().diff(moment(result.lastTokenGeneration), 'hours') : 999;
-            if (user.token === result.token && tokenAge <= 24) {
+            if (user.token === result.token && tokenAge <= 48) {
               resolve(result);
             } else {
               resolve(null);
