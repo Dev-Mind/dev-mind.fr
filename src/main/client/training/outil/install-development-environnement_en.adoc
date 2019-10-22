@@ -1,4 +1,4 @@
-:doctitle: Prepare your working environment
+:doctitle: Prepare your working environment (EN)
 :description: Quels sont les outils à installer pour être un développeur full stack, Java Android et Web
 :keywords: Développement, Installation
 :author: Guillaume EHRET - Dev-Mind

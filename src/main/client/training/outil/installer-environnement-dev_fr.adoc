@@ -1,4 +1,4 @@
-:doctitle: Préparer son environnement de travail
+:doctitle: Préparer son environnement de travail (FR)
 :description: Quels sont les outils à installer pour être un développeur full stack, Java Android et Web
 :keywords: Développement, Installation
 :author: Guillaume EHRET - Dev-Mind
