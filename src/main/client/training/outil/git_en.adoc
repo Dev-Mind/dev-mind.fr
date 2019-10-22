@@ -14,7 +14,7 @@ image::../../img/training/git.png[Comprendre Git]
 
 For information about Git you can find
 
-* a summary of the main instructions  https://services.github.com/on-demand/downloads/github-git-cheat-sheet.pdf
+* a summary of the main instructions  https://education.github.com/git-cheat-sheet-education.pdf
 * official documentation https://git-scm.com/docs
 
 == For who, why ?
@@ -59,7 +59,7 @@ This services extend Git and they offer more features like pull requests, code r
 
 Without Git it was difficult to follow the history, we had multiple copies of project
 
-Early solutions, like CSV or SVG were quickly limited. It was often awful
+Early solutions, like CSV or SVN (Subversion) were quickly limited. It was often awful
 
 It was often awful to refactor your code because of their limitations
 
@@ -307,7 +307,7 @@ test
 
 By default the created branch is not active (it does not have *)
 
-A prefix is often used by convention. for example
+A prefix is often used by convention, when you want to name a branch. for example
 
 * `fix/1233-hair-color`: a branch to correct (fix) a hair color problem. The ticket number of the bug tracker is often indicated
 * `feat/add-glasses`: a branch to add a feature

@@ -12,6 +12,11 @@ Quand vous développez vous avez besoin d'avoir un logiciel de gestion de versio
 
 image::../../img/training/git.png[Comprendre Git]
 
+Pour plus d'information consultez
+
+* un résumé des principales commandes  https://education.github.com/git-cheat-sheet-education.pdf
+* la documentation officielle https://git-scm.com/docs
+
 == Pour qui, pourquoi ?
 
 Un système de gestion des versions (VCS: version control system) permet de gérer l'historique des différents changements fait par
@@ -55,7 +60,7 @@ Elles proposent des services en plus comme les pull requests, les revues de code
 
 Sans Git il est difficile de suivre l'historique, on avait des multiples copies de projet
 
-Les premières solutions comme CSV ou SVG étaient vite limitées
+Les premières solutions comme CSV ou SVN (Subversion) étaient vite limitées
 
 
 == Qu'est ce qu'un repository ?
