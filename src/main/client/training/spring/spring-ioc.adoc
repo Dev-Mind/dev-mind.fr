@@ -233,10 +233,7 @@ Annotating a class with the @Configuration indicates that the class can be used 
 @Configuration
 public class MyAppConfiguration {
 
-  @Bean
-  public UserStore userStore(DataStoreConnectionPool connectionPool) {
-    return new UserStore(connectionPool.fetchConnection());
-  }
+    // ...
 
 }
 ----
@@ -252,7 +249,7 @@ In this example we said to Spring that our UserStore object needs a `DataStoreCo
 public class MyAppConfiguration {
 
   @Bean
-  public UserStore userStore(DataStoreConnectionPool connectionPool) { // <1>
+  public UserStore userStore(DataStoreConnectionPool connectionPool) {
     return new UserStore(connectionPool.fetchConnection());
   }
 
@@ -297,7 +294,7 @@ public interface GreetingService {
 
 > Good habits fall to the wayside ;-( Don’t forget to commit periodically your work. For this, you can run the `git init` cmd to convert this unversioned project to a Git repo. You can linked this repo to Github
 
-Your first job is to output "Hello, Spring!" in the console as the application starts.
+Your first job is to output "Hello, Spring!" in the console when the application starts.
 
 For that, do the following:
 
@@ -309,7 +306,7 @@ For that, do the following:
 To check your work you have to create this test in folder `src/test`
 
 [.small]
-[source,java]
+[source,Java, subs="none"]
 ----
 package com.emse.spring.faircorp.hello;
 
@@ -358,13 +355,13 @@ You can now +
 
 As for the first service, we're going to check this new service with a unit test
 
-[source,java]
+[source,java, subs="none"]
 ----
 @RunWith(SpringRunner.class) // <1>
 public class DummyUserServiceTest {
 
     @Configuration // <2>
-    @ComponentScan("com.esme.spring.faircorp.hello")
+    @ComponentScan("com.emse.spring.faircorp.hello")
     public static class DummyUserServiceTestConfig{}
 
     @Autowired // <3>
@@ -383,7 +380,7 @@ public class DummyUserServiceTest {
 ----
 
 [.small .small-block]#1. We use `SpringRunner` to link our test to Spring. With this annotation a Spring Context will be loaded when this test will run +
-2. We have to configure how the context is loaded. In our case we added `@ComponentScan("com.esme.spring.faircorp.hello")` to help Spring to found our classes. In our app this scan is made by SpringBoot, but in our test SpringBoot is not loaded  +
+2. We have to configure how the context is loaded. In our case we added `@ComponentScan("com.emse.spring.faircorp.hello")` to help Spring to found our classes. In our app this scan is made by SpringBoot, but in our test SpringBoot is not loaded  +
 3. As our test has is own Spring Context we can inject inside the bean to test#
 
 You can verify that your implementation is working properly by running `./gradlew test` command.

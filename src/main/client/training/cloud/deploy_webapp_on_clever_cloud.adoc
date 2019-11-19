@@ -24,11 +24,11 @@ When you are connected, you can create a new account on https://www.clever-cloud
 
 https://www.youtube.com/embed/vfO2eBK17TY[see video]
 
-> It's important to create your account from your Github account. When you receive this email, click on "Join CoursEsme2018" Button
+> It's important to create your account from your Github account. When you receive this email, click on "Join CoursEmse2018" Button
 
 image::../../img/training/cloud/mail.png[]
 
-[.small]#ESME space will be added on your clever cloud environment#
+[.small]#EMSE space will be added on your clever cloud environment#
 
 image::../../img/training/cloud/clever0.png[]
 
@@ -56,7 +56,7 @@ Push your change on a Github repository. If can create a new directory
 
 image::../../img/training/cloud/gitfaircoro.png[]
 
-We will create a new app on the Clever Cloud console in the ESME organization
+We will create a new app on the Clever Cloud console in the EMSE organization
 
 image::../../img/training/cloud/clever0.png[]
 

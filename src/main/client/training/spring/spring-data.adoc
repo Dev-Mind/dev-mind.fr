@@ -889,11 +889,11 @@ It's time for you to start to build your real application which is able to manag
 
 image::../../img/training/spring-intro/tp.png[size=80%]
 
-Create a Java enum called Status in package `com.esme.spring.faircorp.model`
+Create a Java enum called Status in package `com.emse.spring.faircorp.model`
 
 This enum has 2 values : ON and OFF
 
-Create a Light Entity class in package `com.esme.spring.faircorp.model`. You have to use the JPA annotations
+Create a Light Entity class in package `com.emse.spring.faircorp.model`. You have to use the JPA annotations
 
 [.langage-small]
 [source,java]

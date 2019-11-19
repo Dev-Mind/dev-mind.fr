@@ -12,8 +12,7 @@ Since the beginning, Spring has been a set of tools designed to simplify the dev
 
 == Online training
 *dev-mind.fr* tab student (étudiant) +
-[.small .small-block]#> user : *esme* +
-> password : *42esme2018*#
+[.small .small-block]#> https://dev-mind.fr/help.pdf#
 
 image::../../img/training/spring-intro.png[]
 
@@ -85,30 +84,33 @@ image::../../img/training/spring-intro/spring-projects.png[canvas, width=70%]
 === Documentation
 
 * Spring Core
-[.small]#https://docs.spring.io/spring/docs/5.0.8.RELEASE/spring-framework-reference/#
+[.small]#https://docs.spring.io/spring/docs/current/spring-framework-reference/#
 * Spring Boot
-[.small]#https://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/htmlsingle#
+[.small]#https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle#
 * Spring Data JPA
-[.small]#https://docs.spring.io/spring-data/jpa/docs/2.0.9.RELEASE/reference/html/#
+[.small]#https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#
 * Spring Security
-[.small]#https://docs.spring.io/spring-security/site/docs/5.0.7.RELEASE/reference/htmlsingle/#
+[.small]#https://docs.spring.io/spring-security/site/docs/current/reference/htmlsingle/#
 
 == Start a project
 
 === Generate
-To start, you can (you should) use the official generator https://start.spring.io/
+To start a new project, you can (you should) use the official generator https://start.spring.io/
 
-image:../../img/training/spring-intro/springboot-init.png[size=90%]
+image:../../img/training/spring-intro/springboot-init19.png[size=90%]
 
 Use these settings
 
-* *generation* : from Gradle
-* *Spring version* :  the highest (not suffixed snapshot or Mx)
-* *group*: com.esme.spring +
-* *artifact*: faircorp +
-* *dependencies*: Web, JPA, DevTools
+* *Project* : Gradle project
+* *Language* :  Java
+* *Spring Boot* :  the highest (not suffixed snapshot)
+* *Project metadata*: you have to define a group `com.emse.spring`, an artifact name `faircorp`. If you click on the options you can select the targetted Java version (use 1.8 or 1.11)
+* *dependencies*: Spring Web, Spring data JPA, Spring Boot DevTools
+
 
 Click on the Generate button
+
+image:../../img/training/spring-intro/springboot-init191.png[size=90%]
 
 === Import in your IDE
 
