@@ -36,7 +36,6 @@ image::../../img/training/spring-intro/java-objects.png[background,size=90%]
 
 When we want to create an object we write for example
 
-[.small]
 [source,Java]
 ----
 public class NameService {
@@ -49,7 +48,6 @@ public class NameService {
 
 And to use this object elsewhere we have to create a new instance with `new` instruction
 
-[.small]
 [source,Java]
 ----
 public class WelcomeService {
@@ -68,7 +66,6 @@ If we want to change NameService we have a good chance of having to update Welco
 
 For example, if `NameService` need to use others objects, you have to update `WelcomeService` to update the class constructor
 
-[.small]
 [source,Java]
 ----
 public class NameService {
@@ -95,7 +92,6 @@ We have to break this coupling between components and the solution is *Inversion
 
 If a class A uses a class B
 
-[.small]
 |===
 | |
 a|
@@ -167,7 +163,6 @@ image::../../img/training/spring-intro/java-objects.png[size=90%]
 
 When a class need another object, we use @Autowired to inject them via Spring
 
-[.small]
 [source,Java]
 ----
 @Service
@@ -227,7 +222,6 @@ Also, we can create  a bean Spring in a configuration file, when we need to conf
 
 Annotating a class with the @Configuration indicates that the class can be used by the Spring IoC container as a source of bean definitions
 
-[.small]
 [source,Java]
 ----
 @Configuration
@@ -242,7 +236,6 @@ public class MyAppConfiguration {
 
 In this example we said to Spring that our UserStore object needs a `DataStoreConnectionPool`
 
-[.small]
 [source,java]
 ----
 @Configuration
@@ -305,7 +298,6 @@ For that, do the following:
 
 To check your work you have to create this test in folder `src/test`
 
-[.small]
 [source,Java, subs="none"]
 ----
 package com.emse.spring.faircorp.hello;
@@ -323,7 +315,7 @@ public class ConsoleGreetingServiceTests {
 
   @Test
   public void testGreeting() {
-    ConsoleGreetingService greetingService = new ConsoleGreetingService(); // <1>
+    ConsoleGreetingService greetingService = new ConsoleGreetingService(); // 1
     greetingService.greet("Spring");
     outputCapture.expect(Matchers.startsWith("Hello, Spring!"));
   }
@@ -357,14 +349,14 @@ As for the first service, we're going to check this new service with a unit test
 
 [source,java, subs="none"]
 ----
-@RunWith(SpringRunner.class) // <1>
+@RunWith(SpringRunner.class) // 1
 public class DummyUserServiceTest {
 
-    @Configuration // <2>
+    @Configuration // 2
     @ComponentScan("com.emse.spring.faircorp.hello")
     public static class DummyUserServiceTestConfig{}
 
-    @Autowired // <3>
+    @Autowired // 3
     public DummyUserService dummyUserService;
 
     @Rule
@@ -391,18 +383,17 @@ Now, create next to the `FaircorpApplication` class, a new class `FaircorpApplic
 
 [.small .small-block]#CommandLineRunner instances are found by Spring Boot in the Spring context and are executed during the application startup phase.#
 
-[.small]
 [source,java]
 ----
-// <1>
+// 1
 public class FaircorpApplicationConfig {
 
-  // <2>
-  public CommandLineRunner greetingCommandLine() { // <3>
+  // 2
+  public CommandLineRunner greetingCommandLine() { // 3
       return new CommandLineRunner() {
         @Override
         public void run(String... args) throws Exception {
-            // <4>
+            // 4
         }
       };
   }
@@ -435,7 +426,6 @@ Of course, after each case, *revert those changes*, to get "back to normal". (Yo
 
 3. Finally, try the following - what happens and why?
 
-[.small]
 [source,java]
 ----
 @Service
