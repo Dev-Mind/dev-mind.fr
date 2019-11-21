@@ -105,7 +105,7 @@ Use these settings
 * *Language* :  Java
 * *Spring Boot* :  the highest (not suffixed snapshot)
 * *Project metadata*: you have to define a group `com.emse.spring`, an artifact name `faircorp`. If you click on the options you can select the targetted Java version (use 1.8 or 1.11)
-* *dependencies*: Spring Web, Spring data JPA, Spring Boot DevTools
+* *dependencies*: Spring Web, Spring Boot DevTools
 
 
 Click on the Generate button
@@ -146,57 +146,61 @@ rootProject.name = 'faircorp'
 `build.gradle` (1/3)
 [source,groovy]
 ----
-buildscript {
- ext {
-  springBootVersion = '2.0.4.RELEASE' // <1>
- }
- repositories {
-  	mavenCentral() // <2>
- }
- dependencies { // <3>
-  classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
- }
+plugins {
+	id 'org.springframework.boot' version '2.2.1.RELEASE' // 1
+	id 'io.spring.dependency-management' version '1.0.8.RELEASE' // 2
+	id 'java' // 3
 }
 ----
 
-[.small]#<1> Spring version +
-<2> Plugin repository +
-<3> Adds the springBoot plugin#
+[.small]#<1> Adds the Spring Boot plugin to be able to manage your app with Gradle +
+<2> Adds Spring dependency management plugin to use the compatible dependencies +
+<3> Adds the Java plugin to help Gradle to manage our app lifecyle#
 
 `build.gradle` (2/3)
 [source,groovy]
 ----
-apply plugin: 'java' // <1>
-apply plugin: 'org.springframework.boot'
-apply plugin: 'io.spring.dependency-management'
-
-group = 'com.training.spring' // <2>
+group = 'com.emse.spring' // 1
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
+
+configurations {  // 2
+	developmentOnly
+	runtimeClasspath {
+		extendsFrom developmentOnly
+	}
+}
 
 repositories { // <3>
  mavenCentral()
 }
 ----
 
-[.small]#<1> Used plugins : boot to manage your application, dependency-management for the dépendances +
-<2> Project id +
-<3> Libraries repository#
+[.small]#<1> Project id +
+<2> a new configuration to be able to define dependencies only uses in development mode +
+<3> Libraries repository which contain a lot of libraries#
 
 `build.gradle` (3/3)
 [source,groovy]
 ----
-dependencies { // <1>
- compile('org.springframework.boot:spring-boot-starter-web') // <2>
- testCompile('org.springframework.boot:spring-boot-starter-test') // <3>
+dependencies { // 1
+ implementation 'org.springframework.boot:spring-boot-starter-web' // 2
+ developmentOnly 'org.springframework.boot:spring-boot-devtools' // 3
+ testImplementation('org.springframework.boot:spring-boot-starter-test') { //4
+    exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+ }
+}
+
+test {
+	useJUnitPlatform()
 }
 ----
 
-[.small .small-block]#1.{nbsp} Declaration of dependencies used for compilation, execution or testing (for dependencies managed by Spring you don't need to specify the version number. `io.spring.dependency-management` plugin) was here for that +
+[.small .small-block]#1.{nbsp} `spring-boot-starter-web` is a starter used to create WebApp +
 {nbsp} +
-2. `spring-boot-starter-web` is a starter used to create WebApp +
+2. `spring-boot-devtools` is a tool set which help when you develop (live reload or automatic restart) +
 {nbsp} +
-3. `spring-boot-starter-test` is the starter that imports dependencies used in the tests (SpringTest, Junit, Mockito ...)#
+3. `spring-boot-starter-test` is the starter that imports dependencies used in the tests (SpringTest, Junit, Mockito ...). This configuration exclude all Junit versions and activate the last one#
 
 === FaircorpApplication
 
@@ -208,6 +212,10 @@ public class FaircorpApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(FaircorpApplication.class, args);
 	}
+}public static void main(String[] args) {
+		SpringApplication.run(FaircorpApplication.class, args);
+	}
+
 }
 ----
 
@@ -227,7 +235,7 @@ public class FaircorpApplicationTests {
 
 }
 ----
-<1> Runner to use when w ewant to test a Spring class
+<1> Runner to use when we want to test a Spring class
 <2> Annotation which creates an application context dedicated for tests
 
 === application.properties
