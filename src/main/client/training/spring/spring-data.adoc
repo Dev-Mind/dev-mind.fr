@@ -949,7 +949,7 @@ Write now the Room Entity. This entity should have
 * an auto generated id
 * a non nullable name
 * an non nullable integer to indicate the floor
-* a list of lights. You have to define a bidirectional relation between Room and Light (update the Ligth constructor to always send the light room when a room is created
+* a list of lights. You have to define a bidirectional relation between Room and Light : update the Ligth entity constructor to always send the light room when a room is created, ie add an argument Room in the light constructor
 * create a constructor with non nullable fields
 
 Write now 2 DAO LightDao and RoomDao. We will use them in our code to load data
@@ -1018,25 +1018,23 @@ public class LightDaoImpl implements LightDaoCustom {
 }
 ----
 
-You have to test your DAO. When Spring context is loaded, the database is populated with the file `data.sql` and we can test these values
+You have to test your DAO. When Spring context is loaded, the database is populated with the file `data.sql` and we can test these values. For that create a new test class in the package `com.emse.spring.faircorp.repository`
 
 [source,java]
 ----
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @DataJpaTest
-@ComponentScan
-public class LightDaoImplTest {
+class LightDaoCustomImplTest {
 
     @Autowired
-    LightDao
-     lightDao;
+    private LightDao lightDao;
 
     @Test
     public void shouldFindOnLights() {
-        assertThat(lightDao.findOnLights())
+        Assertions.assertThat(lightDao.findOnLights())
                 .hasSize(1)
                 .extracting("id", "status")
-                .containsExactly(tuple(-1L, Status.ON));
+                .containsExactly(Tuple.tuple(-1L, Status.ON));
     }
 }
 ----
