@@ -36,17 +36,13 @@ How can we persist data  in Java?
 
 In our tests we will use a database written in Java, the H2 database
 
-[cols="1,3"]
-|===
-a|
-image::../../img/training/spring-intro/h2-logo.png[width=80%]
-a|
+image::../../img/training/spring-intro/h2-logo.png[width=150px]
+
 * Open source, JDBC driver
 * embedded database
 * in memory database (perfect for tests)
 * Browser based Console application
 * Small footprint
-|===
 
 == Lab 3 : Database and SQL
 
@@ -59,7 +55,7 @@ implementation('org.springframework.boot:spring-boot-starter-web')
 implementation('com.h2database:h2')
 ----
 
-Check your `build.gradle` file
+Check your `build.gradle` file and update it
 
 Spring Boot analyses jars defined in classpath and Spring auto-configures features as the database, the H2 console...
 
@@ -120,14 +116,14 @@ Database connection in Java
 [source,java]
 ----
 try {
-  Class.forName("org.h2.Drive"); // <1>
+  Class.forName("org.h2.Drive"); // 1.
 }
 catch (ClassNotFoundException e) {
   logger.error("Unable to load JDBC Driver", e);
 }
 try {
-  String database_url = "jdbc:h2:mem:bigcorp;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE" // <2>
-  Connection connection = DriverManager.getConnection(database_url, username, password); // <3>
+  String database_url = "jdbc:h2:mem:bigcorp;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE" // 2.
+  Connection connection = DriverManager.getConnection(database_url, username, password); // 3.
 }
 catch (SQLException e) {
   logger.error("Unable to connect to the database", e);
@@ -138,11 +134,7 @@ catch (SQLException e) {
 2. We define the URL to access to the database (here we say that we use a H2 database in memory) +
 3. Open a connection with username/password
 
-But...
-
-* this code is verbose, difficult to read
-* a database connection is slow...
-* ... we need to use a connection pool with preopened connections
+But a database connection is slow. We need to use a connection pool with preopened connections. Several connections are opened when the pool is launched.
 
 image::../../img/training/spring-intro/pool.png[size=100%]
 
@@ -194,8 +186,8 @@ public List<Site> findAll() {
 ----
 
 
-* Again the code is heavy and difficult to read
-* We need to manipulate the data types in the SQL and in our entities
+* The code is heavy and difficult to read
+* We need to manipulate data types in SQL and in our Java entities
 * We manipulate SQL while we are in an object language
 * We would like to be more productive, simplified relationship management...
 * What about transactions?
@@ -214,17 +206,17 @@ The solution is to work in a transaction
 ----
 public void insertSite(Site site) {
         try(Connection conn = dataSource.getConnection()){
-            conn.setAutoCommit(false); // <1>
+            conn.setAutoCommit(false); // 1.
             String sql = "insert into SITE (id, name) values (?, ?)";
 
             try(PreparedStatement stmt = conn.prepareStatement(sql)){
                 stmt.setString(1, site.getId());
                 stmt.setString(2, "toto');drop table SITE CASCADE; Select ('1");
                 stmt.executeUpdate();
-                conn.commit(); // <2>
+                conn.commit(); // 2.
             }
             catch(SQLException e) {
-                conn.rollback(); // <2>
+                conn.rollback(); // 3.
                 throw new DatabaseException("Impossible insérer site " + site.getName(), e);
             }
         }
@@ -234,9 +226,9 @@ public void insertSite(Site site) {
     }
 ----
 
-[.small .small-block]#1. We disable autocommit +
+1. We disable autocommit +
 2. If everything is OK a commit persit my changes +
-3. If we have an error everything is cancelled#
+3. If we have an error everything is cancelled
 
 image::../../img/training/spring-intro/transaction2.png[width=100%]
 
@@ -277,35 +269,35 @@ We’re going to use https://projects.spring.io/spring-data-jpa/[Spring Data JPA
 ----
 import javax.persistence.*;
 
-@Entity // <1>
-@Table(name = "SP_SENSOR") // <2>
+@Entity // 1.
+@Table(name = "SP_SENSOR") // 2.
 public class Sensor {
-    @Id // <3>
+    @Id // 3.
     @GeneratedValue
     private Long id;
 
-    @Column(nullable = false, length=255)  // <4>
+    @Column(nullable = false, length=255)  // 4.
     private String name;
 
     private String description;
 
-    @Column(name = "power") // <4>
+    @Column(name = "power") // 4.
     private Integer defaultPowerInWatt;
 
-    @Transient // <5>
+    @Transient // 5.
     private Integer notImportant;
 
-    @Enumerated(EnumType.STRING) // <6>
+    @Enumerated(EnumType.STRING) // 6.
     private PowerSource powerSource;
 
-    public Sensor() { // <7>
+    public Sensor() { // 7.
     }
 
-    public Sensor(String name) { // <8>
+    public Sensor(String name) { // 8.
         this.name = name;
     }
 
-    public Long getId() { // <9>
+    public Long getId() { // 9.
         return id;
     }
 
@@ -788,9 +780,9 @@ With Spring Data Jpa, if you respect conventions you don't need to create a DAO 
 ----
 public interface SensorDao extends JpaRepository<Sensor, String>, SensorCustomDao {
 
-    List<Sensor> findBySiteId(String siteId); // <1>
+    List<Sensor> findBySiteId(String siteId); // 1.
 
-    @Query("select c from Sensor c where c.name=:name")  // <2>
+    @Query("select c from Sensor c where c.name=:name")  // 2.
     Sensor findByName(@Param("name") String name);
 
     @Modifying
@@ -898,16 +890,16 @@ Create a Light Entity class in package `com.emse.spring.faircorp.model`. You hav
 [.langage-small]
 [source,java]
 ----
-// <1>
+// 1.
 public class Light {
 
-  // <2>
+  // 2.
   private Long id;
 
-  // <3>
+  // 3.
   private Integer level;
 
-  // <4>
+  // 4.
   private Status status;
 
   public Light() {
@@ -968,9 +960,9 @@ Update the file `application.properties` and add this keys
 [source,java]
 ----
 # Spring boot : JPA
-spring.jpa.database-platform=org.hibernate.dialect.H2Dialect // <1>
-spring.jpa.ddl-auto=create-drop // <2>
-spring.jpa.show_sql=true // <3>
+spring.jpa.database-platform=org.hibernate.dialect.H2Dialect // 1.
+spring.jpa.ddl-auto=create-drop // 2.
+spring.jpa.show_sql=true // 3.
 ----
 1. gives information to Hibernate for native SQL
 2. allows you to auto generate the schema (tables, constraints) from your Java data model (none if you do not want to do anything)

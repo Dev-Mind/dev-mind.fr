@@ -1,4 +1,4 @@
-:doctitle: Spring in practice : service REST (EN)
+:doctitle: Spring in practice : REST service(EN)
 :description: How write REST services in Spring Web and expose resource to your apps
 :keywords: Java, Spring
 :author: Guillaume EHRET - Dev-Mind
