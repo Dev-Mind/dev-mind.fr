@@ -493,6 +493,8 @@ public class Mayor {
     private Long id;
     private String name;
 
+    @OneToOne
+    private Town town;
     //...
 }
 
@@ -599,6 +601,9 @@ public class Sensor {
     @Id
     private Long id;
     private String name;
+
+    @ManyToOne
+    private Site site;
 
      // ...
 }
