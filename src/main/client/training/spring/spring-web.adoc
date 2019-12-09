@@ -116,18 +116,18 @@ A complete example to manage lights
 [.small]
 [source,java]
 ----
-@RestController  // <1>
-@RequestMapping("/api/lights") // <2>
-@Transactional // <3>
+@RestController  // 1.
+@RequestMapping("/api/lights") // 2.
+@Transactional // 3.
 public class LightController {
 
     @Autowired
-    private final LightDao lightDao; // <4>
+    private LightDao lightDao; // 4.
     @Autowired
     private RoomDao roomDao;
 
 
-    @GetMapping // <5>
+    @GetMapping // 5.
     public List<LightDto> findAll() {
         return lightDao.findAll()
                        .stream()

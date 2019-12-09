@@ -22,16 +22,17 @@ Sign in on https://github.com/ with your account. If you haven't an account you 
 
 When you are connected, you can create a new account on https://www.clever-cloud.com/en/
 
-https://www.youtube.com/embed/vfO2eBK17TY[see video]
+image::../../img/training/cloud/clever-connect0.png[Connection,width=80%]
 
-> It's important to create your account from your Github account. When you receive this email, click on "Join CoursEmse2018" Button
+image::../../img/training/cloud/clever-connect1.png[Use your github account,width=80%]
 
-image::../../img/training/cloud/mail.png[]
+> It's important to create your account from your Github account. When you receive this email, click on "Join CoursEmse2019" Button
+
+image::../../img/training/cloud/mail.png[width=80%]
 
 [.small]#EMSE space will be added on your clever cloud environment#
 
-image::../../img/training/cloud/clever0.png[]
-
+image::../../img/training/cloud/clever0.png[width=80%]
 
 Before this deployment you have to create a folder called "clevercloud" in your Spring Boot project
 
