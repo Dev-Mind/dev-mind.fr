@@ -1047,7 +1047,7 @@ class LightDaoCustomImplTest {
 You have to test and develop :
 
 * a custom DAO linked to room with a method to find a room by name
-* a new method to find the room light when we send the id of the room
+* a new method to find the room lights when we send the id of the room
 * you have to develop these methods and their tests
 * you can now add a new Entity Building (a building has a set of rooms). This relation is bidirectional
 * Adds a new DAO BuildingDAO and add a new method to find all the building ligths. You send a building ID and your method should return the list of the lights
