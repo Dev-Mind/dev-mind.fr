@@ -38,9 +38,9 @@ It’s often just a bunch of fields and the getters and setters for them.
 ----
 public class LightDto {
 
-    private final Long id;
-    private final Integer level;
-    private final Status status;
+    private  Long id;
+    private  Integer level;
+    private  Status status;
 
     public LightDto() {
     }
