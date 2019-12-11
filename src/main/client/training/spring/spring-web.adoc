@@ -316,3 +316,37 @@ If your Vue.js app is launched on http://localhost:3010 ou can open your API onl
 ----
 @CrossOrigin(origins = { "http://localhost:3010" }, maxAge = 3600)
 ----
+
+== Lab 6+ replace postman by Swagger embedded in your app
+
+More informartion on http://swagger.io/
+
+To use Swagger in your app you6+ need to update your `build.gradle` file and add these dependencies
+
+[source,java]
+----
+implementation 'io.springfox:springfox-swagger2:2.9.2'
+implementation 'io.springfox:springfox-swagger-ui:2.9.2'
+----
+
+You need to configure Swagger. For that créate a configuration bean in your app
+
+[source,java]
+----
+@Configuration
+@EnableSwagger2
+public class FaircorpConfig {
+
+	@Bean
+	public Docket api() {
+		return new Docket(DocumentationType.SWAGGER_2)
+				.select()
+				.apis(RequestHandlerSelectors.any())
+				.paths(PathSelectors.any())
+				.build();
+	}
+}
+----
+
+And now you can relaunch you app and Play with the swagger interface http://localhost:8080/swagger-ui.html
+Try to launch several action tu update, insert load data
