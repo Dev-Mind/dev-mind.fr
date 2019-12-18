@@ -321,7 +321,7 @@ If your Vue.js app is launched on http://localhost:3010 ou can open your API onl
 
 More informartion on http://swagger.io/
 
-To use Swagger in your app you6+ need to update your `build.gradle` file and add these dependencies
+To use Swagger in your app you need to update your `build.gradle` file and add these dependencies
 
 [source,java]
 ----
