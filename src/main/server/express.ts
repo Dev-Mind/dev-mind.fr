@@ -58,7 +58,7 @@ export class Express {
       this.initData(client);
 
       // 404 redirection
-      //this.app.all('*', (req, res) => res.redirect(`/404.html`));
+      this.app.all('*', (req, res) => res.redirect(`/404.html`));
 
       this.app.set('port', this.options.port);
     });
