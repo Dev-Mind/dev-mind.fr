@@ -103,7 +103,7 @@ export class LoginRoute extends BaseRoute {
   }
 
   public displayToken(req: Request, res: Response) {
-    const email = req.query.email;
+    const email = req.query.email as string;
     console.log(email)
     this.userDao
       .findByEmail(email)

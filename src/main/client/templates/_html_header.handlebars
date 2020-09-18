@@ -1,11 +1,11 @@
-<link rel="preload" href="{{ baseuri }}css/main.css" as="style" onload="this.rel='stylesheet'">
-<link rel="preload" href="{{ baseuri }}js/main.js" as="script">
+<link rel="stylesheet" href="{{ baseuri }}css/main.css" as="style" media="print" onload="this.media='all'; this.onload=null;">
+<link rel="preload" href="{{ baseuri }}js/main.js" as="script">
 
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="keywords" content="{{#keywords}}{{keywords}}{{/keywords}}">
-<meta name="description" content="{{ description }}">
+<meta name="description" content="{{ description }}">
 
 <link rel="canonical" href="https://dev-mind.fr/{{canonicalUrl}}">
 
@@ -16,29 +16,29 @@
 {{#filename}}
 <meta property="og:url" content="https://dev-mind.fr/blog/{{dir}}/{{filename}}.html">
 {{/filename}}
-<meta property="og:description" content="{{ description }}">
+<meta property="og:description" content="{{ description }}">
 
-<link rel="icon" href="{{ baseuri }}favicon.ico" type="image/x-icon">
+<link rel="icon" href="{{ baseuri }}favicon.ico" type="image/x-icon">
 
 <!-- Disable tap highlight on IE -->
 <meta name="msapplication-tap-highlight" content="no">
 
 <!-- Web Application Manifest -->
-<link rel="manifest" href="{{ baseuri }}manifest.json">
+<link rel="manifest" href="{{ baseuri }}manifest.json">
 
 <!-- Add to homescreen for Chrome on Android -->
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="application-name" content="Dev-Mind">
-<link rel="icon" sizes="192x192" href="{{ baseuri }}img/touch/logo-chrome-touch.png">
+<link rel="icon" sizes="192x192" href="{{ baseuri }}img/touch/logo-chrome-touch.png">
 
 <!-- Add to homescreen for Safari on iOS -->
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="apple-mobile-web-app-title" content="Dev-Mind">
-<link rel="apple-touch-icon" href="{{ baseuri }}img/touch/logo-apple-touch.png">
+<link rel="apple-touch-icon" href="{{ baseuri }}img/touch/logo-apple-touch.png">
 
 <!-- Tile icon for Win8 (144x144 + tile color) -->
-<meta name="msapplication-TileImage" content="{{ baseuri }}img/touch/logo-ms-touch.png">
+<meta name="msapplication-TileImage" content="{{ baseuri }}img/touch/logo-ms-touch.png">
 <meta name="msapplication-TileColor" content="#303e5e">
 
 <!-- Color the status bar on mobile devices -->

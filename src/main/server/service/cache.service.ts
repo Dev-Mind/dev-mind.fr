@@ -17,7 +17,6 @@ export class CacheService {
 
   setCustomCacheControl() {
     return (res, path) => {
-      console.log('EEEEEEEEEEEEEEEEEEEEEE', serveStatic.mime.getType(path))
       switch (serveStatic.mime.getType(path)) {
         case 'application/xhtml+xml':
         case 'text/html':

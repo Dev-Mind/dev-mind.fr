@@ -1,0 +1,15 @@
+https://wiki.debian.org/fr/SSH#Introduction
+
+apt-get install openssh-server
+
+Régénérer les clés hôte
+
+rm /etc/ssh/ssh_host_*
+dpkg-reconfigure openssh-server
+
+our générer la clé, on utilise le programme ssh-keygen
+
+ssh-keygen -t rsa
+
+Transfert de la clé sur le client et config du host dans le client ssh
+

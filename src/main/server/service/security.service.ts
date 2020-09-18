@@ -11,7 +11,8 @@ export interface SecuredUrl {
 }
 
 const COOKIE_ID_PARAM = 'APIID';
-const IS_PROD = process.env.NODE_ENV && (process.env.NODE_ENV === 'prod' || process.env.NODE_ENV === 'production');
+export const IS_PROD: boolean = (process.env.NODE_ENV &&
+  (process.env.NODE_ENV === 'prod' || process.env.NODE_ENV === 'production'))  || false;
 
 export class SecurityService {
 
@@ -133,8 +134,8 @@ export class SecurityService {
           result.email,
           '[Dev-Mind] Authentication token',
           `<p>Hello ${user.firstname}</p>
-                <a>You received this email because you tried to log in on Dev-Mind website. To finalize your connection 
-                   you can copy this token <b>${user.token}</b> in the form or you can click on 
+                <a>You received this email because you tried to log in on Dev-Mind website. To finalize your connection
+                   you can copy this token <b>${user.token}</b> in the form or you can click on
                    this <a href="https://dev-mind.fr/token?email=${user.email}&token=${user.token}">link to open this page</a>.
                 </p>
                 <p>Guillaume EHRET</p>`);

@@ -7,7 +7,7 @@ import * as cookieParser from "cookie-parser";
 import {Db, MongoClient, MongoClientOptions, MongoError} from "mongodb";
 import {Context} from "./context";
 import {User} from "./model/user";
-import {SecuredUrl} from "./service/security.service";
+import {IS_PROD, SecuredUrl} from "./service/security.service";
 import {MailerConfig} from "./model/mailer.config";
 import {MongoConfig} from "./model/mongo.config";
 import errorHandler = require("errorhandler");
@@ -58,7 +58,7 @@ export class Express {
       this.initData(client);
 
       // 404 redirection
-      this.app.all('*', (req, res) => res.redirect(`/404.html`));
+      //this.app.all('*', (req, res) => res.redirect(`/404.html`));
 
       this.app.set('port', this.options.port);
     });
@@ -68,7 +68,7 @@ export class Express {
    * Configure application
    */
   public config(db: Db) {
-
+  console.log('IS_PROD', IS_PROD || false)
     this.app
       .engine('handlebars', handlebars())
       .set('view engine', 'handlebars')
@@ -78,7 +78,7 @@ export class Express {
       .use(cookieParser(this.options.secret))
       .use(compression())
       .use(express.urlencoded({extended: false}))
-      .use(helmet())
+      .use(IS_PROD ? helmet() : helmet({ contentSecurityPolicy: false}))
       .use(logger('dev'));
 
     const router = express.Router();

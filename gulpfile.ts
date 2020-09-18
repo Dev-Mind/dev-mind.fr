@@ -18,7 +18,7 @@ import * as replace from 'gulp-replace';
 import * as revReplace from 'gulp-rev-replace';
 import * as imagemin from 'gulp-imagemin';
 import * as workboxBuild from './node_modules/workbox-build/build/index.js'
-import * as cwebp from './node_modules/gulp-cwebp/index.js';
+import * as webp from './node_modules/gulp-webp/index.js';
 import {Duplex} from "stream";
 
 const HTMLMIN_OPTIONS = {
@@ -61,8 +61,8 @@ const serviceWorkerVersion = require(SW_VERSION_FILE).swVersion;
 
 // Clean the working directories
 // =============================
-task('clean', () => del('build', {dot: true}));
-task('clean-backend', () => del('build/src', {dot: true}));
+task('clean', () => del('build'));
+task('clean-backend', () => del('build/src'));
 
 // Compile sass file in css
 // =============================
@@ -225,7 +225,7 @@ task('vendor-js', () =>
 // Converts png and jpg in webp
 task('images-webp', () =>
   src('src/main/client/images/**/*.{png,jpg}')
-    .pipe(cwebp() as Duplex)
+    .pipe(webp() as Duplex)
     .pipe(dest('build/.tmp/img'))
 );
 // minify assets
@@ -285,7 +285,13 @@ const SW_MANIFEST_OPTIONS = {
 };
 
 task('service-worker-bundle', () =>
-  workboxBuild.injectManifest(SW_MANIFEST_OPTIONS).catch((err) => {
+  workboxBuild.injectManifest(SW_MANIFEST_OPTIONS)
+    .then(({count, size, warnings}) => {
+      // Optionally, log any warnings and details.
+      warnings.forEach(console.warn);
+      console.log(`${count} files will be precached, totaling ${size} bytes.`);
+    })
+    .catch((err) => {
     console.log('[ERROR] This happened: ' + err);
   })
 );
@@ -296,7 +302,7 @@ task('service-worker-optim', () =>
     .pipe(replace('$serviceWorkerVersion', serviceWorkerVersion))
     .pipe(sourcemaps.init())
     .pipe(sourcemaps.write())
-    .pipe(uglify())
+    //.pipe(uglify())
     .pipe(size({title: 'scripts'}))
     .pipe(sourcemaps.write('.'))
     .pipe(dest(`build/dist`))
@@ -320,7 +326,7 @@ task('service-worker', series('service-worker-bundle', 'service-worker-optim', '
 // =============================
 task('sitemap', () =>
   src(['build/.tmp/blogindex.json', 'build/.tmp/pageindex.json'])
-    .pipe(website.readIndex())
+    //.pipe(website.readIndex())
     .pipe(website.convertToSitemap())
     .pipe(dest('build/dist'))
 );
@@ -384,7 +390,8 @@ task('build', series(
   'training',
   'cache-busting',
   'service-worker',
-  'cache-busting-sw'));
+  'cache-busting-sw'
+  ));
 
 task('build-backend', series('clean-backend','copy-backend', 'cache-busting-backend'));
 

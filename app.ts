@@ -3,7 +3,7 @@ import * as http from 'http';
 
 const options = {
   static: process.env.DEVMIND_SITE_PATH || `build/dist`,
-  port: process.env.PORT || 8081,
+  port: process.env.PORT || 8080,
   mongodb: {
     url: process.env.DEVMIND_MONGO_URL || 'mongodb://localhost:27017/devminddb',
     user: process.env.DEVMIND_MONGO_USER || 'devmind',
@@ -17,7 +17,6 @@ const options = {
     password: process.env.DEVMIND_MAIL_PASSWORD
   },
   securedUrls: [
-    {url: '/training', right: 'TRAINING'},
     {url: '/users', right: 'ADMIN'},
     {url: '/statistics', right: 'ADMIN'}
   ],

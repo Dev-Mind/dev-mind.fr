@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <link rel="preload" href="css/bloglist.css" as="style" onload="this.rel='stylesheet'">
+  <link rel="stylesheet" href="css/bloglist.css" as="style" media="print" onload="this.media='all'; this.onload=null;">
     {{> _html_header}}
 </head>
 <body class="dev-mind">
@@ -18,7 +18,7 @@
                                      onclick="document.location.href='blog/{{dir}}/{{filename}}.html'">
                                 <h2><a href="blog/{{dir}}/{{filename}}.html">{{doctitle}}</a></h2>
                                 <p style="padding: 0;margin: 0">
-                                    <small>{{date}}</small>
+                                    <small>{{revdate}}</small>
                                 </p>
                                 <div class="dm-blog--imgteaser"><img class="dm-img--lazyload"
                                                                      data-src="{{{imgteaser}}}" alt="{{doctitle}}"/>
