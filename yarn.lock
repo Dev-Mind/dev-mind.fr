@@ -2871,15 +2871,6 @@ clean-stack@^2.0.0:
   resolved "https://registry.yarnpkg.com/clean-stack/-/clean-stack-2.2.0.tgz#ee8472dbb129e727b31e8a10a427dee9dfe4008b"
   integrity sha512-4diC9HaTE+KRAMWhDhrGOECgWZxoevMc5TlkObMqNSsVU62PYzXZ/SMTjzyGAFF1YusgxGcSWTEXBhp0CPwQ1A==
 
-clipboard@^1.5.5:
-  version "1.7.1"
-  resolved "https://registry.yarnpkg.com/clipboard/-/clipboard-1.7.1.tgz#360d6d6946e99a7a1fef395e42ba92b5e9b5a16b"
-  integrity sha1-Ng1taUbpmnof7zleQrqStem1oWs=
-  dependencies:
-    good-listener "^1.2.2"
-    select "^1.1.2"
-    tiny-emitter "^2.0.0"
-
 clipboard@^2.0.0:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/clipboard/-/clipboard-2.0.6.tgz#52921296eec0fdf77ead1749421b21c968647376"
@@ -3699,9 +3690,9 @@ detect-newline@^3.0.0:
   resolved "https://registry.yarnpkg.com/detect-newline/-/detect-newline-3.1.0.tgz#576f5dfc63ae1a192ff192d8ad3af6308991b651"
   integrity sha512-TLz+x/vEXm/Y7P7wn1EJFNLxYpUD4TgMosxY6fAVJUnJMbupHBOncxyWUG9OpTaH9EBD7uFI5LfEgmMOc54DsA==
 
-"devmind-website@https://github.com/Dev-Mind/devmind-website.git#2.1.0":
-  version "1.0.0"
-  resolved "https://github.com/Dev-Mind/devmind-website.git#f7099d136a2fe4a4ae3a213bb6617bcf5a1cce15"
+"devmind-website@https://github.com/Dev-Mind/devmind-website.git#2.1.2":
+  version "2.1.2"
+  resolved "https://github.com/Dev-Mind/devmind-website.git#09ed7241949a5e3453c12a68b28daf0bda7b5e2b"
   dependencies:
     "@types/gulp" "^4.0.6"
     "@types/through2" "^2.0.36"
@@ -3715,14 +3706,12 @@ detect-newline@^3.0.0:
     lodash.merge "^4.6.2"
     mixin-deep "^2.0.1"
     moment "^2.27.0"
-    node-prismjs "^0.1.2"
     plugin-error "^1.0.1"
     prismjs "^1.21.0"
     set-value "^3.0.2"
     through2 "^4.0.2"
     ts-node "^9.0.0"
     typescript "^4.0.2"
-    yargs-parser "^13.1.2"
 
 diff-sequences@^25.2.6:
   version "25.2.6"
@@ -7528,13 +7517,6 @@ node-notifier@^8.0.0:
     uuid "^8.3.0"
     which "^2.0.2"
 
-node-prismjs@^0.1.2:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/node-prismjs/-/node-prismjs-0.1.2.tgz#dbfbc62d2210e1649d9dd8a6c6a2d7d6ca99a0f9"
-  integrity sha512-WKb6ZbUlPWarzS8jR2UdIbV4lYpt6sOTkIx3u5Ldz55K1Zzs982KyF6aj1zjZbrrx/UGZSZ1e0j28lIzcm3ceg==
-  dependencies:
-    prismjs "~1.6.0"
-
 node-releases@^1.1.61:
   version "1.1.61"
   resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-1.1.61.tgz#707b0fca9ce4e11783612ba4a2fcba09047af16e"
@@ -8554,13 +8536,6 @@ prismjs@^1.21.0:
   integrity sha512-uGdSIu1nk3kej2iZsLyDoJ7e9bnPzIgY0naW/HdknGj61zScaprVEVGHrPoXqI+M9sP0NDnTK2jpkvmldpuqDw==
   optionalDependencies:
     clipboard "^2.0.0"
-
-prismjs@~1.6.0:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/prismjs/-/prismjs-1.6.0.tgz#118d95fb7a66dba2272e343b345f5236659db365"
-  integrity sha1-EY2V+3pm26InLjQ7NF9SNmWds2U=
-  optionalDependencies:
-    clipboard "^1.5.5"
 
 process-nextick-args@^2.0.0, process-nextick-args@~2.0.0:
   version "2.0.1"

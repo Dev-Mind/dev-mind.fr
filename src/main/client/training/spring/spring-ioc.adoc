@@ -36,7 +36,7 @@ image::../../img/training/spring-intro/java-objects.png[background,size=90%]
 
 When we want to create an object we write for example
 
-[source,Java]
+[source,java]
 ----
 public class NameService {
 
@@ -48,7 +48,7 @@ public class NameService {
 
 And to use this object elsewhere we have to create a new instance with `new` instruction
 
-[source,Java]
+[source,java]
 ----
 public class WelcomeService {
 
@@ -66,7 +66,7 @@ If we want to change NameService we have a good chance of having to update Welco
 
 For example, if `NameService` need to use others objects, you have to update `WelcomeService` to update the class constructor
 
-[source,Java]
+[source,java]
 ----
 public class NameService {
 
@@ -95,7 +95,7 @@ If a class A uses a class B
 |===
 | |
 a|
-[source,Java]
+[source,java]
 ----
 public class A {
 
@@ -108,7 +108,7 @@ public class A {
 
 
 a|
-[source,Java]
+[source,java]
 ----
 public class B {
 
@@ -141,7 +141,7 @@ image:../../img/training/spring-intro/ioc-beans.png[size=400,600]
 
 In Spring, we can use a stereotype on our classes to defined them as a Bean Spring :  @Service, @Component, @Repository, @Controller
 
-[source,Java]
+[source,java]
 ----
 @Service
 public class MyGreetingService {
@@ -163,7 +163,7 @@ image::../../img/training/spring-intro/java-objects.png[size=90%]
 
 When a class need another object, we use @Autowired to inject them via Spring
 
-[source,Java]
+[source,java]
 ----
 @Service
 public class AuthenticationService {
@@ -188,7 +188,7 @@ public class AuthenticationService {
 You have 2 way to inject a bean in another
 
 *Injection by setter*
-[source,Java]
+[source,java]
 ----
 @Component
 public class AImpl implements A {
@@ -203,7 +203,7 @@ public class AImpl implements A {
 ----
 
 *Injection by constructor*
-[source,Java]
+[source,java]
 ----
 @Component
 public class AImpl implements A {
@@ -222,7 +222,7 @@ Also, we can create  a bean Spring in a configuration file, when we need to conf
 
 Annotating a class with the @Configuration indicates that the class can be used by the Spring IoC container as a source of bean definitions
 
-[source,Java]
+[source,java]
 ----
 @Configuration
 public class MyAppConfiguration {
@@ -275,7 +275,7 @@ image:../../img/training/spring-intro/appcontext4.png[]
 
 First, let’s create an interface for our application called `GreetingService` in package `com.emse.spring.faircorp.hello`
 
-[source,Java]
+[source,java]
 ----
 package com.emse.spring.faircorp.hello;
 
@@ -298,7 +298,7 @@ For that, do the following:
 
 To check your work you have to create this test in folder `src/test`
 
-[source,Java, subs="none"]
+[source,java, subs="none"]
 ----
 package com.emse.spring.faircorp.hello;
 
@@ -329,7 +329,7 @@ You can verify that your implementation is working properly by running `./gradle
 
 Your second Job is to create a new interface UserService in package `com.emse.spring.faircorp.hello`
 
-[source,Java]
+[source,java]
 ----
 package com.emse.spring.faircorp.hello;
 

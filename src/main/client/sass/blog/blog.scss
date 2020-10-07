@@ -105,3 +105,9 @@ blockquote > .paragraph {
 .tableblock{
   width: 100%;
 }
+
+.videoblock {
+  iframe {
+    max-width: 100%;
+  }
+}

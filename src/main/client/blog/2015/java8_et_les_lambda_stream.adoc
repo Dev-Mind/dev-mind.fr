@@ -252,7 +252,7 @@ Les default method ont un réel intérêt quand vous définissez une API. Prenon
 
 Vous pouvez aussi à partir de Java 8 définir des méthodes static dans les interfaces. Ceci facilitera la mise à disposition de classe Helper dans une API. Par exemple si je prends l'interface Stream
 
-[source,txt]
+[source,java]
 ----
 public static<T> Stream<T> empty() {
     return StreamSupport.stream(Spliterators.<T>emptySpliterator(), false);

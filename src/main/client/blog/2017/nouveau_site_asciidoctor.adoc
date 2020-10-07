@@ -69,7 +69,7 @@ Maintenant que j'ai expliqué le cheminement (le "pourquoi") je vais pouvoir par
 
 Voici un exemple d'article en Asciidoc
 
-_[source, asciidoctor, subs="none"]
+[source, adoc, subs="none"]
 ----_
 :doctitle: Créer son blog via Asciidoctor
 :description: Migrer son blog de blogger vers un blog généré via Asciidoctor

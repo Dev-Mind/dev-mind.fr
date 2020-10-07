@@ -55,39 +55,39 @@ To know the name of your jar go on folder `./build/libs/`
 
 Push your change on a Github repository. If can create a new directory
 
-image::../../img/training/cloud/gitfaircoro.png[]
+image::../../img/training/cloud/gitfaircoro.png[Github]
 
 We will create a new app on the Clever Cloud console in the EMSE organization
 
-image::../../img/training/cloud/clever0.png[]
+image::../../img/training/cloud/clever0.png[Clever Cloud]
 
 You will create a new application. This application will be generated from a Github repository
 
-image::../../img/training/cloud/clever1.png[]
+image::../../img/training/cloud/clever1.png[Clever Cloud]
 
 You have to choose the kind of your application. For a Spring Boot application it will be a Java and Gradle application
 
-image::../../img/training/cloud/clever2.png[]
+image::../../img/training/cloud/clever2.png[Clever Cloud]
 
 The next step consist to choose the type of your server. You can keep the default configuration or click on the edit button.
 
-image::../../img/training/cloud/clever3.png[]
+image::../../img/training/cloud/clever3.png[Clever Cloud]
 
 You have several available configurations but more your server will be powerful more the price is expensive
 
-image::../../img/training/cloud/clever4.png[]
+image::../../img/training/cloud/clever4.png[Clever Cloud]
 
 You can use a specific name. It's important when you have several apps. In our case you have to use `faircorp-firstname-lastname`. For me for example the app should be called `faircorp-guillaume-ehret`
 
-image::../../img/training/cloud/clever5.png[]
+image::../../img/training/cloud/clever5.png[Clever Cloud]
 
 In the next step you can define environment variables. It's not very important in our example. You can click on the Next button
 
-image::../../img/training/cloud/clever6.png[]
+image::../../img/training/cloud/clever6.png[Clever Cloud]
 
 Installation starts and you have to wait several minutes.
 
-image::../../img/training/cloud/clever7.png[]
+image::../../img/training/cloud/clever7.png[Clever Cloud]
 
 You can explore different section to update your parameters
 

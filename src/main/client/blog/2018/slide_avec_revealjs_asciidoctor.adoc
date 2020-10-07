@@ -47,7 +47,7 @@ Revenons sur la syntaxe utilisée. Voici un exemple de présentation écrit en a
 * un neuvième slide qui contient un sous slide que l'on peut lancer via la flêche bas. C'est un exemple de double navigation
 * un dixième slide avec une animation JavaScript.
 
-[source, asciidoctor, subs="none"]
+[source, adoc, subs="none"]
 ----
 = Title Slide
 :source-highlighter: highlightjs
@@ -167,7 +167,7 @@ Ce script est disponible sous https://github.com/Dev-Mind/devmind-revealjs/blob/
 
 Dans les metadata de la page vous pouvez spécifier un thème à la présentation : black (défaut), white, league, beige, sky, night, serif, simple, solarized. Si les thèmes ne vous conviennent pas, vous pouvez surcharger les propriétés dans un fichier externe. Les metadata peuvent être les suivantes
 
-[source, asciidoctor, subs="none"]
+[source, adoc, subs="none"]
 ----
 :revealjs_theme: league
 :revealjs_customtheme: css/custom.css
@@ -257,7 +257,7 @@ Il reste un use case qui n'est pas couvert par la documentation officielle. Ajou
 
 Commencez par ajouter un état au slide concerné. Par exemple
 
-[source, asciidoctor, subs="none"]
+[source, adoc, subs="none"]
 ----
 [state=dynamic-example]
 == Slide Ten js...
@@ -265,7 +265,7 @@ Commencez par ajouter un état au slide concerné. Par exemple
 
 L'API reveal.js permet d'interagir avec cet état. Lorsque le slide sera chargé un événement portant le même nom que l'état sera émis
 
-[source, asciidoctor, subs="none"]
+[source, adoc, subs="none"]
 ----
 Reveal.addEventListener( 'dynamic-example', function() {
     //
