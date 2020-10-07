@@ -78,7 +78,8 @@ export class Express {
       .use(cookieParser(this.options.secret))
       .use(compression())
       .use(express.urlencoded({extended: false}))
-      .use(IS_PROD ? helmet() : helmet({ contentSecurityPolicy: false}))
+      //.use(IS_PROD ? helmet() : helmet({ contentSecurityPolicy: false}))
+      .use(helmet({ contentSecurityPolicy: false}))
       .use(logger('dev'));
 
     const router = express.Router();
