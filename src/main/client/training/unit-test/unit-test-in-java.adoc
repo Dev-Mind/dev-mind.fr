@@ -76,7 +76,7 @@ image::../../img/training/unit-test/test1.png[]
 
 For example, if we want to test a service which follows this contract
 
-[source,java]
+[source,java, subs="specialchars"]
 ----
 public interface FriendService {
    /**
@@ -87,7 +87,7 @@ public interface FriendService {
 ----
 
 Implementation to test is
-[source,java]
+[source,java, subs="specialchars"]
 ----
 public class FriendServiceImpl implements FriendService {
     @Override
@@ -112,7 +112,7 @@ image::../../img/training/unit-test/test4.png[]
 
 For example if we change our service
 
-[source,java]
+[source,java, subs="specialchars"]
 ----
 public class FriendServiceImpl implements FriendService {
 
@@ -175,7 +175,7 @@ image::../../img/training/unit-test/test8.png[]
 We use Junit to write tests in Java
 
 [.small]
-[source,java]
+[source,java, subs="specialchars"]
 ----
 package com.devmind.testinaction.service;
 
@@ -228,7 +228,7 @@ Assertions methods provided by Junit are not very readable. We prefer to use the
 
 AssertJ provides a fluent API and with this API you always use the method `asserThat`
 
-[source,java]
+[source,java, subs="specialchars"]
 ----
 Assertions.assertThat(age).isEqualTo(41);
 Assertions.assertThat(name).isEqualTo("Dev-Mind");
@@ -236,7 +236,7 @@ Assertions.assertThat(name).isEqualTo("Dev-Mind");
 
 With assertJ you can test the exception thrown by a method, its type, its message
 
-[source,java]
+[source,java, subs="specialchars"]
 ----
 Assertions.assertThat(age).isEqualTo(41);
 Assertions.assertThat(name).isEqualTo("Dev-Mind");
@@ -244,7 +244,7 @@ Assertions.assertThat(name).isEqualTo("Dev-Mind");
 
 If you expected result is a list of friends
 [.small]
-[source,java]
+[source,java, subs="specialchars"]
 ----
 List<Friend> myFriends = Arrays.asList(
                 new Friend("Elodie", 1999),
@@ -252,7 +252,7 @@ List<Friend> myFriends = Arrays.asList(
 ----
 you can check the content of this list
 
-[source,java]
+[source,java, subs="specialchars"]
 ----
 Assertions.assertThat(myFriends)
                   .hasSize(2)
@@ -312,7 +312,7 @@ https://static.javadoc.io/org.mockito/mockito-core/2.23.0/org/mockito/Mockito.ht
 Add a new method in your interface `FriendService`
 
 [.small]
-[source,java]
+[source,java, subs="specialchars"]
 ----
 /**
   * Compute the average age of your friends and round the result
@@ -323,7 +323,7 @@ int computeFriendAgeAverage();
 And implement this method in `FriendServiceImpl`
 
 [.small]
-[source,java]
+[source,java, subs="specialchars"]
 ----
 @Override
 public double computeFriendAgeAverage() {
@@ -339,7 +339,7 @@ public double computeFriendAgeAverage() {
 In this code we use `friendRepository`. You have to declare it as a property (1), and declare a constructor to inject an implementation (2)
 
 [.small]
-[source,java]
+[source,java, subs="specialchars"]
 ----
 public class FriendServiceImpl implements FriendService {
 
@@ -372,7 +372,7 @@ It's not a problem and you can write the `FriendServiceImpl` test. In Java you d
 Go on `FriendServiceImplTest` and update the existing class. We will use Mockito to simulate `FriendRepository`
 
 [.small]
-[source,java]
+[source,java, subs="specialchars"]
 ----
 package com.devmind.testinaction.service;
 
@@ -432,7 +432,7 @@ class FriendServiceTest {
 You can now write a new test when the list of friend is empty
 
 [.small]
-[source,java]
+[source,java, subs="specialchars"]
 ----
 @Test
 public void computeFriendAgeAverageWhenFriendListIsEmpty(){
@@ -460,7 +460,7 @@ As our examples Mockito allows to configure the return values. If you don't spec
 You can also return an exception in place of a value. For example
 
 [.small]
-[source,java]
+[source,java, subs="specialchars"]
 ----
 Mockito.when(friendRepository.findAll()).thenThrow(new IllegalArgumentException("Error"));
 ----

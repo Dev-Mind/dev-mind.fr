@@ -204,7 +204,7 @@ test {
 
 === FaircorpApplication
 
-[source,java]
+[source,java, subs="specialchars"]
 ----
 @SpringBootApplication
 public class FaircorpApplication {
@@ -220,7 +220,7 @@ public class FaircorpApplication {
 
 === FaircorpApplicationTests
 
-[source,java]
+[source,java, subs="specialchars"]
 ----
 @RunWith(SpringRunner.class) // <1>
 @SpringBootTest // <2>

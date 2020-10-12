@@ -38,7 +38,7 @@ Before this deployment you have to create a folder called "clevercloud" in your 
 
 Inside, add a file `gradle.json`. This file will contain
 
-[source,java]
+[source,java, subs="specialchars"]
 ----
 {
   "build": {

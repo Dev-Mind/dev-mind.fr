@@ -34,7 +34,7 @@ Serialization is the process of translating data structures or object into a for
 It’s often just a bunch of fields and the getters and setters for them.
 
 [.small]
-[source,java]
+[source,java, subs="specialchars"]
 ----
 public class LightDto {
 
@@ -114,7 +114,7 @@ This LightController handles GET requests for `/api/lights` by returning a list 
 A complete example to manage lights
 
 [.small]
-[source,java]
+[source,java, subs="specialchars"]
 ----
 @RestController  // 1.
 @RequestMapping("/api/lights") // 2.
@@ -182,7 +182,7 @@ public class LightController {
 Create your first REST controller
 
 [.small]
-[source,java]
+[source,java, subs="specialchars"]
 ----
 @RestController
 @RequestMapping("/api/hello")
@@ -272,7 +272,7 @@ image::../../img/training/spring-intro/postman6.png[]
 
 You can now create BuildingDto, RoomDto and write services which follow this service
 
-[source,java]
+[source,java, subs="specialchars"]
 ----
 /api/rooms (GET) send room list
 /api/rooms (POST) add a room
@@ -283,7 +283,7 @@ You can now create BuildingDto, RoomDto and write services which follow this ser
 
 and
 
-[source,java]
+[source,java, subs="specialchars"]
 ----
 /api/buildings (GET) send room list
 /api/buildings (POST) add a building
@@ -305,14 +305,14 @@ To resolve this problem you have to manage CORS headers.
 
 Add annotation `@CrossOrigin` to your `@RestController` to open your API to all other apps
 
-[source,java]
+[source,java, subs="specialchars"]
 ----
 @CrossOrigin
 ----
 
 If your Vue.js app is launched on http://localhost:3010 ou can open your API only for this app
 
-[source,java]
+[source,java, subs="specialchars"]
 ----
 @CrossOrigin(origins = { "http://localhost:3010" }, maxAge = 3600)
 ----
@@ -323,7 +323,7 @@ More informartion on http://swagger.io/
 
 To use Swagger in your app you need to update your `build.gradle` file and add these dependencies
 
-[source,java]
+[source,java, subs="specialchars"]
 ----
 implementation 'io.springfox:springfox-swagger2:2.9.2'
 implementation 'io.springfox:springfox-swagger-ui:2.9.2'
@@ -331,7 +331,7 @@ implementation 'io.springfox:springfox-swagger-ui:2.9.2'
 
 You need to configure Swagger. For that créate a configuration bean in your app
 
-[source,java]
+[source,java, subs="specialchars"]
 ----
 @Configuration
 @EnableSwagger2

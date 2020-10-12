@@ -36,7 +36,7 @@ image::../../img/training/spring-intro/java-objects.png[background,size=90%]
 
 When we want to create an object we write for example
 
-[source,java]
+[source,java, subs="specialchars"]
 ----
 public class NameService {
 
@@ -48,7 +48,7 @@ public class NameService {
 
 And to use this object elsewhere we have to create a new instance with `new` instruction
 
-[source,java]
+[source,java, subs="specialchars"]
 ----
 public class WelcomeService {
 
@@ -66,7 +66,7 @@ If we want to change NameService we have a good chance of having to update Welco
 
 For example, if `NameService` need to use others objects, you have to update `WelcomeService` to update the class constructor
 
-[source,java]
+[source,java, subs="specialchars"]
 ----
 public class NameService {
 
@@ -95,7 +95,7 @@ If a class A uses a class B
 |===
 | |
 a|
-[source,java]
+[source,java, subs="specialchars"]
 ----
 public class A {
 
@@ -108,7 +108,7 @@ public class A {
 
 
 a|
-[source,java]
+[source,java, subs="specialchars"]
 ----
 public class B {
 
@@ -141,7 +141,7 @@ image:../../img/training/spring-intro/ioc-beans.png[size=400,600]
 
 In Spring, we can use a stereotype on our classes to defined them as a Bean Spring :  @Service, @Component, @Repository, @Controller
 
-[source,java]
+[source,java, subs="specialchars"]
 ----
 @Service
 public class MyGreetingService {
@@ -163,7 +163,7 @@ image::../../img/training/spring-intro/java-objects.png[size=90%]
 
 When a class need another object, we use @Autowired to inject them via Spring
 
-[source,java]
+[source,java, subs="specialchars"]
 ----
 @Service
 public class AuthenticationService {
@@ -188,7 +188,7 @@ public class AuthenticationService {
 You have 2 way to inject a bean in another
 
 *Injection by setter*
-[source,java]
+[source,java, subs="specialchars"]
 ----
 @Component
 public class AImpl implements A {
@@ -203,7 +203,7 @@ public class AImpl implements A {
 ----
 
 *Injection by constructor*
-[source,java]
+[source,java, subs="specialchars"]
 ----
 @Component
 public class AImpl implements A {
@@ -222,7 +222,7 @@ Also, we can create  a bean Spring in a configuration file, when we need to conf
 
 Annotating a class with the @Configuration indicates that the class can be used by the Spring IoC container as a source of bean definitions
 
-[source,java]
+[source,java, subs="specialchars"]
 ----
 @Configuration
 public class MyAppConfiguration {
@@ -236,7 +236,7 @@ public class MyAppConfiguration {
 
 In this example we said to Spring that our UserStore object needs a `DataStoreConnectionPool`
 
-[source,java]
+[source,java, subs="specialchars"]
 ----
 @Configuration
 public class MyAppConfiguration {
@@ -275,7 +275,7 @@ image:../../img/training/spring-intro/appcontext4.png[]
 
 First, let’s create an interface for our application called `GreetingService` in package `com.emse.spring.faircorp.hello`
 
-[source,java]
+[source,java, subs="specialchars"]
 ----
 package com.emse.spring.faircorp.hello;
 
@@ -329,7 +329,7 @@ You can verify that your implementation is working properly by running `./gradle
 
 Your second Job is to create a new interface UserService in package `com.emse.spring.faircorp.hello`
 
-[source,java]
+[source,java, subs="specialchars"]
 ----
 package com.emse.spring.faircorp.hello;
 
@@ -391,7 +391,7 @@ Now, create next to the `FaircorpApplication` class, a new class `FaircorpApplic
 
 [.small .small-block]#CommandLineRunner instances are found by Spring Boot in the Spring context and are executed during the application startup phase.#
 
-[source,java]
+[source,java, subs="specialchars"]
 ----
 // 1
 public class FaircorpApplicationConfig {
@@ -434,7 +434,7 @@ Of course, after each case, *revert those changes*, to get "back to normal". (Yo
 
 3. Finally, try the following - what happens and why?
 
-[source,java]
+[source,java, subs="specialchars"]
 ----
 @Service
 public class ConsoleGreetingService implements GreetingService {
@@ -454,7 +454,7 @@ public class ConsoleGreetingService implements GreetingService {
 ----
 
 [.small]
-[source,java]
+[source,java, subs="specialchars"]
 ----
 @Service
 public class CycleService {

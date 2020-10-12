@@ -50,7 +50,7 @@ Le but est de démarrer le projet https://github.com/Dev-Mind/devmind-slack[devm
 
 Nous allonc commencer par créer un DTO contenant les différentes informations que nous pouvons envoyer
 
-[source,java]
+[source,java, subs="specialchars"]
 ----
 public class SlackMessage {
 
@@ -111,7 +111,7 @@ Le but est de coller à l'API https://api.slack.com/methods/chat.postMessage
 
 Il ne nous reste plus qu'à écrire le code qui va interagir avec le service distant et générer le payload attendu. La petite spécificité est que le format des données attendu doit être encodé
 
-[source,java]
+[source,java, subs="specialchars"]
 ----
 @RestController
 public class SlackMessageSender {

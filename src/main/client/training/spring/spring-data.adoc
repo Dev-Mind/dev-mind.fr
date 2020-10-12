@@ -113,7 +113,7 @@ SELECT * FROM ROOM;
 Database connection in Java
 
 [.langage-small]
-[source,java]
+[source,java, subs="specialchars"]
 ----
 try {
   Class.forName("org.h2.Drive"); // 1.
@@ -142,7 +142,7 @@ When you want to execute a request in Java you can write
 
 *For an insert*
 [.langage-small]
-[source,java]
+[source,java, subs="specialchars"]
 ----
 public void insertSite(Site site) {
     try(Connection conn = dataSource.getConnection()){
@@ -162,7 +162,7 @@ public void insertSite(Site site) {
 
 *For a select*
 [.langage-small]
-[source,java]
+[source,java, subs="specialchars"]
 ----
 public List<Site> findAll() {
     List<Site> sites = new ArrayList<>();
@@ -202,7 +202,7 @@ image::../../img/training/spring-intro/transaction1.png[width=100%]
 
 The solution is to work in a transaction
 [.langage-small]
-[source,java]
+[source,java, subs="specialchars"]
 ----
 public void insertSite(Site site) {
         try(Connection conn = dataSource.getConnection()){
@@ -265,7 +265,7 @@ We’re going to use https://projects.spring.io/spring-data-jpa/[Spring Data JPA
 
 [.langage-small]
 [.code-height]
-[source,java]
+[source,java, subs="specialchars"]
 ----
 import javax.persistence.*;
 
@@ -407,7 +407,7 @@ We must work in transactions to ensure data integrity.
 Transactional policy is managed by Spring with @Transactional annotation. For example
 
 [.langage-small]
-[source,java]
+[source,java, subs="specialchars"]
 ----
 @Service
 @Transactional
@@ -456,7 +456,7 @@ A column mayor_id will be added in the table and a foreign key will be created
 
 
 [.langage-small]
-[source,java]
+[source,java, subs="specialchars"]
 ----
 @Entity
 public class Mayor {
@@ -485,7 +485,7 @@ Example of *bidirectional* relationship: a city has a mayor and the mayor now kn
 A column mayor_id will be added in the `Town` table and a foreign key will be created but we have no town_id in the `Mayor` table (Master is town)
 
 [.langage-small]
-[source,java]
+[source,java, subs="specialchars"]
 ----
 @Entity
 public class Mayor {
@@ -523,7 +523,7 @@ image::../../img/training/spring-intro/relation1ton.png[]
 A join table is added (with 2 foreign keys)
 
 [.langage-small]
-[source,java]
+[source,java, subs="specialchars"]
 ----
 @Entity
 public class Sensor {
@@ -558,7 +558,7 @@ image::../../img/training/spring-intro/relationnto1.png[]
 A sensor_id column will be added to the Measure table and a foreign key will be created
 
 [.langage-small]
-[source,java]
+[source,java, subs="specialchars"]
 ----
 @Entity
 public class Sensor {
@@ -593,7 +593,7 @@ image::../../img/training/spring-intro/relation1ton2.png[]
 Only the @OneToMany annotation has a `mappedBy` property (which is used to designate the master)
 
 [.langage-small]
-[source,java]
+[source,java, subs="specialchars"]
 ----
 // Slave
 @Entity
@@ -631,7 +631,7 @@ image::../../img/training/spring-intro/relationnton.png[]
 A join table is added (with 2 foreign keys)
 
 [.langage-small]
-[source,java]
+[source,java, subs="specialchars"]
 ----
 @Entity
 public class Instrument {
@@ -661,7 +661,7 @@ Example *bidirectional* relation : a musician plays several instruments (instrum
 A join table is always present (with 2 foreign keys) but we must define who is master
 
 [.langage-small]
-[source,java]
+[source,java, subs="specialchars"]
 ----
 @Entity
 public class Instrument {
@@ -699,7 +699,7 @@ That definition from http://en.wikipedia.org/wiki/Data_access_object[Wikipedia]
 
 An example of Spring Data Jpa repository
 [.langage-small]
-[source,java]
+[source,java, subs="specialchars"]
 ----
 public interface SensorDao extends JpaRepository<Sensor, Long> {
 }
@@ -709,7 +709,7 @@ This extends a Spring Data interface, which provides common methods such as find
 
 [.small .small-block]#If you want to create your own methods, you have to create a new interface#
 [.langage-verysmall]
-[source,java]
+[source,java, subs="specialchars"]
 ----
 public interface SensorCustomDao {
     List<Sensor> findBySiteId(String siteId);
@@ -718,7 +718,7 @@ public interface SensorCustomDao {
 
 [.small .small-block]#You need to update the main interface#
 [.langage-verysmall]
-[source,java]
+[source,java, subs="specialchars"]
 ----
 public interface SensorDao extends JpaRepository<Sensor, String>, SensorCustomDao {
 }
@@ -727,7 +727,7 @@ public interface SensorDao extends JpaRepository<Sensor, String>, SensorCustomDa
 [.small .small-block]#And now you can implement your `SensorCustomDao` and use entitiy manager to execute requests#
 
 [.langage-verysmall]
-[source,java]
+[source,java, subs="specialchars"]
 ----
 @Repository
 public class SensorCustomDaoImpl implements SensorCustomDao {
@@ -752,7 +752,7 @@ With JPA we don't write SQL but JPQL (Java Persistence Query Language). We don't
 In SQL we select a list of columns belonging to one or more tables. In JPQL we select an entity.
 
 [.langage-small]
-[source,java]
+[source,java, subs="specialchars"]
 ----
 // Selection sensors
 select c from Sensor c
@@ -763,14 +763,14 @@ select c.site from Sensor c
 
 You can use implicit join
 [.langage-small]
-[source,java]
+[source,java, subs="specialchars"]
 ----
 select c from Sensor c where c.site.id = :siteId
 ----
 
 Or you can use explicit join
 [.langage-small]
-[source,java]
+[source,java, subs="specialchars"]
 ----
 select c from Sensor c join c.site s where s.id = :siteId
 select c from Sensor c left join c.site s where s.id = :siteId
@@ -781,7 +781,7 @@ select c from Sensor c left join c.site s where s.id = :siteId
 With Spring Data Jpa, if you respect conventions you don't need to create a DAO implementation
 
 [.langage-small]
-[source,java]
+[source,java, subs="specialchars"]
 ----
 public interface SensorDao extends JpaRepository<Sensor, String>, SensorCustomDao {
 
@@ -805,21 +805,21 @@ A request starts by `findBy`, `findDistinctBy`, `countBy`, ...
 
 You can after add a property
 [.langage-small]
-[source,java]
+[source,java, subs="specialchars"]
 ----
 List<Sensor> findByName(String name);
 ----
 
 You can add a property of a property
 [.langage-small]
-[source,java]
+[source,java, subs="specialchars"]
 ----
 List<Sensor> findBySiteId(String siteId);
 ----
 
 You can cumulate criteria
 [.langage-small]
-[source,java]
+[source,java, subs="specialchars"]
 ----
 List<Sensor> findByNameAndSiteId(String name, String siteId);
 List<Sensor> findByNameOrSiteId(String name, String siteId);
@@ -828,7 +828,7 @@ List<Sensor> findByNameOrSiteId(String name, String siteId);
 
 You can ignore upper or lower case
 [.langage-small]
-[source,java]
+[source,java, subs="specialchars"]
 ----
 List<Sensor> findByNameIgnoreCase(String name);
 List<Sensor> findByNameAndSiteIdAllIgnoreCase(String name, String siteId);
@@ -836,7 +836,7 @@ List<Sensor> findByNameAndSiteIdAllIgnoreCase(String name, String siteId);
 
 You can sort data
 [.langage-small]
-[source,java]
+[source,java, subs="specialchars"]
 ----
 List<Sensor> findByNameOrderByNameAsc(String name);
 List<Sensor> findByNameOrderByNameDesc(String name);
@@ -844,7 +844,7 @@ List<Sensor> findByNameOrderByNameDesc(String name);
 
 Vous can select only one element (if you have for example an unicity constraint). But in this case if several elements are found an exception is thrown
 [.langage-small]
-[source,java]
+[source,java, subs="specialchars"]
 ----
 Sensor findByName(String name);
 ----
@@ -859,7 +859,7 @@ Allows you to specify the loading strategy.
 * EAGER [.small .small-block]#the value is always loaded#
 
 [.langage-small]
-[source,java]
+[source,java, subs="specialchars"]
 ----
 @OneToMany(fetch = FetchType.EAGER)
 private Set<Sensor> sensors;
@@ -873,7 +873,7 @@ If you navigate in your object and if relations are set in Lazy mode, you have 2
 * You are not attached to a persistence contex [.small .small-block]#a LazyInitializationException is launched#
 
 [.langage-small]
-[source,java]
+[source,java, subs="specialchars"]
 ----
 org.hibernate.LazyInitializationException: could not initialize proxy
 ----
@@ -893,7 +893,7 @@ This enum has 2 values : ON and OFF
 Create a Light Entity class in package `com.emse.spring.faircorp.model`. You have to use the JPA annotations
 
 [.langage-small]
-[source,java]
+[source,java, subs="specialchars"]
 ----
 // 1.
 public class Light {
@@ -962,7 +962,7 @@ Write now 2 DAO LightDao and RoomDao. We will use them in our code to load data
 Update the file `application.properties` and add this keys
 
 [.small]
-[source,java]
+[source,java, subs="specialchars"]
 ----
 # Spring boot : JPA
 spring.jpa.database-platform=org.hibernate.dialect.H2Dialect // 1.
@@ -996,7 +996,7 @@ You're going to write your own DAO methods (for specific requests), you have to 
 
 Create your own interface LightDaoCustom
 
-[source,java]
+[source,java, subs="specialchars"]
 ----
 public interface LightDaoCustom {
     List<Light> findOnLights();
@@ -1007,7 +1007,7 @@ Refactor your LightDAO interface : it has to extend LightDaoCustom
 
 Create your own implementation of LightDao with your custom methods and inject the EntityManager (JPA)
 
-[source,java]
+[source,java, subs="specialchars"]
 ----
 public class LightDaoImpl implements LightDaoCustom {
     @PersistenceContext
@@ -1025,7 +1025,7 @@ public class LightDaoImpl implements LightDaoCustom {
 
 You have to test your DAO. When Spring context is loaded, the database is populated with the file `data.sql` and we can test these values. For that create a new test class in the package `com.emse.spring.faircorp.repository`
 
-[source,java]
+[source,java, subs="specialchars"]
 ----
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
