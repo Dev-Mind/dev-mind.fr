@@ -12,10 +12,12 @@ import {MailerConfig} from "./model/mailer.config";
 import {UniquePageVisitDao} from "./dao/uniquepage.dao";
 import {UserPageVisitDao} from "./dao/userpage.dao";
 import {SiteDailyVisitDao} from "./dao/sitevisit.dao";
+import {WindowsRoute} from "./routes/windows.route";
 
 export class Context {
 
   private _loginRoute: LoginRoute;
+  private _windowRoute: WindowsRoute;
   private _userRoute: UsersRoute;
   private _statisticsRoute: StatisticsRoute;
   private _userDao: UserDao;
@@ -35,6 +37,7 @@ export class Context {
     this.loginRoute;
     this.userRoute;
     this.statisticsRoute;
+    this.windowRoute;
   }
 
   get statisticService(): StatisticService {
@@ -56,6 +59,13 @@ export class Context {
       this._cacheService = CacheService.create();
     }
     return this._cacheService;
+  }
+
+  get windowRoute(): WindowsRoute {
+    if (!this._windowRoute) {
+      this._windowRoute = WindowsRoute.create(this.router);
+    }
+    return this._windowRoute;
   }
 
   get loginRoute(): LoginRoute {
