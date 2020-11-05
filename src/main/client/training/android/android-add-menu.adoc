@@ -1,0 +1,145 @@
+:doctitle: Add a menu in your app (EN)
+:description: In this lesson you will learn how add a menu and launch intent to open internal or external activities
+:keywords: Android
+:author: Guillaume EHRET - Dev-Mind
+:revdate: 2020-10-04
+:category: Android
+:teaser: In this lesson you will learn how add a menu and launch intent to open internal or external activities
+:imgteaser: ../../img/training/android/android-add-menu.png
+:toc:
+
+In this lesson you will learn how add a menu and launch intent to open internal or external activities
+
+== Menus
+
+Menus are a common user interface component in many types of applications. A https://developer.android.com/guide/topics/resources/menu-resource[menu] is a resource as style, color, layout...
+
+image::../../img/training/android/android-resource1.png[Android resource]
+
+To remember, you can provide alternative resources for specific device configurations, by grouping them in specially-named resource directories.
+At runtime, Android uses the appropriate resource based on the current configuration.
+
+It exists different types of menus. In this lesson we will implement a menu in app bar. It's where you should place actions that have a global impact on the app, such as "Compose email",  "Settings"...
+
+For all menu types, Android provides a standard XML format to define menu items. Instead of building a menu in your activity's code, you should define a menu and all its items in an XML file.
+
+Using a menu resource is a good practice for a few reasons:
+
+* It's easier to visualize the menu structure in XML.
+* It separates the content for the menu from your application's behavioral code.
+* It allows you to create alternative menu configurations for different platform versions, screen sizes, and other configurations by leveraging the app resources framework.
+
+A menu will have different options. An option is a menu item
+
+It's time to test by yourself. We want to add a menu in app bar with different options
+
+* a link to open your corporate website (we will open an URL in favorite browser)
+* a link to send you an email (we will open a window to write a new mail in favorite mail app)
+* a link to open the activity used to list building windows
+
+== Create a new activity to list data
+
+You need to create an empty activity with just a TextView with a label "Building windows". If you need some helps you can return on link:android-add-activity.html#_lab_7_create_a_new_activity[last lesson]
+
+image::../../img/training/android/android-new-activity.png[Add activity for list windows]
+
+== Create a menu in app bar
+
+1. Create an XML file inside your project's *res/menu/* directory. For that in the *Project window*, right-click the app folder and select *New > Android resource file*. You can also use menu *File > New > Android resource file*
+2. In window "New resource File" choose
++
+* **File name** : menu
+* **Resource type** : menu
+* **Source set** : main
+* **Directory name** : menu
++
+image::../../img/training/android/android-menu.png[Add menu resource]
+3. File *res/menu/menu.xml* is opened in menu editor. You can use *palette* to add elements. We will add 3 *Menu Items*. Item element supports several attributes to define an item's appearance and behavior. The main ones are :
++
+* *id* : an unique resource ID, which allows the application to recognize the item when the user wants to manipulate it in code.
+* *icon* : a reference to an optional drawable to use as the item's icon.
+* *title* : a reference to a string to use as the item's title.
+* *showAsAction* : specifies when and how this item should appear as an action item in the app bar. Possible values are
++
+** *ifRoom* : place this item in the app bar if there is room for it. If there is not room for all the items marked "ifRoom", last items are displayed in the overflow menu.
+** *withText*: also include the title text (defined by android:title) with the action item
+** *never* : place this item in the app bar's overflow menu.
+* you have more options. You can find them https://developer.android.com/guide/topics/resources/menu-resource[here]
+4. You can copy these string definitions in  *res/values/string.xml*
++
+[source,xml,subs="none"]
+----
+<resources>
+    <!-- ... -->
+    <string name="menu_windows">Building windows</string>
+    <string name="menu_website">Our website</string>
+    <string name="menu_email">Send us an email</string>
+    <!-- ... -->
+</resources>
+----
+5. Add 3 menu entries with an *id*, a *title* and option *showAsAction* to the value *never*
++
+video::stUhvg3WXUc[youtube, width=600, height=330]
++
+6. We will attach this menu to activities  *MainActivity*, *WindowActivity* and *WindowsActivity*. To prevent the add on each activity, we will create a parent activity and each activities will inherit from this parent activity. Select package *com.faircorp*, right-click and select *New > Activity > Kotlin File/Class*, fill *BasicActivity*
+
+7. In this file you can copy this code
++
+[source,kotlin,subs="specialchars"]
+----
+open class BasicActivity : AppCompatActivity()
+----
+
+8. Update *MainActivity*, *WindowActivity* and *WindowsActivity* and replace _AppCompatActivity_ by _BasicActivity_
+
+9. We will now activate the menu. Override *onCreateOptionsMenu()* in *BasicActivity*. In this method, you can inflate your menu resource in the Menu provided in the callback
++
+[source,kotlin,subs="specialchars"]
+----
+open class BasicActivity : AppCompatActivity() {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.menu, menu)
+        return true
+    }
+}
+----
+
+10. When the user selects an item from the options menu (including action items in the app bar), the system calls your activity's *onOptionsItemSelected()* method. This method passes the MenuItem selected. We will handle each possible values in *BasicActivity* class
++
+[source,kotlin,subs="specialchars"]
+----
+override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.menu_windows -> startActivity(
+                Intent(this, WindowsActivity::class.java)
+            )
+            R.id.menu_website -> startActivity(
+                Intent(Intent.ACTION_VIEW, Uri.parse("https://dev-mind.fr"))
+            )
+            R.id.menu_email -> startActivity(
+                Intent(Intent.ACTION_SENDTO, Uri.parse("mailto://guillaume@dev-mind.fr"))
+            )
+
+        }
+        return super.onContextItemSelected(item)
+    }
+----
++
+An https://developer.android.com/reference/android/content/Inten[intent] is an abstract description of an operation to be performed. It can be used to launch an Activity, a background Service...
++
+* for te first menu occurence we call another activity in our app (see dedicated link:android-add-activity.html#_lab_8_build_an_intent_to_open_an_activity[lab])
+* then for others we ask to the system to find the best application to resolve an action. In this case we have 2 args to define an https://developer.android.com/reference/android/content/Inten[Intent]
++
+** *action* : The general action to be performed, such as ACTION_VIEW, ACTION_SENDTO, ACTION_EDIT, ACTION_MAIN, etc.
+** *data* : The data to operate on, such an URL, an email, expressed as a Uri.
++
+Some examples of action/data pairs :
+** *ACTION_VIEW* content://contacts/people/1 : Display information about the person whose identifier is "1".
+** *ACTION_DIAL* tel:123 : Display the phone dialer with the given number filled in.
+** *ACTION_EDIT* content://contacts/people/1 : Edit information about the person whose identifier is "1".
+** ...
++
+11. Click *Apply Changes* image:../../img/training/android/android-studio-apply.svg[Apply changes]  in the toolbar to run the app and test your menu
+
+image::../../img/training/android/android-add-menu.png[Android menu]

@@ -1,0 +1,264 @@
+:doctitle: Call a remote API in Android (EN)
+:description: In this lesson, you will learn how to call a remote API to synchronously read data.
+:keywords: Android
+:author: Guillaume EHRET - Dev-Mind
+:revdate: 2020-10-06
+:category: Android
+:teaser: In this lesson, you will learn how to call a remote API to synchronously read data.
+:imgteaser: ../../img/training/android/android-call-remote.png
+:toc:
+
+In this lesson, we will see how to call a remote HTTP API with https://square.github.io/retrofit/[Retrofit]. https://square.github.io/retrofit/[Retrofit] was not done by Google. But when a library created by the community is good and follows good development practices, the Android team doesn't hesitate to encourage its use.
+
+image:../../img/training/android/android-call-remote.png[Call an HTTP API with Android]
+
+== Explore API
+
+In last codelabs we developped a screen to list building windows and a screen to see detailed information on a window. For the moment data are static in *com.faircorp.model.WindowService*. Now we will update this service to read data stored on a web server, as a REST web service. Dev-Mind website expose 2 URLs
+
+* http://localhost:8080/training/android/windows
+* http://localhost:8080/training/android/windows/id (id must be replaced by the value of a window id)
+
+You can also used your own Spring API if you followed Spring course.
+
+== Install Retrofit
+
+To get this data into the app, your app needs to
+
+* establish a network connection to remote server which exposes your REST service and
+* communicate with that server, and then
+* receive its response data and
+* parse the data to be usable in your code.
+
+We will use Retrofit to do the first three steps. For the last one we need a converter to deserialize HTTP body. Several converters are available. We will use https://github.com/square/moshi/[Moshi] library
+
+1. Open *build.gradle (Module: Faircorp.app)*.
+2. In the dependencies block, add 2 lines to load Retrofit and the Moshi converter (versions are available https://github.com/square/retrofit/tags[here])
++
+[source,kotlin,subs="specialchars"]
+----
+implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+implementation 'com.squareup.retrofit2:converter-moshi:2.9.0'
+----
++
+3. You also need to update android plugin configuration to activate support for Java 8 language. Retrofit was written in JDK 8. Update android block and add
++
+[source,kotlin,subs="specialchars"]
+----
+compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+}
+
+kotlinOptions {
+    jvmTarget = JavaVersion.VERSION_1_8.toString()
+}
+----
++
+4. As you updated your gradle configuration, Android Studio display a message to synchronize your projet. Click on *Sync now*
++
+image:../../img/training/android/android-gradle-sync.png[Sync Gradle project]
+
+
+
+== Configure Retrofit
+
+Now you are ready to write the code to call your API.
+
+1. In package `com.faircorp.model` create a new interface called *WindowApiService*
+2. In this interface we declare methods used to launch a remote call
++
+[source,kotlin,subs="specialchars"]
+----
+interface WindowApiService {
+    @GET("windows")
+    fun findAll(): Call<List<WindowDto>>
+
+    @GET("windows/{id}")
+    fun findById(@Path("id") id: Long): Call<WindowDto>
+}
+----
++
+* Annotations (GET, POST, PUT, DELETE,...) on the interface methods and its parameters indicate how a request will be handled.
+* A request URL can be updated dynamically using replacement blocks and parameters on the method. A replacement block is an alphanumeric string surrounded by { and }.
++
+** define a parameter in path
++
+[source,kotlin,subs="specialchars"]
+----
+@GET("windows/{id}")
+fun findById(@Path("id") id: Long): Call<WindowDto>
+----
++
+** define a parameter in query
++
+[source,kotlin,subs="specialchars"]
+----
+@GET("windows")
+fun findAll(@Query("sort") sort: String): Call<List<WindowDto>>
+----
++
+* An object can be specified for POST or PUT HTTP requests @Body annotation. In this case, Retrofit will use converter defined in your conf to serialize body object in JSON
++
+[source,kotlin,subs="specialchars"]
+----
+@PUT("windows/{id}")
+fun updateWindow(@Path("id") id: Long, @Body window: WindowDto) Call<WindowDto>
+----
++
+** you will find more information on https://square.github.io/retrofit/[Retrofit] website
++
+3. In package `com.faircorp.model` create a new class called *ApiServices*. This class will use a Retrofit builder to return an instance of interface *WindowApiService*
++
+[source,kotlin,subs="specialchars"]
+----
+class ApiServices {
+    val windowsApiService : WindowApiService by lazy {
+        Retrofit.Builder()
+                .addConverterFactory(MoshiConverterFactory.create())
+                .baseUrl("https://dev-mind.fr/training/android/")
+                .build()
+                .create(WindowApiService::class.java)
+    }
+}
+----
++
+The builder needs
++
+* a converter factory to tell Retrofit what do with the data it gets back from the web service.
+* an URL of the remote service (In this example I use an URL on my website but you can use your own API)
+
+== Use Retrofit
+
+Call instances can be executed either synchronously or asynchronously (each instance can only be used once, but calling clone() will create a new instance that can be used). In our case we will use synchronous calls.
+
+1. Open *com.faircorp.WindowsActivity*
+2. Replace line `adapter.update(windowService.findAll())`  with this code
++
+[source,kotlin,subs="specialchars"]
+----
+ runCatching { ApiServices().windowsApiService.findAll().execute() } // (1)
+            .onSuccess { adapter.update(it.body() ?: emptyList()) }  // (2)
+            .onFailure {
+                Toast.makeText(this, "Error on windows loading $it", Toast.LENGTH_LONG).show()  // (3)
+            }
+----
++
+* (1) method *execute* run a synchronous call
+* (2) we use *runCatching* to manage successes and failures. On success we update adapter with the result contained in body property. If this response is null the list is empty
+* (3) on error we display a message in a https://developer.android.com/guide/topics/ui/notifiers/toasts[Toast notation]
++
+3. Click *Apply Changes* image:../../img/training/android/android-studio-apply.svg[Apply changes]  in the toolbar to run the app. Try to open windows list.
+4. Unfortunately you should have a toast notification with the following message :
++
+image:../../img/training/android/android-main-thread.png[Network error]
+
+== Main thread
+
+When the system launches your application, that application runs in a thread called *Main thread*. This main thread manages user interface operations (rendering, events ...), system calls...
+
+Calling long-running operations from this main thread can lead to freezes and unresponsiveness.
+
+Making a network request on the main thread causes it to wait, or block, until it receives a response. Since the thread is blocked, the OS isn't able to manage UI events, which causes your app to freeze and potentially leads to an Application Not Responding (ANR) dialog. To avoid these performance issues, Android throws a *MainThreadException* and kills your app if you try to use this main thread.
+
+image:../../img/training/android/android-main-thread-error.png[Main thread]
+
+
+The solution is to run your network call, your long-running task in another thread, and when the result is available you can reattach the main thread to display the result. Only the main thread can update the interface.
+
+If you develop in Java, Thread development can be difficult. With Kotlin you can use https://kotlinlang.org/docs/reference/coroutines/coroutines-guide.html[coroutines].
+
+== Coroutines
+
+A https://kotlinlang.org/docs/reference/coroutines/coroutines-guide.html[coroutine] is a concurrency design pattern that you can use on Android to simplify code that executes asynchronously. Coroutines help to manage long-running tasks that might otherwise block the main thread and cause your app to become unresponsive.
+
+1. Open *build.gradle (Module: Faircorp.app)* to add the following dependency (in dependencies block)
++
+[source,kotlin,subs="specialchars"]
+----
+implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin_version"
+implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.2.0'
+----
++
+2. Android Studio display a message to synchronize your projet. Click on *Sync now*
++
+image:../../img/training/android/android-gradle-sync.png[Sync Gradle project]
+
+
+In Kotlin, all coroutines run inside a https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.experimental/-coroutine-scope/[CoroutineScope]. A scope controls the lifetime of coroutines through its job. When you cancel the job of a scope, it cancels all coroutines started in that scope. On Android, you can use a scope to cancel all running coroutines when, for example, the user navigates away from an Activity or Fragment. Scopes also allow you to specify a default dispatcher. A dispatcher controls which thread runs a coroutine.
+
+Each object in Android which has a https://developer.android.com/topic/libraries/architecture/lifecycle[lifecycle] (Activity, Fragment...), has a https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.experimental/-coroutine-scope/[CoroutineScope].
+
+1. Open *com.faircorp.WindowsActivity*
+2. Update code to call windowsApiService as follows
++
+[source,kotlin,subs="specialchars"]
+----
+lifecycleScope.launch(context = Dispatchers.IO) { // (1)
+    runCatching { ApiServices().windowsApiService.findAll().execute() } // (2)
+        .onSuccess {
+            withContext(context = Dispatchers.Main) { // (3)
+                adapter.update(it.body() ?: emptyList())
+            }
+        }
+        .onFailure {
+            withContext(context = Dispatchers.Main) { // (3)
+                Toast.makeText(
+                    applicationContext,
+                    "Error on windows loading $it",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
+}
+----
+* (1) method `lifecycleScope.launch` open a new directive. You must specify a context other than Dispatchers.Main (Main thread) for the code to be executed. `Dispatchers.IO` is dedicated to Input/Output tasks
+* (2) you can call retrofit to read data
+* (3) You cant' display something (result in list, error in toast notification) outside the main thread. `withContext` helps to reattach your code to another thread
++
+3. Click *Apply Changes* image:../../img/training/android/android-studio-apply.svg[Apply changes]  in the toolbar to run the app. Try to open windows list.
+4. Unfortunately you should have another toast notification. You only have one more problem to solve before you can display the result in your app. The error message tells you that your app might be missing the INTERNET permission.
++
+image:../../img/training/android/android-permission-error.png[Android permission error]
+
+== Android permission
+
+The purpose of a permission is to protect the privacy of an Android user. Android apps must request permission to access sensitive user data or features such as contacts, SMS, Internet... Depending on the feature, the system might grant the permission automatically or might prompt the user to approve the request.
+
+By default, an app has no permission to perform any operations that would adversely impact other apps, the operating system, or the user.
+
+To add a  new permission to be able to call our remote API, open *app/manifests/AndroidManifest.xml*. Add this <uses-permission> tag (just before <application> tag)
+
+[source,xml,subs="specialchars"]
+----
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+package="com.example.snazzyapp">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application ...>
+        ...
+    </application>
+</manifest>
+----
+
+You can now relaunch your app and you will be able to open the windoww list without error. For more informations about permissions you can read this https://developer.android.com/guide/topics/permissions/overview[page].
+
+== It's your turn
+
+We will stop the theory here. Now you can call every HTTP API. If you want to go further, you can follow these Google code labs
+
+* https://codelabs.developers.google.com/codelabs/kotlin-android-training-view-model/index.html?index=..%2F..android-kotlin-fundamentals#0[architecture components] to decouplate your data from your screens
+* create https://codelabs.developers.google.com/codelabs/kotlin-android-training-room-database/index.html?index=..%2F..android-kotlin-fundamentals#0[a database] with Room
+
+In you app
+
+1. Use your own remotre API
+2. Update *WindowActivity* to call the remote API
+3. After this update you can delete your WindowService with static data
+4. Use remote API to update the window status. You can use a button or other available widget in the Palette
+5. For the moment *WindowsActivity* list all building windows. It could be nice to have an app with these screens
++
+* Room list activity : a click on a room open a...
+* Room detail activity with the room name, temperature, list of windows. A click on a window should open your
+* Existing window detail activity
