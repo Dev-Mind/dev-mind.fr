@@ -2,7 +2,7 @@
 :description: Comment construire une application Java interfacée à une base de données et exposant des services REST
 :keywords: Gradle
 :author: Guillaume EHRET - Dev-Mind
-:revdate: 2018-10-02
+:revdate: 2020-08-02
 :category: Web
 :teaser: In this training, we will learn how Gradle works and how use it in our projects. It's just a fast presentation of this tool and you will find more informations on official website.
 :imgteaser: ../../img/training/gradle.png
@@ -36,13 +36,10 @@ Write once, run everywhere
 
 Build your project
 
-To generate your delivery packages of your app (apk, jar, war...)
-
-To run tests
-
-To generate documentation and reports
-
-To deploy your app
+* To generate your delivery packages of your app (apk, jar, war...)
+* To run tests
+* To generate documentation and reports
+* To deploy your app
 
 ...
 
@@ -55,23 +52,21 @@ To deploy your app
 
 == Principle
 
-* Gradle was not the first build tool. In the past we used Ant and after Maven
-* Ant is very powerful, but the configuration is not readable and difficult to use on a project with a lot of people
-* Maven is
+* Gradle was not the first build tool. In the past we used https://ant.apache.org/[Ant] and after https://maven.apache.org/[Maven]
+* https://ant.apache.org/[Ant] is very powerful, but the configuration is not readable and difficult to use on a project with a lot of people
+* https://maven.apache.org/[Maven] is
 ** very verbose (you have to write a lot of XML)
 ** not very flexible (governance and execution)
 
 [NOTE.speaker]
 --
 For the governance Maven is managed by only one person, Jason Vanzyl and his society Sonatype. it's difficult to contribute to this project
-For Gradle it's totally different. You can open projects on Github and see all the contributors. Gradle is alive, Maven is dying
+For Gradle it's totally different. You can open projects on Github and see all the contributors.
 --
 
 == Starting with Gradle
 
-Open a terminal on your laptop or computer...
-
-To create and initialize a new Gradle project
+Open a terminal on your laptop or computer to create and initialize a new Gradle project. You will create a directory and link it to Gradle
 
 [source,shell]
 ----
@@ -112,15 +107,9 @@ Gradle should have generated this tree
 
 == Gradle wrapper
 
-When you use a build tool, all team members must use the same version.
+When you use a build tool, all team members must use the same version. From one project to another, you can have different versions of the tool (it's difficult to maintain on your computer).
 
-From one project to another, you can have different versions of the tool (it's difficult to maintain on your computer).
-
-Gradle wrapper resolves these problems
-
-Fix the Gradle version used in your project
-
-Provides utilities to download itself automatically, even if you don't have Gradle locally
+Gradle wrapper resolves these problems. The recommended way to execute any Gradle build is with the help of the Gradle Wrapper (in short just “Wrapper”). The Wrapper is a script that invokes a declared version of Gradle (it fixes the version used in your project), downloading it beforehand if necessary. As a result, developers can get up and running with a Gradle project quickly without having to follow manual installation.
 
 image::../../img/training/gradle/wrapper.png[width=60%]
 
@@ -291,18 +280,17 @@ BUILD SUCCESSFUL in 0s
 
 image::../../img/training/gradle/gradle.png[How Gradle works ?, width=80%]
 
-[.small]#1. Gradle connects to a remote plugin repository to load them. A plugin brings a task set +
+1. Gradle connects to a remote plugin repository to load them. A plugin brings a task set +
 2. Gradle connects to a remote library repository and retrieves those declared for execution and testing +
 3. A task will act with our application +
-4. A task has a result (OK, KO, directory deletion, packaging jar ...)#
+4. A task has a result (OK, KO, directory deletion, packaging jar ...)
 
 So, a project managed by Gradle is a configuration file that will indicate
-[.small]#* how to download Gradle plugins (that provide a set of tasks) +
+
+* how to download Gradle plugins (that provide a set of tasks) +
 * how to download dependencies of our project (Java libraries) +
 * tasks define a life cycle +
 * everything is configured via a DSL (Domain Specific Language) written in Groovy or Kotlin#
-
-image::../../img/training/gradle/gradle.png[Fonctionnement de Gradle, width=50%]
 
 == Tasks
 
@@ -348,13 +336,13 @@ $ ./gradlew world
 A Gradle build has 3 steps
 
 *Initialization* +
-[.small]#Gradle determines which projects are involved in the build. A project can have subprojects. All of them have a build.gradle.#
+Gradle determines which projects are involved in the build. A project can have subprojects. All of them have a build.gradle.
 
 *Configuration* +
-[.small]#Gradle parses the `build.gradle` configuration file (or more if subprojects). After this step, Gradle has his task tree#
+Gradle parses the `build.gradle` configuration file (or more if subprojects). After this step, Gradle has his task tree
 
 *Execution*
-[.small]#Gradle execute one or several tasks (arguments added to `./gradlew`) according to this task graph. Gradle execute tasks one by one in the order defined in the graph.#
+Gradle execute one or several tasks (arguments added to `./gradlew`) according to this task graph. Gradle execute tasks one by one in the order defined in the graph.
 
 == Plugins
 
@@ -368,7 +356,7 @@ apply plugin : 'java'
 Effect of this line :
 
 image::../../img/training/gradle/pluginJava.png[Fonctionnement de Gradle, width=100%]
-[.small]#https://docs.gradle.org/current/userguide/img/javaPluginTasks.png#
+https://docs.gradle.org/current/userguide/img/javaPluginTasks.png
 
 == Another example
 
@@ -715,10 +703,10 @@ BUILD SUCCESSFUL in 0s
 
 image::../../img/training/gradle/dependencies.png[Dependances, width=100%]
 
-[.small]#1. Gradle looks in his cache if the dependency is present +
+1. Gradle looks in his cache if the dependency is present +
 2. It parses the given remote repository(ies), downloads the dependency and stores it in his cache +
 3. Dependency can be provided to project +
-4. If this dependency has another dependencies, Gradle loads them transitively#
+4. If this dependency has another dependencies, Gradle loads them transitively
 
 When an dependency needs to be loaded
 
@@ -728,9 +716,9 @@ When an dependency needs to be loaded
 * If the target is a Maven repository and the pom.xml has a parent, Gradle tries to load them
 
 
-== Build scan
+== Build scan [optional]
 
-Gradle provide a tool online to analyse your  builds.
+Gradle provides a tool online to analyse your  builds.
 
 This tool is optimized for Gradle Entreprise, but some features are available on the free version
 

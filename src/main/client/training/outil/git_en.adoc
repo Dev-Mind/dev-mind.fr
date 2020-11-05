@@ -2,7 +2,7 @@
 :description: Quels sont les outils à installer pour être un développeur full stack, Java Android et Web
 :keywords: Développement, Source
 :author: Guillaume EHRET - Dev-Mind
-:revdate: 2018-08-23
+:revdate: 2020-02-01
 :category: Git
 :teaser:  This course presents Git and Github. Git is used to centralize and log the changes on your code.
 :imgteaser: ../../img/training/git.png
@@ -19,7 +19,7 @@ For information about Git you can find
 
 == For who, why ?
 
-A version control system (VCS: version control system) helps to manage the history of the changes made by
+A version control system (VCS: version control system) helps to *manage the history* of the changes made by
 
 * people
 * teams
@@ -31,8 +31,8 @@ When the project evolves people can at any time find an old version of the code.
 
 Git answers these questions quickly
 
-* What changes have been made
-* Who made the changes
+* What changes have been made?
+* Who made the changes?
 * When were the changes made?
 * Why were the changes made?
 
@@ -41,11 +41,11 @@ Git answers these questions quickly
 .logo Git
 image::../../img/training/outil/git.svg[Git]
 
-Today, Git is owned by Microsoft but most of the open source or commercial projects developed use Git (70% of developers, according to stackoveflow).
+Today, most of the open source or commercial projects developed use Git (90% of developers, according last https://insights.stackoverflow.com/survey/2018#work-_-version-control[stackoveflow] insights).
 
 Git allows access to all files, branches, versions (releases) or tags of a project to authorized people.
 
-Basically you don't need a centralized solution wirth Git,  but online solutions have emerged like https://github.com [Github] or https://about.gitlab.com/[Gitlab].
+Basically you don't need a centralized solution wirth Git, but online solutions have emerged like https://github.com[Github] or https://about.gitlab.com/[Gitlab].
 
 .logo Github
 image::../../img/training/outil/github.svg[Github]
@@ -59,9 +59,7 @@ This services extend Git and they offer more features like pull requests, code r
 
 Without Git it was difficult to follow the history, we had multiple copies of project
 
-Early solutions, like CSV or SVN (Subversion) were quickly limited. It was often awful
-
-It was often awful to refactor your code because of their limitations
+Early solutions, like CSV or SVN (Subversion) were quickly limited. It was often awful to refactor your code because of their limitations
 
 == What's a repository ?
 
@@ -81,7 +79,7 @@ image::../../img/training/outil/git-branch.png[Github]
 
 == Install Git
 
-If you use Windows, you can download Git with https://git-scm.com/downloads [this link]
+If you use Windows, you can download Git here https://git-scm.com/downloads
 
 On a Linux (Fedora)
 [source,shell]
@@ -101,12 +99,12 @@ To check your install, display the git version in terminal
 ----
 ~$ git --version
 
-git version 2.19.0
+git version 2.29.0
 ----
 
 It's important to provide some information to Git, especially when you push your changes to a centralized repository.
 
-[source,shell]
+[source,shell,subs="specialchars"]
 ----
 ~$ git config --global user.name "Guillaume EHRET Dev-Mind"
 ~$ git config --global user.name "guillaume@dev-mind.fr"
@@ -157,7 +155,7 @@ drwxr-xr-x  8 devmind devmind  4096 sept. 26 22:46 .git
 === Linking files to Git
 Let's start by creating files in this `git-demo` directory
 
-[source,shell,linenums,subs=""]
+[source,shell,subs="specialchars"]
 ----
 ~$ echo "Hello world" > hello.txt
 ~$ echo "<html><body><h1>Hello World</h1></body></html>" > hello.html
@@ -238,7 +236,7 @@ What do you see ?
 === See history
 
 Use the log command
-[source,shell,linenums,subs=""]
+[source,shell,linenums,subs="specialchars"]
 ----
 ~$ git log
 
@@ -364,7 +362,7 @@ This command should show nothing because `test` is based on` master` and it is j
 
 This time, as `test` branch is the reference, Git detects that there are differences
 
-[source,shell,linenums,subs=""]
+[source,shell,linenums,subs="specialchars"]
 ----
 ~$ git log
 
@@ -450,7 +448,7 @@ To link your local project type the following commands
 ----
 
 [.small]#1. Git adds remote origin to your local project +
-2. The push command allows to send what you have on the current branch (local master branch) on the server #
+2. The push command allows to send what you have on the current branch (local master branch) on the server#
 
 Github allows teams to synchronize throughout the life of a project. You can push any branch.
 

@@ -1,57 +1,134 @@
 <div class="dm-block--intro">
   <devmind-section>
-    <h1>Formation</h1>
-
-    <p class="dm_lead">
-      Dev-Mind propose <a href="formation_web.html">plusieurs formations sur la programmation web</a> que
-      nous pouvons personnaliser en fonction de vos besoins, de votre contexte,
-      de votre degré de connaissance... Ces formations mettent l'accent sur les travaux pratiques pour
-      vous permettre d'appliquer au plus vite ce que nous
-      apprenons ensemble
-    </p>
-
-    <p>
-      <i>Dev-Mind est enregistré sous le numéro 84 42 02955 42 en tant que prestataire de formation conformément
-        aux dispositions de l'article R. 6351-6 du code du travail. Cet enregistrement ne vaut pas agrément de
-        l'état.</i>
-    </p>
+    <h1>Training</h1>
+    <div class="dm-grid--flexible" style="align-items: center">
+      <div class="dm-grid--element">
+        <div class="center">
+          <picture alt="Espace étudiant">
+            <source srcset="../img/experience/formation_600.webp" type="image/webp"/>
+            <source srcset="../img/experience/formation_600.png"/>
+            <img src="../img/experience/formation_600.png" alt="Training">
+          </picture>
+        </div>
+      </div>
+      <div class="dm-grid--element" style="flex: 3 0 0">
+        <p class="dm_lead">
+          Dev-Mind est enregistré sous le numéro 84 42 02955 42 en tant que prestataire de formation conformément
+          aux dispositions de l'article R. 6351-6 du code du travail. Cet enregistrement ne vaut pas agrément de
+          l'état.
+        </p>
+        <p class="dm_lead">
+          Dev-Mind donne principalement des formations pour apprendre à utiliser le <a href="formation_spring.html">Framework
+          Spring</a> en Java ou en Kotlin.
+        </p>
+        <p>
+          You can also find freely accessible trainings about Git, Gradle, Spring, Android on this website.
+          All lesson supports and labs remain the intellectual property of Dev-Mind. If you are missing anything, please
+          tell me
+        </p>
+        <p>
+          <a href="https://twitter.com/guillaumeehret" target="_blank" rel="noopener">
+            <img src="../img/contact/twitter.svg" alt="Twitter" class="dm-social">
+          </a>
+          <a href="https://github.com/Dev-Mind" target="_blank" rel="noopener">
+            <img src="../img/contact/github.svg" alt="Github" class="dm-social">
+          </a>
+        </p>
+      </div>
+    </div>
   </devmind-section>
 </div>
 
 <div class="dm-block--blog">
   <devmind-section>
     <div>
+      <p>
+        The following lessons are given at the "Ecole des mines de Saint Etienne" to engineering students or students in
+        computer science master. These lessons are free and you can follow them to learn how develop an Android app in
+        Kotlin which call REST services exposed by a <a href="https://spring.io/">Spring</a> application developped in
+        Java and deployed on <a href="https://www.clever-cloud.com/">[Clever Cloud]</a>.
+      </p>
 
       <div class="dm-grid--flexible">
-        <div class="dm-grid--element dm_formation__detail"
-             onclick="document.location.href='formation_spring.html'">
-          <h3><a href="formation_spring.html" class="btn">Framework Java Spring</a></h3>
-          <p><b>Durée</b> : 1 à 7 jours</p>
-          <p>Le but de cette formation est de comprendre les méandres du framework Spring et d'être capable
-            de créer une application web moderne avec Spring Boot... <a
-              href="formation_spring.html">en savoir plus...</a></p>
-          <p class="center">
-            <img alt="Reprendre les bases" src="img/formation/formation_complet.svg" width="80%">
-          </p>
+        <div class="dm-grid--element"><img src="../img/training/environnement.png"></div>
+        <div class="dm-grid--element" style="flex: 3 0 0">
+          <p class="dm_lead"><b>Tools</b></p>
+          <ul>
+            <li><a href="training/outil/install-development-environment_en.html">Install development environment</a> :
+              install Java Developer Kit and an IDE to develop
+            </li>
+            <li><a href="training/outil/git_en.html">Managing your sources with Git</a> : introduction to Git and Github
+            </li>
+            <li><a href="training/gradle/gradle_en.html">Gradle in pratice</a> : how Gradle works and how use it in our
+              projects
+            </li>
+
+          </ul>
         </div>
-        <div class="dm-grid--element dm_formation__detail"
-             onclick="document.location.href='formation_optimiser.html'">
-          <h3><a href="formation_optimiser.html" class="btn">Optimiser une application web</a></h3>
-          <p><b>Durée</b> : 1 journée</p>
-          <p>Le but de cette formation est d'aborder les différentes mécaniques pour améliorer les
-            performances de votre site web (HTTP2, service workers, asynchrone...).
-            Vous apprendrez comment optimiser le loadtime, le firstload... <a
-              href="formation_optimiser.html">en savoir plus...</a></p>
-          <p class="center">
-            <img alt="Reprendre les bases" src="img/formation/formation_back.svg" width="80%">
-          </p>
+      </div>
+      <div class="dm-grid--flexible">
+        <div class="dm-grid--element"><img src="../img/training/spring-intro.png"></div>
+        <div class="dm-grid--element" style="flex: 3 0 0">
+          <p class="dm_lead"><b>Spring framework</b></p>
+          <ul>
+            <li><a href="training/spring/spring-intro.html">Spring introduction</a> : learn what is Spring and create a
+              first app
+            </li>
+            <li><a href="training/spring/spring-ioc.html">Spring and dependency injection</a> : in this lesson you will
+              learn one of the main principle of software design, the dependency injection
+            </li>
+            <li><a href="training/spring/spring-data.html">Spring database & JPA</a> : how use a database in your Spring
+              project with Spring Data JPA and a H2 Database
+            </li>
+            <li><a href="training/spring/spring-web.html">Spring rest services</a> : use Spring MVC to expose services
+              to receive or update data
+            </li>
+            <li><a href="training/unit-test/unit-test-in-java.html"> Write unit tests in Java</a> : understand tests,
+              simulate collaborator behaviors and check results
+            </li>
+          </ul>
         </div>
       </div>
 
-      <p class="dm_lead">
-        Dev-Mind donne depuis 3 ans des cours à des étudiants. Tous les supports utilisés pendant ces cours sont libres et disponibles dans l'espace dédié
-      </p>
-      <p><a href="training/trainings.html" class="btn">Espace étudiant</a></p>
+      <div class="dm-grid--flexible">
+        <div class="dm-grid--element"><img src="../img/training/clever-cloud.png"></div>
+        <div class="dm-grid--element" style="flex: 3 0 0">
+          <p class="dm_lead"><b>Cloud</b></p>
+          <ul>
+            <li><a href="training/cloud/deploy_webapp_on_clever_cloud.html">Clever cloud</a> : learn how deploy a webapp
+              on clever cloud
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
-  </devmind-section>
+    <div class="dm-grid--flexible">
+      <div class="dm-grid--element"><img src="../img/training/android/android-course1.png"></div>
+      <div class="dm-grid--element" style="flex: 3 0 0">
+        <p class="dm_lead"><b>Android</b></p>
+        <ul>
+          <li><a href="training/android/android-first-app.html">My first Android App</a> : how develop an Hello World
+            app
+          </li>
+          <li><a href="training/android/android-update-ui.html">Update Android UI app</a>
+            use Android Studio tools to update the main layout
+          </li>
+          <li><a href="training/android/android-add-activity.html">Add a new activity</a> : a new screen in your app
+          </li>
+          <li><a href="training/android/android-add-menu.html">How use a menu</a> : and launch intents to open internal
+            or external activities
+          </li>
+          <li><a href="training/android/android-add-activity-list.html">An activity to list elements</a> : learn how
+            write an adapter to diplay a list of data
+          </li>
+          <li><a href="training/android/android-call-remote-api.html">Call remote API</a> : use retrofit to call a
+            remote REST API
+          </li>
+        </ul>
+      </div>
+    </div>
+
+
+    <p><a href="training/trainings.html" class="btn">Free trainings</a></p>
+</devmind-section>
 </div>
