@@ -47,7 +47,7 @@ Dans cet article nous allons détailler comment mettre en place undertow
 
 Dans la première étape nous allons changer le build pour utiliser undertow à la place de Tomcat
 
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 compile("org.springframework.boot:spring-boot-starter-web") {
     exclude module: "spring-boot-starter-tomcat"

@@ -14,7 +14,7 @@ image::../../img/blog/2016/springdevtools_00.png[Spring devtools]
 == Configuration
 Pour installer DevTools vous devez simplement ajouter la dépendance à votre projet SpringBoot. Par exemple avec Gradle vous ajoutez
 
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 compile "org.springframework.boot:spring-boot-devtools"
 ----
@@ -29,7 +29,7 @@ Avant d’aller plus loin il est toujours intéressant de se baser sur un exempl
 
 Si vous voulez tester ce projet sur votre poste vous pouvez le cloner et lancer la commande
 
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 ./gradlew bootRun
 ----

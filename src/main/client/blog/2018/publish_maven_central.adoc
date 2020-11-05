@@ -39,7 +39,7 @@ Une fois que les équipes SonaType ont validé votre projet, vous pouvez envoyer
 == Paramétrer Gradle
 
 Regardons comment faire celà avec Gradle. Vous devez importer les plugins suivants pour votre projet Java
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 apply plugin: 'java'
 apply plugin: 'signing'
@@ -51,7 +51,7 @@ Le plugin `_signing_` va être utilisé pour signer les artefacts.
 Le plugin maven permet de générer un descripteur de projet Maven (`_pom.xml_`) et de publier vos artefacts sur Maven Central
 
 Vous pouvez définir les metadata de votre projet...
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 group = 'fr.dev-mind'
 archivesBaseName = "mockwebserver"
@@ -61,7 +61,7 @@ sourceCompatibility = 1.8
 
 puis les tâches pour générer les différents artefacts :  jar, sources et javadocs. Les artefacts peuvent contenir un fichier Manifest avec les infos essentielles de votre projet
 
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 ext.sharedManifest = manifest {
     attributes(
@@ -107,7 +107,7 @@ artifacts {
 
 Vous devez ensuite paramétrer la signature des artefacts. Dans l'exemple ci dessous, ceci n'est fait que lorsque la tâche `_uploadArchives_` est lancée (tâche permettant de publier vos librairies).
 
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 signing {
     required { gradle.taskGraph.hasTask("uploadArchives") }
@@ -116,7 +116,7 @@ signing {
 ----
 
 Il ne reste plus qu'à paramétrer cette tâche `_uploadArchives_` avec les informations que l'on veut voir dans le `_pom.xml_` et les dépôts que vous allez utiliser
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 uploadArchives {
     repositories {
@@ -167,7 +167,7 @@ uploadArchives {
 
 J'ai suivi la http://central.sonatype.org/pages/working-with-pgp-signatures.html[documentation] pour tout d'abord générer une clé via
 
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 $ gpg2 --key-gen
 ----
@@ -175,14 +175,14 @@ $ gpg2 --key-gen
 Lorsque vous générez votre clé vous devez spécifier une `passphrase`. Personnellement j'ai du saisir des `passphrase` sans espace pour ne pas avoir de problème par la suite quand j'avais à resaisir ces informations.
 
 J'utilise une version récente de Linux qui utilise une version 2.1.15
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 $ gpg2 --version
 ----
 
 Plusieurs choses ont été améliorées dans les versions > 2.1 de gpg. Si vous affichez les clés créées, la taille de ces clés a été augmentée et la nouvelle taille n'est pas encore supportée par le plugin Gradle. Le plugin se base sur les librairies Java `_org.bouncycastle_` et il faut qu'ils migrent vers les dernières versions de cette librairie
 
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 $ gpg2 --list-secret-keys
 
@@ -195,7 +195,7 @@ sub   rsa2048 2018-01-13 [E]
 ----
 
 Pour retrouver un format de clé court utilisez la commande suivante
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 $ gpg2 --list-secret-keys --keyid-format short
 
@@ -207,13 +207,13 @@ sub   rsa2048/7DY5B54F 2018-01-13 [E]
 ----
 
 Vous pouvez maintenant publier votre clé publique sur un serveur de clé
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 $ gpg2 --keyserver hkp://pool.sks-keyservers.net --send-keys C6EED57A
 ----
 
 Vous pouvez reporter ces informations dans le fichier `_gradle.properties_` global (elles ne doivent pas être envoyées dans votre dépôt de sources public). Ce fichier devra également contenir les identifiants que vous avez utiliser sur Sonatype
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 signing.keyId=C6EED57A
 signing.password=CeciEstMonpassword
@@ -225,7 +225,7 @@ ossrhPassword=CeciEstMonpassword
 
 Après avoir fait cette action mon build Gradle ne fonctionnait toujours pas et retournait l'erreur suivante
 
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 * What went wrong:
 Execution failed for task ':signArchives'.
@@ -234,7 +234,7 @@ Execution failed for task ':signArchives'.
 
 Le stockage des clés à changé. Il ne se fait plus dans un fichier `_secring.gpg_` mais sous forme de sous-répertoires dans le répertoire `_.gnupg_`. Heureusement il est encore possible de générer ce fichier pour assurer la rétrocompatibilité.
 
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 $ gpg2 --export-secret-keys > ~/.gnupg/secring.gpg
 ----
@@ -244,7 +244,7 @@ Un https://github.com/gradle/gradle/issues/888[ticket] a été ouvert pour modif
 == A partir de Gradle 4.5
 
 Une autre solution a été mise en place dans la dernière version de Gradle, la https://docs.gradle.org/4.5/release-notes.html#signing-artifacts-with-gpg-agent[version 4.5]. Le plugin `_signing_` utilise une implémentation Java pour gérer les signatures va GPG. Cette implémentation ne peut pas utiliser `_gpg-agent_` pour gérer les clés privées. Avec Gradle 4.5 vous pouvez maintenant utiliser cet agent en utilisant `_useGpgCmd()_` (GnuPG doit bien évidemment être installé).
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 signing {
     required { gradle.taskGraph.hasTask("uploadArchives") }

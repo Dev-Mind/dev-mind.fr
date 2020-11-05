@@ -72,7 +72,7 @@ Le projet https://docs.spring.io/spring-data/mongodb/docs/current/reference/html
 
 Commençons par ajouter les dépendances dans le script de configuration Gradle. Nous ajoutons des dépendances pour utiliser SpringBoot, WebFlux, SpringData pour Mongo et MongoDb
 
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 compile("org.springframework.boot:spring-boot-starter-webflux")
 compile("org.springframework.boot:spring-boot-starter-data-mongodb-reactive")
@@ -83,7 +83,7 @@ Comme vous pouvez le voir nous avons fait le choix en développement d'utiliser 
 
 Vous pouvez maintenant définir un document MongoDb (équivalent d'une table si nous devions faire un parallèle avec une base de données relationnelles classique)
 
-[source, kotlin, subs="none"]
+[source, kotlin, subs="specialchars"]
 ----
 @Document
 data class Talk(
@@ -103,7 +103,7 @@ L'annotation `_@TextIndexed_` permet de définir les champs qui devront être in
 
 Il ne reste plus qu'à lancer une requête fullText via MongoDB. Spring Data propose une abstraction pour lancer des requêtes
 
-[source, kotlin, subs="none"]
+[source, kotlin, subs="specialchars"]
 ----
 @Repository
 class TalkRepository(private val template: ReactiveMongoTemplate) {

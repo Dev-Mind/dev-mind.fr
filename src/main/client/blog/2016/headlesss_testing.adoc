@@ -30,28 +30,28 @@ Nous pouvons utiliser cette solution sur un serveur qui n’a aucun écran. La s
 
 Sur CentOS vous devrez installer les packages suivants
 
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 yum install -y Xvfb libXfont Xorg firefox
 ----
 
 Si vous lancez firefox vous avez le message d’erreur suivant
 
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 Error: no display specified
 ----
 
 Utilisons maintenant Xvfb. Pour pouvoir lancer une commande dans un serveur X virtualisé Xvfb vous pouvez utiliser le wrapper http://manpages.ubuntu.com/manpages/xenial/man1/xvfb-run.1.html[xvfb-run] qui simplifie la configuration du serveur X et de votre processus
 
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 xvfb-run -a firefox
 ----
 
 Permet de lancer votre navigateur cette fois sans erreur. Si vous utilisez le conteneur Docker que je vous ai fourni vous pouvez lancer l’exécution des tests unitaires via Gulp
 
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 gulp unit
 ⇒ error
@@ -62,7 +62,7 @@ xvfb-run -a gulp unit
 
 Il en est de même pour les tests end-to-end
 
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 gulp e2e
 ⇒ error
@@ -82,7 +82,7 @@ Vous avez peut être remarqué l’option `_-a_` que j’ai ajouté à la comman
 
 Par exemple
 
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 Xvfb :1 -screen 0 1600x1200x32
 ----
@@ -90,7 +90,7 @@ Xvfb :1 -screen 0 1600x1200x32
 
 Le serveur écoutera les connexions sur le serveur numéro 1, l’écran numéro 0 ayant une résolution de 1600x1200 et une profondeur de 32
 
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 Xvfb :45 -screen 1 1600x1200x16
 ----
@@ -99,7 +99,7 @@ Le serveur écoutera les connexions sur le serveur numéro 45, l’écran numér
 
 L’option `_-a_` de la commande `_xvfb-run_` permet d’allouer un numéro de serveur non utilisé. Xvfb utilise par défaut l’écran 0 et ce dernier a une résolution de 640x480x8. Si vous voulez une autre taille d’écran dans les tests end-to-end vous pouvez par exemple utiliser la commande
 
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 xvfb-run -a --server-args="-screen 0 1024x768x24" gulp e2e
 ----

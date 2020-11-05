@@ -11,7 +11,7 @@ Qui installe encore ces propres serveurs de mail pour envoyer les mails de ces a
 
 Tous le code source montré ci dessous, peut être récupéré sous https://github.com/Dev-Mind/devmind-email[Github]. Nous allons voir différentes manières d'écrire un service qui implémente l'interface ci dessous
 
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 public interface EmailSender {
     void send(EmailMessage email);
@@ -27,14 +27,14 @@ SMTP (Simple Mail Transfer Protocol) porte bien son nom car il permet d'envoyer 
 
 Revenons à nos moutons. Pour ajouter la gestion des mails dans une application Spring Boot, vous devez ajouter le module Gradle ou Maven `_spring-boot-starter-mail_`. Par exemple en Gradle
 
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
   compile('org.springframework.boot:spring-boot-starter-mail')
 ----
 
 Vous pouvez ensuite paramétrer les accès SMTP dans les paramètres de l'application. Par exemple dans le fichier `_application.yml_`
 
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 spring:
   mail:
@@ -53,7 +53,7 @@ spring:
 
 Vous pouvez maintenant injecter un objet `_JavaMailSender_` dans votre code et votre service peut s'écrire tout simplement de cette manière
 
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 @Component
 public class GmailSender implements EmailSender {
@@ -97,14 +97,14 @@ image::../../img/blog/2018/email_01.png[Console Send Grid]
 
 Une fois que vous avez votre clé d'API vous devez intégrer dans votre application la dépendance Send Grid
 
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
   compile('com.sendgrid:sendgrid-java:4.1.2')
 ----
 
 Spring Boot contient un auto configurer pour SendGrid quand la dépendance est ajoutée à votre projet. Vous pouvez déclarer la clé dans votre fichier `_application.yml_` sous cette forme
 
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 spring:
   sendgrid:
@@ -113,7 +113,7 @@ spring:
 
 Vous pouvez maintenant utiliser l'objet `_SendGrid_` dans votre code
 
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 @Component
 public class SendgridSender implements EmailSender {
@@ -156,7 +156,7 @@ Le but est surtout de vous montrer comment faire un appel HTTP tout simple en ut
 
 Dans le fichier Gradle nous allons importer le starter webflux
 
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 compile("org.springframework.boot:spring-boot-starter-webflux")
 testCompile("com.squareup.okhttp3:mockwebserver:3.9.1")
@@ -165,7 +165,7 @@ testCompile("com.squareup.okhttp3:mockwebserver:3.9.1")
 La deuxième librairie importée https://square.github.io/okhttp/[okhttp] est un client HTTP minimaliste que nous allons utiliser dans nos tests. En effet le projet spring-test doit encore intégrer de nouveaux utilitaires pour tester facilement WebClient (voir https://jira.spring.io/browse/SPR-15286[ticket ouvert]).
 
 J'ajoute la configuration Elastic Mail (clé d'API) dans mon fichier application.yml
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 devmind:
   elasticmail:
@@ -176,7 +176,7 @@ devmind:
 
 Et je peux écrire mon service
 
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 @Component
 public class ElasticMailSender implements EmailSender {
@@ -221,7 +221,7 @@ public class ElasticMailSender implements EmailSender {
 
 `_ElasticEmailResponseDTO_` est un bean Java comprenant deux propriétés : succes (boolean) et error (message d'erreur éventuel). Le constructeur avec deux arguments est utilisés pour les tests afin de sucharger le Webclient. Voici la classe de test de ce service
 
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 public class ElasticMailSenderTest {
 

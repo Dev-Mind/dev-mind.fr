@@ -168,7 +168,7 @@ Quand vous avez un ou plusieurs paramètres vous devez l’indiquer dans l’URL
 * *&* permet de séparer la définition de plusieurs paramètres
 
 Quand vous voulez ajouter un paramètre vous définissez le nom et la valeur. Par exemple ci dessous j’accède à un service distant à qui je passe le paramètre name = Mix-IT
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 https://www.dev-mind.fr/api/conference?name=Mix-IT
 ----

@@ -13,7 +13,7 @@ image::../../img/blog/2017/test_services-rest-springboot_01.png[Test avec Spring
 
 Prenons un exemple de controller REST.
 
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 @RestController
 @RequestMapping("/api/session")
@@ -51,7 +51,7 @@ Vous pouvez noter qu’au lieu d’utiliser des annotations `_@RequestMapping_` 
 
 On veut souvent automatiser les contrôles de premier niveau des objets que nous envoyons à nos services REST. Pour celà vous pouvez utiliser la norme Bean Validation. Pour rappel vous avez besoin de rajouter 2 dépendances (une vers l’API, une vers une implémentation de cette dernière)
 
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 compile "javax.validation:validation-api:1.1.0.Final"
 compile "org.hibernate:hibernate-validator:1.1.0.Final"
@@ -59,7 +59,7 @@ compile "org.hibernate:hibernate-validator:1.1.0.Final"
 
 Concrètement vous pouvez ensuite utiliser l’annotation `_@Valid_` devant les paramètres de votre service (voir la méthode save) et annoter votre DTO.
 
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 public static class Session {
     private String id;
@@ -77,7 +77,7 @@ public static class Session {
 
 Oups...Je voulais faire un article sur les tests et je n’en ai encore pas parlé… allez c’est parti nous allons créer une classe de test
 
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 @RunWith(SpringRunner.class)
 @WebMvcTest(SessionController.class)
@@ -101,7 +101,7 @@ Le dernier élément est le mapper qui va permettre de convertir nos données en
 
 == Un premier exemple de test méthode GET
 
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 @Test
 public void shouldFindAllSessions() throws Exception {
@@ -126,7 +126,7 @@ Vous pouvez utiliser différents matchers pour vérifier le contenu de la répon
 
 Une petite astuce si vous utilisez SpringSecurity. Vous pouvez utiliser un `_RequestPostProcessor_` mis à disposition dans le projet `_spring-security-test_`. Mon appel devient
 
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 this.mvc.perform(get("/api/session").with(httpBasic("admin", "password")))
             .andExpect(status().isOk())
@@ -136,7 +136,7 @@ this.mvc.perform(get("/api/session").with(httpBasic("admin", "password")))
 
 Vous pouvez aussi choisir de désactiver la sécurité en utilisant la propriété secure de l'annotation `_@WebMvcTest_` :
 
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 @WebMvcTest(value = SessionController.class, secure = false)
 ----
@@ -145,7 +145,7 @@ Nous avons vu comment tester un GET. Tester une méthode POST n’est pas très 
 
 == Exemple de test méthode POST
 
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 @Test
 public void shouldCreateSession() throws Exception {
@@ -172,7 +172,7 @@ Quand vous envoyez vos données via un POST à un service REST vous devez spéci
 
 Regardons maintenant ce qu’il se passe si les données ne correspondent pas aux contraintes spécifiées par Bean Validation (voir plus haut). Si tout va bien une erreur 400 est retournée
 
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 @Test
 public void shouldNotCreateSessionWhenBeanInvalid() throws Exception {

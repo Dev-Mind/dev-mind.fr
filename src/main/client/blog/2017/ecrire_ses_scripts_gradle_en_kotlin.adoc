@@ -30,7 +30,7 @@ Mon objectif est d'essayer de vous montrer les différences entre un script Groo
 
 Dans un script Gradle nous avons une partie utilisée pour paramétrer le build lui même. En Groovy on écrit
 
-[source, kotlin, subs="none"]
+[source, kotlin, subs="specialchars"]
 ----
 buildscript {
     ext {
@@ -82,7 +82,7 @@ apply plugin: 'com.moowork.gulp'
 ----
 En Kotlin
 
-[source, kotlin, subs="none"]
+[source, kotlin, subs="specialchars"]
 ----
 apply {
     plugin("idea")
@@ -109,7 +109,7 @@ node {
 
 En Kotlin
 
-[source, kotlin, subs="none"]
+[source, kotlin, subs="specialchars"]
 ----
 import com.moowork.gradle.node.NodeExtension
 
@@ -139,7 +139,7 @@ processResources {
 
 En Kotlin
 
-[source, kotlin, subs="none"]
+[source, kotlin, subs="specialchars"]
 ----
 import com.moowork.gradle.gulp.GulpTask
 import com.moowork.gradle.node.yarn.YarnInstallTask

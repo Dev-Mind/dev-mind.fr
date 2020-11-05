@@ -23,7 +23,7 @@ Nous allons voir comment utiliser cette nouvelle version dans un projet Spring B
 == Description de l'exemple
 Ce projet exemple est minimaliste et comprend un bean de propriétés qui va injecter la propriété `_devmin.name_` dans le code et notre test consiste à vérifier que ce bean est bien peuplé
 
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 @ConfigurationProperties("devmind")
 public class Junit5ApplicationProperties {
@@ -37,7 +37,7 @@ public class Junit5ApplicationProperties {
 
 Ce bean est initialisé dans le bean de bootstrap de l'application
 
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 @SpringBootApplication
 @EnableConfigurationProperties(Junit5ApplicationProperties.class)
@@ -50,7 +50,7 @@ public class Junit5Application {
 
 Et le test Junit 4 peut être écrit de cette manière. J'ai indiqué les packages pour que vous puissiez voir les différences plus loin
 
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
@@ -174,7 +174,7 @@ Ces renommages permettent d'avoir des noms d'annotation plus parlant. Par contre
 Pour les amoureux des règles Junit, elles ne sont pas encore disponibles. Pour rappel, elles permettaient de combler les manques de Junit où on ne pouvait pas faire de composition de `_@RunWith_`. En gros une fois que vous aviez déclaré `_@RunWith(SpringRunner.class)_` sur votre classe vous ne pouviez pas ajouter un `@RunWith(MockitoJUnitRunner.class)`. Les règles Junit vous offrait un moyen simple de factoriser du comportement entre les tests.
 
 Mais Junit5 s'appuie sur Java 8 et n'est d'ailleurs pas compatible avec les versions antérieures. Depuis Java 8 des annotations peuvent être https://docs.oracle.com/javase/8/docs/api/java/lang/annotation/Repeatable.html["Repeatable"]. C'est le cas de http://junit.org/junit5/docs/current/api/org/junit/jupiter/api/extension/ExtendWith.html[ExtendWith]. Vous pouvez maintenant écrire par exemple
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 @ExtendWith(MockitoExtension.class)
 @ExtendWith(SpringExtension.class)
@@ -191,7 +191,7 @@ Spring Boot propose plusieurs annotations pour les tests et elles sont toujours 
 
 Mon exemple devient
 
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -219,7 +219,7 @@ Si vous rencontrez des problèmes avec IntelliJ pour lancer les tests je vous la
 
 Au niveau de Spring ne passez pas à côté des annotations composées qui peuvent aider à la lecture de vos tests. Par exemple si vous utilisez toujours une multitude d'annotation sur vos tests comme dans cet exemple issu de la doc de Spring
 
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration({"/app-config.xml", "/test-data-access-config.xml"})
@@ -235,7 +235,7 @@ class UserRepositoryTests { }
 ----
 
 Vous pouvez créer une annotation
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
@@ -248,7 +248,7 @@ public @interface TransactionalDevTestConfig { }
 
 et reprendre vos tests pour ne plus avoir que
 
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 @TransactionalDevTestConfig
 class OrderRepositoryTests { }
@@ -266,7 +266,7 @@ A force d'écrire des tests en JavaScript, j'étais toujours frustré du code é
 
 Par exemple si nous voulions tester cette interface
 
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 public interface CallForPaperService {
     void submit(Proposal proposal);
@@ -277,7 +277,7 @@ public interface CallForPaperService {
 
 On pourrait imaginer les tests suivants
 
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 class CallForPaperServiceTests {
 
@@ -311,14 +311,14 @@ it('submit should fail when required data are absent', () => { });
 ----
 
 Vous pouvez migrer votre code en Kotlin qui permet de définir des méthodes avec des phrases :-)
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 @Test
 fun `submit should fail when required data are absent`() {  }
 ----
 
 Maintenant avec Junit5 vous pourrez ajouter l'annotation `_@DisplayName_` et dissocier les messages attendus dans les rapports des noms de vos méthode. Par exemple
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 @DisplayName("Test service CallForPaperService")
 class CallForPaperServiceTests {
@@ -351,7 +351,7 @@ image::../../img/blog/2018/junit5_02.png[Suite de tests avec DisplayName]
 
 Nous avons résolu un premier problème. Quand vous multipliez les tests vous ne savez pas forcément à quelle méthode de votre classe testée se réfère. En Javascript avec Jasmine, vous pouvez faire des sous suites de tests au sein d'une suite de tests. Maintenant avec @Nested vous allez pouvoir faire la même chose
 
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 @DisplayName("Test service CallForPaperService")
 class CallForPaperServiceTests {
@@ -398,7 +398,7 @@ Quand nous voulions exécuter plusieurs fois un même test pour vérifier la per
 
 Maintenant rien de plus simple vous écrivez
 
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 @Test
 @DisplayName("should send email to session speakers")
@@ -415,13 +415,13 @@ image::../../img/blog/2018/junit5_04.png[Suite de tests avec RepeatedTest]
 === Les tags
 Vous pouviez ajouter une catégorie à vos tests avec la version précédente de Junit. Par exemple
 
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 @Category({IntegrationTest.class, Exernal.class})
 ----
 
 Avec Junit 5 vous pouvez maintenant utiliser l'annotation @Tag
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 @Tag("integration")
 @Tag("exernal")
@@ -436,7 +436,7 @@ Ces tags peuvent ensuite jouer sur le runtime
 
 Quand vous configurez Gradle et le plugin junitPlatform vous pouvez spécifier plusieurs options comme les tags exclus ou inclus
 
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 junitPlatform {
     filters {

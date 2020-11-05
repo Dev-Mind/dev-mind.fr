@@ -52,7 +52,7 @@ Votre premier projet est initialisé. Nous allons créer une API REST qui permet
 
 == Des POJOs enfin lisibles
 
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 class Company(
         var name: String,
@@ -65,7 +65,7 @@ Par défaut vous n’avez pas besoin de définir de constructeurs, de getter et 
 
 Si vous avez besoin que la classe mette à disposition les méthodes `_hascode_` et `_equals_` vous aller définir une `_data class_`
 
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 data class Worker(
         var firstname: String,
@@ -76,7 +76,7 @@ data class Worker(
 
 Notez le « ? » qui permet d’indiquer qu’une valeur peut être nulle. L’avantage de l’initialiser à null est que Kotlin mettra à disposition 2 constructeurs : un avec tous les champs obligatoires et l’autre avec l’ensemble des champs
 
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 val guillaume = Worker("Guillaume", "EHRET")
 val guillaume = Worker("Guillaume", "EHRET", Company("Dev-Mind"))
@@ -91,7 +91,7 @@ Cette spécificité engendre pas mal de souci quand vous voulez utiliser des pro
 
 Pivotal et JetBrains sont en discussion pour simplifier ces limitations et aider le travail des frameworks. Voici comment déclarer votre application SpringBoot
 
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 @SpringBootApplication@EnableTransactionManagement
 open class DevmindKotlinApplication{
@@ -106,7 +106,7 @@ fun main(args: Array<String>) {
 
 Au niveau du service REST voici un exemple qui montre encore le gain au niveau lisibilité du code
 
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 @RestController@RequestMapping("/companies")
 class CompanyController(val companyRepository: CompanyRepository){
@@ -133,14 +133,14 @@ Je n’ai pas encore parlé d’une fonctionnalité importante du langage. Vous 
 
 Si je déclare la fonction suivante
 
-[source, kotlin, subs="none"]
+[source, kotlin, subs="specialchars"]
 ----
 fun formatDate(string: Date, format: String = "yyyy-MM-dd", addDay: Int =0) : String
 ----
 
 Il existe différentes manières d’appeler cette méthode formatDate
 
-[source, kotlin, subs="none"]
+[source, kotlin, subs="specialchars"]
 ----
 formatDate(Date())
 formatDate(Date(), "yyyy")
@@ -157,7 +157,7 @@ Le use case le plus fréquent est d’utiliser une base différente en test. Mai
 
 Nous allons donc voir comment faire directement du JDBC. Kotlin propose la librairie https://github.com/JetBrains/Exposed[exposed]. Cette librairie apporte un DSL pour décrire les tables de votre modèle et faciliter le requêtage.
 
-[source, kotlin, subs="none"]
+[source, kotlin, subs="specialchars"]
 ----
 object Companies : Table() {
     val id = integer("id").autoIncrement().primaryKey()
@@ -172,7 +172,7 @@ object Workers : Table() {
 
 Nous pouvons créer une interface pour nos DAO.
 
-[source, kotlin, subs="none"]
+[source, kotlin, subs="specialchars"]
 ----
 interface CrudRepository<T, K> {
     fun createTable()
@@ -183,7 +183,7 @@ interface CrudRepository<T, K> {
 
 Voici par exemple comment écrire les méthodes CRUD en utilisant le DSL de la librairie exposed.
 
-[source, kotlin, subs="none"]
+[source, kotlin, subs="specialchars"]
 ----
 interface CompanyRepository : CrudRepository<Company, Int>
 

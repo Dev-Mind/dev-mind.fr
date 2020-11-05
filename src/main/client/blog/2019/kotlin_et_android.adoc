@@ -31,7 +31,7 @@ ____
 
 Prenons l'exemple d'une classe Java permettant d'être exécutée et d'afficher un message `Hello World`.
 
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 public class HelloWorld {
     public static void main(String[] args) {
@@ -43,7 +43,7 @@ public class HelloWorld {
 
 En Kotlin vous pouvez faire la même chose en écrivant
 
-[source, kotlin, subs="none"]
+[source, kotlin, subs="specialchars"]
 ----
 fun main(){
     val name = "Dev-Mind"
@@ -64,7 +64,7 @@ L'erreur la plus courante pour un développeur Java, est de se retrouver avec un
 
 Par exemple
 
-[source, kotlin, subs="none"]
+[source, kotlin, subs="specialchars"]
 ----
 var name:String         // Erreur de compilation
 var name:String = null  // Erreur de compilation
@@ -78,7 +78,7 @@ Au premier abord, cette fonctionnalité peut paraître contraignante mais c'est 
 
 Une autre force de Kotlin est de préconiser l'immutabilité. Quand vous définissez une valeur avec le mot clé `val` elle est non mutable. Si vous voulez changer une référence plus tard vous devrez utiliser le mot clé `var`.
 
-[source, kotlin, subs="none"]
+[source, kotlin, subs="specialchars"]
 ----
 val name = "Dev-Mind"
 name = "Guillaume"      // Erreur de compilation car immutable
@@ -89,7 +89,7 @@ name2 = "Guillaume"     // OK car mutable
 
 Kotlin implémente les API Java pour les listes mais distingue les listes mutables et non mutables. Par défaut tout est immutable. Si vous voulez une liste mutable vous devez le préciser
 
-[source, kotlin, subs="none"]
+[source, kotlin, subs="specialchars"]
 ----
 val names = listOf("Dev-Mind", "Guillaume")
 names.add("NewName")    // Erreur de compilation car add n'existe pas sur une liste immutable
@@ -108,14 +108,14 @@ Kotlin vous pousse à appliquer des principes de la programmation fonctionnelle 
 Kotlin vous permet de préciser des valeurs par défaut à vos différents paramètres de vos méthodes
 
 Par exemple avec le code suivant,
-[source, kotlin, subs="none"]
+[source, kotlin, subs="specialchars"]
 ----
 fun formatDate(string: Date, format: String = "yyyy-MM-dd", addDay: Int =0) : String
 ----
 
 vous pouvez avoir différentes manières d'appeler cette méthode
 
-[source, kotlin, subs="none"]
+[source, kotlin, subs="specialchars"]
 ----
 formatDate(Date())              // On ne précise pas les valeurs si celles par défaut sont suffisantes
 formatDate(Date(), "yyyy")      // Dans mon cas je ne change que la deuxième valeur
@@ -124,14 +124,14 @@ formatDate(Date(), addDay = 2)  // Si je veux préciser une valeur particulière
 
 Les paramètres nommés (comme sur la dernière ligne de notre exemple) sont très pratiques quand vous voulez apporter plus de lisibilité à votre code. Par exemple si vous avez la méthode suivante
 
-[source, kotlin, subs="none"]
+[source, kotlin, subs="specialchars"]
 ----
 fun findSpeaker(firstname: String, lastname: String): Speaker
 ----
 
 Quand vous appelez votre méthode sans nommer les paramètres vous ne savez jamais si c'est le nom ou prénom qui est en premier. Il suffit que votre collègue change la signature et inverse l'ordre des paramètres et vous avez un bug totalement transparent.
 
-[source, kotlin, subs="none"]
+[source, kotlin, subs="specialchars"]
 ----
 val speaker1 = findSpeaker("Chet", "Haase")
 val speaker1 = findSpeaker(firstname = "Chet", lastname = "Haase")  // les paramètres nommés amènent plus de lisibilité
@@ -142,18 +142,18 @@ val speaker1 = findSpeaker(firstname = "Chet", lastname = "Haase")  // les param
 
 Les classes sont bien évidemment disponible en Kotlin. Prenons un exemple pour regarder les différences avec les classes Java.
 
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 public class Parent{ }
 ----
-[source, java, subs="none"]
+[source, java, subs="specialchars"]
 ----
 public class Child extends Parent{}
 ----
 
 En Java ces deux classes publiques doivent être définies dans 2 fichiers .java différent. En Kotlin vous pouvez écrire le tout dans un seul fichier
 
-[source, kotlin, subs="none"]
+[source, kotlin, subs="specialchars"]
 ----
 open class Parent
 
@@ -177,7 +177,7 @@ Si j'essaie de créer une classe `Speaker` avec 4 propriétés `id`, `firstname`
 
 Kotlin propose les `data class` pour lesquelles le compilateur va faire tout ce travail de génération pour vous. Le Pojo speaker se résume au code suivant
 
-[source, kotlin, subs="none"]
+[source, kotlin, subs="specialchars"]
 ----
 data class Speaker(val firstname: String,
                    val lastname: String,
@@ -188,7 +188,7 @@ data class Speaker(val firstname: String,
 Quand votre classe a un seul constructeur vous pouvez le préciser dans la signature de la classe (comme dans notre classe Speaker). La suppression de tout le code inutile améliore la libilité.
 
 Revenons à notre exemple, vous pouvez ainsi écrire
-[source, kotlin, subs="none"]
+[source, kotlin, subs="specialchars"]
 ----
 val s1 = Speaker("Chet", "Haase")
 val s2 = Speaker(firstname = "Chet", lastname = "Haase")
@@ -200,7 +200,7 @@ val s5 = s1.copy()
 
 Le langage propose aussi la surcharge des opérateurs. L'opérateur `==` est surchargé et fait appel à la méthode `equals`.
 
-[source, kotlin, subs="none"]
+[source, kotlin, subs="specialchars"]
 ----
 s1 == s5   // => renvoie true car Kotlin fait appel à la méthode equals
 s1 === s5  // => renverra faux car === permet de comparer des références
@@ -210,7 +210,7 @@ s1 === s5  // => renverra faux car === permet de comparer des références
 
 Quand vous programmez une application Android en Java, vous utilisez très souvent des classes internes.
 
-[source, kotlin, subs="none"]
+[source, kotlin, subs="specialchars"]
 ----
 public class HelloWorld {
 
@@ -232,7 +232,7 @@ Une classe interne non statique a une référence vers sa classe englobante. Si 
 
 En Java pour éviter le problème vous devez utiliser des `static inner class`. En Kotlin quand vous créez une nested class vous n'avez pas accès aux variables et méthodes de la classe (équivalent d'une classe interne statique)
 
-[source, kotlin, subs="none"]
+[source, kotlin, subs="specialchars"]
 ----
 class HelloWorld {
 
@@ -252,7 +252,7 @@ Vous pouvez tout de même créer l'équivalent d'une inner class en utilisant la
 
 En Android nous écrivons souvent des classes anonymes. Par exemple à chaque fois que nous écrivons un listener d'événement. Nous avons le même problème de référence entre la classe englobante et la classe anonyme.
 
-[source, kotlin, subs="none"]
+[source, kotlin, subs="specialchars"]
 ----
 button.setOnClickListener{
       // votre code
@@ -261,7 +261,7 @@ button.setOnClickListener{
 
 Kotlin ne propose pas de solution dans ce cas, mais vous devez garder conscience que vous devrez toujours casser cette référence à la classe englobante quand l'objet sera arrêté ou recyclé.
 
-[source, kotlin, subs="none"]
+[source, kotlin, subs="specialchars"]
 ----
 override fun onStop() {
     super.onStop()
@@ -275,7 +275,7 @@ Quand nous programmons nous utilisons de nombreuses librairies externes sur lesq
 
 Un citoyen est défini par la data class suivante
 
-[source, kotlin, subs="none"]
+[source, kotlin, subs="specialchars"]
 ----
 data class Citizen(val inseeNumber: String,
                    val firstname: String,
@@ -286,14 +286,14 @@ data class Citizen(val inseeNumber: String,
 
 Pour déterminer l'âge vous pouvez écrire une classe utilitaire
 
-[source, kotlin, subs="none"]
+[source, kotlin, subs="specialchars"]
 ----
 fun getAge(date: LocalDate) = LocalDate.now().year - date.year
 ----
 
 Avec Kotlin vous pouvez aussi étendre la classe `LocalDate` et créer une nouvelle méthode (extension de fonction) qui vous sera propre et que vous pourrez utiliser dans tout votre projet. Par exemple
 
-[source, kotlin, subs="none"]
+[source, kotlin, subs="specialchars"]
 ----
 fun LocalDate.getAge() = LocalDate.now().year - this.year
 
@@ -303,7 +303,7 @@ LocalDate.parse("1977-01-01").getAge()
 
 Mieux au lieu d'exposer une fonction vous pouvez exposer une propriété
 
-[source, kotlin, subs="none"]
+[source, kotlin, subs="specialchars"]
 ----
 val LocalDate.age
     get() = LocalDate.now().year - this.year
@@ -314,7 +314,7 @@ LocalDate.parse("1977-01-01").age
 
 Prenons un autre exemple lié à Android. Très souvent quand nous créons une application, nous surchargeons l'objet `Application` Android pour créer notre propre instance. Pour éviter les cast à répétition dans les activités vous pouvez écrire
 
-[source, kotlin, subs="none"]
+[source, kotlin, subs="specialchars"]
 ----
 class DevMindApplication : Application() {
    // code...
@@ -337,7 +337,7 @@ Dit comme ça vous devez être perdu et c'est normal
 
 Kotlin s'est servi des fonctions d'ordre supérieur (et des extension) pour simplifier l'utilisation des stream Java
 
-[source, kotlin, subs="none"]
+[source, kotlin, subs="specialchars"]
 .Issu de kotlin.collections
 ----
 public inline fun <T> Iterable<T>.find(predicate: (T) -> Boolean): T? {
@@ -347,7 +347,7 @@ public inline fun <T> Iterable<T>.find(predicate: (T) -> Boolean): T? {
 
 Si nous avons une collection de speakers nous pouvons sélectionner le premier qui a le prénom Guillaume via ce code
 
-[source, kotlin, subs="none"]
+[source, kotlin, subs="specialchars"]
 ----
 val guillaume = speakers.firstOrNull {
     it.firstname == "Guillaume"  // it correpond à l'item en cours
@@ -363,7 +363,7 @@ val guillaume = speakers.firstOrNull(speaker -> speaker.firstname == "Guillaume"
 ----
 
 En Java, pour rappel vous auriez écrit
-[source, kotlin, subs="none"]
+[source, kotlin, subs="specialchars"]
 ----
 val guillaumeSpeakers = speakers.stream()
                                 .filter(s -> s.getFirstname().equals("Guillaume"))
@@ -378,7 +378,7 @@ L'API Stream Java est très agréable à utiliser, mais les collections et les f
 Kotlin est de plus en plus connu pour la souplesse offerte pour écrire un DSL avec un typage fort. https://github.com/gradle/kotlin-dsl[Gradle] est en train par exemple de remplacer Groovy par Kotlin pour avoir un DSL plus puissant
 
 Un exemple
-[source, kotlin, subs="none"]
+[source, kotlin, subs="specialchars"]
 ----
 class Cell(val content: String)
 
@@ -399,7 +399,7 @@ class Table(val rows: MutableList<Row> = mutableListOf()) {
 
 Dans ma classe `Table` j'ai ajouté une fonction `row` (avec une fonction en argument) qui permet d'ajouter une ligne. La même chose a été faite dans la classe `Row` pour une cellule. Du coup je peux écrire
 
-[source, kotlin, subs="none"]
+[source, kotlin, subs="specialchars"]
 ----
 val table = Table()
     .row { Row().cell { Cell("Test") }}
@@ -412,7 +412,7 @@ Android bénéficie beaucoup des fonctions d'ordre supérieur et des extensions.
 
 Ecriture d'un listener d'événement
 
-[source, kotlin, subs="none"]
+[source, kotlin, subs="specialchars"]
 ----
 itemView.setOnClickListener {
      // Code du listener directement
@@ -421,7 +421,7 @@ itemView.setOnClickListener {
 
 Quand vous devez itérer et enchainer l'appel à plusieurs setters d'un objet
 
-[source, kotlin, subs="none"]
+[source, kotlin, subs="specialchars"]
 ----
 holder.speakerName.text = user.fullname
 holder.speakerBio.text = user.descriptionFr
@@ -451,7 +451,7 @@ Sans Kotlin, vous devez lancer tous les traitements plus ou moins longs dans un 
 
 En Kotlin vous pouvez passer par les Coroutines. Dans l'exemple si dessous nous déclarons une activité qui va lancé un accès à la base dans une coroutine et quand le résultat est là nous nous raccrochons au thread principal pour mettre à jour la vue.
 
-[source, kotlin, subs="none"]
+[source, kotlin, subs="specialchars"]
 ----
 // Votre activité implemente l'interface CoroutineScope
 open class MyActivity : AppCompatActivity(), CoroutineScope {

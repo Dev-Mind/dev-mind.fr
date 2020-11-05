@@ -3777,9 +3777,9 @@ detect-newline@^3.0.0:
   resolved "https://registry.yarnpkg.com/detect-newline/-/detect-newline-3.1.0.tgz#576f5dfc63ae1a192ff192d8ad3af6308991b651"
   integrity sha512-TLz+x/vEXm/Y7P7wn1EJFNLxYpUD4TgMosxY6fAVJUnJMbupHBOncxyWUG9OpTaH9EBD7uFI5LfEgmMOc54DsA==
 
-"devmind-website@https://github.com/Dev-Mind/devmind-website.git#2.1.7":
+"devmind-website@https://github.com/Dev-Mind/devmind-website.git#2.1.8":
   version "2.1.2"
-  resolved "https://github.com/Dev-Mind/devmind-website.git#dca56b4e74e0177f644eddb025c05d4e8c4fed66"
+  resolved "https://github.com/Dev-Mind/devmind-website.git#5cce6874c27147a34f3789266ef9a44edac27654"
   dependencies:
     "@types/gulp" "^4.0.6"
     "@types/through2" "^2.0.36"
