@@ -11,9 +11,13 @@ We want to develop our own applications but how to be effective when we work ? W
 
 image::../../img/training/environnement.png[Environnement de travail]
 
-When you are a lambda user you can install a Java runtime environment => Java Runtime Environment. To develop, we need more tools to compile, monitor ... and we will use a Java Development Kit (JDK)
-
 == Java installation
+
+When you are a lambda user you can install a Java Runtime Environment (JRE). To develop app, we need more tools to compile, monitor... In this case we will use a *Java Development Kit* (JDK)
+
+Last version of Java is Java 15 (sepetmber 2020). Java is released every 6 months, but only a few versions are defined as https://en.wikipedia.org/wiki/Long-term_support[LTS (long term support)].  As of September 2020, Java 8 and 11 are supported as Long Term Support (LTS) versions, and one later non-LTS version is supported. So today we should use Java 11
+
+All versions are available on this URL https://www.oracle.com/java/technologies/javase-downloads.html
 
 If you are running Linux (Fedora, CentOS) you can run
 
@@ -22,39 +26,11 @@ If you are running Linux (Fedora, CentOS) you can run
 ~$ sudo yum install java-11-openjdk-devel
 ----
 
-under Linux (Debian, Ubuntu) you can run
+under Linux (Debian, Ubuntu) you can run in a terminal
 
 [source,shell]
 ----
 ~$ sudo apt install default-jdk
-----
-
-
-== Java installation (old version)
-
-If you want to install a last version as Java 8 you can follow this section
-
-.logo Java
-image::../../img/training/outil/java.svg[Java]
-
-You can download a version of Java 1.8+ at this http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html[URL]. This is fine for Windows or Linux users (choose the rpm version)
-
-If you are running Linux (Fedora, CentOS) you can run
-
-[source,shell]
-----
-~$ cd ~/Downloads/
-~$ sudo yum install jdk-8u181-linux-x64.rpm
-----
-
-under Linux (Debian, Ubuntu) you can run
-
-[source,shell]
-----
-~$ cd ~/Downloads/
-~$ sudo apt install alien
-~$ sudo alien jdk-8u181-linux-x64.rpm
-~$ sudo dpkg -i jdk-8u181-linux-x64.deb
 ----
 
 If you have several versions of Java on Linux you can use the following command to set the default version
@@ -64,7 +40,7 @@ If you have several versions of Java on Linux you can use the following command 
 ~$  update-alternatives --config java
 ----
 
-Check that Java is installed
+Check that Java is installed. For that open a terminal
 
 [source,shell]
 ----
@@ -80,9 +56,9 @@ Java HotSpot(TM) 64-Bit Server VM (build 25.181-b13, mixed mode)
 
 When you develop in Java, you have several alternatives: http://www.eclipse.org/downloads/[Eclipse], https://netbeans.org/[NetBeans], https://www.jetbrains.com/idea[IntelliJ Idea]
 
-After 20 years of development, I used a lot IDE. IntelliJ Idea is for me the best one, but the Premium version is not free. But you can use the community version freely.
+After 20 years of development, I used a lot IDE. IntelliJ Idea is for me the best one to develop in Java, but the Premium version is not free. But you can use the community version freely.
 
-We will use this Community version for the lessons about Spring Framework. You can download and install it. FYI this community version is also the base of https://developer.android.com/studio/[Android Studio] used for Android development.
+To simplify mutual aid we will all use the same IDE, Idea Community version. https://www.jetbrains.com/fr-fr/idea/download[Download] the last version.
 
 Launch your IDE to check that everything works
 

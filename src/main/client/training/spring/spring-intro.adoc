@@ -8,11 +8,9 @@
 :imgteaser: ../../img/training/spring-intro.png
 :toc:
 
-Since the beginning, Spring has been a set of tools designed to simplify the development of Java applications in companies or not. The last versions of Spring supports other languages on the JVM like Groovy or Kotlin.
+Since the beginning, https://spring.io/[Spring] has been a set of tools designed to simplify the development of https://www.java.com/fr/[Java] applications for everybody. Spring’s focus on speed, simplicity, and productivity has made it the world's most popular Java framework.
 
-== Online training
-*dev-mind.fr* tab student (étudiant) +
-[.small .small-block]#> https://dev-mind.fr/help.pdf#
+The last versions of Spring supports other languages on the JVM like https://kotlinlang.org/[Kotlin]. But we will focus today on Java.
 
 image::../../img/training/spring-intro.png[]
 
@@ -20,23 +18,20 @@ image::../../img/training/spring-intro.png[]
 
 === Requirements
 
-To be able to learn Spring you must have
+To be able to learn https://spring.io/[Spring] you must have
 
 * some basics in Java and JEE
 * know unit testing in Java
 * have knowledge of the Web
 * know about JDBC and Hibernate
-* a PC with a good IDE (IntelliJ, Netbeans ...)
+* a PC with a good IDE (IntelliJ, Netbeans ...).
+
+Follow this link:../outil/install-development-environment_en.html[page] to install your dev environment
 
 === What's Spring ?
 
-Spring is the most used Java framework
+Spring is the most used Java framework. A framework comes with rules to organize developments
 
-image::../../img/training/spring-intro/historique.png[canvas, size=90%]
-
-A framework comes with rules to organize developments
-
-[%step]
 * Good practices
 * Abstraction of the complexity
 * Provides utility classes
@@ -44,42 +39,23 @@ A framework comes with rules to organize developments
 
 Spring is
 
-[% Step]
-* a Java framework
+* an https://github.com/spring-projects[Open Source] Java framework
 * an entire ecosystem
 * a community
-* a company
+* a company (Spring is open source Licence «Apache 2.0» but managed by a company  Pivotal)
 
 === Spring framework
 
 Make Java development easier
 
-image::../../img/training/spring-intro/icon-spring-framework.svg[]
-
-* Spring Core provides a framework to simplify project technical aspects
+* https://spring.io/projects/spring-framework[Spring Core] provides a framework to simplify project technical aspects
 * Sub-projects deal with more specific technical issues
 * Nothing is mandatory, everything is configurable
 * Big effort on backward compatibility
-* Spring Frmaework 5.0 and JDK> 1.8
 
-=== An entire ecosystem
-
+. Some Spring sub projects
 image::../../img/training/spring-intro/spring-projects.png[canvas, width=70%]
 
-* Spring Batch
-* Spring Mobile
-* Spring LDAP
-* Spring Social
-* Spring web services
-* ...
-
-=== Open source project
-
-[%step]
-* Spring is an Open Source project
-* ... but managed by a company  Pivotal
-* Licence «Apache 2.0»
-* https://github.com/spring-projects
 
 === Documentation
 
@@ -92,7 +68,7 @@ image::../../img/training/spring-intro/spring-projects.png[canvas, width=70%]
 * Spring Security
 [.small]#https://docs.spring.io/spring-security/site/docs/current/reference/htmlsingle/#
 
-== Start a project
+== Start a new project
 
 === Generate
 To start a new project, you can (you should) use the official generator https://start.spring.io/
@@ -104,126 +80,98 @@ Use these settings
 * *Project* : Gradle project
 * *Language* :  Java
 * *Spring Boot* :  the highest (not suffixed snapshot)
-* *Project metadata*: you have to define a group `com.emse.spring`, an artifact name `faircorp`. If you click on the options you can select the targetted Java version (use 1.8 or 1.11)
-* *dependencies*: Spring Web, Spring Boot DevTools
+* *Project metadata*:
++
+** group : `com.emse.spring`
+** artifact & name :  `faircorp`.
+** Packaging : `jar`
+** Java : `11`
+* *dependencies*: click on button image:../../img/training/spring-intro/springboot-init191.png[add dependencies] to choose which sub projects we will use. Choose *Spring Web* and  *Spring Boot DevTools*
 
+Click on the Generate button (bottom of the screen) to download a zip with generated files.
 
-Click on the Generate button
-
-image:../../img/training/spring-intro/springboot-init191.png[size=90%]
-
-=== Import in your IDE
+=== Import zip in your IDE
 
 1. Unzip the project into a directory (you can put it next to the first project we did in the TPs)
-2. Open the project in an IDE
+2. Open the project in link:../outil/install-development-environment_en.html[IntelliJ Idea]. This step may take a long time if your Internet connectivity is slow. IntelliJ will update Gradle and all dependencies needed by the project.
+3. You should have this project structure. Application is generated with tests
++
+image:../../img/training/spring-intro/springboot-tree.png[]
+4. We will open the main generated files
 
-image:../../img/training/spring-intro/springboot-ide.png[size=80%]
+==== Gradle configuration
 
-|===
-| |
-|  image:../../img/training/spring-intro/springboot-tree.png[]
-a|
-* Follow the maven convention for source directories
-* Configure Gradle
-** [.small]#Gradle Wrapper (gradle directory, gradlew, gradlew.bat)#
-** [.small]#build.gradle, settings.gradle#
-* Application is generated with tests +
-{nbsp}
-|===
-
-=== Gradle configuration
-
-`settings.gradle`
+File : *> settings.gradle* contains the project name
 [source,groovy]
 ----
 rootProject.name = 'faircorp'
 ----
 
-* contains the project name
-* can also contain the sub modules definition +
-[.small .small-block]#avec `include 'backend', 'frontend'`#
-
-`build.gradle` (1/3)
+File : *> build.gradle* contains informations used by Gradle to build app
 [source,groovy]
 ----
 plugins {
-	id 'org.springframework.boot' version '2.2.1.RELEASE' // 1
-	id 'io.spring.dependency-management' version '1.0.8.RELEASE' // 2
-	id 'java' // 3
+	id 'org.springframework.boot' version '2.3.5.RELEASE' // (1)
+	id 'io.spring.dependency-management' version '1.0.10.RELEASE' // (2)
+	id 'java' // (3)
 }
-----
 
-[.small]#<1> Adds the Spring Boot plugin to be able to manage your app with Gradle +
-<2> Adds Spring dependency management plugin to use the compatible dependencies +
-<3> Adds the Java plugin to help Gradle to manage our app lifecyle#
-
-`build.gradle` (2/3)
-[source,groovy]
-----
-group = 'com.emse.spring' // 1
+group = 'com.emse.spring' // (4)
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = 1.8
+sourceCompatibility = '11'
 
-configurations {  // 2
-	developmentOnly
-	runtimeClasspath {
-		extendsFrom developmentOnly
+repositories { // (5)
+	mavenCentral()
+}
+
+dependencies { // (6)
+	implementation 'org.springframework.boot:spring-boot-starter-web' // (7)
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'  // (8)
+	testImplementation('org.springframework.boot:spring-boot-starter-test')  // (9) {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
-}
-
-repositories { // <3>
- mavenCentral()
-}
-----
-
-[.small]#<1> Project id +
-<2> a new configuration to be able to define dependencies only uses in development mode +
-<3> Libraries repository which contain a lot of libraries#
-
-`build.gradle` (3/3)
-[source,groovy]
-----
-dependencies { // 1
- implementation 'org.springframework.boot:spring-boot-starter-web' // 2
- developmentOnly 'org.springframework.boot:spring-boot-devtools' // 3
- testImplementation('org.springframework.boot:spring-boot-starter-test') { //4
-    exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
- }
 }
 
 test {
 	useJUnitPlatform()
 }
 ----
++
+* (1) Adds the Spring Boot plugin to be able to manage your app with Gradle
+* (2) Adds Spring dependency management plugin to use the compatible dependencies with the Spring Boot version
+* (3) Adds the Java plugin to help Gradle to manage our app lifecyle
+* (4) Project id and versions
+* (5) Tell Gradle where it will find all libraries
+* (6) This block contains all dependencies used by our app. Some dependencies can be used only in dev (spring-boot-devtools), only in test...
 
-[.small .small-block]#1.{nbsp} `spring-boot-starter-web` is a starter used to create WebApp +
-{nbsp} +
-2. `spring-boot-devtools` is a tool set which help when you develop (live reload or automatic restart) +
-{nbsp} +
-3. `spring-boot-starter-test` is the starter that imports dependencies used in the tests (SpringTest, Junit, Mockito ...). This configuration exclude all Junit versions and activate the last one#
+Librairies used are Spring boot starters. Starters are a set of convenient dependency descriptors that you can include in your application.
 
-=== FaircorpApplication
+* *spring-boot-starter-web* : Starter for building web, including RESTful, applications using Spring MVC. Uses Tomcat as the default embedded container
+* *spring-boot-devtools* : https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#using-boot-devtools[devtools] is a set of tools that can make the application development experience a little more pleasant (live reload or automatic restart)
+* *spring-boot-starter-test* : Starter for testing Spring Boot applications with libraries including JUnit, Hamcrest and Mockito
+
+
+==== App files
+
+File : *> src > main > java > com.emse.spring.faircorp.FaircorpApplication* annotation `@SpringBootApplication` initialize a Spring Boot application. This is your app entry point
 
 [source,java, subs="specialchars"]
 ----
 @SpringBootApplication
 public class FaircorpApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(FaircorpApplication.class, args);
 	}
-
 }
 ----
 
-* `@SpringBootApplication` initialize a Spring Boot application. This is the main class
 
-=== FaircorpApplicationTests
+File : *> src > main > java > com.emse.spring.faircorp.FaircorpApplicationTests* is the test file of your FaircorpApplication. In a good application, all files are tested and verified by unit tests
 
 [source,java, subs="specialchars"]
 ----
-@RunWith(SpringRunner.class) // <1>
-@SpringBootTest // <2>
+@RunWith(SpringRunner.class) // (1)
+@SpringBootTest // (2)
 public class FaircorpApplicationTests {
 
 	@Test
@@ -232,46 +180,65 @@ public class FaircorpApplicationTests {
 
 }
 ----
-<1> Runner to use when we want to test a Spring class
-<2> Annotation which creates an application context dedicated for tests
+* (1) Runner to use when we want to test a Spring class
+* (2) Annotation which creates an application context dedicated for tests
 
-=== application.properties
+You can run this test if you click on green button
+image::../../img/training/spring-intro/run-test.png[]
 
-* This file is in `src/main/resources`, it contains all the application properties +
-[.small .small-block]#> A property has a key and a value. In your code you read a property by its key. At runtime you have the value +
-> Properties help to customize app on a particular environment+
-{nbsp}#
-* If you have an `application-prod.properties` file, it will be into account only when the `prod`  profile will be activated
+File : *> src > main > resources > application.properties* it contains all the application properties. For the moment this file is empty
 
-=== Launch application
+* A property has a key and a value.
+* In your code you read a property by its key and Spring will load the value at runtime
+* Properties help to customize app on a particular environment+
 
+== Launch application
+
+=== With Gradle
 [source,shell,linenums,subs=""]
 ----
-./gradlew --continuous bootRun // <1>
+./gradlew --continuous bootRun // (1)
 
 [...]
 INFO 9740 --- [  restartedMain] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 8080 (http)
 INFO 9740 --- [  restartedMain] f.i.tc.s.SpringBootIntroApplication : Started SpringBootIntroApplication in 2.971 seconds
 <==========---> 80% EXECUTING
-> :bootRun  // <2>
+> :bootRun  // (2)
 ----
 
-* [.small .small-block]#the --continuous gradle option will restart the server when we recompile the project#
-* the build gets "stuck" at 80%, but the server is actually started and ready to accept connections
-* To stop the application use kbd: [Ctrl + c]
+* (1) the _--continuous_ gradle option will restart the server when we recompile the project
+* (2) the build gets "stuck" at XX%, but the server is actually started and ready to accept connections. To stop the application use kbd: [Ctrl + c]
 
-== Application packaging
+A this step you can open URL localhost:8080 in your favorite browser. You should see this page
 
-Gradle helps to generate a web archive and it can deploy this archive on an application server
+image::../../img/training/spring-intro/spring-page-first.png[]
 
-image::../../img/training/spring-intro/mvc-deploy.png[size=80%]
+If Spring can't start your app you must read the logs in your terminal. For example il port 8080 is already used you will have this error
 
-This is the past... now
+[source,shell,linenums,subs=""]
+----
+***************************
+APPLICATION FAILED TO START
+***************************
 
-With Spring Boot, an app should be autonomous, this is the convention.
+Description:
+
+Web server failed to start. Port 8080 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8080 or configure this application to listen on another port.
+----
+
+**
+
+*Use  [Ctrl + c] to stop the application*
+
+=== Application packaging
+
+With Spring Boot, your application is packaged in a jar file containing an embedded application server to run your code
 
 image::../../img/training/spring-intro/mvc-run.png[size=80%]
-
 
 [source,shell]
 ----
@@ -280,27 +247,41 @@ image::../../img/training/spring-intro/mvc-run.png[size=80%]
 
 * This task generate a jar (Java archive) in `build/libs`.
 * jar name is `faircorp-0.0.1-SNAPSHOT.jar`. It contains everything you need to launch the application (conf + libs)
-* To launch your Spring Boot App you can execute
 
+To launch your Spring Boot App you can execute
++
 [source,shell]
 ----
 java -jar build/libs/faircorp-0.0.1-SNAPSHOT.jar
 ----
 
-== Lab 1 : generate a new app
-The aim is to build a Spring Boot application called FairCorp
+You can stop your app [Ctrl + c]
 
-image::../../img/training/spring-intro/faircorp.svg[size=80%]
+=== Launch application in dev mode
 
-* Use the Spring generator
-* Import the app in IntelliJ
-* Use the different ways to launch app (gradlew, java -jar, IDE)
-* Open URL localhost:8080 in your browser +
-[.small]#You should see a message "Whitelabel Error Page", Don’t panic : since we’ve defined no web endpoint, Spring answers with a custom HTTP 404 error message…​ We’re going to understand what happened#
-* Launch tests in your IDE
-* Create a new file in `src/main/resources/static`. The name will be `index.html`
-* In this file copy the following code
+*com.emse.spring.faircorp.FaircorpApplication* is a bootable class because it contains a main class
 
+[source,java, subs="specialchars"]
+----
+public static void main(String[] args) { }
+----
+
+Open this class. You can click on the green button in the margin
+image:../../img/training/spring-intro/run-class.png[]
+
+or use launch configuration in your toolbar image:../../img/training/spring-intro/run-config.png[]
+
+When app is started, *Run pannel* is opened on the bottom. This pannel contains logs (if you search informations on errors). The button stop (red square) can be used to stop app
+
+image:../../img/training/spring-intro/run-class2.png[]
+
+*This third solution to launch the application is the one recommended when you develop your application*
+
+== Update the welcome page of your app
+
+1. Create a new file in `*src/main/resources/static*`. The name will be `*index.html*`
+2. In this file copy the following code
++
 [source,html,linenums,subs=""]
 ----
 <html>
@@ -312,21 +293,9 @@ image::../../img/training/spring-intro/faircorp.svg[size=80%]
     </body>
 </html>
 ----
-
-* Recompile your code or restart your app
-* Reopen localhost:8080 in your browser
-
-== Next labs
-
-During all your courses (Java, Spring, Web, IOT, Security...) you will develop a real app on a concrete case
-
-image::../../img/training/spring-intro/tp.png[size=80%]
-
-In this app, you will manage ligths of a building. You have several rooms by floor and each room can have one or several lights.
-
-For each room we want to know the lights and their steps (off or on). If a lamp is on, we want to have the brightness. We want to pilot each lights from this app.
-
-In the next chapters we will do that
++
+3. Recompile your code or restart your app
+4. Reopen localhost:8080 in your browser. You should see your Hello message
 
 == Understand what's happened
 
@@ -347,12 +316,12 @@ With Spring Boot, it’s easy to create applications for all types of workloads.
 
 Spring Boot is a "convention over configuration" type of framework, with no code generation.
 
-[.small]#When we use Spring MVC (the original web framework built on the Servlet API) for example, we need to configure for example the dispatcher servlet among other things. +
+[.small]#When we use Spring MVC (the original web framework built on the Servlet API), we need to configure for example the dispatcher servlet among other things.
 When we use the Spring support of Hibernate/JPA, we would need to configure a datasource, an entity manager factory, a transaction manager…​#
 
 Spring Boot simplifies all of these configuration elements, by auto-configuration. [.small]#For example, when it sees spring-webmvc on the classpath, Spring Boot adds automatically @EnableWebMvc on your context.#
 
-With Spring boot we will use starters
+With Spring boot we will use https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#using-boot-starter[starters]
 
 [source,groovy]
 ----
@@ -365,3 +334,4 @@ dependencies {
 The starter name starts by *spring-boot-starter-XXXX* and use a suffix XXXX (web, cache, data-jpa, mustache, web...)
 
 In the next course we will see how to add objects to our app and how we can linked them each other...
+
