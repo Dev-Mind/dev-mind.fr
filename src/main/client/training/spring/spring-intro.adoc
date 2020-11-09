@@ -136,7 +136,7 @@ test {
 	useJUnitPlatform()
 }
 ----
-+
+
 * (1) Adds the Spring Boot plugin to be able to manage your app with Gradle
 * (2) Adds Spring dependency management plugin to use the compatible dependencies with the Spring Boot version
 * (3) Adds the Java plugin to help Gradle to manage our app lifecyle

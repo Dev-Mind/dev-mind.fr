@@ -10,13 +10,9 @@
 
 In this course you will learn one of the main principle of software design, the dependency injection
 
-== Dependency injection
-
-This section explains the concept of Dependency Injection.
-
 * Fundamental principle of software design
-* Introduced by Martin Folwer (famous english computer engineer)
-* Helps to split responsabilities in your code => weakly coupled components
+* Introduced by https://martinfowler.com/articles/injection.html[Martin Folwer] (famous english computer engineer)
+* Helps to split responsibilities in your code => weakly coupled components
 * Facilitates testing
 
 == Objects and application
@@ -46,7 +42,7 @@ public class NameService {
 }
 ----
 
-And to use this object elsewhere we have to create a new instance with `new` instruction
+And to use this object elsewhere we have to create a new instance with a `new` instruction
 
 [source,java, subs="specialchars"]
 ----
@@ -54,17 +50,15 @@ public class WelcomeService {
 
     public void sayHello() {
         NameService nameService = new NameService();
-        System.out.println("Hello " +
-            nameService.getName();
+        System.out.println("Hello " + nameService.getName());
     }
-
 }
 ----
 
-We have a strong coupling between the classes WelcomeService and NameService.
-If we want to change NameService we have a good chance of having to update WelcomeService
+We have a strong coupling between these classes *WelcomeService* and *NameService*.
+If we want to change *NameService* we have a good chance of having to update *WelcomeService*
 
-For example, if `NameService` need to use others objects, you have to update `WelcomeService` to update the class constructor
+For example, if *NameService* need to use others objects, you have to update the *WelcomeService* classc constructor
 
 [source,java, subs="specialchars"]
 ----
@@ -88,56 +82,53 @@ public class NameService {
 }
 ----
 
-We have to break this coupling between components and the solution is *Inversion of Control*
+We have to break this coupling between components and the solution is *Inversion of Control*. To introduce this principle we will use a simpler example
 
 If a class A uses a class B
 
-|===
-| |
-a|
-[source,java, subs="specialchars"]
-----
-public class A {
+image:../../img/training/spring-intro/ioc1.png[]
 
-    public void hello() {
-        B b = new B();
-        System.out.println("Hello " + b.name();
-    }
-}
-----
-
-
-a|
 [source,java, subs="specialchars"]
 ----
 public class B {
-
     public String name() {
-
         return "Guillaume";
     }
 }
+
+public class A {
+    public void hello() {
+        B b = new B();
+        System.out.println("Hello " + b.name());
+    }
+}
 ----
-2+| image:../../img/training/spring-intro/ioc1.png[size=80%]
-|===
 
+== Inversion of Control (IOC) Principle
 
-
-== Principle
-
-A client, a factory will instantiate class B and inject it into class A. This middleware is Spring Framework
+To resolver this problem, we can use a client, a factory to instantiate class B and inject it into class A.
 
 image:../../img/training/spring-intro/ioc2.png[size=80%]
 
-If an object needs other objects, it does not instantiate itself  but they are provided by a factory (in our case Spring).
+If an object needs other objects, it does not instantiate itself  but they are provided by a factory or a client (a container). **Inversion of Control (IoC) principle is also known as dependency injection (DI)**.
 
-*The only exception is for Entity and DTO*
+Objects define their dependencies (that is, the other objects they work with) through constructor arguments or properties. Container is responsible for the construction of the objects. It will provide (inject) the dependencies requested by an object.
+
+The first version of Spring was created to resolve this problem. Spring provides https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#beans[a container] to create and inject objects.
+
+You must remember
+
+> If an object needs other objects, it does not instantiate itself but they are provided by a factory (in our case Spring). Therefore we no longer have to find new in your code. The only exception is for objects which contain data : Entity and DTO
 
 == Beans Spring
 
-Objects instantiated, assembled, and managed by Spring container are called beans
+In Spring, the objects that form the backbone of your application and that are managed by the Spring IoC container are called beans. A https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#beans-definition[bean] is an object that is instantiated, assembled, and managed by a Spring IoC container
 
-image:../../img/training/spring-intro/ioc-beans.png[size=400,600]
+NOTE: The Java language was named Java in reference to Java coffee, the coffee of Indonesia... With Spring an app can be seen as a set of Java beans image:../../img/training/spring-intro/ioc-beans.png[size=400,600]
+
+=== Create an object
+
+==== By annotation
 
 In Spring, we can use a stereotype on our classes to defined them as a Bean Spring :  @Service, @Component, @Repository, @Controller
 
@@ -154,14 +145,89 @@ public class MyGreetingController {
 }
 ----
 
-Spring Boot is able to scan classpath to auto-detect and auto-configure beans annotated
-
-One stereotype (@Service, @Component, @Repository, @Controller) by object type
+Spring Boot is able to scan classpath to auto-detect and auto-configure beans annotated with @Service, @Component, @Repository, or @Controller. Each annotation is equivalent, but a sterotype (@Service, @Repository...) helps to understand the object role in your app
 
 image::../../img/training/spring-intro/java-objects.png[size=90%]
 
+==== By configuration
 
-When a class need another object, we use @Autowired to inject them via Spring
+Also, we can create a bean Spring in a configuration bean, when we need to configure it.
+
+The first step is to create a Configuration bean annotated with @Configuration. This annotation indicates that the class can be used by the Spring IoC container as a source of bean definitions
+
+[source,java, subs="specialchars"]
+----
+@Configuration
+public class MyAppConfiguration {
+
+    // ...
+
+}
+----
+
+Beans are components instances. A method annotated with @Bean will return an object that should be registered as a bean in the Spring application context. @Bean is used to explicitly declare a single bean, rather than letting Spring do it automatically as @Component, @Service...
+
+In this example we said to Spring that our UserStore object needs a `DataStoreConnectionPool` and
+
+[source,java, subs="specialchars"]
+----
+@Configuration
+public class MyAppConfiguration {
+
+  @Bean
+  public UserStore userStore(DataStoreConnectionPool connectionPool) {
+    return new UserStore(connectionPool.fetchConnection());
+  }
+
+}
+----
+
+=== Add dependencies
+
+When a class need another object, we use @Autowired to inject them via Spring. You have 2 ways to inject a bean in another
+
+*Injection by setter*
+[source,java, subs="specialchars"]
+----
+@Component
+public class AImpl implements A {
+
+    @Autowired
+    private B b;
+
+    public void setB(B b) {
+        this.b = b;
+    }
+
+    public B getB() {
+        return b;
+    }
+}
+----
+
+*Injection by constructor*
+[source,java, subs="specialchars"]
+----
+@Component
+public class AImpl implements A {
+
+    private B b;
+
+    @Autowired
+    public AImpl(B b) {
+        this.b = b;
+    }
+
+    public B getB() {
+        return b;
+    }
+}
+----
+If you have only one constructor `@Autowired` is not mandatory for Spring. However, if several constructors are available and there is no primary/default constructor, at least one of the constructors must be annotated with @Autowired in order to instruct the container which one to use.
+
+NOTE: You have 2 ways of injecting dependencies into an object but injection by constructor is the one recommended by the community
+
+In this example UserStore and CertificateManager are injected into AuthenticationService
 
 [source,java, subs="specialchars"]
 ----
@@ -183,80 +249,13 @@ public class AuthenticationService {
 }
 ----
 
-[.small .small-block]#In this example UserStore and CertificateManager are injected into AuthenticationService#
+=== How it works
 
-You have 2 way to inject a bean in another
-
-*Injection by setter*
-[source,java, subs="specialchars"]
-----
-@Component
-public class AImpl implements A {
-
-    @Autowired
-    private B b;
-
-    public void setB(B b) {
-        this.b = b;
-    }
-}
-----
-
-*Injection by constructor*
-[source,java, subs="specialchars"]
-----
-@Component
-public class AImpl implements A {
-
-    private B b;
-
-    @Autowired
-    public void setB(B b) {
-        this.b = b;
-    }
-}
-----
-
-Also, we can create  a bean Spring in a configuration file, when we need to configure them.  +
-[.small .small-block]#For components we can’t annotate (not in our codebase) or if we want to instantiate them ourselves.#
-
-Annotating a class with the @Configuration indicates that the class can be used by the Spring IoC container as a source of bean definitions
-
-[source,java, subs="specialchars"]
-----
-@Configuration
-public class MyAppConfiguration {
-
-    // ...
-
-}
-----
-
-[.small .small-block]#"Beans" are components instances. A method annotated with @Bean will return an object that should be registered as a bean in the Spring application context @Bean is used to explicitly declare a single bean, rather than letting Spring do it automatically as @Component#
-
-In this example we said to Spring that our UserStore object needs a `DataStoreConnectionPool`
-
-[source,java, subs="specialchars"]
-----
-@Configuration
-public class MyAppConfiguration {
-
-  @Bean
-  public UserStore userStore(DataStoreConnectionPool connectionPool) {
-    return new UserStore(connectionPool.fetchConnection());
-  }
-
-}
-----
-It's another way to inject an object in another
-
-Spring looks for components by scanning your application classpath [.small .small-block]#(e.g. looking for annotated classes in the packages or the beans you’ve declared in your configuration)#
+Spring looks for components by scanning your application classpath : looking for annotated classes in the packages or the beans you’ve declared in your configuration beans.
 
 image:../../img/training/spring-intro/appcontext1.png[]
 
-All those components are registered in an application context
-Z
-Spring search a Bean by its type or else by its name
+All those components are registered in an application context. Spring search a Bean by its type or else by its name
 
 image:../../img/training/spring-intro/appcontext2.png[]
 
@@ -269,7 +268,7 @@ Spring throws a NoUniqueBeanDefinitionException if several beans are found and i
 image:../../img/training/spring-intro/appcontext4.png[]
 
 
-== Lab 2 : Using Dependency Injection
+== Lab : Using Dependency Injection
 
 === Create a first bean
 
