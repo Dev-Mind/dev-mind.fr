@@ -16,7 +16,7 @@ Menus are a common user interface component in many types of applications. A htt
 
 image::../../img/training/android/android-resource1.png[Android resource]
 
-To remember, you can provide alternative resources for specific device configurations, by grouping them in specially-named resource directories.
+Remember, you can provide alternative resources for specific device configurations, by grouping them in specially-named resource directories.
 At runtime, Android uses the appropriate resource based on the current configuration.
 
 It exists different types of menus. In this lesson we will implement a menu in app bar. It's where you should place actions that have a global impact on the app, such as "Compose email",  "Settings"...
