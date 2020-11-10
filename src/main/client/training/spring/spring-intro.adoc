@@ -142,7 +142,11 @@ test {
 * (3) Adds the Java plugin to help Gradle to manage our app lifecyle
 * (4) Project id and versions
 * (5) Tell Gradle where it will find all libraries
-* (6) This block contains all dependencies used by our app. Some dependencies can be used only in dev (spring-boot-devtools), only in test...
+* (6) This block contains all dependencies used by our app. Some dependencies can be used
++
+** only in dev (8) spring-boot-devtools
+** only in test (9) spring-boot-starter-test : we exclude vintage junit library. This starter works with the last version and the vintage version, but the vintage version will be deleted in next release
+** always (7) spring-boot-starter-web
 
 Librairies used are Spring boot starters. Starters are a set of convenient dependency descriptors that you can include in your application.
 
