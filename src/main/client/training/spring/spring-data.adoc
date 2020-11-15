@@ -110,34 +110,41 @@ SELECT * FROM ROOM;
 ----
 
 == Java and JDBC
-Database connection in Java
+To understand the value of Spring and JPA, it is important to see the code that would have to be done if we wanted to directly use the JDBC API which is a low level API requiring a lot of code.
+
+=== Open a connection
+
+This code open a database connection in Java with JDBC API
 
 [.langage-small]
 [source,java, subs="specialchars"]
 ----
 try {
-  Class.forName("org.h2.Drive"); // 1.
+  Class.forName("org.h2.Drive"); // (1)
 }
 catch (ClassNotFoundException e) {
   logger.error("Unable to load JDBC Driver", e);
 }
 try {
-  String database_url = "jdbc:h2:mem:bigcorp;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE" // 2.
-  Connection connection = DriverManager.getConnection(database_url, username, password); // 3.
+  String database_url = "jdbc:h2:mem:bigcorp;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE" // (2)
+  Connection connection = DriverManager.getConnection(database_url, username, password); // (3)
 }
 catch (SQLException e) {
   logger.error("Unable to connect to the database", e);
 }
 ----
+* (1) Load JDBC driver (here H2 driver)
+* (2) We define the URL to access to the database (here we say that we use a H2 database in memory) +
+* (3) Open a connection with username/password
+* (1) (2) (3) for each step we have to manage exceptions
 
-1. Load JDBC driver (here H2 driver)
-2. We define the URL to access to the database (here we say that we use a H2 database in memory) +
-3. Open a connection with username/password
+This operation is slow. If you have thousands connections on your app per second your application will fail.
 
-But a database connection is slow. We need to use a connection pool with preopened connections. Several connections are opened when the pool is launched.
+We need to use a connection pool with pre-opened connections. Several connections are opened when the pool is launched.
 
 image::../../img/training/spring-intro/pool.png[size=100%]
 
+=== Execute a request
 When you want to execute a request in Java you can write
 
 *For an insert*
@@ -192,15 +199,19 @@ public List<Site> findAll() {
 * We would like to be more productive, simplified relationship management...
 * What about transactions?
 
-== Transaction
+=== Transaction
 
 image::../../img/training/spring-intro/transaction1.png[width=100%]
 
 * What happens if a query fails, or if an exception occurs?
-* What happens if 2 transactions run in parallel?
+* What happens if 2 requests run in parallel?
 * What happens if a request is too long?
 
-The solution is to work in a transaction
+The solution is to work in a transaction. A database transaction symbolizes a unit of work performed within a database. A transaction generally represents any change in a database. Transactions have two main purposes:
+
+* to provide reliable units of work that allow correct recovery from failures and keep a database consistent even in cases of system failure, when execution stops (completely or partially) and many operations upon a database remain uncompleted, with unclear status.
+* To provide isolation between concurrent accesses. If this isolation is not provided, data could be erroneous.
+
 [.langage-small]
 [source,java, subs="specialchars"]
 ----
@@ -226,22 +237,27 @@ public void insertSite(Site site) {
     }
 ----
 
-1. We disable autocommit +
-2. If everything is OK a commit persit my changes +
-3. If we have an error everything is cancelled
+1. `autocommit` is sometimes the default value. We have to disabled it
+2. If everything is OK a *commit* persist data
+3. If we have an error everything is cancelled by a *rollback*.
 
 image::../../img/training/spring-intro/transaction2.png[width=100%]
 
 
 == JPA
 
+The Java Persistence API (JPA) is a Java application programming interface specification that describes the management of relational data in applications using Java Platform, Standard Edition and Java Platform, Enterprise Edition.
+
+http://hibernate.org/orm/[Hibernate ORM] is the JPA implementation that we’re going to use in this lab.
+
+We’re going to use https://projects.spring.io/spring-data-jpa/[Spring Data JPA] to store and retrieve data in our relational database.
+
 With Persistence API/Framework, the approach is to :
 
-* work with POJO => Plain Old Java Objects, Java entities
+* work object (Java entities) and not with database table
 * add annotations to map entity properties to table columns
 * generate common database request (Create, Update, Delete, Read)
 * fill the SQL imperfections: inheritance, relationships, customs types, validation
-
 
 Spring provides several sub projects to make database interactions easy
 
@@ -254,50 +270,43 @@ Do not confuse https://projects.spring.io/spring-data/[Spring Data] with https:/
 Spring Data JPA is part of Spring Data, lets implement JPA based repositories. It makes it easier to build Spring-powered applications that use data access technologies."
 --
 
-The Java Persistence API (JPA) is a Java application programming interface specification that describes the management of relational data in applications using Java Platform, Standard Edition and Java Platform, Enterprise Edition.
+=== JPA Entity
 
-http://hibernate.org/orm/[Hibernate ORM] is the JPA implementation that we’re going to use in this lab.
+Let's take the example of a Java class named *Sensor* and see how to use JPA to bind it to the SP_SENSOR table of our database.
 
-We’re going to use https://projects.spring.io/spring-data-jpa/[Spring Data JPA] to store and retrieve data in our relational database.
-
-[%notitle]
-== JPA Entity
-
-[.langage-small]
-[.code-height]
 [source,java, subs="specialchars"]
 ----
 import javax.persistence.*;
 
-@Entity // 1.
-@Table(name = "SP_SENSOR") // 2.
+@Entity // (1).
+@Table(name = "SP_SENSOR") // (2).
 public class Sensor {
-    @Id // 3.
+    @Id // (3).
     @GeneratedValue
     private Long id;
 
-    @Column(nullable = false, length=255)  // 4.
+    @Column(nullable=false, length=255)  // (4).
     private String name;
 
     private String description;
 
-    @Column(name = "power") // 4.
+    @Column(name = "power") // (4).
     private Integer defaultPowerInWatt;
 
-    @Transient // 5.
+    @Transient // (5).
     private Integer notImportant;
 
-    @Enumerated(EnumType.STRING) // 6.
+    @Enumerated(EnumType.STRING) // (6).
     private PowerSource powerSource;
 
-    public Sensor() { // 7.
+    public Sensor() { // (7).
     }
 
-    public Sensor(String name) { // 8.
+    public Sensor(String name) { // (8).
         this.name = name;
     }
 
-    public Long getId() { // 9.
+    public Long getId() { // (9).
         return id;
     }
 
@@ -347,22 +356,48 @@ public class Sensor {
 }
 ----
 
-* (1) indicates that this class is an entity managed by Hibernate
-* (2) you can customize the table name (optional)
-* (3) you have always an id annotated with `@javax.persistence.Id` (auto generated in this example). This ID is immutable (as the primary key in the database)
-* (4) by default, each property is mapped to a column. You can customize the nullability or the column name.
-* (5) If a property should not be persisted, use @Transient
-* (6) Java enum persisted as a String
-* (7) must have an empty constructor (public or protected). +
+* (1) *@Entity* indicates that this class is an entity managed by Hibernate
+* (2) *@Table(name = "SP_SENSOR")* you can customize the table name (optional if table name = entity name)
+* (3) *@Id* you have always an id annotated with `@javax.persistence.Id` (auto generated in this example). This ID is immutable (as the primary key in the database)
+* (4) *@Column* by default, each property is mapped to a column. You can customize the nullability or the column name.
+* (5) If a property should not be persisted, use *@Transient*
+* (6) *@Enumerated(EnumType.STRING)* Java enum persisted as a String (choose always EnumType.STRING)
+* (7) an entity *must have an empty constructor* (public or protected). +
 [.small .small-block]#An empty constructor is needed to create a new instance via reflection (using Class<T>.newInstance()) by Hibernate which has to instantiate your Entity dynamically. If you don’t provide any additional constructors with arguments for the class, you don’t need to provide an empty constructor because you get one per default. Java always gives you a default invisible empty constructor. If an argument constructor is provided in your class, then jvm will not add the no-argument constructor.#
-* (8) you can add a constructor to build an object with all required properties
+* (8) you can add (and you should) a constructor to build an object with all required properties
 * (9) you have to define a getter and a setter for each property
 
-== Entity manager
+=== Fetching Strategy
+
+Allows you to specify the loading strategy.
+
+* *LAZY* the value is loaded only when it is used  (default)
+* *EAGER* the value is always loaded
+
+[source,java, subs="specialchars"]
+----
+@OneToMany(fetch = FetchType.EAGER)
+private Set<Sensor> sensors;
+----
+
+By default we are in Lazy mode because the goal is to load the minimum of things.  If you navigate in your object and if relations are set in Lazy mode, you have 2 cases
+
+* You are attached to a persistence context [.small .small-block]#one or more queries are started to load the missing data#
+* You are not attached to a persistence contex [.small .small-block]#a LazyInitializationException is launched#
+
+[.langage-small]
+[source,java, subs="specialchars"]
+----
+org.hibernate.LazyInitializationException: could not initialize proxy
+----
+
+If you have to serialize your object or send it to another layer, you have to use DTO. We will see that later
+
+=== Entity manager
+
+When your app need to launch a query, it will call an https://docs.jboss.org/hibernate/entitymanager/3.6/reference/en/html_single/[EntityManager] to execute it
 
 image::../../img/training/spring-intro/em.png[size=88%]
-
-== Entity lifecycle
 
 The entities managed by Hibernate have a life-cycle associated with them. Either you can create a new object and save it into the database or your can fetch the data from the database.
 
@@ -370,41 +405,23 @@ The Entities go through several stages in the life-cycle.
 
 image::../../img/training/spring-intro/lifecycle.png[size=100%]
 
-*Transient Objects* +
-[.small .small-block]#Transient objects are non transactional and in fact Hibernate has no knowledge of these objects#
-
-*Persistent Objects* +
-[.small .small-block]#Persistent entity has a valid database identity associated with.#
-
-*Removed Object* +
-[.small .small-block]#An object scheduled for deletion either by calling delete or because of orphan deletion of entities.#
-
-*Detached Object* +
-[.small .small-block]#The object in persistent state go into detached state after the persistent context is closed. Detached objects can be brought into other persistent context by reattachment or merging. Detached object still has a valid primary key attribute but it is no longer managed by Hibernate.#
+* *Transient Objects*: Transient objects are non transactional and in fact Hibernate has no knowledge of these objects
+* *Persistent Objects*: Persistent entity has a valid database identity associated with.
+* *Removed Object*: An object scheduled for deletion either by calling delete or because of orphan deletion of entities.
+* *Detached Object*: The object in persistent state go into detached state after the persistent context is closed. Detached objects can be brought into other persistent context by reattachment or merging. Detached object still has a valid primary key attribute but it is no longer managed by Hibernate.
 
 We have different operations to several stages in the life-cycle.
 
-*persist()* +
-[.small .small-block]#makes a persistent entity. It will be written in the database at the next commit of the transaction we are in..#
-
-*remove()* +
-[.small .small-block]#inverse of persist(). It will be erased from the database at the next commit of the transaction we are in.#
-
-*refresh()* +
-[.small .small-block]#synchronizes the state of an entity to its database state. If the fields of an entity have been updated in the current transaction, these changes will be canceled. This operation only applies to persistent entities (otherwise we have an IllegalArgumentException)#
-
-*detach()* +
-[.small .small-block]#detaches an entity from  entity manager. This entity will not be taken into account during the next commit of the transaction in which we are#
-
-*merge()* +
-[.small .small-block]#attach an entity to the current entity manager. This is used to associate an entity with another entity manager than the one that was used to create or read it.#
+* *persist()*  makes a persistent entity. It will be written in the database at the next commit of the transaction we are in..
+* *remove()*: inverse of persist(). It will be erased from the database at the next commit of the transaction we are in.
+* *refresh()*: synchronizes the state of an entity to its database state. If the fields of an entity have been updated in the current transaction, these changes will be canceled. This operation only applies to persistent entities (otherwise we have an IllegalArgumentException)
+* *detach()*: detaches an entity from  entity manager. This entity will not be taken into account during the next commit of the transaction in which we are
+* *merge()*: attach an entity to the current entity manager. This is used to associate an entity with another entity manager than the one that was used to create or read it.
 
 
-== Transaction and Spring
+=== Transaction and Spring
 
-We must work in transactions to ensure data integrity.
-
-Transactional policy is managed by Spring with @Transactional annotation. For example
+We must work in transactions to ensure data integrity. When you use Spring, Transactional policy is managed by Spring with *@Transactional* annotation. For example
 
 [.langage-small]
 [source,java, subs="specialchars"]
@@ -424,10 +441,7 @@ public class SiteServiceImpl implements SiteService {
 }
 ----
 
-Your services, your components must use a *@Transactional*
-
-Hibernate stores everything read from the database in a first-level cache. This cache is linked to the current transaction. +
-[.small .small-block]#If you do twice a find() on the same instance, it will only be loaded once#
+Your services, your components must use a *@Transactional* annotation.
 
 At the end of the transaction, Hibernate will launch a flush() of this cache
 
@@ -435,27 +449,48 @@ At the end of the transaction, Hibernate will launch a flush() of this cache
 * Execution of all requests as a result
 * Launching commit() if everything is OK or rollback()
 
-== Association mappings
+NOTE: Hibernate stores everything read from the database in a first-level cache. This cache is linked to the current transaction. +
+[.small .small-block]#If you do twice a find() on the same instance, it will only be loaded once#
+
+=== Schema generation
+
+Hibernate (JPA implementation) is able to parse yours entities to generate your database schema. It's very useful when you develop an app.
+
+In Spring you just have to add some properties in `application.properties` file.
+
+Update the file `application.properties` and add these keys
+
+[.small]
+[source,java, subs="specialchars"]
+----
+# Spring boot : JPA
+spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+spring.jpa.generate-ddl=true
+spring.jpa.show_sql=true
+----
+* H2Dialect gives information to Hibernate for native SQL
+* *generate-ddl* allows you to auto generate the schema (tables, constraints) from your Java data model (false if you do not want to do anything)
+* *show_sql* displays queries in the logs (usefull in development)
+
+== JPA and association mappings
 
 Association mappings are one of the key features of JPA and Hibernate. They define the relationship between the database tables and the attributes in your Entity.
 
 image::../../img/training/spring-intro/relation.png[size=100%]
 
-A relationship between JPA entities. can be unidirectional or bidirectional. In this second case, one of the two entities must be master and the other slave.
+An association between JPA entities. can be unidirectional or bidirectional. In this second case, one of the two entities must be master and the other slave.
 
-It defines in which direction you can use the relationship.
+It defines in which direction you can use the association.
 
 
-== @OneToOne
+=== @OneToOne
 
-Example of *unidirectional relation*: a city has a mayor but the mayor does not know his city
+Example of *unidirectional association*: a city has a mayor but the mayor does not know his city
 
 image::../../img/training/spring-intro/relation1to1.png[]
 
-A column mayor_id will be added in the table and a foreign key will be created
+A column *mayor_id* will be added in the table *City* and a foreign key will be created
 
-
-[.langage-small]
 [source,java, subs="specialchars"]
 ----
 @Entity
@@ -469,7 +504,7 @@ public class Mayor {
 
 
 @Entity
-public class Town {
+public class City {
      @Id
      private Long id;
      private String name;
@@ -480,43 +515,44 @@ public class Town {
 }
 ----
 
-Example of *bidirectional* relationship: a city has a mayor and the mayor now knows his city
+Example of *bidirectional* association: a city has a mayor and the mayor now knows his city
 
-A column mayor_id will be added in the `Town` table and a foreign key will be created but we have no town_id in the `Mayor` table (Master is town)
+With this code a column *mayor_id* will be added in the `*City*` table and a foreign key will be created. *Mayor* table  won't have a reference to city. *mappedby* tells hibernate not to map this field because it's already mapped by this field [here property mayor in City entity].
 
 [.langage-small]
 [source,java, subs="specialchars"]
 ----
+// Slave
+@Entity
+public class City {
+    @Id
+    private Long id;
+    private String name;
+
+    @OneToOne
+    private Mayor mayor;
+
+    // Reste du code
+}
+
+// Master
 @Entity
 public class Mayor {
     @Id
     private Long id;
     private String name;
 
-    @OneToOne
-    private Town town;
+    @OneToOne(mappedBy = "mayor")
+    private City city;
     //...
-}
-
-
-@Entity
-public class Town {
-    @Id
-    private Long id;
-    private String name;
-
-    @OneToOne(mappedBy="mayor")
-    private Mayor mayor;
-
-    // Reste du code
 }
 ----
 
-`mappedBy` indicates that the `Town` table will be the master and will bring the relationship to the database.
+> If you forget to define a master and a slave in the association (no association with a mappedBy), you will have a mayor_id reference in the City table and a city_id reference in the Mayor table with 2 constraints. In this case, you will not be able to delete a row because you will always have a constraint error.
 
-== @OneToMany
+=== @OneToMany
 
-Example of *unidirectional* relation: a site has one or more sensors (sensor does not link to a site)
+Example of *unidirectional* association: a site has one or more sensors (sensor does not link to a site)
 
 image::../../img/training/spring-intro/relation1ton.png[]
 
@@ -534,7 +570,6 @@ public class Sensor {
      // ...
 }
 
-
 @Entity()
 public class Site {
     @Id
@@ -549,13 +584,13 @@ public class Site {
 ----
 
 
-== @ManyToOne
+=== @ManyToOne
 
-Example of *unidirectional* relation: a measurement is linked to a sensor and the sensor does not have the list of measurements
+Example of *unidirectional* association: a measurement is linked to a sensor and the sensor does not have the measurement list
 
 image::../../img/training/spring-intro/relationnto1.png[]
 
-A sensor_id column will be added to the Measure table and a foreign key will be created
+A *sensor_id* column will be added to the *Measurement* table and a foreign key will be created
 
 [.langage-small]
 [source,java, subs="specialchars"]
@@ -570,7 +605,7 @@ public class Sensor {
 }
 
 @Entity
-public class Measure {
+public class Measurement {
 
     @Id
     private Long id;
@@ -582,15 +617,14 @@ public class Measure {
 }
 ----
 
+=== @OneToMany @ManyToOne
 
-== @OneToMany @ManyToOne
 
-
-Example of *bidirectional* relation: a site has n sensors and sensor knows his site
+Example of *bidirectional* association: a site has n sensors and sensor knows its site
 
 image::../../img/training/spring-intro/relation1ton2.png[]
 
-Only the @OneToMany annotation has a `mappedBy` property (which is used to designate the master)
+*Only the @OneToMany annotation has a `mappedBy` property* (which is used to designate the master)
 
 [.langage-small]
 [source,java, subs="specialchars"]
@@ -622,9 +656,9 @@ public class Site {
 }
 ----
 
-== @ManyToMany
+=== @ManyToMany
 
-Exemple relation *unidirectionnelle* : a musician plays several instruments (instrument does not know who uses it)
+Example of *unidirectional* association: a musician plays several instruments (instrument does not know who uses it)
 
 image::../../img/training/spring-intro/relationnton.png[]
 
@@ -642,7 +676,6 @@ public class Instrument {
      // ...
 }
 
-
 @Entity()
 public class Musician {
     @Id
@@ -656,98 +689,42 @@ public class Musician {
 }
 ----
 
-Example *bidirectional* relation : a musician plays several instruments (instrument knows that they play musicians)
+Example *bidirectional* association: a musician plays several instruments (instrument knows that they play musicians)
 
 A join table is always present (with 2 foreign keys) but we must define who is master
 
 [.langage-small]
 [source,java, subs="specialchars"]
 ----
+// Slave
 @Entity
 public class Instrument {
     @Id
     private Long id;
     private String name;
 
-    @ManyToMany(mappedBy="instruments")
+    @ManyToMany
     private Set<Musician> musicians;
      // ...
 }
 
-
+// Master
 @Entity()
 public class Musician {
     @Id
     private Long id;
     private String name;
 
-    @ManyToMany
+    @ManyToMany(mappedBy="musicians")
     private Set<Instrument> instruments;
 
     // ...
 }
 ----
 
-
-== Data Access Object (DAO)
-
-A DAO (Data Access Object) lets you persist your Entities.
-
-The DAO is basically an object or an interface that provides access to an underlying database or any other persistence storage.
-
-That definition from http://en.wikipedia.org/wiki/Data_access_object[Wikipedia]
-
-An example of Spring Data Jpa repository
-[.langage-small]
-[source,java, subs="specialchars"]
-----
-public interface SensorDao extends JpaRepository<Sensor, Long> {
-}
-----
-
-This extends a Spring Data interface, which provides common methods such as findOne, save and more. This repository will handle Sensors entities, and those are identified by an Id of type Long
-
-[.small .small-block]#If you want to create your own methods, you have to create a new interface#
-[.langage-verysmall]
-[source,java, subs="specialchars"]
-----
-public interface SensorCustomDao {
-    List<Sensor> findBySiteId(String siteId);
-}
-----
-
-[.small .small-block]#You need to update the main interface#
-[.langage-verysmall]
-[source,java, subs="specialchars"]
-----
-public interface SensorDao extends JpaRepository<Sensor, String>, SensorCustomDao {
-}
-----
-
-[.small .small-block]#And now you can implement your `SensorCustomDao` and use entitiy manager to execute requests#
-
-[.langage-verysmall]
-[source,java, subs="specialchars"]
-----
-@Repository
-public class SensorCustomDaoImpl implements SensorCustomDao {
-
-    @PersistenceContext
-    private EntityManager em;
-
-    @Override
-    public List<Sensor> findBySiteId(String siteId) {
-        return em.createQuery("select c from Sensor c inner join c.site s where s.id = :siteId",
-                              Sensor.class)
-                 .setParameter("siteId", siteId)
-                 .getResultList();
-    }
-}
-----
-
 == JPQL
 
-With JPA we don't write SQL but JPQL (Java Persistence Query Language). We don't use the column names but we use the JPA entities
+With JPA we don't write SQL but https://docs.oracle.com/html/E13946_04/ejb3_langref.html[JPQL] (Java Persistence Query Language). *We don't use the column names but we use the JPA entities* in.
 
 In SQL we select a list of columns belonging to one or more tables. In JPQL we select an entity.
 
@@ -776,280 +753,390 @@ select c from Sensor c join c.site s where s.id = :siteId
 select c from Sensor c left join c.site s where s.id = :siteId
 ----
 
-== Spring Data JPA
+== Data Access Object (DAO)
+
+A DAO (Data Access Object) lets you persist your Entities. The DAO is basically an object or an interface that provides access to an underlying database or any other persistence storage.
+
+That definition from http://en.wikipedia.org/wiki/Data_access_object[Wikipedia]
+
+An example of Spring Data Jpa repository (DAO)
+
+[.langage-small]
+[source,java, subs="specialchars"]
+----
+public interface SensorDao extends JpaRepository<Sensor, Long> {
+    @Query("select c from Sensor c where c.name=:name")
+    Sensor findByName(@Param("name") String name);
+}
+----
+
+https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#repositories[*JpaRepository*] is a Spring Data interface, which provides common methods such as *findOne*, *save*, *delete* and more. This example will handle Sensors entities, and those are identified by an Id of type Long (generics type used in JpaRepository).
+
+=== Spring Data JPA
 
 With Spring Data Jpa, if you respect conventions you don't need to create a DAO implementation
 
 [.langage-small]
 [source,java, subs="specialchars"]
 ----
-public interface SensorDao extends JpaRepository<Sensor, String>, SensorCustomDao {
+public interface SensorDao extends JpaRepository<Sensor, String> {
 
-    List<Sensor> findBySiteId(String siteId); // 1.
+    List<Sensor> findBySiteId(String siteId); // (1).
 
-    @Query("select c from Sensor c where c.name=:name")  // 2.
+    @Query("select c from Sensor c where c.name=:name")  // (2)
     Sensor findByName(@Param("name") String name);
 
-    @Modifying
+    @Modifying // (3)
     @Query("delete from Sensor c where c.name = ?1")
     void deleteByName(String name);
 }
 ----
 
-1.  findBy pattern allows to execute a query and return an occurrence or an occurrence list
-2. @Query helps to execute a JPQL query. Here we use a named parameter
-3. Another example with an update. In this case, you must use an @Modifying annotation
+1. *findBy* pattern allows to execute a query and return an occurrence or an occurrence list
+2. *@Query* helps to execute a JPQL query. Here we use a named parameter called name.
+3. Another example with an update. In this case, you must use an *@Modifying* annotation
 
+If a method starts by `findBy`, `findDistinctBy`, `countBy`, ...
 
-A request starts by `findBy`, `findDistinctBy`, `countBy`, ...
-
-You can after add a property
-[.langage-small]
+* You can after add a property
++
 [source,java, subs="specialchars"]
 ----
 List<Sensor> findByName(String name);
 ----
-
-You can add a property of a property
-[.langage-small]
+* You can add a property of a property
++
 [source,java, subs="specialchars"]
 ----
 List<Sensor> findBySiteId(String siteId);
 ----
-
-You can cumulate criteria
-[.langage-small]
+* You can cumulate criteria
++
 [source,java, subs="specialchars"]
 ----
 List<Sensor> findByNameAndSiteId(String name, String siteId);
 List<Sensor> findByNameOrSiteId(String name, String siteId);
 ----
-
-
-You can ignore upper or lower case
-[.langage-small]
+* You can ignore upper or lower case
++
 [source,java, subs="specialchars"]
 ----
 List<Sensor> findByNameIgnoreCase(String name);
 List<Sensor> findByNameAndSiteIdAllIgnoreCase(String name, String siteId);
 ----
-
-You can sort data
-[.langage-small]
+* You can sort data
++
 [source,java, subs="specialchars"]
 ----
 List<Sensor> findByNameOrderByNameAsc(String name);
 List<Sensor> findByNameOrderByNameDesc(String name);
 ----
-
-Vous can select only one element (if you have for example an unicity constraint). But in this case if several elements are found an exception is thrown
-[.langage-small]
+* You can select only one element (if you have for example an unicity constraint). But in this case if several elements are found an exception is thrown
++
 [source,java, subs="specialchars"]
 ----
 Sensor findByName(String name);
 ----
 
-You can read link:https://docs.spring.io/spring-data/jpa/docs/2.0.9.RELEASE/reference/html/#repositories.query-methods.details[the documentation] to know more things
+For more informations read link:https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#repositories.query-methods.details[the documentation] to know more things
 
-== Fetching Strategy
+=== Custom DAO
 
-Allows you to specify the loading strategy.
+If you need to create your own queries, you have to create a new interface
 
-* LAZY [.small .small-block]#the value is loaded only when it is used  (default)#
-* EAGER [.small .small-block]#the value is always loaded#
-
-[.langage-small]
+[.langage-verysmall]
 [source,java, subs="specialchars"]
 ----
-@OneToMany(fetch = FetchType.EAGER)
-private Set<Sensor> sensors;
-----
-
-By default we are in Lazy because the goal is to load the minimum of things
-
-If you navigate in your object and if relations are set in Lazy mode, you have 2 cases
-
-* You are attached to a persistence contex [.small .small-block]#one or more queries are started to load the missing data#
-* You are not attached to a persistence contex [.small .small-block]#a LazyInitializationException is launched#
-
-[.langage-small]
-[source,java, subs="specialchars"]
-----
-org.hibernate.LazyInitializationException: could not initialize proxy
-----
-
-If you have to serialize your object or send it to another layer, you have to use DTO. We will see that later
-
-== Lab 4 : JPA
-
-It's time for you to start to build your real application which is able to manage sensors in a building like a light
-
-image::../../img/training/spring-intro/tp.png[size=80%]
-
-Create a Java enum called Status in package `com.emse.spring.faircorp.model`
-
-This enum has 2 values : ON and OFF
-
-Create a Light Entity class in package `com.emse.spring.faircorp.model`. You have to use the JPA annotations
-
-[.langage-small]
-[source,java, subs="specialchars"]
-----
-// 1.
-public class Light {
-
-  // 2.
-  private Long id;
-
-  // 3.
-  private Integer level;
-
-  // 4.
-  private Status status;
-
-  public Light() {
-  }
-
-  public Light(Integer level, Status status) {
-      this.level = level;
-      this.status = status;
-  }
-
-  public Long getId() {
-    return this.id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public Integer getLevel() {
-     return level;
-  }
-
-  public void setLevel(Integer level) {
-     this.level = level;
-  }
-
-  public Status getStatus() {
-     return status;
-  }
-
-  public void setStatus(Status status) {
-     this.status = status;
-  }
+public interface SensorCustomDao {
+    List<Sensor> findBySiteText(String searchText);
 }
 ----
 
-Use the good annotations to
+You need to update the main interface. In our code we will always inject a *SensorDao*. This Dao will have all JpaRepository methods and all your custom queries.
 
-[.small]
-1. Mark this class as a JPA entity
-2. Declare this field as the table ID. This ID must to be auto generated
-3. This field must be not nullable
-4. status is also not nullable, and this field is an enumeration. You have to add this information
-
-Write now the Room Entity. This entity should have
-
-* an auto generated id
-* a non nullable name
-* an non nullable integer to indicate the floor
-* a list of lights. You have to define a bidirectional relation between Room and Light : update the Ligth entity constructor to always send the light room when a room is created, ie add an argument Room in the light constructor
-* create a constructor with non nullable fields
-
-Write now 2 DAO LightDao and RoomDao. We will use them in our code to load data
-
-Update the file `application.properties` and add this keys
-
-[.small]
+[.langage-verysmall]
 [source,java, subs="specialchars"]
 ----
-# Spring boot : JPA
-spring.jpa.database-platform=org.hibernate.dialect.H2Dialect // 1.
-spring.jpa.ddl-auto=create-drop // 2.
-spring.jpa.show_sql=true // 3.
-----
-1. gives information to Hibernate for native SQL
-2. allows you to auto generate the schema (tables, constraints) from your Java data model (none if you do not want to do anything)
-3. displays queries in the logs (usefull in development)
-
-Try to launch your application
-If everything is OK you should use the H2 console and see your tables Ligth and Room
-
-image::../../img/training/spring-intro/console-example.png[]
-
-We're going to populate our database and insert data in tables
-
-Create a file `data.sql` in src/main/resources next to `application.properties`
-
-[.small]
-[source,sql]
-----
-INSERT INTO ROOM(ID, NAME, FLOOR) VALUES(-10, 'Room1', 1);
-INSERT INTO ROOM(ID, NAME, FLOOR) VALUES(-9, 'Room2', 1);
-
-INSERT INTO LIGHT(ID, LEVEL, STATUS, ROOM_ID) VALUES (-1, 8, 'ON', -10);
-INSERT INTO LIGHT(ID, LEVEL, STATUS, ROOM_ID) VALUES (-2, 0, 'OFF', -10);
-----
-
-You're going to write your own DAO methods (for specific requests), you have to create custom interfaces and implementations with your custom methods.
-
-Create your own interface LightDaoCustom
-
-[source,java, subs="specialchars"]
-----
-public interface LightDaoCustom {
-    List<Light> findOnLights();
+public interface SensorDao extends JpaRepository<Sensor, String>, SensorCustomDao {
 }
 ----
 
-Refactor your LightDAO interface : it has to extend LightDaoCustom
-
-Create your own implementation of LightDao with your custom methods and inject the EntityManager (JPA)
+Implement your `SensorCustomDao` and use entitiy manager to execute requests
 
 [source,java, subs="specialchars"]
 ----
-public class LightDaoImpl implements LightDaoCustom {
+@Repository
+public class SensorCustomDaoImpl implements SensorCustomDao {
+
     @PersistenceContext
     private EntityManager em;
 
     @Override
-    public List<Light> findOnLights() {
-        String jpql = "select lt from Light lt where lt.status = :value";
-        return em.createQuery(jpql, Light.class)
-                 .setParameter("value", Status.ON)
+    public List<Sensor> findBySiteText(String searchText) {
+        return em.createQuery("select c from Sensor c inner join c.site s where lover(s.name) like :searchText",
+                              Sensor.class)
+                 .setParameter("searchText", "%" + searchText.toLowerCase() + "%")
                  .getResultList();
     }
 }
 ----
 
-You have to test your DAO. When Spring context is loaded, the database is populated with the file `data.sql` and we can test these values. For that create a new test class in the package `com.emse.spring.faircorp.repository`
+
+
+== Lab 4 : JPA
+
+It's time for you to start to build your real application which is able to manage sensors in a building. The management of the sanitary conditions (COVID-19 pandemic, pollution), user comfort, and energy efficiency, require concurrent management of window openings in the École des Mines buildings.
+
+It is necessary to ventilate as much as possible to limit the spread of the cirus and air pollution in general, but as winter approaches it will become important to heat the buildings to ensure user comfort. Windows should be open during and after classes, closed at night or in case of heavy rain or severe cold. Thus the management of the health crisis becomes concurrent with the quest for energy efficiency in the building.
+
+image::../../img/training/spring-intro/tp.png[size=80%]
+
+> We will now create an application which will able to manage the building windows. +
+- the building has an outside temperature, and rooms +
+- each room has zero or more heaters, has zero or more windows, a name, a floor, a current temperature, a target temperature. +
+- each heater has a name, an `on` or `off` status, possibly a power. +
+- each window has a name, an a status `open` or `closed`
+
+
+=== Entity creation
+
+Create a Java enum called *HeaterStatus* in package `com.emse.spring.faircorp.model`. This enum has 2 values : `ON` and `OFF`
+[source,java, subs="specialchars"]
+----
+public enum Status { ON, OFF}
+----
+
+Create another Java enum called *WindowStatus* in package `com.emse.spring.faircorp.model`. This enum has 2 values : `OPEN` and `CLOSED`
+
+Create an Entity called *Window* in package `com.emse.spring.faircorp.model` (an entity is a class). You have to use the JPA annotations seen previously.
+
+You can copy this code. For the moment this entity has no property room because this entity will be created later.
 
 [source,java, subs="specialchars"]
 ----
+// (1)
+// (2)
+public class Window {
+    // (3)
+    private Long id;
+
+    // (4)
+    private String name;
+
+    // (5)
+    private WindowStatus windowStatus;
+
+    public Window() {
+    }
+
+    public Window(String name, WindowStatus status) {
+        this.windowStatus = status;
+        this.name = name;
+    }
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public WindowStatus getWindowStatus() {
+        return windowStatus;
+    }
+
+    public void setWindowStatus(WindowStatus windowStatus) {
+        this.windowStatus = windowStatus;
+    }
+}
+----
+
+Use the good annotations to
+
+* (1) Mark this class as a JPA entity
+* (2) You must give a different name for your table. H2 can't call a table _Window_ because it is a reserved word. So call it RWINDOW
+* (3) Declare this field as the table ID. This ID must to be auto generated
+* (4) This field must be not nullable
+* (5) WindowStatus is also not nullable, and this field is an enumeration. You have to add this information
+
+Write now
+
+* the *Heater* entity with
+** an auto generated id
+** a non nullable String name
+** a nullable Long power
+** a non nullable room
+** create a constructor with non nullable fields and a default constructor
+* the *Room* entity
+** an auto generated id
+** a non nullable floor (Integer)
+** a non nullable String name
+** a current temperature (Double)
+** a target temperature (Double)
+** a list of heaters. You have to define a bidirectional association between *Room* and *Heater*
+** a list of windows. You have to define a bidirectional association between *Room* and *Window* : update the Window entity constructor to always send the light room when a room is created, ie add an argument Room in the light constructor
+** create a constructor with non nullable fields and a default constructor
+
+You can start your application. If you updated your configuration (see this link:spring-data.html#_schema_generation[chapter]) you should see in your app logs
+
+----
+Hibernate: drop table if exists heater CASCADE
+Hibernate: drop table if exists room CASCADE
+Hibernate: drop table if exists room_windows CASCADE
+Hibernate: drop table if exists rwindow CASCADE
+Hibernate: drop sequence if exists hibernate_sequence
+Hibernate: create sequence hibernate_sequence start with 1 increment by 1
+Hibernate: create table heater (id bigint not null, heater_status varchar(255) not null, name varchar(255) not null, power bigint, room_id bigint not null, primary key (id))
+Hibernate: create table room (id bigint not null, current_temperature double, floor integer not null, name varchar(255) not null, target_temperature double, primary key (id))
+Hibernate: create table room_windows (room_id bigint not null, windows_id bigint not null, primary key (room_id, windows_id))
+Hibernate: create table rwindow (id bigint not null, name varchar(255) not null, window_status varchar(255) not null, room_id bigint not null, primary key (id))
+Hibernate: alter table room_windows add constraint UK_ojyqj1kyod1v2m4eoltwj7sfa unique (windows_id)
+Hibernate: alter table heater add constraint FKba10hbsubifukw0monybjx3a0 foreign key (room_id) references room
+Hibernate: alter table room_windows add constraint FKbpyirwvjc67pkk61hnh5qpn6y foreign key (windows_id) references rwindow
+Hibernate: alter table room_windows add constraint FKaihtbjcqqmheg9s19aala347k foreign key (room_id) references room
+Hibernate: alter table rwindow add constraint FK621arbu4dtuis4nf2o3xtapfn foreign key (room_id) references room
+----
+
+Open your H2 console you should see
+
+image::../../img/training/spring-intro/console-example.png[Expected result in H2 console]
+
+_If you more tables you forgot to declare a bidirectional association..._
+
+=== Populate data
+
+We're going to populate our database and insert data in tables. You can execute the script below in your H2 console, but data will be deleted on the next app reload. Fortunately Spring Boot offers a mechanism to populate a database at startup.
+
+Create a file `data.sql` in `src/main/resources` next to `application.properties`
+
+[.small]
+[source,sql]
+----
+INSERT INTO ROOM(id, name, floor, current_temperature, target_temperature) VALUES(-10, 'Room1', 1, 22.3, 20.0);
+INSERT INTO ROOM(id, name, floor) VALUES(-9, 'Room2', 1);
+
+INSERT INTO HEATER(id, heater_status, name, power, room_id) VALUES(-10, 'ON', 'Heater1', 2000, -10);
+INSERT INTO HEATER(id, heater_status, name, power, room_id) VALUES(-9, 'ON', 'Heater2', null, -10);
+
+INSERT INTO RWINDOW(id, window_status, name, room_id) VALUES(-10, 'CLOSED', 'Window 1', -10);
+INSERT INTO RWINDOW(id, window_status, name, room_id) VALUES(-9, 'CLOSED', 'Window 2', -10);
+INSERT INTO RWINDOW(id, window_status, name, room_id) VALUES(-8, 'OPEN', 'Window 1', -9);
+INSERT INTO RWINDOW(id, window_status, name, room_id) VALUES(-7, 'CLOSED', 'Window 2', -9);
+----
+
+
+=== Dao creation
+
+==== Simple DAO
+Write now 3 link:spring-data.html#_data_access_object_dao[Spring data DAO] *WindowDao*, *HeaterDao* and *RoomDao* in package `com.emse.spring.faircorp.dao` (interface that extends JpaRepository with the good types for entity and its id)
+
+
+You're going to write your own DAO methods (for specific requests), you have to create custom interfaces and implementations with your custom methods.
+
+To check *WindowDao*, create a class *WindowDaoTest*  in *src/test/java/com.emse.spring.faircorp.dao*
+
+[source,java, subs="specialchars"]
+----
+import com.emse.spring.faircorp.model.Window;
+import com.emse.spring.faircorp.model.WindowStatus;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
-class LightDaoCustomImplTest {
-
+class WindowDaoTest {
     @Autowired
-    private LightDao lightDao;
+    private WindowDao windowDao;
 
     @Test
-    public void shouldFindOnLights() {
-        Assertions.assertThat(lightDao.findOnLights())
-                .hasSize(1)
-                .extracting("id", "status")
-                .containsExactly(Tuple.tuple(-1L, Status.ON));
+    public void shouldFindAWindow() {
+        Window window = windowDao.getOne(-10L);
+        Assertions.assertThat(window.getName()).isEqualTo("Window 1");
+        Assertions.assertThat(window.getWindowStatus()).isEqualTo(WindowStatus.CLOSED);
     }
+}
+----
+
+Execute your test. This test shoyld be green. You can write similar tests to test *RoomDao* and *HeaterDao*
+
+video::a_245NeyCrM[youtube, width=600, height=330]
+
+==== Custom DAO
+
+Create your own interface *WindowDaoCustom* in package `com.emse.spring.faircorp.dao`
+
+[source,java, subs="specialchars"]
+----
+public interface WindowDaoCustom {
+    List<Window> findRoomOpenWindows(Long id);
+}
+----
+
+Refactor your *RoomDao* interface : it must extend *WindowDaoCustom*
+
+Create your own implementation of *WindowDaoCustom* with your custom methods and inject the EntityManager (JPA)
+
+[source,java, subs="specialchars"]
+----
+public class WindowDaoCustomImpl implements WindowDaoCustom {
+
+    @PersistenceContext
+    private EntityManager em;
+
+    @Override
+    public List<Window> findRoomOpenWindows(Long id) {
+        String jpql = "select w from Window w where w.room.id = :id and w.windowStatus= :status";
+        return em.createQuery(jpql, Window.class)
+                .setParameter("id", id)
+                .setParameter("status", WindowStatus.OPEN)
+                .getResultList();
+    }
+}
+----
+
+You have to test your DAO. When Spring context is loaded, the database is populated with the file `data.sql` and we can test these values. For that update *WindowDaoTest* test and add these methods
+
+[source,java, subs="specialchars"]
+----
+@Test
+public void shouldFindRoomOpenWindows() {
+    List<Window> result = windowDao.findRoomOpenWindows(-9L);
+    Assertions.assertThat(result)
+            .hasSize(1)
+            .extracting("id", "windowStatus")
+            .containsExactly(Tuple.tuple(-8L, WindowStatus.OPEN));
+}
+
+@Test
+public void shouldNotFindRoomOpenWindows() {
+    List<Window> result = windowDao.findRoomOpenWindows(-10L);
+    Assertions.assertThat(result).isEmpty();
 }
 ----
 
 You have to test and develop :
 
 * a custom DAO linked to room with a method to find a room by name
-* a new method to find the room lights when we send the id of the room
+* add a method in WindowDao to delete all windows in a room.
+* add a method in HeaterDao to delete all heaters in a room.
 * you have to develop these methods and their tests
-* you can now add a new Entity Building (a building has a set of rooms). This relation is bidirectional
+
+When you will finish other lessons you can go back on this chapter and add a new enty to manage a building.
+
+* a building has a set of rooms. This relationship is bidirectional
 * Adds a new DAO BuildingDAO and add a new method to find all the building ligths. You send a building ID and your method should return the list of the lights
 * Adds a unit test to check that everything is OK
 

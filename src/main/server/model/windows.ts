@@ -1,4 +1,4 @@
-export type Status = 'OPEN' | 'CLOSE' | undefined;
+export type Status = 'OPEN' | 'CLOSED' | undefined;
 
 export interface Room {
   id: number,

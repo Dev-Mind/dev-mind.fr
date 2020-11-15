@@ -27,7 +27,7 @@ A Window is defined by several properties
 
 * an id
 * a room
-* a status (OPEN, CLOSE)
+* a status (OPEN, CLOSED)
 
 We are going to create classes to represent windows and rooms.
 
@@ -50,7 +50,7 @@ Note: when a value is nullable you need to suffix type with ?. In our example cu
 +
 [source,kotlin,subs="specialchars"]
 ----
-enum class Status { OPEN, CLOSE}
+enum class Status { OPEN, CLOSED}
 
 data class WindowDto(val id: Long, val name: String, val room: RoomDto, val status: Status)
 ----
@@ -71,11 +71,11 @@ class WindowService {
 
         // Fake lights
         val WINDOWS: List<WindowDto> = listOf(
-            WindowDto(1, "Entry Window", ROOMS[0], Status.CLOSE),
-            WindowDto(2, "Back Window", ROOMS[0], Status.CLOSE),
+            WindowDto(1, "Entry Window", ROOMS[0], Status.CLOSED),
+            WindowDto(2, "Back Window", ROOMS[0], Status.CLOSED),
             WindowDto(3, "Sliding door", ROOMS[1], Status.OPEN),
-            WindowDto(4, "Window 1", ROOMS[2], Status.CLOSE),
-            WindowDto(5, "Window 2", ROOMS[2], Status.CLOSE),
+            WindowDto(4, "Window 1", ROOMS[2], Status.CLOSED),
+            WindowDto(5, "Window 2", ROOMS[2], Status.CLOSED),
         )
     }
 
