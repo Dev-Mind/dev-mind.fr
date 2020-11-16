@@ -8,19 +8,19 @@
 :imgteaser: ../../img/training/spring-boot.png
 :toc:
 
-Spring MVC is the Web Framework built in Spring;
+https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#spring-web[Spring MVC] is the Web Framework built in Spring;
 
 It helps you write web applications and takes care of a lot of boilerplate code, so you just have to focus on your application features.
 
 image::../../img/training/spring-boot.png[size=100%]
-With Spring Web (Spring MVC) you can write screens with a template solution which are used to generate HTML. But we don't use this solution in this course. We will see how to write REST services
+
+With Spring Web (Spring MVC) you can write screens with a template solution which are used to generate HTML. But we don't use this solution in this course. We will see how to write REST services. However if you are interested you can read https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-view[official documentation].
 
 image::../../img/training/spring-intro/spring-mvc.png[]
 
-With Spring Web you can expose REST services to another app (web api, JS app, android app...)
+With Spring Web you can expose REST services to another app (web api, JS app, android app...). This is the purpose of this lesson. You will learn how to develop endpoints on a backend application. These REST endpoints will be used later by a JS app or an Android app.
 
 image::../../img/training/spring-intro/mvc-rest.png[]
-
 
 
 == Data Transfert Object
@@ -36,40 +36,74 @@ It’s often just a bunch of fields and the getters and setters for them.
 [.small]
 [source,java, subs="specialchars"]
 ----
-public class LightDto {
+public class WindowDto {
+    private Long id;
+    private String name;
+    private WindowStatus windowStatus;
+    private String roomName;
+    private Long roomId;
 
-    private  Long id;
-    private  Integer level;
-    private  Status status;
-
-    public LightDto() {
+    public WindowDto() {
     }
 
-    public LightDto(Light light) {
-        this.id = light.getId();
-        this.level = light.getLevel();
-        this.status = light.getStatus();
+    public WindowDto(Window window) {
+        this.id = window.getId();
+        this.name = window.getName();
+        this.windowStatus = window.getWindowStatus();
+        this.roomName = window.getRoom().getName();
+        this.roomId = window.getRoom().getId();
     }
 
     public Long getId() {
         return id;
     }
 
-    public Integer getLevel() {
-        return level;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public Status getStatus() {
-        return status;
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public WindowStatus getWindowStatus() {
+        return windowStatus;
+    }
+
+    public void setWindowStatus(WindowStatus windowStatus) {
+        this.windowStatus = windowStatus;
+    }
+
+    public String getRoomName() {
+        return roomName;
+    }
+
+    public void setRoomName(String roomName) {
+        this.roomName = roomName;
+    }
+
+    public Long getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(Long roomId) {
+        this.roomId = roomId;
     }
 }
 ----
 
-DTO will be used to transfer and to receive data in our REST controllers (entry point in our Java webapp)
+DTO will be used to transfer and to receive data in our REST controllers (entry point in our Java webapp).
+
+Very often we find a constructor with the entity allowing to build a new instance. *But beware, a DTO must always have an empty constructor*. Libraries used to serialize or deserialize an object use the Java reflection API. In our case we will have a constructor allowing to build a *WindowDto* from *Window* entity.
 
 image::../../img/training/spring-intro/java-objects.png[]
 
 == HTTP
+
 The Hypertext Transfer Protocol (HTTP) is an application protocol used for data communication on the World Wide Web.
 
 HTTP defines methods (sometimes referred to as verbs) to indicate the desired action to be performed on the identified *resource*
@@ -103,83 +137,89 @@ These components are easily identified by the @RestController annotation.
 
 Example of addressable resources
 
-* Retrieve a light list : GET `/api/lights`
-* Retrieve a particular light : GET `/api/lights/{light_id}`
-* Create or update a light : POST `/api/lights`
-* Update a light and switch its status : PUT `/api/lights/{light_id}/switch`
-* Delete a light : DELETE `/api/lights/{light_id}`
+* Retrieve a window list : GET `/api/windows`
+* Retrieve a particular window : GET `/api/windows/{window_id}`
+* Create or update a window : POST `/api/windows`
+* Update a window and update its status : PUT `/api/windows/{window_id}/switch`
+* Delete a window : DELETE `/api/windows/{window_id}`
 
-This LightController handles GET requests for `/api/lights` by returning a list of LightDto.
+This WindowController handles GET requests for `/api/windows` by returning a list of WindowDto.
 
-A complete example to manage lights
+A complete example to manage windows
 
 [.small]
 [source,java, subs="specialchars"]
 ----
-@RestController  // 1.
-@RequestMapping("/api/lights") // 2.
-@Transactional // 3.
-public class LightController {
+@RestController // (1)
+@RequestMapping("/api/windows") // (2)
+@Transactional // (3)
+public class WindowController {
 
-    @Autowired
-    private LightDao lightDao; // 4.
-    @Autowired
-    private RoomDao roomDao;
+    private final WindowDao windowDao;
+    private final RoomDao roomDao;
 
+    public WindowController(WindowDao windowDao, RoomDao roomDao) { // (4)
+        this.windowDao = windowDao;
+        this.roomDao = roomDao;
+    }
 
-    @GetMapping // 5.
-    public List<LightDto> findAll() {
-        return lightDao.findAll()
-                       .stream()
-                       .map(LightDto::new)
-                       .collect(Collectors.toList());
+    @GetMapping // (5)
+    public List<WindowDto> findAll() {
+        return windowDao.findAll().stream().map(WindowDto::new).collect(Collectors.toList());  // (6)
     }
 
     @GetMapping(path = "/{id}")
-    public LightDto findById(@PathVariable Long id) {
-        return lightDao.findById(id).map(light -> new LightDto(light)).orElse(null);
+    public WindowDto findById(@PathVariable Long id) {
+        return windowDao.findById(id).map(WindowDto::new).orElse(null); // (7)
     }
 
     @PutMapping(path = "/{id}/switch")
-    public LightDto switchStatus(@PathVariable Long id) {
-        Light light = lightDao.findById(id).orElseThrow(IllegalArgumentException::new);
-        light.setStatus(light.getStatus() == Status.ON ? Status.OFF: Status.ON);
-        return new LightDto(light);
+    public WindowDto switchStatus(@PathVariable Long id) {
+        Window window = windowDao.findById(id).orElseThrow(IllegalArgumentException::new);
+        window.setWindowStatus(window.getWindowStatus() == WindowStatus.OPEN ? WindowStatus.CLOSED: WindowStatus.OPEN);
+        return new WindowDto(window);
     }
 
-    @PostMapping
-    public LightDto create(@RequestBody LightDto dto) {
-        Light light = null;
-        if (dto.getId() != null) {
-            light = lightDao.findById(dto.getId()).orElse(null);
+    @PostMapping // (8)
+    public WindowDto create(@RequestBody WindowDto dto) {
+        // WindowDto must always contain the window room
+        Room room = roomDao.getOne(dto.getRoomId());
+        Window window = null;
+        // On creation id is not defined
+        if (dto.getId() == null) {
+            window = windowDao.save(new Window(room, dto.getName(), dto.getWindowStatus()));
         }
-
-        if (light == null) {
-            light = lightDao.save(new Light(roomDao.getOne(dto.getRoomId()), dto.getLevel(), dto.getStatus()));
-        } else {
-            light.setLevel(dto.getLevel());
-            light.setStatus(dto.getStatus());
-            lightDao.save(light);
+        else {
+            window = windowDao.getOne(dto.getId());  // (9)
+            window.setWindowStatus(dto.getWindowStatus());
         }
-
-        return new LightDto(light);
+        return new WindowDto(window);
     }
 
     @DeleteMapping(path = "/{id}")
     public void delete(@PathVariable Long id) {
-        lightDao.deleteById(id);
+        windowDao.deleteById(id);
     }
 }
 ----
 
-1. `RestController` is a Spring stereotype to mark a class as a rest service
-2. `@RequestMapping` is used to define the URL prefix used to manage a resource (in our example we manage lights)
-3. In this example we will use a DAO and this DAO is injected via `@Autowired`
-4. `@GetMapping` indicates that the following method will respond to a GET request. This method will return a light list. We transform our entities `Light` in `LightDto`
+* (1) *RestController* is a Spring stereotype to mark a class as a rest service
+* (2) *@RequestMapping* is used to define a global URL prefix used to manage a resource (in our example all requests that start with `/api/windows` will be handle by this controller)
+* (3) *@Transactional* is used to delegate a transaction opening to Spring. Spring will initiate a transaction for each entry point of this controller. This is important because with Hibernate you cannot execute a query outside of a transaction.
+* (4) DAOs used by this controller are injected via constructor
+* (5) *@GetMapping* indicates that the following method will respond to a GET request. This method will return a window list. We transform our entities `Window` in `WindowDto`
+* (6) (7) We use https://www.oracle.com/technical-resources/articles/java/ma14-java-se-8-streams.html[Java Stream API] to manipulate our data
+* (8) *@PostMapping* indicates that the following method will respond to a POST request (for saving).
+* (9) For an update you don't need to call the DAO save method. Method `getOne` load the persisted data and all changes on this object (attached to a persistent context) will be updated when the transaction will be commited.
 
-== Lab 5 : Rest service
+== Lab : Create your rest services
 
-Create your first REST controller
+
+=== A basic example
+
+This is the time to create your first REST controller with Spring.
+
+Create a new class *HelloController* in package `com.emse.spring.faircorp.api`
 
 [.small]
 [source,java, subs="specialchars"]
@@ -210,7 +250,13 @@ public class HelloController {
 }
 ----
 
-Launch your app with `gradlew bootRun` and open the URL http://localhost:8080/api/hello/Guillaume in your browser
+=== Test your service
+
+==== Browser for GET requests
+
+If your REST service expose an handler for a GET HTTP request, this handler can be tested in a browser.
+
+Launch your app and open the URL http://localhost:8080/api/hello/Guillaume in your browser
 
 When you type an URL in the adress bar, your browser send a GET HTTP request. You should see a response as this one
 
@@ -219,76 +265,72 @@ When you type an URL in the adress bar, your browser send a GET HTTP request. Yo
 {"message":"Hello Guillaume"}
 ----
 
+==== Swagger for all requests
+
+With a browser you are limited to GET requests. If you want to test PUT, POST or DELETE HTTP requests, you need another tool. We will use https://swagger.io/[swagger].
+
+The advantage of swagger is that it is very well integrated into the Spring world. Update your `build.gradle` file and add these dependencies
+
+[source,java, subs="specialchars"]
+----
+implementation 'io.springfox:springfox-boot-starter:3.0.0'
+----
+
+And now you can relaunch your app and open swagger interface http://localhost:8080/swagger-ui/index.html
+
+All your endpoints are available. You can click on one of them to test it
+
+video::f6FUpLs0H_4[youtube, width=600, height=330]
+
+=== Add WindowController
+
 Read the previous examples and create
 
-* a DTO LightDto
+* a DTO *WindowDto* and the REST service *WindowController*
 * a rest service which is able to
-** Retrieve a light list via a GET
-** Retrieve a particular light via a GET
-** Create or update a light via a POST
-** Update a light and switch its status via a PUT
-** Delete a light via a DELETE
+** Retrieve a window list via a GET
+** Retrieve a particular window via a GET
+** Create or update a window via a POST
+** Update a window and switch its status via a PUT
+** Delete a window via a DELETE
 
-Use postman (see presentation above) to test your API to manage yours lights
+Use swagger to test your API
 
-* create a new light
-* list all the lights
-* list the light which have the id `-2`
+* create a new window
+* list all the window
+* find the window with id `-8`
 * switch its status
-* updates its level
-* deletes this light
+* deletes this window
 
-== Postman
-To test our services, we need a client which be able to write and send requests. We will use a Chrome addon : https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop[postman]
+=== More Rest service
 
-image::../../img/training/spring-intro/postman.png[]
+You can now create BuildingDto, RoomDtoo, HeaterDto and write services which follow this service
 
-=== Launch Postman
-Postman is added to the chrome apps.
+[source,java, subs="specialchars"]
+----
+/api/heaters (GET) send heaters list
+/api/heaters (POST) add a heater
+/api/heaters/{heater_id} (GET) read a heater
+/api/heaters/{heater_id} (DELETE) delete a heater
+----
 
-image::../../img/training/spring-intro/postman1.png[]
-
-We're going to create a request
-
-image::../../img/training/spring-intro/postman2.png[]
-
-You have to choose how to save this request
-
-image::../../img/training/spring-intro/postman4.png[]
-
-=== Execute requests
-
-You can try to launch a GET request to read lights on http://localhost:8080/api/lights
-
-image::../../img/training/spring-intro/postman5.png[]
-
-Or create a new one with a POST
-
-image::../../img/training/spring-intro/postman6.png[]
-
-
-
-== Lab 6 : Rest service
-
-You can now create BuildingDto, RoomDto and write services which follow this service
 
 [source,java, subs="specialchars"]
 ----
 /api/rooms (GET) send room list
 /api/rooms (POST) add a room
 /api/rooms/{room_id} (GET) read a room
-/api/rooms/{room_id} (DELETE) delete a room and all its lights
-/api/rooms/{room_id}/switchLight switch the room lights
+/api/rooms/{room_id} (DELETE) delete a room and all its windows and its heaters
+/api/rooms/{room_id}/switchWindow switch the room windows (OPEN to CLOSED or inverse)
+/api/rooms/{room_id}/switchHeaters switch the room heaters (ON to OFF or inverse)
 ----
-
-and
 
 [source,java, subs="specialchars"]
 ----
-/api/buildings (GET) send room list
+/api/buildings (GET) send building list
 /api/buildings (POST) add a building
 /api/buildings/{building_id} (GET) read a building
-/api/buildings/{building_id} (DELETE) delete a building and all its rooms and all its lights
+/api/buildings/{building_id} (DELETE) delete a building and all its rooms and all its windows and heaters
 ----
 
 
@@ -316,37 +358,3 @@ If your Vue.js app is launched on http://localhost:3010 ou can open your API onl
 ----
 @CrossOrigin(origins = { "http://localhost:3010" }, maxAge = 3600)
 ----
-
-== Lab 6+ replace postman by Swagger embedded in your app
-
-More informartion on http://swagger.io/
-
-To use Swagger in your app you need to update your `build.gradle` file and add these dependencies
-
-[source,java, subs="specialchars"]
-----
-implementation 'io.springfox:springfox-swagger2:2.9.2'
-implementation 'io.springfox:springfox-swagger-ui:2.9.2'
-----
-
-You need to configure Swagger. For that créate a configuration bean in your app
-
-[source,java, subs="specialchars"]
-----
-@Configuration
-@EnableSwagger2
-public class FaircorpConfig {
-
-	@Bean
-	public Docket api() {
-		return new Docket(DocumentationType.SWAGGER_2)
-				.select()
-				.apis(RequestHandlerSelectors.any())
-				.paths(PathSelectors.any())
-				.build();
-	}
-}
-----
-
-And now you can relaunch you app and Play with the swagger interface http://localhost:8080/swagger-ui.html
-Try to launch several action tu update, insert load data
