@@ -32,22 +32,12 @@ image::../../img/training/unit-test/coding.png[]
 
 You have different types of tests
 
-*Installation testing* +
-[.small .small-block]#A software is often a set of little apps (web app, spring boot app, datasource....). This kind of test helps to check if your installation procedure is correct and if the software can be used#
-
-*Security testing* +
-[.small .small-block]#Checks the security and if your data keep confidential and not available from hackers#
-
-*Performance testing* +
-[.small .small-block]#to determine how a system or sub-system performs in terms of responsiveness and stability under a particular workload#
-
-*End to end testing* +
-[.small .small-block]#You test your app as a user. These tests are sometimes called functional tests#
-
-*Unit testing* +
-[.small .small-block]#We test every units of source code (each class, each methods...).#
-
-...
+* *Installation testing*: A software is often a set of little apps (web app, spring boot app, datasource....). This kind of test helps to check if your installation procedure is correct and if the software can be used
+* *Security testing*: Checks the security and if your data keep confidential and not available from hackers
+* *Performance testing*: to determine how a system or sub-system performs in terms of responsiveness and stability under a particular workload
+* *End to end testing*: You test your app as a user. These tests are sometimes called functional tests
+* *Unit testing*: We test every units of source code (each class, each methods...).
+* ...
 
 
 Manual tests are cheaper on short-term but more expensive on long-term
@@ -139,14 +129,9 @@ image::../../img/training/unit-test/test3.png[]
 
 To simulate collabators, you have several possibilities
 
-*Use a fake object* +
-[.small .small-block]#You create an object only for your test (it's not a good solution)#
-
-*Use a spy object* +
-[.small .small-block]#You create a spy from the the real implementation of one collaborator. You use a library for that and you can overrided the returned values#
-
-*Use a mock object* +
-[.small .small-block]#A mock is created via a library from a specified contract (an interface). And you can pre preprogrammed these objects to return your wanted values during the test#
+* *Use a fake object*: You create an object only for your test (it's not a good solution)
+* *Use a spy object*: You create a spy from the the real implementation of one collaborator. You use a library for that and you can overrided the returned values
+* *Use a mock object*: A mock is created via a library from a specified contract (an interface). And you can pre preprogrammed these objects to return your wanted values during the test
 
 
 == Black box
@@ -273,7 +258,6 @@ image::../../img/training/unit-test/assertj-completion.png[]
 
 You can find more informations on the official website http://joel-costigliola.github.io/assertj
 
-[background-color="#3c3c3c"]
 == Lab 5 : Unit tests
 
 You need to clone a new project in your workspace. Use a terminal and launch
