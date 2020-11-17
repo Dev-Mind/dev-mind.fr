@@ -1,4 +1,4 @@
-:doctitle: Gradle in pratice (EN)
+:doctitle: Gradle in practice (EN)
 :description: Comment construire une application Java interfacée à une base de données et exposant des services REST
 :keywords: Gradle
 :author: Guillaume EHRET - Dev-Mind
