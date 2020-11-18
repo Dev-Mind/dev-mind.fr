@@ -716,49 +716,4 @@ When an dependency needs to be loaded
 * If the target is a Maven repository and the pom.xml has a parent, Gradle tries to load them
 
 
-== Build scan [optional]
-
-Gradle provides a tool online to analyse your  builds.
-
-This tool is optimized for Gradle Entreprise, but some features are available on the free version
-
-image::../../img/training/gradle/build-scan.png[Build scan, width=100%]
-
-To use this tool, you have to update your `build.gradle` file and add
-
-[source,shell]
-----
-plugins {
-    id 'com.gradle.build-scan' version '1.16'
-}
-
-buildScan {
-    termsOfServiceUrl = 'https://gradle.com/terms-of-service';
-    termsOfServiceAgree = 'yes'
-}
-----
-
-You can now launch a scan
-
-[source,shell]
-----
-$ ./gradlew build --scan
-
-
-BUILD SUCCESSFUL in 0s
-5 actionable tasks: 5 up-to-date
-
-Publishing build scan...
-https://gradle.com/s/cyyg2brvlolaa
-----
-
-Click on the link and type your email
-
-image::../../img/training/gradle/build-scan2.png[Build scan, width=50%]
-
-image::../../img/training/gradle/build-scan-report1.png[Raport build scan, width=100%]
-
-image::../../img/training/gradle/build-scan-report2.png[Raport build scan, width=100%]
-
-image::../../img/training/gradle/build-scan-report3.png[Raport build scan, width=100%]
 
