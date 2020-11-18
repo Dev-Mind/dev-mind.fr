@@ -397,7 +397,7 @@ Each plugin has a documentation https://docs.spring.io/spring-boot/docs/2.0.5.RE
 
 == Customize tasks
 
-Open your project `gradle-demo` in IntelliJ and add the following code
+Open your project `gradle-demo` in IntelliJ and add the following code in `build.gradle`
 
 [.small]
 [.code-height]
