@@ -1,0 +1,502 @@
+:doctitle: Kotlin for a Java developer (EN)
+:description: How to start in Kotlin when you know only Java language
+:keywords: Kotlin
+:author: Guillaume EHRET - Dev-Mind
+:revdate: 2020-11-12
+:category: Kotlin
+:teaser: How to start in Kotlin when you know only Java language.
+:imgteaser: ../../img/training/learn-kotlin.png
+:toc:
+
+In few words Kotlin is
+
+* *Concise* Drastically reduce the amount of boilerplate code
+* *Interoperable* Leverage existing libraries for the JVM, Android, and the browser. You can call Kotlin code in Java or Java code in Kotlin
+* *Safe* Kotlin essaie de vous aider à réduire les erreurs telles que les exceptions de pointeur nul
+
+image::../../img/training/learn-kotlin.png[Learn Kotlin]
+
+== Executable class
+
+An executable Java class is a class which, when handed over to the JVM, starts its execution at a particular point in the class, the main method.
+
+For example
+
+[source,java, subs="specialchars"]
+----
+public class HelloWorldApplication {
+    public static void main(String[] args) {
+        String name = "Guillaume";
+        System.out.println("Hello EMSE I am " + name);
+    }
+}
+----
+
+In IntelliJ you can use the contextual menu (right click) to run this class and see the result in console
+
+----
+Hello EMSE I am Guillaume
+----
+
+With Kotlin you can write to produce the same result
+
+[source,kotlin, subs="specialchars"]
+----
+fun main(args: Array<String>) {
+    val name = "Guillaume"
+    println("Hello EMSE I am $name")
+}
+----
+
+* You can write functions not attached to a class (the compiler will do it for you)
+* The `public` visibility is the default in Kotlin and therefore no need to define it each time
+* Semicolons are no longer necessary
+* Kotlin does a lot of type inference (the compiler tries to guess which type you are using) and you don't need to define the type if the compiler can infer it (example of the name or you don't need to specify the type String)
+* You can use String templates and directly access the content of a variable with `$`
+
+If you want to test Kotlin code in your browser you can use https://play.kotlinlang.org
+
+== Types
+
+Kotlin use https://kotlinlang.org/docs/reference/basic-types.html[basic types]. The most used are
+
+* Integer numbers : Int (Integer in Java), Long
+* Floating-point number : Double, Float
+* String
+* Boolean
+* Arrays
+* Collections : List, Set, Map...
+
+== Immutability
+
+Kotlin forces you to use immutability when you develop. An immutable object is an object whose state cannot be modified after it is created. It allows you to write safer and cleaner code.
+
+When you want to declare a variable you can use the keyword *val*. We did that in our first example
+
+[source,kotlin, subs="specialchars"]
+----
+val name = "Guillaume"
+----
+
+When the value is defined you can't update it. With the code below, the compiler will fail with an Error "Val cannot be reassigned".
+
+[source,kotlin, subs="specialchars"]
+----
+name = "Someone else"
+----
+
+If you need to reassign the value you can use keyword  *var*
+
+[source,kotlin, subs="specialchars"]
+----
+var name = "Guillaume"
+name = "Someone else"
+----
+
+Collections (List, Set, Map...) are also immutable in Kotlin. The code below will fail because type List is immutable and method add does not exist
+
+[source,kotlin, subs="specialchars"]
+----
+val rooms: List<Room> = listOf()
+rooms.add(Room(1, "Room1"))
+----
+
+When you want a mutable collection you have dedicated types
+
+[source,kotlin, subs="specialchars"]
+----
+val rooms: MutableList<Room> = mutableListOf()
+rooms.add(Room(1, "Room1"))
+----
+
+== Nullability
+
+One of the most common pitfalls in many programming languages, including Java, is that accessing a member of a null reference will result in a null reference exception. Kotlin's type system is aimed at eliminating the danger of null references from code.
+
+[source,kotlin, subs="specialchars"]
+----
+var a: String = "abc" // Regular initialization means non-null by default
+a = null // compilation error
+----
+
+In Kotlin, the type system distinguishes between references that can hold null (nullable references) and those that can not (non-null references). To allow nulls, we can declare a variable as nullable string, written *String?*:
+
+[source,kotlin, subs="specialchars"]
+----
+var b: String? = "abc" // can be set null
+b = null // ok
+----
+
+*When you want declare a nullable value add ? to the type*
+
+For more details read this https://kotlinlang.org/docs/reference/null-safety.html[article]
+
+== Functions
+
+=== Function declarations
+A function is define with the keyword *fun*. In Kotlin. Arguments args, returned type are always after  For example
+
+[source,kotlin, subs="specialchars"]
+----
+fun double(x: Int): Int {
+    return 2 * x
+}
+----
+
+You can call this function
+
+[source,kotlin, subs="specialchars"]
+----
+val result = double(2)
+----
+
+=== Default arguments
+
+You can use default argument in Kotlin. For example:
+
+[source,kotlin, subs="specialchars"]
+----
+fun double(x: Int = 4): Int {
+    return 2 * x
+}
+
+double(2) // returns 4
+double() // returns 8 (the default value is applied)
+----
+
+=== Named arguments
+
+When calling a function, you can name one or more of its arguments. This may be helpful when a function has a large number of arguments
+
+[source,kotlin, subs="specialchars"]
+----
+fun foo(bar: Int = 0, baz: Int) : Int { /*...*/ }
+val result = foo(baz = 4)
+----
+
+== Classes
+
+=== Definition
+
+Classes in Kotlin are declared using the keyword *class*. A class in Kotlin can have a primary constructor and one or more secondary constructors. The primary constructor is part of the class header: it goes after the class name (and optional type parameters).
+
+[source,kotlin, subs="specialchars"]
+----
+class Person constructor(firstName: String) { /*...*/ }
+----
+
+If the primary constructor does not have any annotations or visibility modifiers, the constructor keyword can be omitted:
+
+[source,kotlin, subs="specialchars"]
+----
+class Person(firstName: String) { /*...*/ }
+----
+
+=== Inheritance
+
+*By default, Kotlin classes are final: they can’t be inherited*. To make a class inheritable, mark it with the open keyword.
+
+[source,kotlin, subs="specialchars"]
+----
+open class Base(p: Int)
+class Derived(p: Int) : Base(p)
+----
+
+For more detail read this https://kotlinlang.org/docs/reference/classes.html#inheritance[article].
+
+=== Simple data object & data class
+
+We frequently create classes whose main purpose is to hold data. In such a class some standard functionality and utility functions are often mechanically derivable from the data.
+
+Example in Java
+
+[source,java, subs="specialchars"]
+----
+public class WindowDto {
+private Long id;
+private String name;
+private WindowStatus windowStatus;
+private String roomName;
+private Long roomId;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public WindowStatus getWindowStatus() {
+        return windowStatus;
+    }
+
+    public void setWindowStatus(WindowStatus windowStatus) {
+        this.windowStatus = windowStatus;
+    }
+
+    public String getRoomName() {
+        return roomName;
+    }
+
+    public void setRoomName(String roomName) {
+        this.roomName = roomName;
+    }
+
+    public Long getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(Long roomId) {
+        this.roomId = roomId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        WindowDto windowDto = (WindowDto) o;
+        return Objects.equals(name, windowDto.name) &&
+                Objects.equals(roomId, windowDto.roomId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, windowStatus, roomName, roomId);
+    }
+}
+----
+
+In Kotlin, you can use a https://kotlinlang.org/docs/reference/data-classes.html[data class] to do the same thing
+
+[source,kotlin, subs="specialchars"]
+----
+data class WindowDto(
+    val id: Long,
+    val name: String,
+    val windowStatus: WindowStatus,
+    val roomName: String,
+    val roomId: Long
+)
+----
+
+The compiler automatically derives the following members from all properties declared in the primary constructor
+
+* equals()/hashCode() functions
+* toString() of the form "WindowDto(id=12, name=Window1, roomName=S12, roomId=23)";
+* copy() to easily copy this data class
+
+=== Enums
+
+The most basic usage of enum classes is implementing type-safe enums:
+
+[source,kotlin, subs="specialchars"]
+----
+enum class Direction {
+    NORTH, SOUTH, WEST, EAST
+}
+----
+
+=== Interfaces
+
+Interfaces in Kotlin can contain declarations of abstract methods, as well as method implementations. What makes them different from abstract classes is that interfaces cannot store state (they can have properties but these need to be abstract or to provide accessor implementations.)
+
+An interface is defined using the keyword *interface*
+
+[source,kotlin, subs="specialchars"]
+----
+interface MyInterface {
+    fun bar()
+    fun foo() {
+        // optional body
+    }
+}
+----
+
+A class or object can implement one or more interfaces
+
+[source,kotlin, subs="specialchars"]
+----
+class Child : MyInterface {
+    override fun bar() {
+        // body
+    }
+}
+----
+
+=== Inner class
+
+When you program in Java or Kotlin, you very often use inner classes.
+
+[source, kotlin, subs="specialchars"]
+----
+class HelloWorld {
+
+    public String name(){
+        return "Dev-Mind";
+    }
+
+    class A {
+        public void hello(){
+            System.out.println("Hello world" + name()); // Compilation error => method name() is not visible
+        }
+    }
+}
+----
+
+Inner classes in Java are non-static by default, so you can use the global methods or attributes of the enclosing class in the inner class. For example in our example, class `A` can use the  `name()` method.
+
+A non-static inner class has a reference to its enclosing class. When ths inner class is no longer in use, the garbage collector cannot do its job and delete it. Indeed the inner class is considered active (used by the internal class). It is not a problem if your app use singletons (Spring). But in the Android world, on a device with limited resources, it's more problematic. Especially if we use inner classes in objects which are very often destroyed and rebuilt (activities are deleted and recreated after each configuration change). Many developers get tricked into introducing memory leaks in their applications in this way.
+
+In Java to avoid the problem you have to use `static inner class`. In Kotlin when you create a nested class you do not have access to the variables and methods of the class (equivalent of a static inner class)
+
+[source, kotlin, subs="specialchars"]
+----
+class HelloWorld {
+
+    fun name() = "Dev-Mind"
+
+    class A {
+        fun hello() {
+            println("Hello world" + name())
+        }
+    }
+}
+----
+
+You can still create the equivalent of an inner class using the `internal inner class` syntax. Once again, the language has chosen to simplify the most common use case.
+
+== Function extension
+
+When we program we use many external libraries, and we do not have control on them. Consider a use case. We have to do statistics by citizen age.
+
+[source, kotlin, subs="specialchars"]
+----
+data class Citizen(val firstname: String,
+                   val lastname: String,
+                   val sexe: Sexe,
+                   val birthdate: LocalDate)
+----
+
+To determine the age you can write a function
+
+[source, kotlin, subs="specialchars"]
+----
+fun getAge(date: LocalDate) = LocalDate.now().year - date.year
+
+val barackObama = Citizen("Barack", "Obama", Sexe.MALE, LocalDate.parse("1961-08-04"))
+val barackAge = getAge(barackObama.birthdate)
+----
+
+With Kotlin you can also extend the `LocalDate` class and create a new method (function extension) that will be specific to you and that you can use in your whole project. for example
+
+[source, kotlin, subs="specialchars"]
+----
+fun LocalDate.getAge() = LocalDate.now().year - this.year
+
+// With this function extension you can write
+val barackAge = barackObama.birthdate.getAge()
+----
+
+Better instead of exposing a function you can expose a property
+
+[source, kotlin, subs="specialchars"]
+----
+val LocalDate.age
+    get() = LocalDate.now().year - this.year
+
+val barackAge = barackObama.birthdate.age
+----
+
+
+== Higher-Order Functions
+
+A higher order function is a function that takes a function as an argument. In this case you don't need to pass a lambda when calling the method but you can add an execution block just after the method call
+
+Said like that you must be lost and it's normal
+
+=== Example in language
+
+Kotlin used higher order functions (and extensions) to simplify the use of Java streams
+
+[source, kotlin, subs="specialchars"]
+.kotlin.collections code
+----
+public inline fun <T> Iterable<T>.find(predicate: (T) -> Boolean): T? {
+    return firstOrNull(predicate)
+}
+----
+
+If we have a collection of speakers we can select the first one with the first name Guillaume via this code
+
+[source, kotlin, subs="specialchars"]
+----
+val guillaume = speakers.firstOrNull {
+    it.firstname == "Guillaume"  // it is the current item in the collection
+}
+
+//  You can also write
+val guillaume = speakers.firstOrNull { speaker ->
+    speaker.firstname == "Guillaume"
+}
+----
+
+To remember in Java equivalent is
+
+[source, java, subs="specialchars"]
+----
+Speaker speaker = speakers.stream()
+                          .filter(s -> s.getName().equals("Guillaume"))
+                          .findFirst()
+                          .orElse(null)
+----
+
+The Stream Java API is great to use, but the Kotlin collections and extension functions are even nicer.
+
+=== Other example : write a DSL (Domain-specific language)
+
+Kotlin is increasingly known for the flexibility it offers to write a DSL with strong typing.
+
+An example:
+
+[source, kotlin, subs="specialchars"]
+----
+class Cell(val content: String)
+
+class Row(val cells: MutableList<Cell> = mutableListOf()) {
+    // Define an Higher-Order Function
+    fun cell(adder: () -> Cell): Row {
+        cells.add(adder())
+        return this
+    }
+}
+
+class Table(val rows: MutableList<Row> = mutableListOf()) {
+    // Define an Higher-Order Function
+    fun row(adder: () -> Row): Table {
+        rows.add(adder())
+        return this
+    }
+}
+----
+
+In my `Table` class I added a` row` function (with a function as argument) which allows to add a row. The same was done in the `Row` class for a cell. So I can write
+
+[source, kotlin, subs="specialchars"]
+----
+val table = Table()
+    .row { Row().cell { Cell("Test") }}
+    .row { Row().cell { Cell("Test2") }}
+----
+
+== More
+
+This is just an introduction. If you want to become a rock star in Kotlin you can read the official documentation: https://kotlinlang.org/docs/reference/
