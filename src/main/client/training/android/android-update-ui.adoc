@@ -47,7 +47,7 @@ image::../../img/training/android/android-studio-layout.png[Android Studio Layou
 For the moment our page contains only one readonly text field.
 
 1. Select it and delete it with *Suppr* key
-2. We will add an image. Copy this xml file link:../../img/training/android/ic_logo.xml[ic_logo.xml] in your directory *_res > drawable*. This file is a vector drawable image. Directory *drawable* contains all your images. Several formats are available (png, jpg...) but the most optimized is a https://developer.android.com/guide/topics/graphics/vector-drawable-resources[Vector drawable]
+2. We will add an image. Copy this xml file link:../../ic_logo.xml[ic_logo.xml] in your directory *_res > drawable*. This file is a vector drawable image. Directory *drawable* contains all your images. Several formats are available (png, jpg...) but the most optimized is a https://developer.android.com/guide/topics/graphics/vector-drawable-resources[Vector drawable]
 3. In *Common Palette* on the left of the screen click on *ImageView* and drag into your layout. A window is opened to select an image. You will choose the imported image *ic_logo.xml*
 4. Click on *OK* button to import image in your layout
 5. We will use the *blueprint view* to add constraint to this image, to place it on the top of the screen and define a height. See video below for more detail
