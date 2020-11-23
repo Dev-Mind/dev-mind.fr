@@ -105,3 +105,22 @@ image::../../img/training/cloud/clever9.png[]
 
 
 Now you can use your app deployed on the Internet. This app will be automatically redeployed, when you will push a new commit on Github. If you have done previous lessons, you should open http://[yourname].cleverapps.io/swagger-ui/index.html
+
+If you are on Windows you can have this error
+
+----
+2020-11-23T13:58:00+01:00 A gradlew script has been found. Let's use it.
+2020-11-23T13:58:01+01:00 /home/bas/rubydeployer/scripts/build-java.sh: line 9: ./gradlew: Permission denied
+2020-11-23T13:58:01+01:00 Build failed
+----
+
+To fix it you can follow
+2:18 PM
+
+
+
+https://medium.com/@akash1233/change-file-permissions-when-working-with-git-repos-on-windows-ea22e34d5cee[this article]. Or execute this command
+
+----
+git update-index --chmod=+x gradlew
+----
