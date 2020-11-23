@@ -222,7 +222,7 @@ public void insertSite(Site site) {
 
             try(PreparedStatement stmt = conn.prepareStatement(sql)){
                 stmt.setString(1, site.getId());
-                stmt.setString(2, "toto');drop table SITE CASCADE; Select ('1");
+                stmt.setString(2, "toto');
                 stmt.executeUpdate();
                 conn.commit(); // 2.
             }
