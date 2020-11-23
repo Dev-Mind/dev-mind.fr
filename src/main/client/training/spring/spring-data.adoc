@@ -1085,7 +1085,7 @@ public interface WindowDaoCustom {
 }
 ----
 
-Refactor your *RoomDao* interface : it must extend *WindowDaoCustom*
+Refactor your *WindowDao* interface : it must extend *WindowDaoCustom*
 
 Create your own implementation of *WindowDaoCustom* with your custom methods and inject the EntityManager (JPA)
 
