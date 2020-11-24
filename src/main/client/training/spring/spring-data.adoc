@@ -984,7 +984,7 @@ Write now
 ** a current temperature (Double)
 ** a target temperature (Double)
 ** a list of heaters. You have to define a bidirectional association between *Room* and *Heater*
-** a list of windows. You have to define a bidirectional association between *Room* and *Window* : update the Window entity constructor to always send the light room when a room is created, ie add an argument Room in the light constructor
+** a list of windows. You have to define a bidirectional association between *Room* and *Window* : update the Window entity constructor to always send the room when a room is created, ie add an argument Room in the Window constructor
 ** create a constructor with non nullable fields and a default constructor
 
 You can start your application. If you updated your configuration (see this link:spring-data.html#_schema_generation[chapter]) you should see in your app logs
@@ -1138,6 +1138,6 @@ You have to test and develop :
 When you will finish other lessons you can go back on this chapter and add a new enty to manage a building.
 
 * a building has a set of rooms. This relationship is bidirectional
-* Adds a new DAO BuildingDAO and add a new method to find all the building ligths. You send a building ID and your method should return the list of the lights
+* Adds a new DAO BuildingDAO and add a new method to find all the building ligths. You send a building ID and your method should return the list of the windows
 * Adds a unit test to check that everything is OK
 
