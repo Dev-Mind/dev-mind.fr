@@ -258,7 +258,7 @@ class WindowAdapter(val listener: OnWindowSelectedListener): RecyclerView.Adapte
    // ...
 
     override fun onBindViewHolder(holder: WindowViewHolder, position: Int) {
-        val window = items[0]
+        val window = items[position]
         holder.apply {
             name.text = window.name
             status.text = window.status.toString()
