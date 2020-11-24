@@ -1135,6 +1135,23 @@ You have to test and develop :
 * add a method in HeaterDao to delete all heaters in a room.
 * you have to develop these methods and their tests
 
+To check that window room are deleted you can add this test method in *WindowDaoTest*
+
+[source,java, subs="specialchars"]
+----
+@Test
+public void shouldDeleteWindowsRoom() {
+    Room room = roomDao.getOne(-10L);
+    List<Long> roomIds = room.getWindows().stream().map(Window::getId).collect(Collectors.toList());
+    Assertions.assertThat(roomIds.size()).isEqualTo(2);
+
+    windowDao.deleteByRoom(-10L);
+    List<Window> result = windowDao.findAllById(roomIds);
+    Assertions.assertThat(result).isEmpty();
+
+}
+----
+
 When you will finish other lessons you can go back on this chapter and add a new enty to manage a building.
 
 * a building has a set of rooms. This relationship is bidirectional
