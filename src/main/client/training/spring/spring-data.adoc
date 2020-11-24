@@ -624,7 +624,7 @@ Example of *bidirectional* association: a site has n sensors and sensor knows it
 
 image::../../img/training/spring-intro/relation1ton2.png[]
 
-*Only the @OneToMany annotation has a `mappedBy` property* (which is used to designate the master)
+*@ManyToOne ha nos property `mappedBy`. So you can't make a mistake, add this `mappedBy` property on @OneToMany* (which is used to designate the master)
 
 [.langage-small]
 [source,java, subs="specialchars"]
@@ -966,7 +966,7 @@ Use the good annotations to
 * (2) You must give a different name for your table. H2 can't call a table _Window_ because it is a reserved word. So call it RWINDOW
 * (3) Declare this field as the table ID. This ID must to be auto generated
 * (4) This field must be not nullable
-* (5) WindowStatus is also not nullable, and this field is an enumeration. You have to add this information
+* (5) WindowStatus is also not nullable, and this field is an enumeration (you have to use @Enumerated). You have to add these informations
 
 Write now
 
@@ -975,7 +975,7 @@ Write now
 ** a non nullable String name
 ** a nullable Long power
 ** a non nullable room
-** a status (ON, OFF)
+** a non nullable status (ON, OFF). This field is an enumeration (you have to use @Enumerated).
 ** create a constructor with non nullable fields and a default constructor
 * the *Room* entity
 ** an auto generated id
