@@ -35,10 +35,10 @@ We will use Retrofit to do the first three steps. For the last one we need a con
 1. Open *build.gradle (Module: Faircorp.app)*.
 2. In the dependencies block, add 2 lines to load Retrofit and the Moshi converter (versions are available https://github.com/square/retrofit/tags[here])
 +
-[source,kotlin,subs="specialchars"]
+[source,groovy,subs="specialchars"]
 ----
-implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-implementation 'com.squareup.retrofit2:converter-moshi:2.9.0'
+implementation "com.squareup.retrofit2:retrofit:2.9.0"
+implementation "com.squareup.retrofit2:converter-moshi:2.9.0"
 ----
 +
 3. You also need to update android plugin configuration to activate support for Java 8 language. Retrofit was written in JDK 8. Update android block and add
