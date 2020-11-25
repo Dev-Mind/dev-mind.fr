@@ -60,7 +60,7 @@ video::1ogCfYm9_DA[youtube, width=600, height=330]
 * *text* : _Welcome on faircorp\n the app to manage building windows_
 * *layout_width* and *layout_height* : _wrap_content_
 * *textSize*: _18 sp_
-* *textAlignement* : _center_
+* *gravity* : _center_
 * margin right and left 16dp, margin top 32dp
 +
 video::so6D7SFDYss[youtube, width=600, height=330]
