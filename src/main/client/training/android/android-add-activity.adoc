@@ -85,7 +85,7 @@ On the other side on *WindowActivity* you have to
 ----
 const val WINDOW_NAME_PARAM = "com.faircorp.windowname.attribute"
 
-class MainActivity : AppCompatActivity() {
+class WindowActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_window)
