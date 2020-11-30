@@ -53,15 +53,14 @@ Modifiez le premier exemple de cette manière
 const express = require('express');
 
 express()
-  .get('/', (req, res) => res.send('Hello World!')) // <1>
-  .get('/users/:userName', (req, res) => res.send(`Hello ${req.params.userName}!`)) // <2>
-  .listen(8085); // <3>
+  .get('/', (req, res) => res.send('Hello World!')) // (1)
+  .get('/users/:userName', (req, res) => res.send(`Hello ${req.params.userName}!`)) // (2)
+  .listen(8085); // (3)
 ----
 
-[.small]
-1. le message `Hello World!` s'affiche quand vous lancez `http://localhost:8085`
-2. on peut récupérer des élements dans la route spécifiée. Ici on affichera `Hello Guillaume!` quand `http://localhost:8085/users/Guillaume` sera utilisée
-3. permet de spécifier le port d'écoute
+* (1). le message `Hello World!` s'affiche quand vous lancez `http://localhost:8085`
+* (2). on peut récupérer des élements dans la route spécifiée. Ici on affichera `Hello Guillaume!` quand `http://localhost:8085/users/Guillaume` sera utilisée
+* (3). permet de spécifier le port d'écoute
 
 Si vous voulez servir un répertoire contenant des ressources statiques (ressources CSS, JS, HTML...) vous pouvez ajouter
 

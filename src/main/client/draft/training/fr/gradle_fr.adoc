@@ -85,21 +85,21 @@ Gradle a généré l'arborescence suivante
 
 [source,shell]
 ----
-|-- build.gradle  // <1>
+|-- build.gradle  // (1)
 |-- gradle
 |   | -- wrapper
-|       | -- gradle-wrapper.jar  // <2>
-|       | -- gradle-wrapper.properties  // <3>
-|-- gradlew  // <4>
-|-- gradlew.bat  // <5>
-|-- settings.gradle  // <6>
+|       | -- gradle-wrapper.jar  // (2)
+|       | -- gradle-wrapper.properties  // (3)
+|-- gradlew  // (4)
+|-- gradlew.bat  // (5)
+|-- settings.gradle  // (6)
 ----
 
-[.small]#1. Script de configuration de Gradle pour le projet +
-2. Le jar permettant d'exécuter Gradle via le wrapper +
-3. Le fichier de configuration du wrapper +
-4. et 5. Script permettant de lancer Gradle via le wrapper pour Unix et Windows +
-6. Configuration générale du build (permet de déclarer les sous modules par exemple)#
+* (1). Script de configuration de Gradle pour le projet
+* (2). Le jar permettant d'exécuter Gradle via le wrapper
+* (3). Le fichier de configuration du wrapper
+* (4). et 5. Script permettant de lancer Gradle via le wrapper pour Unix et Windows
+* (6). Configuration générale du build (permet de déclarer les sous modules par exemple)
 
 == Le wrapper Gradle
 
@@ -370,32 +370,31 @@ image::../../img/training/gradle/pluginJava.png[Fonctionnement de Gradle, width=
 ----
 buildscript {
     repositories {
-        repositories { // <1>
+        repositories { // (1)
             mavenCentral()
         }
         dependencies {
-            classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.4.RELEASE") // <2>
+            classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.4.RELEASE") // (2)
         }
     }
     repositories {
-        mavenCentral() // <1>
+        mavenCentral() // (1)
     }
-    apply plugin: 'org.springframework.boot' // <3>
-    apply plugin: 'io.spring.dependency-management' // <3>
+    apply plugin: 'org.springframework.boot' // (3)
+    apply plugin: 'io.spring.dependency-management' // (3)
     dependencies {
         compile('org.springframework.boot:spring-boot-starter-web')
         testCompile('org.springframework.boot:spring-boot-starter-test')
     }
-    bootRun{ // <4>
+    bootRun{ // (4)
         sourceResources sourceSets.main
     }
 }
 ----
-[.small]#1. Déclaration des dépôts distants pour les plugins et les dépendances +
-2. Déclaration d'une dépendance vers un plugin externe  +
-3. Utilisation de ce plugin +
-4. Personnalisation du plugin +
-Chaque plugin est documenté https://docs.spring.io/spring-boot/docs/2.0.5.RELEASE/gradle-plugin/reference/html/#
+* (1). Déclaration des dépôts distants pour les plugins et les dépendances
+* (2). Déclaration d'une dépendance vers un plugin externe
+* (3). Utilisation de ce plugin
+* (4). Personnalisation du plugin. Chaque plugin est documenté https://docs.spring.io/spring-boot/docs/2.0.5.RELEASE/gradle-plugin/reference/html/#
 
 == Tâches
 

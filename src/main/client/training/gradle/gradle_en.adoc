@@ -89,21 +89,21 @@ Gradle should have generated this tree
 
 [source,shell]
 ----
-|-- build.gradle  // <1>
+|-- build.gradle  // (1)
 |-- gradle
 |   | -- wrapper
-|       | -- gradle-wrapper.jar  // <2>
-|       | -- gradle-wrapper.properties  // <3>
-|-- gradlew  // <4>
-|-- gradlew.bat  // <5>
-|-- settings.gradle  // <6>
+|       | -- gradle-wrapper.jar  // (2)
+|       | -- gradle-wrapper.properties  // (3)
+|-- gradlew  // (4)
+|-- gradlew.bat  // (5)
+|-- settings.gradle  // (6)
 ----
 
-[.small]#1. Gradle configuration script for the project +
-2. This jar contains Gradle Wrapper classes and libraries +
-3. Wrapper configuration file +
-4. and 5. these script are used to launch Gradle via the wrapper (2 scripts, one for Unix one for Windows) +
-6. general configuration file (used to declare Gradle sub modules, and global variables)#
+* (1). Gradle configuration script for the project
+* (2). This jar contains Gradle Wrapper classes and libraries
+* (3). Wrapper configuration file
+* (4). and 5. these script are used to launch Gradle via the wrapper (2 scripts, one for Unix one for Windows)
+* (6). general configuration file (used to declare Gradle sub modules, and global variables)
 
 == Gradle wrapper
 
@@ -368,18 +368,18 @@ In the next TP we will use Spring and Spring Boot. We will use Gradle to manage 
 ----
 buildscript {
     repositories {
-        repositories { // <1>
+        repositories { // (1)
             mavenCentral()
         }
         dependencies {
-            classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.4.RELEASE") // <2>
+            classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.4.RELEASE") // (2)
         }
     }
     repositories {
-        mavenCentral() // <1>
+        mavenCentral() // (1)
     }
-    apply plugin: 'org.springframework.boot' // <3>
-    apply plugin: 'io.spring.dependency-management' // <3>
+    apply plugin: 'org.springframework.boot' // (3)
+    apply plugin: 'io.spring.dependency-management' // (3)
     dependencies {
         compile('org.springframework.boot:spring-boot-starter-web')
         testCompile('org.springframework.boot:spring-boot-starter-test')
@@ -389,11 +389,10 @@ buildscript {
     }
 }
 ----
-[.small]#1. Remote repository for the plugins +
-2. We declare a dependancy to the Spring Boot Gradle plugin   +
-3. We use this plugin +
-4. Personnalization of the plugin +
-Each plugin has a documentation https://docs.spring.io/spring-boot/docs/2.0.5.RELEASE/gradle-plugin/reference/html/#
+* (1). Remote repository for the plugins
+* (2). We declare a dependancy to the Spring Boot Gradle plugin
+* (3). We use this plugin
+* (4). Personnalization of the plugin. Each plugin has a documentation https://docs.spring.io/spring-boot/docs/2.0.5.RELEASE/gradle-plugin/reference/html/#
 
 == Customize tasks
 
