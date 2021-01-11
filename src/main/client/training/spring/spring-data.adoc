@@ -1155,6 +1155,6 @@ public void shouldDeleteWindowsRoom() {
 When you will finish other lessons you can go back on this chapter and add a new enty to manage a building.
 
 * a building has a set of rooms. This relationship is bidirectional
-* Adds a new DAO BuildingDAO and add a new method to find all the building ligths. You send a building ID and your method should return the list of the windows
+* Adds a new DAO BuildingDAO and add a new method to find all the building windows and heaters. You send a building ID and your method should return the list of the windows
 * Adds a unit test to check that everything is OK
 
