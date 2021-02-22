@@ -11,12 +11,17 @@
         <devmind-section>
             <div class="dm-blog--container-article">
                 {{#firstArticle}}
-                    <article class="dm-blog--article-head"
-                             onclick="document.location.href='blog/{{dir}}/{{filename}}.html'">
-                        <h1><a href="blog/{{dir}}/{{filename}}.html">{{doctitle}}</a></h1>
+{{!--                     <article class="dm-blog--article-head" --}}
+{{!--                              onclick="document.location.href='blog/{{dir}}/{{filename}}.html'"> --}}
+{{!--                         <h1><a href="blog/{{dir}}/{{filename}}.html">{{doctitle}}</a></h1> --}}
+{{!--                         <div class="dm-blog--imgteaser"><img class="dm-img--lazyload" data-src="{{{imgteaser}}}" alt="{{doctitle}}"/></div> --}}
+{{!--                         <p class="dm-blog--teaser">{{teaser}}</p> --}}
+{{!--                     </article> --}}
+                    <article class="dm-blog--article" onclick="document.location.href='blog/{{dir}}/{{filename}}.html'">
+                        <h2><a href="blog/{{dir}}/{{filename}}.html">{{doctitle}}</a></h2>
                         <div class="dm-blog--imgteaser"><img class="dm-img--lazyload" data-src="{{{imgteaser}}}" alt="{{doctitle}}"/></div>
                         <p class="dm-blog--teaser">{{teaser}}</p>
-                    </article>
+                     </article>
                 {{/firstArticle}}
                 {{#secondArticles}}
                     <article class="dm-blog--article" onclick="document.location.href='blog/{{dir}}/{{filename}}.html'">
