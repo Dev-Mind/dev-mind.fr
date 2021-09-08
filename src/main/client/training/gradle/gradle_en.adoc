@@ -8,17 +8,22 @@
 :imgteaser: ../../img/training/gradle.png
 :toc:
 
-In this training, we will learn how Gradle works and how use it in our projects. It's just a fast presentation of this tool and you will find more informations on official website https://docs.gradle.org/current/userguide/userguide.html
+In this training, we will learn how Gradle works and how use it in our projects.
+It's just a fast presentation of this tool and you will find more informations on official website https://docs.gradle.org/current/userguide/userguide.html
 
 image::../../img/training/gradle.png[Gradle by Dev-Mind]
 
-Gradle is an open source tool for automating the build of your Java, Kotlin, Android, Web projects... This tool is like Ant and Maven. Gradle has the Ant flexibility and apply many Maven conventions.
-Maven helps to build only one projetc. But Gradle was created to be more flexible, you can build several artifacts. That's why the Android community has chosen this tool.
+Gradle is an open source tool for automating the build of your Java, Kotlin, Android, Web projects... This tool is like Ant and Maven.
+Gradle has the Ant flexibility and apply many Maven conventions.
+Maven helps to build only one project.
+But Gradle was created to be more flexible, you can build several artifacts.
+That's why the Android community has chosen this tool.
 
 == Introduction
 
 *Highly customizable* +
-[.small]#you have a convention but everything is customizable. You can write your scripts in Groovy (default) or in Kotlin (default in the future)#
+[.small]#you have a convention but everything is customizable.
+You can write your scripts in Groovy (default) or in Kotlin (default in the future)#
 
 *Fast*  +
 [.small]#Incremental build : Gradle completes reuses outputs from previous executions, processing only inputs that changed, and executing tasks in parallel.#
@@ -27,7 +32,7 @@ Maven helps to build only one projetc. But Gradle was created to be more flexibl
 [.small]#Gradle build projects in several languages but its success is linked to Android developers.#
 
 *Useful* +
-[.small]#Based on Ivy and supports Maven, it simplifies the project dependencies (libraries). You can use transitive dependencies#
+[.small]#Based on Ivy and supports Maven, it simplifies the project dependencies (libraries).You can use transitive dependencies#
 
 
 == Why a build tool?
@@ -52,7 +57,7 @@ Build your project
 
 == Principle
 
-* Gradle was not the first build tool. In the past we used https://ant.apache.org/[Ant] and after https://maven.apache.org/[Maven]
+* Gradle was not the first build tool.In the past we used https://ant.apache.org/[Ant] and after https://maven.apache.org/[Maven]
 * https://ant.apache.org/[Ant] is very powerful, but the configuration is not readable and difficult to use on a project with a lot of people
 * https://maven.apache.org/[Maven] is
 ** very verbose (you have to write a lot of XML)
@@ -60,28 +65,51 @@ Build your project
 
 [NOTE.speaker]
 --
-For the governance Maven is managed by only one person, Jason Vanzyl and his society Sonatype. it's difficult to contribute to this project
-For Gradle it's totally different. You can open projects on Github and see all the contributors.
+For the governance Maven is managed by only one person, Jason Vanzyl and his society Sonatype. it's difficult to contribute to this project For Gradle it's totally different.
+You can open projects on Github and see all the contributors.
 --
 
 == Starting with Gradle
 
-Open a terminal on your laptop or computer to create and initialize a new Gradle project. You will create a directory and link it to Gradle
+You can install the last version on https://gradle.org/install/
+
+Open a terminal on your laptop or computer to create and initialize a new Gradle project.
+You will create a directory and link it to Gradle
 
 [source,shell]
 ----
 mkdir gradle-demo
+cd gradle-demo
 gradle init
 ----
 
-In the console you should have the following output
+If you use version 7.2 you will have to respond to few questions
 
 [source,shell]
 ----
-❯ gradle init
-Starting a Gradle Daemon (subsequent builds will be faster)
+Select type of project to generate:
+  1: basic
+  2: application
+  3: library
+  4: Gradle plugin
+Enter selection (default: basic) [1..4] 1
 
-BUILD SUCCESSFUL in 3s
+Select build script DSL:
+  1: Groovy
+  2: Kotlin
+Enter selection (default: Groovy) [1..2] 1
+
+Project name (default: test):
+----
+
+You should have this message after
+
+[source,shell]
+----
+> Task :init
+Get more help with your project: Learn more about Gradle by exploring our samples at https://docs.gradle.org/7.2/samples
+
+BUILD SUCCESSFUL in 1m 56s
 2 actionable tasks: 2 executed
 ----
 
@@ -107,9 +135,9 @@ Gradle should have generated this tree
 
 == Gradle wrapper
 
-When you use a build tool, all team members must use the same version. From one project to another, you can have different versions of the tool (it's difficult to maintain on your computer).
+When you use a build tool, all team members must use the same version.From one project to another, you can have different versions of the tool (it's difficult to maintain on your computer).
 
-Gradle wrapper resolves these problems. The recommended way to execute any Gradle build is with the help of the Gradle Wrapper (in short just “Wrapper”). The Wrapper is a script that invokes a declared version of Gradle (it fixes the version used in your project), downloading it beforehand if necessary. As a result, developers can get up and running with a Gradle project quickly without having to follow manual installation.
+Gradle wrapper resolves these problems.The recommended way to execute any Gradle build is with the help of the Gradle Wrapper (in short just “Wrapper”).The Wrapper is a script that invokes a declared version of Gradle (it fixes the version used in your project), downloading it beforehand if necessary.As a result, developers can get up and running with a Gradle project quickly without having to follow manual installation.
 
 image::../../img/training/gradle/wrapper.png[width=60%]
 
@@ -117,28 +145,21 @@ image::../../img/training/gradle/wrapper.png[width=60%]
 [source,shell]
 ----
 $ ./gradlew -v
-Downloading https://services.gradle.org/distributions/gradle-6.7.1-bin.z
-ip......................................................................
-........................................................................
-........................................................................
-Unzipping /home/devmind/.gradle/wrapper/dists/gradle-6.7.1-bin/dajvke9o8
-kmaxbu0kc5gcgeju/gradle-6.7.1-bin.zip to /home/devmind/.gradle/wrapper/d
-ists/gradle-6.7.1-bin/dajvke9o8kmaxbu0kc5gcgeju
-
-Set executable permissions for: /home/devmind/.gradle/wrapper/dists/grad
-le-6.7.1-bin/dajvke9o8kmaxbu0kc5gcgeju/gradle-6.7.1/bin/gradle
+Downloading https://services.gradle.org/distributions/gradle-7.2-bin.zip
+..........10%...........20%...........30%...........40%...........50%...........60%...........70%...........80%...........90%...........100%
 
 ------------------------------------------------------------
-Gradle 6.7.1
+Gradle 7.2
 ------------------------------------------------------------
 
-Build time:   2017-10-02 15:36:21 UTC
-Revision:     a88ebd6be7840c2e59ae4782eb0f27fbe3405ddf
+Build time:   2021-08-17 09:59:03 UTC
+Revision:     a773786b58bb28710e3dc96c4d1a7063628952ad
 
-Groovy:       2.4.12
-Ant:          Apache Ant(TM) version 1.9.6 compiled on June 29 2015
-JVM:          1.8.0_181 (Oracle Corporation 25.181-b13)
-OS:           Linux 4.15.0-34-generic amd64
+Kotlin:       1.5.21
+Groovy:       3.0.8
+Ant:          Apache Ant(TM) version 1.10.9 compiled on September 27 2020
+JVM:          11.0.11 (Ubuntu 11.0.11+9-Ubuntu-0ubuntu2.20.10)
+OS:           Linux 5.8.0-63-generic amd64
 ----
 
 == An example
@@ -151,44 +172,56 @@ image::../../img/training/gradle/idea1.png[size=30%]
 
 [source,shell]
 ----
-|-- build.gradle
+|-- app
+|   | -- src
+|      | -- main
+|          | -- java
+|          | -- resources
+|      | -- test
+|          | -- java
+|          | -- resources
+|   | -- build.gradle
 |-- gradle
 |   | -- wrapper
 |       | -- gradle-wrapper.jar
 |       | -- gradle-wrapper.properties
-|-- src
-|   | -- main
-|       | -- java
-|       | -- resources
-|   | -- test
-|       | -- java
-|       | -- resources
 |-- gradlew
 |-- gradlew.bat
 |-- settings.gradle
 ----
 
-This is a Java project. So we use Java plugin provided by Gradle
+Open the main file called `build.gradle`.
+This is a Java project.
+So we use Java plugin provided by Gradle
 
 [source,groovy]
 ----
-// Apply the java plugin to add support for Java
-apply plugin: 'java'
+plugins {
+    // Apply the application plugin to add support for building a CLI application in Java.
+    id 'application'
+}
 
-// In this section you declare where to find the dependencies of your
-// project
 repositories {
-    // Use 'jcenter' for resolving your dependencies.
-    // You can declare any Maven/Ivy/file repository here.
-    jcenter()
+    // Use Maven Central for resolving dependencies.
+    mavenCentral()
 }
 
 dependencies {
-    // Dependencies for production
-    compile 'org.springframework:spring-context:5.0.7.RELEASE'
+    // Use JUnit Jupiter for testing.
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.7.2'
 
-    // Dependencies for test
-    testCompile 'junit:junit:4.12'
+    // This dependency is used by the application.
+    implementation 'org.springframework:spring-context:5.2.16.RELEASE'
+}
+
+application {
+    // Define the main class for the application.
+    mainClass = 'com.devmind.gradle.MyApplication'
+}
+
+tasks.named('test') {
+    // Use JUnit Platform for unit tests.
+    useJUnitPlatform()
 }
 ----
 
@@ -197,13 +230,21 @@ You can now launch this command
 [source,shell]
 ----
 $ ./gradlew build
-Starting a Gradle Daemon (subsequent builds will be faster)
-
-BUILD SUCCESSFUL in 4s
-5 actionable tasks: 5 executed
+BUILD SUCCESSFUL in 509ms
+8 actionable tasks: 8 up-to-date
 ----
 
-Gradle execute tasks and in our case Java plugin has launched 5 tasks to build the projet
+Gradle execute tasks and in our case Java plugin has launched 8 tasks to build the project.
+You can launch the `run` task to execute your app
+
+[source,shell]
+----
+> Task :app:run
+I want to learn Gradle
+
+BUILD SUCCESSFUL in 503ms
+3 actionable tasks: 1 executed, 2 up-to-date
+----
 
 With IntelliJ, we have a synthetic view of dependencies and tasks
 
@@ -215,72 +256,92 @@ image::../../img/training/gradle/idea3.png[width=80%]
 ----
 $ ./gradlew tasks --all
 
+> Task :tasks
+
 ------------------------------------------------------------
-All tasks runnable from root project
+Tasks runnable from root project 'gradle-demo'
 ------------------------------------------------------------
+
+Application tasks
+-----------------
+app:run - Runs this project as a JVM application
 
 Build tasks
 -----------
-assemble - Assembles the outputs of this project.
-build - Assembles and tests this project.
-buildDependents - Assembles and tests this project and all projects that depend on it.
-buildNeeded - Assembles and tests this project and all projects it depends on.
-classes - Assembles main classes.
-clean - Deletes the build directory.
-jar - Assembles a jar archive containing the main classes.
-testClasses - Assembles test classes.
+app:assemble - Assembles the outputs of this project.
+app:build - Assembles and tests this project.
+app:buildDependents - Assembles and tests this project and all projects that depend on it.
+app:buildNeeded - Assembles and tests this project and all projects it depends on.
+app:classes - Assembles main classes.
+app:clean - Deletes the build directory.
+app:jar - Assembles a jar archive containing the main classes.
+app:testClasses - Assembles test classes.
 
 Build Setup tasks
 -----------------
 init - Initializes a new Gradle build.
 wrapper - Generates Gradle wrapper files.
 
+Distribution tasks
+------------------
+app:assembleDist - Assembles the main distributions
+app:distTar - Bundles the project as a distribution.
+app:distZip - Bundles the project as a distribution.
+app:installDist - Installs the project as a distribution as-is.
+
 Documentation tasks
 -------------------
-javadoc - Generates Javadoc API documentation for the main source code.
+app:javadoc - Generates Javadoc API documentation for the main source code.
 
 Help tasks
 ----------
 buildEnvironment - Displays all buildscript dependencies declared in root project 'gradle-demo'.
-components - Displays the components produced by root project 'gradle-demo'. [incubating]
+app:buildEnvironment - Displays all buildscript dependencies declared in project ':app'.
 dependencies - Displays all dependencies declared in root project 'gradle-demo'.
+app:dependencies - Displays all dependencies declared in project ':app'.
 dependencyInsight - Displays the insight into a specific dependency in root project 'gradle-demo'.
-dependentComponents - Displays the dependent components of components in root project 'gradle-demo'. [incubating]
+app:dependencyInsight - Displays the insight into a specific dependency in project ':app'.
 help - Displays a help message.
-model - Displays the configuration model of root project 'gradle-demo'. [incubating]
+app:help - Displays a help message.
+javaToolchains - Displays the detected java toolchains.
+app:javaToolchains - Displays the detected java toolchains.
+outgoingVariants - Displays the outgoing variants of root project 'gradle-demo'.
+app:outgoingVariants - Displays the outgoing variants of project ':app'.
 projects - Displays the sub-projects of root project 'gradle-demo'.
+app:projects - Displays the sub-projects of project ':app'.
 properties - Displays the properties of root project 'gradle-demo'.
-tasks - Displays the tasks runnable from root project 'gradle-demo'.
+app:properties - Displays the properties of project ':app'.
+tasks - Displays the tasks runnable from root project 'gradle-demo' (some of the displayed tasks may belong to subprojects).
+app:tasks - Displays the tasks runnable from project ':app'.
 
 Verification tasks
 ------------------
-check - Runs all checks.
-test - Runs the unit tests.
+app:check - Runs all checks.
+app:test - Runs the unit tests.
 
 Other tasks
 -----------
-compileJava - Compiles main Java source.
-compileTestJava - Compiles test Java source.
-processResources - Processes main resources.
-processTestResources - Processes test resources.
+app:compileJava - Compiles main Java source.
+app:compileTestJava - Compiles test Java source.
+components - Displays the components produced by root project 'gradle-demo'. [deprecated]
+app:components - Displays the components produced by project ':app'. [deprecated]
+dependentComponents - Displays the dependent components of components in root project 'gradle-demo'. [deprecated]
+app:dependentComponents - Displays the dependent components of components in project ':app'. [deprecated]
+model - Displays the configuration model of root project 'gradle-demo'. [deprecated]
+app:model - Displays the configuration model of project ':app'. [deprecated]
+prepareKotlinBuildScriptModel
+app:processResources - Processes main resources.
+app:processTestResources - Processes test resources.
+app:startScripts - Creates OS specific scripts to run the project as a JVM application.
 
-Rules
------
-Pattern: clean<TaskName>: Cleans the output files of a task.
-Pattern: build<ConfigurationName>: Assembles the artifacts of a configuration.
-Pattern: upload<ConfigurationName>: Assembles and uploads the artifacts belonging to a configuration.
-
-
-BUILD SUCCESSFUL in 0s
-1 actionable task: 1 executed
-
+BUILD SUCCESSFUL in 495ms
 ----
 
 == How Gradle works ?
 
-image::../../img/training/gradle/gradle.png[How Gradle works ?, width=80%]
+image::../../img/training/gradle/gradle.png[How Gradle works ?,width=80%]
 
-1. Gradle connects to a remote plugin repository to load them. A plugin brings a task set +
+1. Gradle connects to a remote plugin repository to load them.A plugin brings a task set +
 2. Gradle connects to a remote library repository and retrieves those declared for execution and testing +
 3. A task will act with our application +
 4. A task has a result (OK, KO, directory deletion, packaging jar ...)
@@ -346,53 +407,63 @@ Gradle execute one or several tasks (arguments added to `./gradlew`) according t
 
 == Plugins
 
-A plugin provide a task set and entry points to configure this plugin. For example
+A plugin provide a task set and entry points to configure this plugin.For example
 
 [source,groovy]
 ----
-apply plugin : 'java'
+plugins {
+    id 'application'
+    id 'java'
+}
 ----
 
 Effect of this line :
 
-image::../../img/training/gradle/pluginJava.png[Fonctionnement de Gradle, width=100%]
+image::../../img/training/gradle/pluginJava.png[Fonctionnement de Gradle,width=100%]
 https://docs.gradle.org/current/userguide/img/javaPluginTasks.png
 
 == Another example
 
-In the next TP we will use Spring and Spring Boot. We will use Gradle to manage our projects
+In the next TP we will use Spring and Spring Boot.We will use Gradle to manage our projects
 
 [.small]
 [.code-height]
 [source,shell]
 ----
 buildscript {
-    repositories {
-        repositories { // (1)
-            mavenCentral()
-        }
-        dependencies {
-            classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.4.RELEASE") // (2)
-        }
+    plugins { // 1
+      id 'org.springframework.boot' version '2.5.4'
+      id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+      id 'java'
     }
-    repositories {
-        mavenCentral() // (1)
+
+    group = 'com.devmind.faircorp'
+    version = '0.0.1-SNAPSHOT'
+    sourceCompatibility = '11'
+
+    repositories { // (2)
+      mavenCentral()
     }
-    apply plugin: 'org.springframework.boot' // (3)
-    apply plugin: 'io.spring.dependency-management' // (3)
+
     dependencies {
-        compile('org.springframework.boot:spring-boot-starter-web')
-        testCompile('org.springframework.boot:spring-boot-starter-test')
+      implementation 'org.springframework.boot:spring-boot-starter' // (3)
+      testImplementation 'org.springframework.boot:spring-boot-starter-test'
     }
-    bootRun{ // <4>
-        sourceResources sourceSets.main
+
+    test {
+      useJUnitPlatform()  // (4)
     }
 }
 ----
-* (1). Remote repository for the plugins
-* (2). We declare a dependancy to the Spring Boot Gradle plugin
-* (3). We use this plugin
-* (4). Personnalization of the plugin. Each plugin has a documentation https://docs.spring.io/spring-boot/docs/2.0.5.RELEASE/gradle-plugin/reference/html/#
+
+* (1).
+Gradle plugin used
+* (2). repository used to download plugins or app libraries
+* (3).
+Application dependencies (libraries used by the project)
+* (4).
+Personnalization of the plugin.
+Each plugin has a documentation
 
 == Customize tasks
 
@@ -456,249 +527,10 @@ This is executed during the configuration phase.
 This (configured) is also executed during the configuration phase.
 This (testWriteBoth) is executed during the configuration phase as well.
 
-> Task :tasks
-
-------------------------------------------------------------
-All tasks runnable from root project
-------------------------------------------------------------
-
-Build tasks
------------
-assemble - Assembles the outputs of this project.
-build - Assembles and tests this project.
-buildDependents - Assembles and tests this project and all projects that depend on it.
-buildNeeded - Assembles and tests this project and all projects it depends on.
-classes - Assembles main classes.
-clean - Deletes the build directory.
-jar - Assembles a jar archive containing the main classes.
-testClasses - Assembles test classes.
-
-Build Setup tasks
------------------
-init - Initializes a new Gradle build.
-wrapper - Generates Gradle wrapper files.
-
-Documentation tasks
--------------------
-javadoc - Generates Javadoc API documentation for the main source code.
-
-Help tasks
-----------
-buildEnvironment - Displays all buildscript dependencies declared in root project 'gradle-demo'.
-components - Displays the components produced by root project 'gradle-demo'. [incubating]
-dependencies - Displays all dependencies declared in root project 'gradle-demo'.
-dependencyInsight - Displays the insight into a specific dependency in root project 'gradle-demo'.
-dependentComponents - Displays the dependent components of components in root project 'gradle-demo'. [incubating]
-help - Displays a help message.
-model - Displays the configuration model of root project 'gradle-demo'. [incubating]
-projects - Displays the sub-projects of root project 'gradle-demo'.
-properties - Displays the properties of root project 'gradle-demo'.
-tasks - Displays the tasks runnable from root project 'gradle-demo'.
-
-Verification tasks
-------------------
-check - Runs all checks.
-test - Runs the unit tests.
-
-Rules
------
-Pattern: clean<TaskName>: Cleans the output files of a task.
-Pattern: build<ConfigurationName>: Assembles the artifacts of a configuration.
-Pattern: upload<ConfigurationName>: Assembles and uploads the artifacts belonging to a configuration.
-
-To see all tasks and more detail, run gradlew tasks --all
-
-To see more detail about a task, run gradlew help --task <task>
+...
 ----
 
 == Dependencies
-
-Several dependency types
-
-Plugins
-[.small]
-[source,shell]
-----
-buildscript {
-    repositories {
-        dependencies {
-            classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.4.RELEASE") // <2>
-        }
-    }
-}
-----
-
-Java libraries for code and test
-[.small]
-[source,shell]
-----
-dependencies {
-    compile('org.springframework.boot:spring-boot-starter-web:2.0.4.RELEASE')
-    testCompile('org.springframework.boot:spring-boot-starter-test:2.0.4.RELEASE')
-}
-----
-
-[.small]
-[.code-height]
-[source,shell]
-----
-$ ./gradlew dependencies
-
-> Task :dependencies
-
-------------------------------------------------------------
-Root project
-------------------------------------------------------------
-
-apiElements - API elements for main. (n)
-No dependencies
-
-archives - Configuration for archive artifacts.
-No dependencies
-
-compile - Dependencies for source set 'main' (deprecated, use 'implementation ' instead).
-\--- org.springframework:spring-context:5.0.7.RELEASE
-     +--- org.springframework:spring-aop:5.0.7.RELEASE
-     |    +--- org.springframework:spring-beans:5.0.7.RELEASE
-     |    |    \--- org.springframework:spring-core:5.0.7.RELEASE
-     |    |         \--- org.springframework:spring-jcl:5.0.7.RELEASE
-     |    \--- org.springframework:spring-core:5.0.7.RELEASE (*)
-     +--- org.springframework:spring-beans:5.0.7.RELEASE (*)
-     +--- org.springframework:spring-core:5.0.7.RELEASE (*)
-     \--- org.springframework:spring-expression:5.0.7.RELEASE
-          \--- org.springframework:spring-core:5.0.7.RELEASE (*)
-
-compileClasspath - Compile classpath for source set 'main'.
-\--- org.springframework:spring-context:5.0.7.RELEASE
-     +--- org.springframework:spring-aop:5.0.7.RELEASE
-     |    +--- org.springframework:spring-beans:5.0.7.RELEASE
-     |    |    \--- org.springframework:spring-core:5.0.7.RELEASE
-     |    |         \--- org.springframework:spring-jcl:5.0.7.RELEASE
-     |    \--- org.springframework:spring-core:5.0.7.RELEASE (*)
-     +--- org.springframework:spring-beans:5.0.7.RELEASE (*)
-     +--- org.springframework:spring-core:5.0.7.RELEASE (*)
-     \--- org.springframework:spring-expression:5.0.7.RELEASE
-          \--- org.springframework:spring-core:5.0.7.RELEASE (*)
-
-compileOnly - Compile only dependencies for source set 'main'.
-No dependencies
-
-default - Configuration for default artifacts.
-\--- org.springframework:spring-context:5.0.7.RELEASE
-     +--- org.springframework:spring-aop:5.0.7.RELEASE
-     |    +--- org.springframework:spring-beans:5.0.7.RELEASE
-     |    |    \--- org.springframework:spring-core:5.0.7.RELEASE
-     |    |         \--- org.springframework:spring-jcl:5.0.7.RELEASE
-     |    \--- org.springframework:spring-core:5.0.7.RELEASE (*)
-     +--- org.springframework:spring-beans:5.0.7.RELEASE (*)
-     +--- org.springframework:spring-core:5.0.7.RELEASE (*)
-     \--- org.springframework:spring-expression:5.0.7.RELEASE
-          \--- org.springframework:spring-core:5.0.7.RELEASE (*)
-
-implementation - Implementation only dependencies for source set 'main'. (n)
-No dependencies
-
-runtime - Runtime dependencies for source set 'main' (deprecated, use 'runtimeOnly ' instead).
-\--- org.springframework:spring-context:5.0.7.RELEASE
-     +--- org.springframework:spring-aop:5.0.7.RELEASE
-     |    +--- org.springframework:spring-beans:5.0.7.RELEASE
-     |    |    \--- org.springframework:spring-core:5.0.7.RELEASE
-     |    |         \--- org.springframework:spring-jcl:5.0.7.RELEASE
-     |    \--- org.springframework:spring-core:5.0.7.RELEASE (*)
-     +--- org.springframework:spring-beans:5.0.7.RELEASE (*)
-     +--- org.springframework:spring-core:5.0.7.RELEASE (*)
-     \--- org.springframework:spring-expression:5.0.7.RELEASE
-          \--- org.springframework:spring-core:5.0.7.RELEASE (*)
-
-runtimeClasspath - Runtime classpath of source set 'main'.
-\--- org.springframework:spring-context:5.0.7.RELEASE
-     +--- org.springframework:spring-aop:5.0.7.RELEASE
-     |    +--- org.springframework:spring-beans:5.0.7.RELEASE
-     |    |    \--- org.springframework:spring-core:5.0.7.RELEASE
-     |    |         \--- org.springframework:spring-jcl:5.0.7.RELEASE
-     |    \--- org.springframework:spring-core:5.0.7.RELEASE (*)
-     +--- org.springframework:spring-beans:5.0.7.RELEASE (*)
-     +--- org.springframework:spring-core:5.0.7.RELEASE (*)
-     \--- org.springframework:spring-expression:5.0.7.RELEASE
-          \--- org.springframework:spring-core:5.0.7.RELEASE (*)
-
-runtimeElements - Elements of runtime for main. (n)
-No dependencies
-
-runtimeOnly - Runtime only dependencies for source set 'main'. (n)
-No dependencies
-
-testCompile - Dependencies for source set 'test' (deprecated, use 'testImplementation ' instead).
-+--- org.springframework:spring-context:5.0.7.RELEASE
-|    +--- org.springframework:spring-aop:5.0.7.RELEASE
-|    |    +--- org.springframework:spring-beans:5.0.7.RELEASE
-|    |    |    \--- org.springframework:spring-core:5.0.7.RELEASE
-|    |    |         \--- org.springframework:spring-jcl:5.0.7.RELEASE
-|    |    \--- org.springframework:spring-core:5.0.7.RELEASE (*)
-|    +--- org.springframework:spring-beans:5.0.7.RELEASE (*)
-|    +--- org.springframework:spring-core:5.0.7.RELEASE (*)
-|    \--- org.springframework:spring-expression:5.0.7.RELEASE
-|         \--- org.springframework:spring-core:5.0.7.RELEASE (*)
-\--- junit:junit:4.12
-     \--- org.hamcrest:hamcrest-core:1.3
-
-testCompileClasspath - Compile classpath for source set 'test'.
-+--- org.springframework:spring-context:5.0.7.RELEASE
-|    +--- org.springframework:spring-aop:5.0.7.RELEASE
-|    |    +--- org.springframework:spring-beans:5.0.7.RELEASE
-|    |    |    \--- org.springframework:spring-core:5.0.7.RELEASE
-|    |    |         \--- org.springframework:spring-jcl:5.0.7.RELEASE
-|    |    \--- org.springframework:spring-core:5.0.7.RELEASE (*)
-|    +--- org.springframework:spring-beans:5.0.7.RELEASE (*)
-|    +--- org.springframework:spring-core:5.0.7.RELEASE (*)
-|    \--- org.springframework:spring-expression:5.0.7.RELEASE
-|         \--- org.springframework:spring-core:5.0.7.RELEASE (*)
-\--- junit:junit:4.12
-     \--- org.hamcrest:hamcrest-core:1.3
-
-testCompileOnly - Compile only dependencies for source set 'test'.
-No dependencies
-
-testImplementation - Implementation only dependencies for source set 'test'. (n)
-No dependencies
-
-testRuntime - Runtime dependencies for source set 'test' (deprecated, use 'testRuntimeOnly ' instead).
-+--- org.springframework:spring-context:5.0.7.RELEASE
-|    +--- org.springframework:spring-aop:5.0.7.RELEASE
-|    |    +--- org.springframework:spring-beans:5.0.7.RELEASE
-|    |    |    \--- org.springframework:spring-core:5.0.7.RELEASE
-|    |    |         \--- org.springframework:spring-jcl:5.0.7.RELEASE
-|    |    \--- org.springframework:spring-core:5.0.7.RELEASE (*)
-|    +--- org.springframework:spring-beans:5.0.7.RELEASE (*)
-|    +--- org.springframework:spring-core:5.0.7.RELEASE (*)
-|    \--- org.springframework:spring-expression:5.0.7.RELEASE
-|         \--- org.springframework:spring-core:5.0.7.RELEASE (*)
-\--- junit:junit:4.12
-     \--- org.hamcrest:hamcrest-core:1.3
-
-testRuntimeClasspath - Runtime classpath of source set 'test'.
-+--- org.springframework:spring-context:5.0.7.RELEASE
-|    +--- org.springframework:spring-aop:5.0.7.RELEASE
-|    |    +--- org.springframework:spring-beans:5.0.7.RELEASE
-|    |    |    \--- org.springframework:spring-core:5.0.7.RELEASE
-|    |    |         \--- org.springframework:spring-jcl:5.0.7.RELEASE
-|    |    \--- org.springframework:spring-core:5.0.7.RELEASE (*)
-|    +--- org.springframework:spring-beans:5.0.7.RELEASE (*)
-|    +--- org.springframework:spring-core:5.0.7.RELEASE (*)
-|    \--- org.springframework:spring-expression:5.0.7.RELEASE
-|         \--- org.springframework:spring-core:5.0.7.RELEASE (*)
-\--- junit:junit:4.12
-     \--- org.hamcrest:hamcrest-core:1.3
-
-testRuntimeOnly - Runtime only dependencies for source set 'test'. (n)
-No dependencies
-
-(*) - dependencies omitted (listed previously)
-
-
-BUILD SUCCESSFUL in 0s
-1 actionable task: 1 executed
-----
 
 image::../../img/training/gradle/dependencies.png[Dependances, width=100%]
 
