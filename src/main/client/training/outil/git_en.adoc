@@ -8,7 +8,7 @@
 :imgteaser: ../../img/training/git.png
 :toc:
 
-This course presents Git & Github. Git is used to centralize and log the changes on your code.
+This course presents Git & Github.Git is used to centralize and log the changes on your code.
 
 image::../../img/training/git.png[Comprendre Git]
 
@@ -19,13 +19,7 @@ For information about Git you can find
 
 == For who, why ?
 
-A version control system (VCS: version control system) helps to *manage the history* of the changes made by
-
-* people
-* teams
-* or only one person
-
-who collaborate on a project
+A version control system (VCS: version control system) helps to *manage the history* of the changes made by people, teams, or only one person who collaborate on a project.
 
 When the project evolves people can at any time find an old version of the code.
 
@@ -36,16 +30,17 @@ Git answers these questions quickly
 * When were the changes made?
 * Why were the changes made?
 
-> Git is a decentralized source management software (DVCS) created in 2005 by Linus Torvald (creator of the Linux kernel). The sources are stored both on the computer of each contributor of the project, but also on a centralized server.
+> Git is a decentralized source management software (DVCS) created in 2005 by Linus Torvald (creator of the Linux kernel).
+The sources are stored both on the computer of each contributor of the project, but also on a centralized server.
 
 .logo Git
 image::../../img/training/outil/git.svg[Git]
 
-Today, most of the open source or commercial projects developed use Git (90% of developers, according last https://insights.stackoverflow.com/survey/2018#work-_-version-control[stackoveflow] insights).
+Today, most of the open source or commercial projects developed use Git (90% of developers, according last https://insights.stackoverflow.com/survey/2018#work-_-version-control[stackoverflow] insights).
 
 Git allows access to all files, branches, versions (releases) or tags of a project to authorized people.
 
-Basically you don't need a centralized solution wirth Git, but online solutions have emerged like https://github.com[Github] or https://about.gitlab.com/[Gitlab].
+Basically you don't need a centralized solution with Git, but online solutions have emerged like https://github.com[Github] or https://about.gitlab.com/[Gitlab].
 
 .logo Github
 image::../../img/training/outil/github.svg[Github]
@@ -53,26 +48,28 @@ image::../../img/training/outil/github.svg[Github]
 .logo Gitlab
 image::../../img/training/outil/gitlab.svg[Gitlab]
 
-This services extend Git and they offer more features like pull requests, code reviews...
+This services extend Git and they offer more features like pull requests, code reviews... https://github.com[Github] was the precursor but today https://about.gitlab.com/[Gitlab] is equivalent, and you can use the one you prefer.
+As I had to make a choice for our course I went to Github.
 
 == What did we ever do before ?
 
 Without Git it was difficult to follow the history, we had multiple copies of project
 
-Early solutions, like CSV or SVN (Subversion) were quickly limited. It was often awful to refactor your code because of their limitations
+Early solutions, like CSV or SVN (Subversion) were quickly limited.
+It was often awful to refactor your code because of their limitations
 
 == What's a repository ?
 
 > A Git repository contains all the files and directories associated with your project but you they contain also all the history of the modifications made on each one.
 
-Publishing changes is called a commit. Each commit is linked to another (this is a chained list). Commits can be organized into several parallel branches
+Publishing changes is called a commit.Each commit is linked to another (this is a chained list).Commits can be organized into several parallel branches
 
-Projects are stand-alone units, and anyone with a copy of the repository can access the entire code and its history. You can do different operations like logging, cloning, branch creation, commit, merging ...
+Projects are stand-alone units, and anyone with a copy of the repository can access the entire code and its history.You can do different operations like logging, cloning, branch creation, commit, merging ...
 
 .Centralized repository, local repository
 image::../../img/training/outil/git-repo.png[Github]
 
-Generally on a project we have a main branch `master`. And we open different branches in parallel to fix bugs, add new features. These branches are merged on this main branch when they are completes
+Generally on a project we have a main branch `master`.And we open different branches in parallel to fix bugs, add new features.These branches are merged on this main branch when they are completes
 
 .Branch Principle
 image::../../img/training/outil/git-branch.png[Github]
@@ -99,7 +96,7 @@ To check your install, display the git version in terminal
 ----
 ~$ git --version
 
-git version 2.29.0
+git version 2.32.0
 ----
 
 It's important to provide some information to Git, especially when you push your changes to a centralized repository.
@@ -175,25 +172,34 @@ Use the `git add` command to indicate that a new or multiple files will be handl
 [.small]#1. Adds hello.txt file +
 2. Adds all the files#
 
-At this moment, our files are not saved in Git. They are in a staging area. We have only a snapshot of the changes
+At this moment, our files are not saved in Git.They are in a staging area.We have only a snapshot of the changes
 
 === Saving modifications
 
-The following command saves the snapshot in the project history and completes the change tracking process. In short, a commit works like taking a photo. We freeze in time what we have done.
+The following command saves the snapshot in the project history and completes the change tracking process.In short, a commit works like taking a photo.We freeze in time what we have done.
 
 [source,shell]
 ----
 ~$ git commit -m "First commit"     (1)
 
 [master a7d5b84] First commit       (2)
- 3 files changed, 3 insertions(+)   (3)
+ 3 files changed, 3 insertions(+)
  create mode 100644 hello.html
  create mode 100644 hello.md
  create mode 100644 hello.txt
 ----
 
-[.small]#1. `-m` to add a message. It's very important to be able to understand why a commit was made +
-2. Git displays the name of the branch ==> `master` and the hash of the commit` a7d5b84` (this is the number of the photo)#
+1. `-m` to add a message.
+It's very important to be able to understand why a commit was made
+2. Git displays the name of the branch => `master` and the hash of the commit` a7d5b84` (this is the number of the photo)
+
+> Our Git history is a living, ever-changing, searchable record that tells the story of how and why our code is the way it is.
+It's important to explain the purpose of a commit.
+And try to commit often your work.
+It is a security if you want to restore your work.
+For example
+
+image::../../img/training/outil/github_history.png[History]
 
 === Know the current state
 
