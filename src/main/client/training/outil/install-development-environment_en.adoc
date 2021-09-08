@@ -73,7 +73,7 @@ After 20 years of development, I used a lot IDE.
 IntelliJ Idea is for me the best one to develop in Java, but the Premium version is not free.
 But *you can use the community version freely.*
 
-To simplify mutual aid we will all use the same IDE, Idea Community version. https://www.jetbrains.com/fr-fr/idea/download[Download] the last version.
+To simplify mutual aid we will all use the same IDE, Idea Community version. https://www.jetbrains.com/idea/download[Download] the last version.
 
 Launch your IDE to check that everything works
 

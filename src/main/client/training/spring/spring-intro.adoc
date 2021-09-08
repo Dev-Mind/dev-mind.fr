@@ -8,9 +8,9 @@
 :imgteaser: ../../img/training/spring-intro.png
 :toc:
 
-Since the beginning, https://spring.io/[Spring] has been a set of tools designed to simplify the development of https://www.java.com/fr/[Java] applications for everybody. Spring’s focus on speed, simplicity, and productivity has made it the world's most popular Java framework.
+Since the beginning, https://spring.io/[Spring] has been a set of tools designed to simplify the development of https://www.java.com/fr/[Java] applications for everybody.Spring’s focus on speed, simplicity, and productivity has made it the world's most popular Java framework.
 
-The last versions of Spring supports other languages on the JVM like https://kotlinlang.org/[Kotlin]. But we will focus today on Java.
+The last versions of Spring supports other languages on the JVM like https://kotlinlang.org/[Kotlin].But we will focus today on Java.
 
 image::../../img/training/spring-intro.png[]
 
@@ -20,17 +20,20 @@ image::../../img/training/spring-intro.png[]
 
 To be able to learn https://spring.io/[Spring] you must have
 
-* some basics in Java and JEE
-* know unit testing in Java
+* some basics in Java and JEE.
+If you need to follow a complete course you can see the fabulous work of https://www.youtube.com/c/coursenlignejava[Jose Paumard]
+* know unit testing in Java.
+If not you have a http://localhost:8080/training/unit-test/unit-test-in-java.html[course] on this web site.
 * have knowledge of the Web
-* know about JDBC and Hibernate
-* a PC with a good IDE (IntelliJ, Netbeans ...).
+* know about https://docs.oracle.com/javase/tutorial/jdbc/basics/index.html[JDBC] and https://docs.jboss.org/hibernate/orm/5.4/quickstart/html_single/[Hibernate]
+* a PC with a good IDE as https://www.jetbrains.com/idea[IntelliJ]
 
 Follow this link:../outil/install-development-environment_en.html[page] to install your dev environment
 
 === What's Spring ?
 
-Spring is the most used Java framework. A framework comes with rules to organize developments
+Spring is the most used Java framework.
+A framework comes with rules to organize developments
 
 * Good practices
 * Abstraction of the complexity
@@ -40,33 +43,29 @@ Spring is the most used Java framework. A framework comes with rules to organize
 Spring is
 
 * an https://github.com/spring-projects[Open Source] Java framework
-* an entire ecosystem
-* a community
-* a company (Spring is open source Licence «Apache 2.0» but managed by a company  Pivotal)
+* an entire https://spring.io/[ecosystem]
+* a https://spring.io/community[community]
+* a company (Spring is open source Licence «Apache 2.0» but managed by a company Pivotal)
 
 === Spring framework
 
 Make Java development easier
 
 * https://spring.io/projects/spring-framework[Spring Core] provides a framework to simplify project technical aspects
-* Sub-projects deal with more specific technical issues
+* Sub-projects deal with more specific technical issues (Data, Security, Cloud...)
 * Nothing is mandatory, everything is configurable
 * Big effort on backward compatibility
 
-. Some Spring sub projects
-image::../../img/training/spring-intro/spring-projects.png[canvas, width=70%]
-
+image::../../img/training/spring-intro/spring-projects.png[canvas,width=70%]
 
 === Documentation
 
-* Spring Core
-[.small]#https://docs.spring.io/spring/docs/current/spring-framework-reference/#
-* Spring Boot
-[.small]#https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle#
-* Spring Data JPA
-[.small]#https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#
-* Spring Security
-[.small]#https://docs.spring.io/spring-security/site/docs/current/reference/htmlsingle/#
+Here is the documentation related to everything we will see together during these lessons
+
+* Spring Core https://docs.spring.io/spring/docs/current/spring-framework-reference/
+* Spring Boot https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle
+* Spring Data JPA https://docs.spring.io/spring-data/jpa/docs/current/reference/html/
+* Spring Security https://docs.spring.io/spring-security/site/docs/current/reference/htmlsingle/
 
 == Start a new project
 
@@ -78,23 +77,24 @@ image:../../img/training/spring-intro/springboot-init19.png[size=90%]
 Use these settings
 
 * *Project* : Gradle project
-* *Language* :  Java
-* *Spring Boot* :  the highest (not suffixed snapshot)
+* *Language* : Java
+* *Spring Boot* : the highest (not suffixed snapshot)
 * *Project metadata*:
 +
 ** group : `com.emse.spring`
 ** artifact & name :  `faircorp`.
 ** Packaging : `jar`
 ** Java : `11`
-* *dependencies*: click on button image:../../img/training/spring-intro/springboot-init191.png[add dependencies] to choose which sub projects we will use. Choose *Spring Web* and  *Spring Boot DevTools*
+* *dependencies*: click on button "ADD DEPENDENCIES"" to choose which sub projects we will use.
+Choose *Spring Web* and *Spring Boot DevTools*
 
 Click on the Generate button (bottom of the screen) to download a zip with generated files.
 
 === Import zip in your IDE
 
 1. Unzip the project into a directory (you can put it next to the first project we did in the TPs)
-2. Open the project in link:../outil/install-development-environment_en.html[IntelliJ Idea]. This step may take a long time if your Internet connectivity is slow. IntelliJ will update Gradle and all dependencies needed by the project.
-3. You should have this project structure. Application is generated with tests
+2. Open the project in link:../outil/install-development-environment_en.html[IntelliJ Idea].This step may take a long time if your Internet connectivity is slow.IntelliJ will update Gradle and all dependencies needed by the project.
+3. You should have this project structure.Application is generated with tests
 +
 image:../../img/training/spring-intro/springboot-tree.png[]
 4. We will open the main generated files
@@ -127,9 +127,7 @@ repositories { // (5)
 dependencies { // (6)
 	implementation 'org.springframework.boot:spring-boot-starter-web' // (7)
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'  // (8)
-	testImplementation('org.springframework.boot:spring-boot-starter-test')  // (9) {
-		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-	}
+	testImplementation('org.springframework.boot:spring-boot-starter-test')  // (9)
 }
 
 test {

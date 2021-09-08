@@ -194,8 +194,7 @@ It's very important to be able to understand why a commit was made
 2. Git displays the name of the branch => `master` and the hash of the commit` a7d5b84` (this is the number of the photo)
 
 > Our Git history is a living, ever-changing, searchable record that tells the story of how and why our code is the way it is.
-It's important to explain the purpose of a commit.
-And try to commit often your work.
+It's important to explain the purpose of a commit.And try to commit often your work.
 It is a security if you want to restore your work.
 For example
 
