@@ -301,7 +301,7 @@ image:../../img/training/spring-intro/run-class2.png[]
 
 == Understand what's happened
 
-In few lines you have started your first Spring project. I spoke about Spring, Spring Framework, Spring Boot... But what's the difference ?
+In few lines you have started your first Spring project.I spoke about Spring, Spring Framework, Spring Boot... But what's the difference ?
 
 **Spring Framework **
 
@@ -314,7 +314,7 @@ Spring based applications have a lot of configuration.
 
 takes an opinionated view of the Spring platform and third-party libraries.
 
-With Spring Boot, it’s easy to create applications for all types of workloads. Most Spring Boot applications need very little Spring configuration.
+With Spring Boot, it’s easy to create applications for all types of workloads.Most Spring Boot applications need very little Spring configuration.
 
 Spring Boot is a "convention over configuration" type of framework, with no code generation.
 
@@ -328,8 +328,8 @@ With Spring boot we will use https://docs.spring.io/spring-boot/docs/current/ref
 [source,groovy]
 ----
 dependencies {
- compile('org.springframework.boot:spring-boot-starter-web')
- testCompile('org.springframework.boot:spring-boot-starter-test')
+ implementation('org.springframework.boot:spring-boot-starter-web')
+ testImplementation('org.springframework.boot:spring-boot-starter-test')
 }
 ----
 

@@ -11,13 +11,13 @@
 In this course you will learn one of the main principle of software design, the dependency injection
 
 * Fundamental principle of software design
-* Introduced by https://martinfowler.com/articles/injection.html[Martin Folwer] (famous english computer engineer)
+* Introduced by https://martinfowler.com/articles/injection.html[Martin Fowler] (famous english computer engineer)
 * Helps to split responsibilities in your code => weakly coupled components
 * Facilitates testing
 
 == Objects and application
 
-When writing an application, as developers, we break the problem we’re trying to solve into smaller ones and do our best keep in line with the architecture and design principles we’ve chosen for our application: flexible, decoupled, testable, easy to understand, etc.
+When writing an application, as developers, we break down the problem we’re trying to solve into smaller ones, and do our best to comply with the architecture and design principles we’ve chosen for our application: flexible, decoupled, testable, easy to understand, etc.
 
 For that we use a lot of objects
 
@@ -26,13 +26,13 @@ image::../../img/training/spring-intro/java-objects.png[background,size=90%]
 
 * Service contains implementations of your business rules
 * Components help to resolve a technical problem
-* Repository interacts with external systems as datase, webapi...
+* Repository interacts with external systems as database, webapi...
 * Controllers are in front of your app to read and check data sent by users
-* And you have object to transport data DTO, entities
+* And you have objects to transport data DTO, entities
 
-When we want to create an object we write for example
+When we want to define an object we write for example
 
-[source,java, subs="specialchars"]
+[source,java,subs="specialchars"]
 ----
 public class NameService {
 
@@ -44,7 +44,7 @@ public class NameService {
 
 And to use this object elsewhere we have to create a new instance with a `new` instruction
 
-[source,java, subs="specialchars"]
+[source,java,subs="specialchars"]
 ----
 public class WelcomeService {
 
@@ -56,22 +56,18 @@ public class WelcomeService {
 ----
 
 We have a strong coupling between these classes *WelcomeService* and *NameService*.
-If we want to change *NameService* we have a good chance of having to update *WelcomeService*
+If we want to change *NameService* we have a good chance of having to update *WelcomeService*.
 
-For example, if *NameService* need to use others objects, you have to update the *WelcomeService* classc constructor
+For example, if *NameService* need to use others objects, you have to update the *WelcomeService* class constructor
 
-[source,java, subs="specialchars"]
+[source,java,subs="specialchars"]
 ----
 public class NameService {
 
     private UserService userService;
-    private SettingService settingService;
-    private UserRepository userRepository;
 
-    public NameService(UserService userService, SettingService settingService, UserRepository userRepository) {
+    public NameService(UserService userService) {
         this.userService = userService;
-        this.settingService = settingService;
-        this.userRepository = userRepository;
     }
 
     public String getName() {
@@ -82,13 +78,28 @@ public class NameService {
 }
 ----
 
-We have to break this coupling between components and the solution is *Inversion of Control*. To introduce this principle we will use a simpler example
+As the constructor changed you must update the coupled class
+
+[source,java,subs="specialchars"]
+----
+public class WelcomeService {
+
+    public void sayHello() {
+        UserService userService = new UserService();
+        NameService nameService = new NameService(userService);
+        System.out.println("Hello " + nameService.getName());
+    }
+}
+----
+
+We have to break this coupling between components and the solution is *Inversion of Control*.
+To introduce this principle we will use a simpler example
 
 If a class A uses a class B
 
 image:../../img/training/spring-intro/ioc1.png[]
 
-[source,java, subs="specialchars"]
+[source,java,subs="specialchars"]
 ----
 public class B {
     public String name() {
@@ -106,23 +117,30 @@ public class A {
 
 == Inversion of Control (IOC) Principle
 
-To resolver this problem, we can use a client, a factory to instantiate class B and inject it into class A.
+To resolve this problem, we can use a client, a factory to instantiate class B and inject it into class A.
 
 image:../../img/training/spring-intro/ioc2.png[size=80%]
 
-If an object needs other objects, it does not instantiate itself  but they are provided by a factory or a client (a container). **Inversion of Control (IoC) principle is also known as dependency injection (DI)**.
+If an object needs other objects, it does not instantiate itself but they are provided by a factory or a client (a container).
 
-Objects define their dependencies (that is, the other objects they work with) through constructor arguments or properties. Container is responsible for the construction of the objects. It will provide (inject) the dependencies requested by an object.
+Objects define their dependencies (that is, the other objects they work with) through constructor arguments or properties.
+Container is responsible for the construction of the objects.
+It will provide (inject) the dependencies requested by an object.
 
-The first version of Spring was created to resolve this problem. Spring provides https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#beans[a container] to create and inject objects.
+The first version of Spring was created to resolve this problem.
+Spring provides https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#beans[a container] to create and inject objects.
 
 You must remember
 
-> If an object needs other objects, it does not instantiate itself but they are provided by a factory (in our case Spring). Therefore we no longer have to find new in your code. The only exception is for objects which contain data : Entity and DTO
+> If an object needs other objects, it does not instantiate itself but they are provided by a factory (in our case Spring).
+Therefore we no longer have to find new in your code.
+The only exception is for objects which contain data : Entity and DTO.
+**Inversion of Control (IoC) principle is also known as dependency injection (DI)**.
 
 == Beans Spring
 
-In Spring, the objects that form the backbone of your application and that are managed by the Spring IoC container are called beans. A https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#beans-definition[bean] is an object that is instantiated, assembled, and managed by a Spring IoC container
+In Spring, the objects that form the backbone of your application and that are managed by the Spring IoC container are called beans.
+A https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#beans-definition[bean] is an object that is instantiated, assembled, and managed by a Spring IoC container
 
 NOTE: The Java language was named Java in reference to Java coffee, the coffee of Indonesia... With Spring an app can be seen as a set of Java beans image:../../img/training/spring-intro/ioc-beans.png[size=400,600]
 
@@ -130,9 +148,9 @@ NOTE: The Java language was named Java in reference to Java coffee, the coffee o
 
 ==== By annotation
 
-In Spring, we can use a stereotype on our classes to defined them as a Bean Spring :  @Service, @Component, @Repository, @Controller
+In Spring, we can use a stereotype on our classes to defined them as Bean Spring : @Service, @Component, @Repository, @Controller
 
-[source,java, subs="specialchars"]
+[source,java,subs="specialchars"]
 ----
 @Service
 public class MyGreetingService {
@@ -145,17 +163,19 @@ public class MyGreetingController {
 }
 ----
 
-Spring Boot is able to scan classpath to auto-detect and auto-configure beans annotated with @Service, @Component, @Repository, or @Controller. Each annotation is equivalent, but a sterotype (@Service, @Repository...) helps to understand the object role in your app
+Spring Boot is able to scan classpath to auto-detect and auto-configure beans annotated with @Service, @Component, @Repository, or @Controller.
+Each annotation is equivalent, but a sterotype (@Service, @Repository...) helps to understand the object role in your app
 
 image::../../img/training/spring-intro/java-objects.png[size=90%]
 
 ==== By configuration
 
-Also, we can create a bean Spring in a configuration bean, when we need to configure it.
+Also, we can create a Spring bean in a configuration bean, when we need to configure it.
 
-The first step is to create a Configuration bean annotated with @Configuration. This annotation indicates that the class can be used by the Spring IoC container as a source of bean definitions
+The first step is to create a Configuration bean annotated with @Configuration.
+This annotation indicates that the class can be used by the Spring IoC container as a source of bean definitions
 
-[source,java, subs="specialchars"]
+[source,java,subs="specialchars"]
 ----
 @Configuration
 public class MyAppConfiguration {
@@ -165,11 +185,11 @@ public class MyAppConfiguration {
 }
 ----
 
-Beans are components instances. A method annotated with @Bean will return an object that should be registered as a bean in the Spring application context. @Bean is used to explicitly declare a single bean, rather than letting Spring do it automatically as @Component, @Service...
+Beans are components instances.A method annotated with @Bean will return an object that should be registered as a bean in the Spring application context.@Bean is used to explicitly declare a single bean, rather than letting Spring do it automatically as @Component, @Service...
 
 In this example we said to Spring that our UserStore object needs a `DataStoreConnectionPool` and
 
-[source,java, subs="specialchars"]
+[source,java,subs="specialchars"]
 ----
 @Configuration
 public class MyAppConfiguration {
@@ -184,7 +204,7 @@ public class MyAppConfiguration {
 
 === Add dependencies
 
-When a class need another object, we use @Autowired to inject them via Spring. You have 2 ways to inject a bean in another
+When a class need another object, we use @Autowired to inject them via Spring.You have 2 ways to inject a bean in another
 
 *Injection by setter*
 [source,java, subs="specialchars"]
@@ -223,7 +243,7 @@ public class AImpl implements A {
     }
 }
 ----
-If you have only one constructor `@Autowired` is not mandatory for Spring. However, if several constructors are available and there is no primary/default constructor, at least one of the constructors must be annotated with @Autowired in order to instruct the container which one to use.
+If you have only one constructor `@Autowired` is not mandatory for Spring.However, if several constructors are available and there is no primary/default constructor, at least one of the constructors must be annotated with @Autowired in order to instruct the container which one to use.
 
 NOTE: You have 2 ways of injecting dependencies into an object but injection by constructor is the one recommended by the community
 
@@ -237,7 +257,6 @@ public class AuthenticationService {
   private final UserStore userStore;
   private final CertificateManager certManager;
 
-  @Autowired
   public AuthenticationService(UserStore userStore, CertificateManager certManager) {
     this.userStore = userStore;
     this.certManager = certManager;
@@ -255,7 +274,8 @@ Spring looks for components by scanning your application classpath : looking for
 
 image:../../img/training/spring-intro/appcontext1.png[]
 
-All those components are registered in an application context. Spring search a Bean by its type or else by its name
+All those components are registered in an application context.
+Spring searches a Bean by its type or else by its name
 
 image:../../img/training/spring-intro/appcontext2.png[]
 
@@ -274,7 +294,7 @@ image:../../img/training/spring-intro/appcontext4.png[]
 
 First, let’s create an interface for our application called `*GreetingService*` in package `*com.emse.spring.faircorp.hello*`
 
-[source,java, subs="specialchars"]
+[source,java,subs="specialchars"]
 ----
 package com.emse.spring.faircorp.hello;
 
@@ -284,7 +304,7 @@ public interface GreetingService {
 }
 ----
 
-> Good habits fall to the wayside ;-( Don’t forget to commit periodically your work. For this, you can run the `git init` cmd to convert this unversioned project to a Git repo. You can linked this repo to Github
+> Good habits fall to the wayside ;-( Don’t forget to commit periodically your work.For this, you can run the `git init` cmd to convert this unversioned project to a Git repo.You can linked this repo to Github
 
 Your first job is to output "Hello, Spring!" in the console when the application starts.
 
@@ -321,7 +341,7 @@ class GreetingServiceTest {
 * (1) We load a https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/test/system/OutputCaptureExtension.html[Junit5 extension] to capture output (log generated by your app)
 * (2) We’re testing our service implementation without Spring being involved. We create a new instance of this service with a new
 
-You can verify that your implementation is working properly by running  `./gradlew test` command or by buttons in your IDEA. See this video to see the different solutions
+You can verify that your implementation is working properly by running  `./gradlew test` command or by buttons in your IDEA.See this video to see the different solutions
 
 video::I2jCW8pjWlk[youtube, width=600, height=330]
 
