@@ -69,7 +69,7 @@ Projects are stand-alone units, and anyone with a copy of the repository can acc
 .Centralized repository, local repository
 image::../../img/training/outil/git-repo.png[Github]
 
-Generally on a project we have a main branch `master`.And we open different branches in parallel to fix bugs, add new features.These branches are merged on this main branch when they are completes
+Generally on a project we have a main branch `main`.And we open different branches in parallel to fix bugs, add new features.These branches are merged on this main branch when they are completes
 
 .Branch Principle
 image::../../img/training/outil/git-branch.png[Github]
@@ -79,6 +79,7 @@ image::../../img/training/outil/git-branch.png[Github]
 If you use Windows, you can download Git here https://git-scm.com/downloads
 
 On a Linux (Fedora)
+
 [source,shell]
 ----
 sudo yum install git
@@ -182,7 +183,7 @@ The following command saves the snapshot in the project history and completes th
 ----
 ~$ git commit -m "First commit"     (1)
 
-[master a7d5b84] First commit       (2)
+[main a7d5b84] First commit       (2)
  3 files changed, 3 insertions(+)
  create mode 100644 hello.html
  create mode 100644 hello.md
@@ -191,7 +192,7 @@ The following command saves the snapshot in the project history and completes th
 
 1. `-m` to add a message.
 It's very important to be able to understand why a commit was made
-2. Git displays the name of the branch => `master` and the hash of the commit` a7d5b84` (this is the number of the photo)
+2. Git displays the name of the branch => `main` and the hash of the commit` a7d5b84` (this is the number of the photo)
 
 > Our Git history is a living, ever-changing, searchable record that tells the story of how and why our code is the way it is.
 It's important to explain the purpose of a commit.And try to commit often your work.
@@ -225,7 +226,7 @@ What do you see ?
 ~$ git add .
 ~$  git commit -m "Second commit"
 
-[master 7b7d8e6] Second commit
+[main 7b7d8e6] Second commit
  3 files changed, 2 insertions(+), 2 deletions(-)
  create mode 100644 hello.adoc
  delete mode 100644 hello.txt
@@ -245,7 +246,7 @@ Use the log command
 ----
 ~$ git log
 
-commit 7b7d8e69a06af284c9da7aa4a8c28835d23318fe (HEAD -> master)
+commit 7b7d8e69a06af284c9da7aa4a8c28835d23318fe (HEAD -> main)
 Author: Guillaume EHRET Dev-Mind <guillaume@dev-mind.fr>
 Date:   Wed Sep 26 23:22:46 2018 +0200
 
@@ -291,20 +292,20 @@ Run the following command to see the current branch
 [source,shell,linenums,subs=""]
 ----
 ~$ git branch
-* master
+* main
 ----
 
 Character * shows the current branch
 
 === Create a branch
 
-A branch is just a name without special characters or spaces. To create a branch we use `git branch [name]`
+A branch is just a name without special characters or spaces.To create a branch we use `git branch [name]`
 
 [source,shell]
 ----
 ~$ git branch test
 ~$ git branch
-* master
+* main
 test
 ----
 
@@ -323,7 +324,7 @@ A prefix is often used by convention, when you want to name a branch. for exampl
 ----
 ~$ git checkout test
 ~$ git branch
-master
+main
 * test
 ----
 
@@ -343,7 +344,7 @@ You can launch the following commands
 [source,shell]
 ----
 ~$ git log
-~$ git checkout master
+~$ git checkout main
 ~$ git log
 ----
 
@@ -355,14 +356,14 @@ We will reuse the `git diff` command but we specify the 2 branches separated by 
 
 [source,shell]
 ----
-~$ git diff test...master
+~$ git diff test...main
 ----
 
-This command should show nothing because `test` is based on` master` and it is just ahead, it contains all master commits
+This command should show nothing because `test` is based on` main` and it is just ahead, it contains all main commits
 
 [source,shell]
 ----
-~$ git diff master...test
+~$ git diff main...test
 ----
 
 This time, as `test` branch is the reference, Git detects that there are differences
@@ -377,7 +378,7 @@ Date:   Thu Sep 27 00:00:00 2018 +0200
 
     Third commit
 
-commit 9fd87d1ffc654a74105f3f279032e7f88d3d265b (master)       (2)
+commit 9fd87d1ffc654a74105f3f279032e7f88d3d265b (main)       (2)
 Author: Guillaume EHRET Dev-Mind <guillaume@dev-mind.fr>
 Date:   Wed Sep 26 23:51:10 2018 +0200
 
@@ -386,13 +387,13 @@ Date:   Wed Sep 26 23:51:10 2018 +0200
 ----
 
 [.small]#1. Git indicates the HEAD of the test branch +
-2. Git displays the name of the parent branch ==> `master` and where it is in the history#
+2. Git displays the name of the parent branch ==> `main` and where it is in the history#
 
-You can go back to `master` and create another branch` test2`
+You can go back to `main` and create another branch` test2`
 
 [source,shell,linenums,subs=""]
 ----
-~$ git checkout master
+~$ git checkout main
 ~$ git branch test2
 ~$ git checkout test2
 ~$ echo "Fichier toto" > toto.adoc
@@ -402,11 +403,11 @@ You can go back to `master` and create another branch` test2`
 
 === Merge 2 branches
 
-If you want to post your changes from the `test` branch to` master`, you're going to do a merge
+If you want to post your changes from the `test` branch to` main`, you're going to do a merge
 
 [source,shell,linenums,subs=""]
 ----
-~$ git checkout master
+~$ git checkout main
 ~$ git merge test
 ----
 
@@ -420,7 +421,7 @@ You can delete a branch if this branch is not the active one
 ~$ git branch -d test
 error: Cannot delete branch 'test' checked out at '/home/devmind/Workspace/java/git-demo'
 
-~$ git checkout master
+~$ git checkout main
 ~$ git branch -d test
 Deleted branch test (was 9fd87d1).
 ----
@@ -429,33 +430,34 @@ Deleted branch test (was 9fd87d1).
 
 === Link your local repository to a remote repository
 
-You can install a centralized Git repository by using https://github.com/[Github Enterprise], https://gitlab.com/[Gitlab Enterprise], https://gogs.io/[Gogs]. But you can also use an online service
+You can install a centralized Git repository by using https://github.com/[Github Enterprise], https://gitlab.com/[Gitlab Enterprise], https://gogs.io/[Gogs].But you can also use an online service
 
 1. Create an account under Github
 2. Once you are logged in on Github,  you can create your first repository
 
 .New project under Github
-image::../../img/training/outil/github_new.png[Nouveau projet sous Github, width=90%]
+image::../../img/training/outil/github_new.png[Nouveau projet sous Github,width=90%]
 
 Github provides you commands to connect this remote repository to your local repository
 
 .commands to connect this remote repository
-image::../../img/training/outil/github_new2.png[Github vous fournit les commandes pour relier ce dépot, width=90%]
+image::../../img/training/outil/github_new2.png[Github vous fournit les commandes pour relier ce dépot,width=90%]
 
 
 To link your local project type the following commands
 
 [source,shell]
 ----
-~$ git checkout master
+~$ git checkout main
 ~$ git remote add origin https://github.com/Dev-Mind/git-demo.git  (1)
-~$ git push -u origin master                                       (2)
+~$ git push -u origin main                                       (2)
 ----
 
 [.small]#1. Git adds remote origin to your local project +
-2. The push command allows to send what you have on the current branch (local master branch) on the server#
+2. The push command allows to send what you have on the current branch (local main branch) on the server#
 
-Github allows teams to synchronize throughout the life of a project. You can push any branch.
+Github allows teams to synchronize throughout the life of a project.
+You can push any branch.
 
 [source,shell]
 ----
@@ -482,19 +484,26 @@ The `git fetch` command retrieves the history of all branches locally.
 When we are working in team, the workflow will be
 
 *Create a branch* +
-We usually create a branch from master (or another branch). Some companies have, for example, a branch dev for the current developments, a branch `prod` that corresponding to what is in production. Branches created on these canonical branches must have a short life duration.
+We usually create a branch from main (or another branch).
+Some companies have, for example, a branch dev for the current developments, a branch `prod` that corresponding to what is in production.
+Branches created on these canonical branches must have a short life duration.
 
 *Add commits* +
-Every small changes should be made as often as possible. Each commit, within a branch creates restoration points in the project history.
+Every small changes should be made as often as possible.
+Each commit, within a branch creates restoration points in the project history.
 
 *Open a pull request* +
-When you pushed your changes on Github, you can open a pull request. This allows to discuss about the current development (for example with the people who will test)
+When you pushed your changes on Github, you can open a pull request.
+This allows to discuss about the current development (for example with the people who will test)
 
 *Code Review* +
-In a mature development team, your code is always read by another developers. Your code is often also tested by other people. Anyone can make returns on the Pull request. You can make changes on the branch and pushed other commits to fix the review remarks.
+In a mature development team, your code is always read by another developers.
+Your code is often also tested by other people.
+Anyone can make returns on the Pull request.
+You can make changes on the branch and pushed other commits to fix the review remarks.
 
 *Merge*
- +When everything is OK you can click the `Merge` button on the pull request. GitHub automatically performs the equivalent of a local 'git merge' operation.
++When everything is OK you can click the `Merge` button on the pull request.GitHub automatically performs the equivalent of a local 'git merge' operation.
 
 *Deploy* +
 Teams can install your updates or continue development
@@ -502,7 +511,7 @@ Teams can install your updates or continue development
 
 === Conclusion
 
-There's still a lot of things to say about Git and Github. Some concepts can be complex like `rebase` or `conflict resolution`. IDEs will simplify some tasks. You can find more resources on the web http://try.github.io/
+There's still a lot of things to say about Git and Github.Some concepts can be complex like `rebase` or `conflict resolution`.IDEs will simplify some tasks.You can find more resources on the web http://try.github.io/
 
-This course is there to give you the basics in order to be able to realize the TP using Git. You are now able to save your sources, to share them, to find them easily from one computer to another. So enjoy with Git
+This course is there to give you the basics in order to be able to realize the TP using Git.You are now able to save your sources, to share them, to find them easily from one computer to another.So enjoy with Git
 

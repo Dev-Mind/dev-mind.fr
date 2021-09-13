@@ -461,13 +461,13 @@ NOTE: Hibernate stores everything read from the database in a first-level cache.
 
 === Schema generation
 
-Hibernate (JPA implementation) is able to parse yours entities to generate your database schema. It's very useful when you develop an app.
+Hibernate (JPA implementation) is able to parse yours entities to generate your database schema.It's very useful when you develop an app.
 
 In Spring you just have to add some properties in `application.properties` file.
 
 Update the file `application.properties` and add these keys
 
-[source,java, subs="specialchars"]
+[source,java,subs="specialchars"]
 ----
 # Spring boot : JPA
 spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
@@ -480,11 +480,13 @@ spring.jpa.show_sql=true
 
 == JPA and association mappings
 
-Association mappings are one of the key features of JPA and Hibernate. They define the relationship between the database tables and the attributes in your Entity.
+Association mappings are one of the key features of JPA and Hibernate.
+They define the relationship between the database tables and the attributes in your Entity.
 
 image::../../img/training/spring-intro/relation.png[size=100%]
 
-An association between JPA entities. can be unidirectional or bidirectional. In this second case, one of the two entities must be master and the other slave.
+An association between JPA entities, can be unidirectional or bidirectional.
+In this second case, one of the two entities must be the parent (the main entity) and the other the child.
 
 It defines in which direction you can use the association.
 
@@ -497,7 +499,7 @@ image::../../img/training/spring-intro/relation1to1.png[]
 
 A column *mayor_id* will be added in the table *City* and a foreign key will be created
 
-[source,java, subs="specialchars"]
+[source,java,subs="specialchars"]
 ----
 @Entity
 public class Mayor {
@@ -523,12 +525,12 @@ public class City {
 
 Example of *bidirectional* association: a city has a mayor and the mayor now knows his city
 
-With this code a column *mayor_id* will be added in the `*City*` table and a foreign key will be created. *Mayor* table  won't have a reference to city. *mappedby* tells hibernate not to map this field because it's already mapped by this field [here property mayor in City entity].
+With this code a column *mayor_id* will be added in the `*City*` table and a foreign key will be created.*Mayor* table won't have a reference to city. *mappedby* tells hibernate not to map this field because it's already mapped by this field [here property mayor in City entity].
 
 [.langage-small]
-[source,java, subs="specialchars"]
+[source,java,subs="specialchars"]
 ----
-// Slave
+// Child
 @Entity
 public class City {
     @Id
@@ -541,7 +543,7 @@ public class City {
     // Reste du code
 }
 
-// Master
+// Parent
 @Entity
 public class Mayor {
     @Id
@@ -554,7 +556,8 @@ public class Mayor {
 }
 ----
 
-> If you forget to define a master and a slave in the association (no association with a mappedBy), you will have a mayor_id reference in the City table and a city_id reference in the Mayor table with 2 constraints. In this case, you will not be able to delete a row because you will always have a constraint error.
+> If you forget to define a parent and a child in the association (no association with a mappedBy), you will have a mayor_id reference in the City table and a city_id reference in the Mayor table with 2 constraints.
+In this case, you will not be able to delete a row because you will always have a constraint error.
 
 === @OneToMany
 
@@ -565,7 +568,7 @@ image::../../img/training/spring-intro/relation1ton.png[]
 A join table is added (with 2 foreign keys)
 
 [.langage-small]
-[source,java, subs="specialchars"]
+[source,java,subs="specialchars"]
 ----
 @Entity
 public class Sensor {
@@ -625,17 +628,17 @@ public class Measurement {
 
 === @OneToMany @ManyToOne
 
-
 Example of *bidirectional* association: a site has n sensors and sensor knows its site
 
 image::../../img/training/spring-intro/relation1ton2.png[]
 
-*@ManyToOne ha nos property `mappedBy`. So you can't make a mistake, add this `mappedBy` property on @OneToMany* (which is used to designate the master)
+*@ManyToOne ha nos property `mappedBy`.
+So you can't make a mistake, add this `mappedBy` property on @OneToMany* (which is used to designate the parent)
 
 [.langage-small]
-[source,java, subs="specialchars"]
+[source,java,subs="specialchars"]
 ----
-// Slave
+// Child
 @Entity
 public class Sensor {
     @Id
@@ -648,7 +651,7 @@ public class Sensor {
      // ...
 }
 
-// Master
+// Parent
 @Entity()
 public class Site {
     @Id
@@ -697,12 +700,12 @@ public class Musician {
 
 Example *bidirectional* association: a musician plays several instruments (instrument knows that they play musicians)
 
-A join table is always present (with 2 foreign keys) but we must define who is master
+A join table is always present (with 2 foreign keys) but we must define who is parent
 
 [.langage-small]
-[source,java, subs="specialchars"]
+[source,java,subs="specialchars"]
 ----
-// Slave
+// Child
 @Entity
 public class Instrument {
     @Id
@@ -714,7 +717,7 @@ public class Instrument {
      // ...
 }
 
-// Master
+// Parent
 @Entity()
 public class Musician {
     @Id
