@@ -105,7 +105,7 @@ It's important to provide some information to Git, especially when you push your
 [source,shell,subs="specialchars"]
 ----
 ~$ git config --global user.name "Guillaume EHRET Dev-Mind"
-~$ git config --global user.name "guillaume@dev-mind.fr"
+~$ git config --global user.email "guillaume@dev-mind.fr"
 ----
 
 
