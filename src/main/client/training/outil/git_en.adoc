@@ -108,7 +108,6 @@ It's important to provide some information to Git, especially when you push your
 ~$ git config --global user.email "guillaume@dev-mind.fr"
 ----
 
-
 === Recover a Git project
 
 Go in your working directory, and in a terminal type
