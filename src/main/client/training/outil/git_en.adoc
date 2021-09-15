@@ -452,8 +452,11 @@ To link your local project type the following commands
 ~$ git push -u origin main                                       (2)
 ----
 
-[.small]#1. Git adds remote origin to your local project +
-2. The push command allows to send what you have on the current branch (local main branch) on the server#
+1. Git adds remote origin to your local project +
+2. The push command allows to send what you have on the current branch (local main branch) on the server
+
+> If you have a problem to use your login and password in the command line, you can follow this https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token[documentation] to generate an access token.
+When you have a token you can use it as password
 
 Github allows teams to synchronize throughout the life of a project.
 You can push any branch.
