@@ -240,6 +240,7 @@ You can launch the `run` task to execute your app
 
 [source,shell]
 ----
+$ ./gradlew :app:run
 > Task :app:run
 I want to learn Gradle
 
