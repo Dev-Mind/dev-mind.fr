@@ -21,7 +21,7 @@ Java is released every 6 months, but only a few versions are defined as https://
 As of September 2021, Java 8 and 11 are supported as Long Term Support (LTS) versions, and one later non-LTS version is supported.
 So today we should use Java 11
 
-All versions are available on this URL https://www.oracle.com/java/technologies/javase-downloads.html
+All versions are available on this URL https://www.oracle.com/java/technologies/downloads/
 
 If you are running Linux (Fedora, CentOS) you can run
 
@@ -74,6 +74,7 @@ IntelliJ Idea is for me the best one to develop in Java, but the Premium version
 But *you can use the community version freely.*
 
 To simplify mutual aid we will all use the same IDE, Idea Community version. https://www.jetbrains.com/idea/download[Download] the last version.
+You can also try to obtain a free licence on this https://www.jetbrains.com/community/education/#students[link] for the premium version.
 
 Launch your IDE to check that everything works
 
