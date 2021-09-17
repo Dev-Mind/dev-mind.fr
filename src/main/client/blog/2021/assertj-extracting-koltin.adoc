@@ -1,0 +1,146 @@
+:doctitle: Comment utiliser la méthode extracting AssertJ en Kotlin
+:description: La méthode extracting de AssertJ permet de tester les propriétés d'un objet ou d'une liste d'éléments rapidement. Mais comment l'utiliser en Kotlin ?
+:category: Kotlin
+:teaser: La méthode extracting de AssertJ permet de tester les propriétés d'un objet ou d'une liste d'éléments rapidement. Mais comment l'utiliser en Kotlin ?
+:imgteaser: :../../img/blog/2021/assertj_koltin.png
+:revdate: 2021-09-17
+:toc:
+
+Lorsque je veux faire des assertions dans mes tests unitaires en Java, j'utilise la librairie https://assertj.github.io/doc/[AssertJ].
+Cette librairie offre une "fluent API" pour rendre lisible vos tests unitaires.
+
+Je vais me focaliser aujourd'hui sur la méthode `extracting` de AssertJ qui permet de tester les propriétés d'un objet ou d'une liste d'objets.
+Je vais surtout parler des limitations quand on veut utiliser cette méthode sur des tests écrits en Kotlin
+
+Si par exemple nous avons un objet Talk avec un identifiant, un nom et une liste d'identifiants de speaker.
+En Kotlin cet objet se définit de cette manière
+
+```
+data class Talk(val id: Long, val name: String, val speakerIds: List<Long>)
+```
+
+## Méthode `extracting` en Java
+
+Regardons maintenant comment utiliser cette méthode dans un test écrit en Java
+
+Exemple pour un objet
+
+```
+@Test
+void extractPropertyOnObject() {
+    Talk talk = new Talk(1L, "Fabulous talk", asList(12L, 13L));
+    assertThat(talk)
+        .extracting(Talk::getId, Talk::getName, Talk::getSpeakerIds)
+        .containsExactly(1L, "Fabulous talk", asList(12L, 13L));
+}
+```
+
+Exemple pour une liste d'objets
+
+```
+@Test
+void extractPropertyOnList() {
+    List<Talk> talks = asList(
+        new Talk(1L, "Fabulous talk", asList(12L, 13L)),
+        new Talk(2L, "Other talk", asList(14L))
+    );
+    assertThat(talks).extracting(Talk::getId, Talk::getName, Talk::getSpeakerIds)
+        .containsExactly(
+            Tuple.tuple(1L, "Fabulous talk", asList(12L, 13L)),
+            Tuple.tuple(2L, "Other talk", asList(14L))
+        );
+}
+```
+
+## Méthode `extracting` en Kotlin
+
+Passons maintenant à Kotlin, le compilateur limite l'utilisation des références de fonction à cause de l'API.
+En effet si nous voulons utiliser plusieurs référence de fonction nous avons une erreur "None of the following functions can be called with the arguments supplied"
+
+Quand vous n'avez qu'une seule propriété vous pouvez écrire
+
+Exemple pour un objet
+
+```
+@Test
+    fun `should extract property on object`() {
+        val talk = Talk(1L, "Fabulous talk", listOf(12L, 13L))
+        assertThat(talk).extracting { it.name }.isEqualTo("Fabulous talk")
+    }
+```
+
+Exemple pour une liste d'objets
+
+```
+Pas de solution avec les références de fonction
+```
+
+Le problème est référencé https://github.com/assertj/assertj-core/issues/1499[ici] mais il ne sera pas résolu.
+La solution est de passer par le nom des propriétés.
+Mais cette solution n'est pas très viable car si une propriété change de nom, vous n'aurez pas d'erreur de compilation.
+
+Exemple pour un objet
+
+```
+@Test
+    fun `should extract property on object`() {
+        val talk = Talk(1L, "Fabulous talk", listOf(12L, 13L))
+        assertThat(talk).extracting("id", "name", "speakerIds")
+            .containsExactly(1L, "Fabulous talk", listOf(12L, 13L))
+    }
+```
+
+Exemple pour une liste d'objets
+
+```
+@Test
+fun `should extract property on list`() {
+    val talks = listOf(
+        Talk(1L, "Fabulous talk", listOf(12L, 13L)),
+        Talk(2L, "Other talk", listOf(14L))
+    )
+    assertThat(talks)
+        .extracting("id", "name", "speakerIds")
+        .containsExactly(
+            tuple(1L, "Fabulous talk", listOf(12L, 13L)),
+            tuple(2L, "Other talk", listOf(14L))
+        )
+}
+```
+
+## Le langage Kotlin à la rescousse
+
+AssertJ a été écrit pour faciliter les tests en Java.
+En Kotlin, le langage est beaucoup plus souple et le langage lui même est souvent une réponse simple à un problème.
+Au lieu d'utiliser la méthode `extracting`, vous pouvez par exemple transformer vos éléments en tuple
+
+Exemple pour un objet avec un let
+
+```
+@Test
+fun `should extract property on object`() {
+    val talk = Talk(1L, "Fabulous talk", listOf(12L, 13L))
+    assertThat(talk.let { tuple(it.id, it.name, it.speakerIds) })
+        .isEqualTo(tuple(1L, "Fabulous talk", listOf(12L, 13L)))
+}
+```
+
+Exemple pour une liste d'objets avec un map
+
+```
+@Test
+fun `should extract property on list`() {
+    val talks = listOf(
+        Talk(1L, "Fabulous talk", listOf(12L, 13L)),
+        Talk(2L, "Other talk", listOf(14L))
+    )
+    assertThat(talks.map { tuple(it.id, it.name, it.speakerIds) })
+        .containsExactly(
+            tuple(1L, "Fabulous talk", listOf(12L, 13L)),
+            tuple(2L, "Other talk", listOf(14L))
+
+        )
+}
+```
+
+Vous avez donc plusieurs possibilités pour résoudre ce problème en Kotlin mais pour ma part j'applique la dernière solution exposée ici
