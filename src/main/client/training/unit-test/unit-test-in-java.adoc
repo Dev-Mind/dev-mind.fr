@@ -59,19 +59,19 @@ If you want to facilitate your tests you can apply 2 rules
 
 A unit test is a method that instantiates a small portion of your application (one method for example) and checks its behavior independently from other parts.
 
-Portion to test, can be viewed as an independent system. We talk about System Under Test (SUT)
+Portion to test, can be viewed as an independent system.We talk about System Under Test (SUT)
 
 image::../../img/training/unit-test/test1.png[]
 
 For example, if we want to test a service which follows this contract
 
-[source,java, subs="specialchars"]
+[source,java,subs="specialchars"]
 ----
 public interface FriendService {
    /**
      * Compute friend age from his birth year
      */
-    int computeFriendAge(Friend friend);
+    double computeFriendAge(Friend friend);
 }
 ----
 
@@ -89,7 +89,7 @@ public class FriendServiceImpl implements FriendService {
 }
 ----
 
-When you write a test you have to test all the cases. In our example you have to check when the user is nulland  when a user is defined and has a birth year
+When you write a test you have to test all the cases.In our example you have to check when the user is nulland when a user is defined and has a birth year
 
 In an application this system SUT will interact with other components
 
@@ -216,10 +216,11 @@ Assertions.assertThat(name).isEqualTo("Dev-Mind");
 
 With assertJ you can test the exception thrown by a method, its type, its message
 
-[source,java, subs="specialchars"]
+[source,java,subs="specialchars"]
 ----
-Assertions.assertThat(age).isEqualTo(41);
-Assertions.assertThat(name).isEqualTo("Dev-Mind");
+Assertions.assertThatThrownBy(() -> friendService.computeFriendAge(null))
+                .isExactlyInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Friend is required");
 ----
 
 If you expected result is a list of friends
@@ -253,15 +254,15 @@ image::../../img/training/unit-test/assertj-completion.png[]
 
 You can find more informations on the official website http://joel-costigliola.github.io/assertj
 
-== Lab 5 : Unit tests
+== Lab : Unit tests
 
-You need to clone a new project in your workspace. Use a terminal and launch
+You need to clone a new project in your workspace.Use a terminal and launch
 
 ```
 git clone https://github.com/Dev-Mind/unitTestInAction.git
 ```
 
-This project is a Gradle project. You can Open it in IntelliJ and configure it
+This project is a Gradle project.You can Open it in IntelliJ and configure it
 
 Go on `FriendServiceImpl` and generate a test class with `Ctrl` + `Shift` + `T`
 
@@ -269,9 +270,11 @@ image::../../img/training/unit-test/generate-test.png[]
 
 Write the test of the method `computeFriendAge`
 
-1. Declare a property of type `FriendRepository`
-2. In @Before block create this property implementation. This block will be executed before each test. So a a new implementation will be created after each tests.
-3. Write a unit test to compute your age. For that use the pattern AAA
+1. Declare 2 properties of type `FriendRepository` (mocked dependency) and `FriendService` (class to test)
+2. In @Before block create this property implementation.
+This block will be executed before each test.
+So a a new implementation will be created after each tests.
+3. Write a unit test to compute your age.For that use the pattern AAA
 ** Arrange => define a Friend object with your firstname and your birthYear
 ** Act => call the method `computeFriendAge`
 ** Assert => check that the result is equal to your age
@@ -282,11 +285,11 @@ Write a second test and verify the exception thrown
 
 == Mockito
 
-Now we will try to test a class which has collaborators. We will use https://static.javadoc.io/org.mockito/mockito-core/2.23.0/org/mockito/Mockito.html[Mockito] to simulate their behaviors
+Now we will try to test a class which has collaborators.We will use https://static.javadoc.io/org.mockito/mockito-core/2.23.0/org/mockito/Mockito.html[Mockito] to simulate their behaviors
 
 https://static.javadoc.io/org.mockito/mockito-core/2.23.0/org/mockito/Mockito.html[Mockito] is a popular mock framework which can be used in conjunction with JUnit.
 
-https://static.javadoc.io/org.mockito/mockito-core/2.23.0/org/mockito/Mockito.html[Mockito] allows you to create and configure mock objects. Using Mockito simplifies the development of tests for classes with external dependencies significantly.
+https://static.javadoc.io/org.mockito/mockito-core/2.23.0/org/mockito/Mockito.html[Mockito] allows you to create and configure mock objects.Using Mockito simplifies the development of tests for classes with external dependencies significantly.
 
 Add a new method in your interface `FriendService`
 
@@ -313,7 +316,7 @@ public double computeFriendAgeAverage() {
 }
 ----
 
-In this code we use `friendRepository`. You have to declare it as a property (1), and declare a constructor to inject an implementation (2)
+In this code we use `friendRepository`.You have to declare it as a property (1), and declare a constructor to inject an implementation (2)
 
 [source,java, subs="specialchars"]
 ----
@@ -343,9 +346,9 @@ public class FriendServiceImpl implements FriendService {
 
 `FriendRepository` is an interface and you have no implementation in the code for the moment
 
-It's not a problem and you can write the `FriendServiceImpl` test. In Java you define an interface and you start to write test. This is the TDD (https://en.wikipedia.org/wiki/Test-driven_development[Test Driven Development]) approach
+It's not a problem and you can write the `FriendServiceImpl` test.In Java you define an interface and you start to write test.This is the TDD (https://en.wikipedia.org/wiki/Test-driven_development[Test Driven Development]) approach
 
-Go on `FriendServiceImplTest` and update the existing class. We will use Mockito to simulate `FriendRepository`
+Go on `FriendServiceImplTest` and update the existing class.We will use Mockito to simulate `FriendRepository`
 
 [source,java, subs="specialchars"]
 ----
@@ -389,7 +392,7 @@ class FriendServiceTest {
         double average = friendService.computeFriendAgeAverage(); // 5.
 
         // Assert
-        Assertions.assertThat(average).isEqualTo(19.0);
+        Assertions.assertThat(average).isEqualTo(21.0);
     }
 
     // Old code...
@@ -405,12 +408,12 @@ class FriendServiceTest {
 
 You can now write a new test when the list of friend is empty
 
-[source,java, subs="specialchars"]
+[source,java,subs="specialchars"]
 ----
 @Test
 public void computeFriendAgeAverageWhenFriendListIsEmpty(){
     // Arrange
-    List<Friend> myFriends = new ArrayList<>();
+    List<Friend> myFriends = null;
 
     Mockito.when(friendRepository.findAll()).thenReturn(myFriends);
 
@@ -421,16 +424,16 @@ public void computeFriendAgeAverageWhenFriendListIsEmpty(){
 
 What happens ?
 
-Writing tests help to fix problems. Fix the code of `computeFriendAgeAverage` and return 0 when the list is empty. You can now fix your test
+Writing tests help to fix problems.Fix the code of `computeFriendAgeAverage` and return 0 when the list is empty.You can now fix your test
 
-As our examples Mockito allows to configure the return values. If you don't specify the mock behavior, the mock will return
+As our examples Mockito allows to configure the return values.If you don't specify the mock behavior, the mock will return
 
 * null for objects
 * 0 for numbers
 * false for boolean
 * empty collections for collections
 
-You can also return an exception in place of a value. For example
+You can also return an exception in place of a value.For example
 
 [source,java, subs="specialchars"]
 ----
