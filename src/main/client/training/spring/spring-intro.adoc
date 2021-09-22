@@ -21,7 +21,7 @@ image::../../img/training/spring-intro.png[]
 To be able to learn https://spring.io/[Spring] you must have
 
 * some basics in Java and JEE.
-If you need to follow a complete course you can see the fabulous work of https://www.youtube.com/c/coursenlignejava[Jose Paumard]
+If you need to follow a complete course you can see the fabulous work of https://www.youtube.com/c/coursenlignejava/videos?view=0&sort=da&flow=grid[Jose Paumard]
 * know unit testing in Java.
 If not you have a http://localhost:8080/training/unit-test/unit-test-in-java.html[course] on this web site.
 * have knowledge of the Web
