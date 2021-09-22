@@ -53,8 +53,9 @@ export class StatisticsRoute extends BaseRoute {
     this.siteDailyVisitDao
       .findAll()
       .then(list => {
-        super.addToModel('stats', list);
-        const chart = list.map(elt => `{x: ${moment(elt._id).format('x')}, y: ${elt.count}}`).join(',');
+        const filtered = list.filter(it => it.count > 4);
+        super.addToModel('stats', filtered);
+        const chart = filtered.map(elt => `{x: ${moment(elt._id).format('x')}, y: ${elt.count}}`).join(',');
         super.addToModel('chart', `[${chart}]`);
         this.render(req, res, 'stats-visits', 'Page visits per day');
       });
@@ -64,7 +65,8 @@ export class StatisticsRoute extends BaseRoute {
     this.userPageVisitDao
       .findAll()
       .then(list => {
-        super.addToModel('stats', list);
+        const filtered = list.filter(it => it.count > 4);
+        super.addToModel('stats', filtered);
         this.render(req, res, 'stats-users', 'User visits');
       });
   }
@@ -73,7 +75,8 @@ export class StatisticsRoute extends BaseRoute {
     this.userPageVisitDao
       .findAllBySite()
       .then(list => {
-        super.addToModel('stats', list);
+        const filtered = list.filter(it => it.count > 4);
+        super.addToModel('stats', filtered);
         this.render(req, res, 'stats-users', 'User visits');
       });
   }
