@@ -14,11 +14,11 @@ It helps you write web applications and takes care of a lot of boilerplate code,
 
 image::../../img/training/spring-boot.png[size=100%]
 
-With Spring Web (Spring MVC) you can write screens with a template solution which are used to generate HTML. But we don't use this solution in this course. We will see how to write REST services. However if you are interested you can read https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-view[official documentation].
+With Spring Web (Spring MVC) you can write screens with a template solution which are used to generate HTML.But we don't use this solution in this course.We will see how to write REST services.However if you are interested you can read https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-view[official documentation].
 
 image::../../img/training/spring-intro/spring-mvc.png[]
 
-With Spring Web you can expose REST services to another app (web api, JS app, android app...). This is the purpose of this lesson. You will learn how to develop endpoints on a backend application. These REST endpoints will be used later by a JS app or an Android app.
+With Spring Web you can expose REST services to another app (web api, JS app, android app...).This is the purpose of this lesson.You will learn how to develop endpoints on a backend application.These REST endpoints will be used later by a JS app or an Android app.
 
 image::../../img/training/spring-intro/mvc-rest.png[]
 
@@ -124,14 +124,14 @@ Each HTTP response has a status identified by a code. This code is sent by the s
 * 5XX : I made a mistake
 
 == REST
-HTTP requests are handled by the methods of a  REST service. In Spring’s approach a  REST service is a controller. It is able to respond to HTTP requests
+HTTP requests are handled by the methods of a REST service.In Spring’s approach a REST service is a controller.It is able to respond to HTTP requests
 
 * GET: read resource
 * POST: creates new record or executing a query
 * PUT: edit a resource (sometimes we use only a post request)
 * DELETE: delete a record
 
-Controllers are the link between the web http clients (browsers, mobiles) and your application. They should be lightweight and call other components in your application to perform actual work (DAO for example).
+Controllers are the link between the web http clients (browsers, mobiles) and your application.They should be lightweight and call other components in your application to perform actual work (DAO for example).
 
 These components are easily identified by the @RestController annotation.
 
@@ -183,14 +183,14 @@ public class WindowController {
     @PostMapping // (8)
     public WindowDto create(@RequestBody WindowDto dto) {
         // WindowDto must always contain the window room
-        Room room = roomDao.getOne(dto.getRoomId());
+        Room room = roomDao.getById(dto.getRoomId());
         Window window = null;
         // On creation id is not defined
         if (dto.getId() == null) {
             window = windowDao.save(new Window(room, dto.getName(), dto.getWindowStatus()));
         }
         else {
-            window = windowDao.getOne(dto.getId());  // (9)
+            window = windowDao.getById(dto.getId());  // (9)
             window.setWindowStatus(dto.getWindowStatus());
         }
         return new WindowDto(window);
@@ -205,12 +205,13 @@ public class WindowController {
 
 * (1) *RestController* is a Spring stereotype to mark a class as a rest service
 * (2) *@RequestMapping* is used to define a global URL prefix used to manage a resource (in our example all requests that start with `/api/windows` will be handle by this controller)
-* (3) *@Transactional* is used to delegate a transaction opening to Spring. Spring will initiate a transaction for each entry point of this controller. This is important because with Hibernate you cannot execute a query outside of a transaction.
+* (3) *@Transactional* is used to delegate a transaction opening to Spring.Spring will initiate a transaction for each entry point of this controller.This is important because with Hibernate you cannot execute a query outside of a transaction.
 * (4) DAOs used by this controller are injected via constructor
-* (5) *@GetMapping* indicates that the following method will respond to a GET request. This method will return a window list. We transform our entities `Window` in `WindowDto`
+* (5) *@GetMapping* indicates that the following method will respond to a GET request.This method will return a window list.We transform our entities `Window` in `WindowDto`
 * (6) (7) We use https://www.oracle.com/technical-resources/articles/java/ma14-java-se-8-streams.html[Java Stream API] to manipulate our data
 * (8) *@PostMapping* indicates that the following method will respond to a POST request (for saving).
-* (9) For an update you don't need to call the DAO save method. Method `getOne` load the persisted data and all changes on this object (attached to a persistent context) will be updated when the transaction will be commited.
+* (9) For an update you don't need to call the DAO save method.
+Method `getById` load the persisted data and all changes on this object (attached to a persistent context) will be updated when the transaction will be commited.
 
 == Lab : Create your rest services
 

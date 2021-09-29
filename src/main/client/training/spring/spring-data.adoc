@@ -1074,7 +1074,7 @@ class WindowDaoTest {
 
     @Test
     public void shouldFindAWindow() {
-        Window window = windowDao.getOne(-10L);
+        Window window = windowDao.getById(-10L);
         Assertions.assertThat(window.getName()).isEqualTo("Window 1");
         Assertions.assertThat(window.getWindowStatus()).isEqualTo(WindowStatus.CLOSED);
     }
@@ -1149,11 +1149,11 @@ You have to test and develop :
 
 To check that window room are deleted you can add this test method in *WindowDaoTest*
 
-[source,java, subs="specialchars"]
+[source,java,subs="specialchars"]
 ----
 @Test
 public void shouldDeleteWindowsRoom() {
-    Room room = roomDao.getOne(-10L);
+    Room room = roomDao.getById(-10L);
     List<Long> roomIds = room.getWindows().stream().map(Window::getId).collect(Collectors.toList());
     Assertions.assertThat(roomIds.size()).isEqualTo(2);
 
