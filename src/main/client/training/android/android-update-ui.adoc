@@ -2,7 +2,7 @@
 :description: In this lesson we will update the main layout to create a welcome screen (EN)
 :keywords: Android
 :author: Guillaume EHRET - Dev-Mind
-:revdate: 2020-10-01
+:revdate: 2021-10-01
 :category: Android
 :teaser: In this lesson we will update the main layout to create a welcome screen  (EN)
 :imgteaser: ../../img/training/android/android-course2.png
@@ -25,7 +25,7 @@ In this new codelab you will update the `hello world` page to create a home page
 
 image::../../img/training/android/android-example.png[First view example]
 
-Android provides an XML vocabulary for ViewGroup and View classes, and your UI is defined in XML files. Don't be afraid Android Studio provide a wysiwyg editor.
+Android provides an XML vocabulary for ViewGroup and View classes, and your UI is defined in XML files.Don't be afraid Android Studio provide a wysiwyg editor.
 
 == Android Studio Layout Editor
 

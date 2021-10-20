@@ -2,7 +2,7 @@
 :description: A tutorial to start Android development. In this example we develop an Hello World app (EN)
 :keywords: Android
 :author: Guillaume EHRET - Dev-Mind
-:revdate: 2020-09-26
+:revdate: 2021-09-26
 :category: Android
 :teaser: A tutorial to start Android development. In this example we develop an Hello World app (EN)
 :imgteaser: ../../img/training/android/android-course1.png

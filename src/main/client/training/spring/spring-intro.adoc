@@ -2,7 +2,7 @@
 :description: Présentation de l'écosystème de Spring
 :keywords: Java, Spring
 :author: Guillaume EHRET - Dev-Mind
-:revdate: 2020-10-09
+:revdate: 2021-10-09
 :category: Java
 :teaser:  In this course you will learn Spring and how to create a server app written in Java. This app will expose REST services
 :imgteaser: ../../img/training/spring-intro.png

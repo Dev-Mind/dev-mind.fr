@@ -2,7 +2,7 @@
 :description: Deploy your webapp on Clever Cloud (EN)
 :keywords: Gradle, Spring
 :author: Guillaume EHRET - Dev-Mind
-:revdate: 2018-11-18
+:revdate: 2021-11-18
 :category: JAva
 :teaser: Deploy your Spring Boot webapp on Clever Cloud (EN)
 :imgteaser: ../../img/training/clever-cloud.png

@@ -2,7 +2,7 @@
 :description: In this lesson you will learn how add a menu and launch intent to open internal or external activities
 :keywords: Android
 :author: Guillaume EHRET - Dev-Mind
-:revdate: 2020-10-04
+:revdate: 2021-10-04
 :category: Android
 :teaser: In this lesson you will learn how add a menu and launch intent to open internal or external activities
 :imgteaser: ../../img/training/android/android-add-menu.png
@@ -12,16 +12,16 @@ In this lesson you will learn how add a menu and launch intent to open internal 
 
 == Menus
 
-Menus are a common user interface component in many types of applications. A https://developer.android.com/guide/topics/resources/menu-resource[menu] is a resource as style, color, layout...
+Menus are a common user interface component in many types of applications.A https://developer.android.com/guide/topics/resources/menu-resource[menu] is a resource as style, color, layout...
 
 image::../../img/training/android/android-resource1.png[Android resource]
 
 Remember, you can provide alternative resources for specific device configurations, by grouping them in specially-named resource directories.
 At runtime, Android uses the appropriate resource based on the current configuration.
 
-It exists different types of menus. In this lesson we will implement a menu in app bar. It's where you should place actions that have a global impact on the app, such as "Compose email",  "Settings"...
+It exists different types of menus.In this lesson we will implement a menu in app bar.It's where you should place actions that have a global impact on the app, such as "Compose email", "Settings"...
 
-For all menu types, Android provides a standard XML format to define menu items. Instead of building a menu in your activity's code, you should define a menu and all its items in an XML file.
+For all menu types, Android provides a standard XML format to define menu items.Instead of building a menu in your activity's code, you should define a menu and all its items in an XML file.
 
 Using a menu resource is a good practice for a few reasons:
 
@@ -29,9 +29,9 @@ Using a menu resource is a good practice for a few reasons:
 * It separates the content for the menu from your application's behavioral code.
 * It allows you to create alternative menu configurations for different platform versions, screen sizes, and other configurations by leveraging the app resources framework.
 
-A menu will have different options. An option is a menu item
+A menu will have different options.An option is a menu item
 
-It's time to test by yourself. We want to add a menu in app bar with different options
+It's time to test by yourself.We want to add a menu in app bar with different options
 
 * a link to open your corporate website (we will open an URL in favorite browser)
 * a link to send you an email (we will open a window to write a new mail in favorite mail app)

@@ -2,7 +2,7 @@
 :description: In this lesson you will learn how add a new activity in your project and call it
 :keywords: Android
 :author: Guillaume EHRET - Dev-Mind
-:revdate: 2020-10-02
+:revdate: 2021-10-02
 :category: Android
 :teaser: In this lesson you will learn how add a new activity in your project and call it
 :imgteaser: ../../img/training/android/android-add-activity.png
@@ -12,8 +12,8 @@ In this lesson, you will learn how to create a new View in your app and how to l
 
 == Create a new activity
 
-1. In the *Project window*, right-click the app folder and select *New > Activity > Empty Activity*. You can also use menu *File > New > Activity > Empty Activity*
-2. In the *Configure Activity window*, enter a name for our new activity : _WindowActivity_. Leave all other properties set to their defaults and click Finish.
+1. In the *Project window*, right-click the app folder and select *New > Activity > Empty Activity*.You can also use menu *File > New > Activity > Empty Activity*
+2. In the *Configure Activity window*, enter a name for our new activity : _WindowActivity_.Leave all other properties set to their defaults and click Finish.
 +
 Android Studio automatically does three things:
 +

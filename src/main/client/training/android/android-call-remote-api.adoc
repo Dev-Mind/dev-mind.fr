@@ -2,7 +2,7 @@
 :description: In this lesson, you will learn how to call a remote API to synchronously read data.
 :keywords: Android
 :author: Guillaume EHRET - Dev-Mind
-:revdate: 2020-10-06
+:revdate: 2021-10-06
 :category: Android
 :teaser: In this lesson, you will learn how to call a remote API to synchronously read data.
 :imgteaser: ../../img/training/android/android-call-remote.png
@@ -14,7 +14,7 @@ image:../../img/training/android/android-call-remote.png[Call an HTTP API with A
 
 == Explore API
 
-In last codelabs we developped a screen to list building windows and a screen to see detailed information on a window. For the moment data are static in *com.faircorp.model.WindowService*. Now we will update this service to read data stored on a web server, as a REST web service. Dev-Mind website expose 2 URLs
+In last codelabs we developped a screen to list building windows and a screen to see detailed information on a window.For the moment data are static in *com.faircorp.model.WindowService*.Now we will update this service to read data stored on a web server, as a REST web service.Dev-Mind website expose 2 URLs
 
 * http://localhost:8080/training/android/windows
 * http://localhost:8080/training/android/windows/id (id must be replaced by the value of a window id)
@@ -223,14 +223,13 @@ image:../../img/training/android/android-permission-error.png[Android permission
 
 == Android permission
 
-The purpose of a permission is to protect the privacy of an Android user. Android apps must request permission to access sensitive user data or features such as contacts, SMS, Internet... Depending on the feature, the system might grant the permission automatically or might prompt the user to approve the request.
+The purpose of a permission is to protect the privacy of an Android user.Android apps must request permission to access sensitive user data or features such as contacts, SMS, Internet... Depending on the feature, the system might grant the permission automatically or might prompt the user to approve the request.
 
 By default, an app has no permission to perform any operations that would adversely impact other apps, the operating system, or the user.
 
-To add a  new permission to be able to call our remote API, open *app/manifests/AndroidManifest.xml*. Add this <uses-permission> tag (just before <application> tag)
+To add a new permission to be able to call our remote API, open *app/manifests/AndroidManifest.xml*.Add this <uses-permission> tag (just before <application> tag)
 
 [source,xml,subs="specialchars"]
-----
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 package="com.example.snazzyapp">
 
@@ -242,8 +241,9 @@ package="com.example.snazzyapp">
     </application>
 </manifest>
 ----
+----
 
-You can now relaunch your app and you will be able to open the windoww list without error. For more informations about permissions you can read this https://developer.android.com/guide/topics/permissions/overview[page].
+You can now relaunch your app and you will be able to open the windoww list without error.For more informations about permissions you can read this https://developer.android.com/guide/topics/permissions/overview[page].
 
 == It's your turn
 
