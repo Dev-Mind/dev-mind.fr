@@ -18,7 +18,7 @@ We have a limited number of lesson hours.
 We will therefore quickly go over some concepts.
 If you want to go deeper, you will find more informations in link:android-first-app.html#_resources[resource chapter]
 
-The aim is to be able to develop a simple application to call a REST API developed in Java (Spring) to display building rooms and manage windows in these rooms.  It is necessary to ventilate as much as possible rooms, but as winter approaches it will become important to heat the buildings to ensure user comfort. Windows should be open during and after classes, closed at night or in case of heavy rain or severe cold.
+The aim is to be able to develop a simple application to call a REST API developed in Java (Spring) to display building rooms and manage windows in these rooms.It is necessary to ventilate as much as possible rooms, but as winter approaches it will become important to heat the buildings to ensure user comfort.Windows should be open during and after classes, closed at night or in case of heavy rain or severe cold.
 
 == Android studio
 
@@ -102,7 +102,6 @@ image::../../img/training/android/android-studio-new.png[New project]
 * Enter __com.faircorp __in the *Package name* field.
 * If you'd like to place the project in a different folder, change its *Save location*.
 * Select _Kotlin_ from the *Language* drop-down menu.
-* Click on the *Use legacy android.support libraries* checkbox (Most of app need to target legacy devices with legacy API)
 * Select the lowest version of Android your app will support in the Minimum SDK field.
 A message indicates you on how many device your app will be available.
 If you want to target more devices you can select a lower API version.
@@ -240,12 +239,13 @@ If you need to use external libraries you will add them in *build.gradle (Projec
 [source,kotlin,subs="none"]
 ----
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
+    buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "com.faircorp"
         minSdkVersion 26
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode 1
         versionName "1.0"
 
