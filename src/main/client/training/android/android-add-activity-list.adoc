@@ -200,7 +200,7 @@ class WindowAdapter : RecyclerView.Adapter<WindowAdapter.WindowViewHolder>() { /
 ** we send it to  *ViewHolder* constructor
 * (7) *RecyclerView.Adapter* abstract class asks you to implement a last method to define what to do when position in the list changes
 
-== Update activity WindowsActivity
+== Update activity WindowsActivity (Activity for list of windows)
 
 We need to update *WindowsActivity* to initialize the recycler view
 
@@ -295,8 +295,7 @@ class WindowsActivity : BasicActivity(), OnWindowSelectedListener {
 
 Don't forget to update *WindowAdapter* constructor `val adapter = WindowAdapter(this)` in *WindowsActivity*
 
-
-== Update window activity
+== Update window activity (Activity used for window detail)
 
 For the moment window activity only display a name sent by *MainActivity*
 
