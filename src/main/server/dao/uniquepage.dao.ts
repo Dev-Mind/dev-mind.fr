@@ -44,4 +44,8 @@ export class UniquePageVisitDao extends BaseDao<UniquePageVisit> {
       }
     };
   }
+
+  deleteByUrl(url: string) {
+    return this.collection.deleteMany({url: url});
+  }
 }

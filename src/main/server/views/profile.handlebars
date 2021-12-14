@@ -20,12 +20,15 @@
 
     <br>
     {{#rights.admin}}
-      <nav style="background-color: white">
-        <a href="/users" alt="Manage users">Manage users</a>
-        <a href="/statistics/pages" alt="Stats pages">See page statistics</a>
-        <a href="/statistics/visit" alt="Stats site">See site visits</a>
-        <a href="/statistics/users" alt="Stats user">See user visits</a>
-      </nav>
+      <h2>Admin</h2>
+      <div style="display: flex">
+        <a href="/users" class="btn" alt="Manage users">Manage users</a>
+        <a href="/statistics/pages" class="btn" alt="Stats users">See page stats</a>
+        <a href="/statistics/users2" class="btn" alt="Stats users">See page stats (2)</a>
+        <a href="/statistics/visit" class="btn" alt="Stats users">See site stats</a>
+        <a href="/statistics/users" class="btn" alt="Stats users">See user stats</a>
+      </div>
+
     {{/rights.admin}}
     <p>If you want to delete or update your account, you can send us an email (see contact).</p>
   </devmind-section>

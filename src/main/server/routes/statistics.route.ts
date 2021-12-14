@@ -36,6 +36,10 @@ export class StatisticsRoute extends BaseRoute {
       route.findUsersBySite(req, res);
     });
 
+    router.post("/statistics/pages/delete", (req: Request, res: Response) => {
+      route.delete(req, res);
+    });
+
     return route;
   }
 
@@ -79,5 +83,11 @@ export class StatisticsRoute extends BaseRoute {
         super.addToModel('stats', filtered);
         this.render(req, res, 'stats-users', 'User visits');
       });
+  }
+
+  private delete(req: Request, res: Response) {
+    this.uniquePageVisitDao.deleteByUrl(req.body.page)
+      .then(_ => this.findAll(req, res))
+      .catch(reason => this.renderError(req, res, reason));
   }
 }

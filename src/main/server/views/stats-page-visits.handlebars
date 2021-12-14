@@ -1,5 +1,18 @@
 <div class="dm-block--blog">
   <devmind-section>
+    <form action="/statistics/pages/delete" method="post">
+      <fieldset>
+        <label for="firstname">Page to delete</label>
+        <input type="text" placeholder="page" name="page" id="page">
+        <br>
+        <br>
+        <div style="display: inline-flex">
+          <button class="btn btn-inverse">Delete</button>
+        </div>
+      </fieldset>
+    </form>
+  </devmind-section>
+  <devmind-section>
     <table style="width: 100%; border: 1px;">
       <thead>
       <tr>
