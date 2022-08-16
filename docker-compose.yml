@@ -1,0 +1,11 @@
+version: '3.7'
+services:
+  mongodb:
+    container_name: devmind-mongodb
+    image: mongo:5.0
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=secret
+      - MONGO_INITDB_DATABASE=devmind
+    ports:
+      - 27017:27017

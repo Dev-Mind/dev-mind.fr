@@ -44,15 +44,19 @@ node app.js
 == Database
 We use a mongodb database. In dev mode you can use a docker image
 
-=== Install an image
-
-To start an image
+=== Start the DB
 [source, shell, subs="none"]
 ----
-sudo docker ps
-sudo docker image ls
-sudo docker run -d --name devmind-mongo -e MONGO_INITDB_ROOT_USERNAME=root -e MONGO_INITDB_ROOT_PASSWORD=secret -e MONGO_INITDB_DATABASE=devmind -p 0.0.0.0:27017:27017 -p 0.0.0.0:28017:28017  mongo:latest
+sudo docker-compose up
 ----
+
+=== Recreate an image
+[source, shell, subs="none"]
+----
+sudo docker-compose rm
+----
+
+=== Initialize DB
 
 On the first install if you want to add a username to access to the db called devminddb
 [source, shell, subs="none"]
@@ -61,17 +65,8 @@ mongo --authenticationDatabase admin --host localhost -u root -p secret devmindd
 mongo --authenticationDatabase admin --host localhost -u root -p secret devminddbtest --eval "db.createUser({user: 'devmind', pwd: 'pass', roles: [{role: 'readWrite', db: 'devminddbtest'}], passwordDigestor:'server'});"
 ----
 
-=== Start an image
 [source, shell, subs="none"]
 ----
-sudo docker start  devmind-mongo
-----
-
-=== Recreate an image
-[source, shell, subs="none"]
-----
-sudo docker rm  devmind-mongo
-sudo docker run -d --name devmind-mongo -e MONGO_INITDB_ROOT_USERNAME=root -e MONGO_INITDB_ROOT_PASSWORD=secret -e MONGO_INITDB_DATABASE=devmind -p 0.0.0.0:27017:27017 -p 0.0.0.0:28017:28017  mongo:latest
 mongo --authenticationDatabase admin --host localhost -u root -p secret devminddb --eval "db.createUser({user: 'devmind', pwd: 'pass', roles: [{role: 'readWrite', db: 'devminddb'}], passwordDigestor:'server'});"
 mongo --authenticationDatabase admin --host localhost -u root -p secret devminddbtest --eval "db.createUser({user: 'devmind', pwd: 'pass', roles: [{role: 'readWrite', db: 'devminddbtest'}], passwordDigestor:'server'});"
 ----
