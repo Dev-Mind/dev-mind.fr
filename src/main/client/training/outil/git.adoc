@@ -10,7 +10,7 @@
 
 This course presents Git & Github.Git is used to centralize and log the changes on your code.
 
-image::../../img/training/git.png[Comprendre Git]
+image::../../img/training/git.png[Comprendre Git, width=800, align="center"]
 
 For information about Git you can find
 
@@ -67,12 +67,12 @@ Publishing changes is called a commit.Each commit is linked to another (this is 
 Projects are stand-alone units, and anyone with a copy of the repository can access the entire code and its history.You can do different operations like logging, cloning, branch creation, commit, merging ...
 
 .Centralized repository, local repository
-image::../../img/training/outil/git-repo.png[Github]
+image::../../img/training/outil/git-repo.png[Github, width=800, align="center"]
 
 Generally on a project we have a main branch `main`.And we open different branches in parallel to fix bugs, add new features.These branches are merged on this main branch when they are completes
 
 .Branch Principle
-image::../../img/training/outil/git-branch.png[Github]
+image::../../img/training/outil/git-branch.png[Github, width=800, align="center"]
 
 == Install Git
 
@@ -437,10 +437,10 @@ You can install a centralized Git repository by using https://github.com/[Github
 .New project under Github
 image::../../img/training/outil/github_new.png[Nouveau projet sous Github,width=90%]
 
-Github provides you commands to connect this remote repository to your local repository
+Github provides you commands to connect this remote repository to your local repository.
 
 .commands to connect this remote repository
-image::../../img/training/outil/github_new2.png[Github vous fournit les commandes pour relier ce dépot,width=90%]
+image::../../img/training/outil/github_new2.png[width=800, align="center"]
 
 
 To link your local project type the following commands
