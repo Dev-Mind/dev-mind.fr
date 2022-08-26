@@ -1,4 +1,4 @@
-:doctitle: Spring in practice : dependency injection (EN)
+:doctitle: Spring in practice : dependency injection
 :description: Présentation de l'écosystème de Spring
 :keywords: Java, Spring
 :author: Guillaume EHRET - Dev-Mind
@@ -7,6 +7,7 @@
 :teaser:  In this course you will learn one of the main principle of software design, the dependency injection
 :imgteaser: ../../img/training/spring-core.png
 :toc:
+:icons: font
 
 In this course you will learn one of the main principle of software design, the dependency injection
 
@@ -15,13 +16,15 @@ In this course you will learn one of the main principle of software design, the 
 * Helps to split responsibilities in your code => weakly coupled components
 * Facilitates testing
 
+image::../../img/training/spring-core.png[width=800, align="center"]
+
 == Objects and application
 
 When writing an application, as developers, we break down the problem we’re trying to solve into smaller ones, and do our best to comply with the architecture and design principles we’ve chosen for our application: flexible, decoupled, testable, easy to understand, etc.
 
 For that we use a lot of objects
 
-image::../../img/training/spring-intro/java-objects.png[background,size=90%]
+image::../../img/training/spring-intro/java-objects.png[width=1000, align="center"]
 
 
 * Service contains implementations of your business rules
@@ -92,12 +95,17 @@ public class WelcomeService {
 }
 ----
 
-We have to break this coupling between components and the solution is *Inversion of Control*.
+Other consideration, in a web application you should not implement a service at every call. It's not efficient if a class has a lot of collaborators, and if a service is called in different points in your application.
+
+In this case the class which not change must be created only once. We often use the Singleton design pattern to do that.
+
+We have to resolve these problems (break coupling and use singleton) and the solution is *Inversion of Control* (IOC).
+
 To introduce this principle we will use a simpler example
 
 If a class A uses a class B
 
-image:../../img/training/spring-intro/ioc1.png[]
+image:../../img/training/spring-intro/ioc1.png[width=700, align="center"]
 
 [source,java,subs="specialchars"]
 ----
@@ -119,13 +127,14 @@ public class A {
 
 To resolve this problem, we can use a client, a factory to instantiate class B and inject it into class A.
 
-image:../../img/training/spring-intro/ioc2.png[size=80%]
+image:../../img/training/spring-intro/ioc2.png[width=700, align="center"]
 
 If an object needs other objects, it does not instantiate itself but they are provided by a factory or a client (a container).
 
-Objects define their dependencies (that is, the other objects they work with) through constructor arguments or properties.
+Objects define their collaborators (that is, the other objects they work with) through constructor arguments or properties.
 Container is responsible for the construction of the objects.
-It will provide (inject) the dependencies requested by an object.
+
+It will provide (inject) the collaborators requested by an object.
 
 The first version of Spring was created to resolve this problem.
 Spring provides https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#beans[a container] to create and inject objects.
@@ -137,14 +146,16 @@ Therefore we no longer have to find new in your code.
 The only exception is for objects which contain data : Entity and DTO.
 **Inversion of Control (IoC) principle is also known as dependency injection (DI)**.
 
-== Beans Spring
+== Spring Beans
 
 In Spring, the objects that form the backbone of your application and that are managed by the Spring IoC container are called beans.
+
+
 A https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#beans-definition[bean] is an object that is instantiated, assembled, and managed by a Spring IoC container
 
-NOTE: The Java language was named Java in reference to Java coffee, the coffee of Indonesia... With Spring an app can be seen as a set of Java beans image:../../img/training/spring-intro/ioc-beans.png[size=400,600]
+NOTE: The Java language was named Java in reference to Java coffee, the coffee of Indonesia. The Java logo is a cup of tea. With Spring an app can be seen as a set of Java beans image:../../img/training/spring-intro/ioc-beans.png[width=300]
 
-=== Create an object
+=== Create a bean
 
 ==== By annotation
 
@@ -166,7 +177,7 @@ public class MyGreetingController {
 Spring Boot is able to scan classpath to auto-detect and auto-configure beans annotated with @Service, @Component, @Repository, or @Controller.
 Each annotation is equivalent, but a sterotype (@Service, @Repository...) helps to understand the object role in your app
 
-image::../../img/training/spring-intro/java-objects.png[size=90%]
+image::../../img/training/spring-intro/java-objects.png[width=1000, align="center"]
 
 ==== By configuration
 
@@ -268,7 +279,7 @@ public class AuthenticationService {
 }
 ----
 
-=== How it works
+=== How it works ?
 
 Spring looks for components by scanning your application classpath : looking for annotated classes in the packages or the beans you’ve declared in your configuration beans.
 
@@ -288,7 +299,7 @@ Spring throws a NoUniqueBeanDefinitionException if several beans are found and i
 image:../../img/training/spring-intro/appcontext4.png[]
 
 
-== Lab : Using Dependency Injection
+== icon:flask[] Using Dependency Injection
 
 === Create a first bean
 
@@ -304,7 +315,7 @@ public interface GreetingService {
 }
 ----
 
-> Good habits fall to the wayside ;-( Don’t forget to commit periodically your work.For this, you can run the `git init` cmd to convert this unversioned project to a Git repo.You can linked this repo to Github
+> Don’t forget to commit periodically your work. For this, you can run the `git init` cmd to convert this unversioned project to a Git repo. You can linked this repo to Github. More information on https://dev-mind.fr/training/outil/git.html[Git course]
 
 Your first job is to output "Hello, Spring!" in the console when the application starts.
 
@@ -345,6 +356,7 @@ You can verify that your implementation is working properly by running  `./gradl
 
 video::I2jCW8pjWlk[youtube, width=600, height=330]
 
+The test source code is valid. If the test execution fails, you have to fix your code.
 
 === Inject your bean
 
@@ -420,12 +432,9 @@ public class FaircorpApplicationConfig {
 
   // (2)
   public CommandLineRunner greetingCommandLine() { // (3)
-      return new CommandLineRunner() {
-        @Override
-        public void run(String... args) throws Exception {
-            // (4)
-        }
-      };
+    return args -> {
+      // (4)
+    };
   }
 }
 ----
@@ -475,7 +484,6 @@ public class ConsoleGreetingService implements GreetingService {
 }
 ----
 
-[.small]
 [source,java, subs="specialchars"]
 ----
 @Service

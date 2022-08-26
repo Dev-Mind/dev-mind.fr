@@ -1,4 +1,4 @@
-:doctitle: Spring in practice : introduction (EN)
+:doctitle: Spring in practice : introduction
 :description: Présentation de l'écosystème de Spring
 :keywords: Java, Spring
 :author: Guillaume EHRET - Dev-Mind
@@ -7,12 +7,13 @@
 :teaser:  In this course you will learn Spring and how to create a server app written in Java. This app will expose REST services
 :imgteaser: ../../img/training/spring-intro.png
 :toc:
+:icons: font
 
-Since the beginning, https://spring.io/[Spring] has been a set of tools designed to simplify the development of https://www.java.com/fr/[Java] applications for everybody.Spring’s focus on speed, simplicity, and productivity has made it the world's most popular Java framework.
+Since the beginning, https://spring.io/[Spring] has been a set of tools designed to simplify the development of https://www.java.com/fr/[Java] applications for every developer. Spring’s focus on speed, simplicity, and productivity has made it the world's most popular Java framework.
 
-The last versions of Spring supports other languages on the JVM like https://kotlinlang.org/[Kotlin].But we will focus today on Java.
+The last versions of Spring supports other languages on the JVM like https://kotlinlang.org/[Kotlin]. But we will focus on Java in this lecture course.
 
-image::../../img/training/spring-intro.png[]
+image::../../img/training/spring-intro.png[width=800, align="center"]
 
 == Introduction
 
@@ -24,11 +25,11 @@ To be able to learn https://spring.io/[Spring] you must have
 If you need to follow a complete course you can see the fabulous work of https://www.youtube.com/c/coursenlignejava/videos?view=0&sort=da&flow=grid[Jose Paumard]
 * know unit testing in Java.
 If not you have a http://localhost:8080/training/unit-test/unit-test-in-java.html[course] on this web site.
-* have knowledge of the Web
+* have knowledge of the Web mechanisms
 * know about https://docs.oracle.com/javase/tutorial/jdbc/basics/index.html[JDBC] and https://docs.jboss.org/hibernate/orm/5.4/quickstart/html_single/[Hibernate]
 * a PC with a good IDE as https://www.jetbrains.com/idea[IntelliJ]
 
-Follow this link:../outil/install-development-environment_en.html[page] to install your dev environment
+Follow this link:../outil/install-development-environment[page] to install your dev environment (IDE + Java)
 
 === What's Spring ?
 
@@ -45,7 +46,7 @@ Spring is
 * an https://github.com/spring-projects[Open Source] Java framework
 * an entire https://spring.io/[ecosystem]
 * a https://spring.io/community[community]
-* a company (Spring is open source Licence «Apache 2.0» but managed by a company Pivotal)
+* a company (Spring is open source Licence «Apache 2.0» but managed by a company VM Ware)
 
 === Spring framework
 
@@ -56,7 +57,7 @@ Make Java development easier
 * Nothing is mandatory, everything is configurable
 * Big effort on backward compatibility
 
-image::../../img/training/spring-intro/spring-projects.png[canvas,width=70%]
+image::../../img/training/spring-intro/spring-projects.png[canvas,width=800, align="center"]
 
 === Documentation
 
@@ -67,12 +68,32 @@ Here is the documentation related to everything we will see together during thes
 * Spring Data JPA https://docs.spring.io/spring-data/jpa/docs/current/reference/html/
 * Spring Security https://docs.spring.io/spring-security/site/docs/current/reference/htmlsingle/
 
-== Start a new project
+== Spring Boot
+
+Spring Boot helps you to create stand-alone, production-grade Spring applications.
+
+The goal is to start an application in 3 lines. To do that, Spring Boot takes *an opinionated view of the Spring platform* and third-party libraries. A default convention is applied out of the box, but you can deviate easily from the defaults if you need to.
+
+Spring Boot provides a range of non-functional features that are common to large classes of projects (such as embedded servers, security, metrics, health checks, and externalized configuration).
+
+=== Spring boot starters
+Librairies used are Spring boot starters. Starters are a set of convenient dependency descriptors that you can include in your application.
+
+* *spring-boot-starter-web* : Starter for building web, including RESTful, applications using Spring MVC. Uses Tomcat as the default embedded container
+* *spring-boot-devtools* : https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#using-boot-devtools[devtools] is a set of tools that can make the application development experience a little more pleasant (live reload or automatic restart)
+* *spring-boot-starter-test* : Starter for testing Spring Boot applications with libraries including JUnit, Hamcrest and Mockito
+
+=== Spring Boot autoconfiguration
+
+Spring Boot attempts to automatically configure your Spring application based on the jar dependencies that you have added. For example, if HSQLDB is on your classpath, and you have not manually configured any database connection beans, then Spring Boot auto-configures an in-memory database.
+
+
+== icon:flask[] Start a new project
 
 === Generate
 To start a new project, you can (you should) use the official generator https://start.spring.io/
 
-image:../../img/training/spring-intro/springboot-init19.png[size=90%]
+image:../../img/training/spring-intro/springboot-init19.png[width=1000, align="center"]
 
 Use these settings
 
@@ -84,22 +105,21 @@ Use these settings
 ** group : `com.emse.spring`
 ** artifact & name :  `faircorp`.
 ** Packaging : `jar`
-** Java : `11`
-* *dependencies*: click on button "ADD DEPENDENCIES"" to choose which sub projects we will use.
-Choose *Spring Web* and *Spring Boot DevTools*
+** Java : `17`
+* *Dependencies*, click on button "ADD DEPENDENCIES"" to choose which sub projects we will use. Choose *Spring Web* and *Spring Boot DevTools*
 
 Click on the Generate button (bottom of the screen) to download a zip with generated files.
 
 === Import zip in your IDE
 
 1. Unzip the project into a directory (you can put it next to the first project we did in the TPs)
-2. Open the project in link:../outil/install-development-environment_en.html[IntelliJ Idea].This step may take a long time if your Internet connectivity is slow.IntelliJ will update Gradle and all dependencies needed by the project.
+2. Open the project in link:../outil/install-development-environment[IntelliJ Idea]. This step may take a long time if your Internet connectivity is slow. IntelliJ will update Gradle and all dependencies needed by the project.
 3. You should have this project structure.Application is generated with tests
 +
 image:../../img/training/spring-intro/springboot-tree.png[]
 4. We will open the main generated files
 
-==== Gradle configuration
+==== Read Gradle configuration
 
 File : *> settings.gradle* contains the project name
 [source,groovy]
@@ -107,12 +127,12 @@ File : *> settings.gradle* contains the project name
 rootProject.name = 'faircorp'
 ----
 
-File : *> build.gradle* contains informations used by Gradle to build app
+File : *> build.gradle* contains information used by Gradle to build app
 [source,groovy]
 ----
 plugins {
-	id 'org.springframework.boot' version '2.3.5.RELEASE' // (1)
-	id 'io.spring.dependency-management' version '1.0.10.RELEASE' // (2)
+	id 'org.springframework.boot' version '2.7.2' // (1)
+	id 'io.spring.dependency-management' version '1.0.12.RELEASE' // (2)
 	id 'java' // (3)
 }
 
@@ -126,11 +146,11 @@ repositories { // (5)
 
 dependencies { // (6)
 	implementation 'org.springframework.boot:spring-boot-starter-web' // (7)
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'  // (8)
-	testImplementation('org.springframework.boot:spring-boot-starter-test')  // (9)
+	developmentOnly 'org.springframework.boot:spring-boot-devtools' // (8)
+	testImplementation 'org.springframework.boot:spring-boot-starter-test' // (9)
 }
 
-test {
+tasks.named('test') {
 	useJUnitPlatform()
 }
 ----
@@ -143,15 +163,8 @@ test {
 * (6) This block contains all dependencies used by our app. Some dependencies can be used
 +
 ** only in dev (8) spring-boot-devtools
-** only in test (9) spring-boot-starter-test : we exclude vintage junit library. This starter works with the last version and the vintage version, but the vintage version will be deleted in next release
-** always (7) spring-boot-starter-web
-
-Librairies used are Spring boot starters. Starters are a set of convenient dependency descriptors that you can include in your application.
-
-* *spring-boot-starter-web* : Starter for building web, including RESTful, applications using Spring MVC. Uses Tomcat as the default embedded container
-* *spring-boot-devtools* : https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#using-boot-devtools[devtools] is a set of tools that can make the application development experience a little more pleasant (live reload or automatic restart)
-* *spring-boot-starter-test* : Starter for testing Spring Boot applications with libraries including JUnit, Hamcrest and Mockito
-
+** only in test (9) spring-boot-starter-test
+** always in compilation mode (7) spring-boot-starter-web
 
 ==== App files
 
@@ -159,6 +172,11 @@ File : *> src > main > java > com.emse.spring.faircorp.FaircorpApplication* anno
 
 [source,java, subs="specialchars"]
 ----
+package com.emse.spring.faircorp;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
 @SpringBootApplication
 public class FaircorpApplication {
 	public static void main(String[] args) {
@@ -167,6 +185,7 @@ public class FaircorpApplication {
 }
 ----
 
+On startup Spring Boot will automatically scan all sub packages defined below `com.emse.spring.faircorp`. If these packages contain Spring Beans (classes annotated with special annotations LIKE `@Controller`, `@Service` ...), Spring Boot will automatically add them to the Spring context.
 
 File : *> src > main > java > com.emse.spring.faircorp.FaircorpApplicationTests* is the test file of your FaircorpApplication. In a good application, all files are tested and verified by unit tests
 
@@ -194,7 +213,7 @@ File : *> src > main > resources > application.properties* it contains all the a
 * In your code you read a property by its key and Spring will load the value at runtime
 * Properties help to customize app on a particular environment+
 
-== Launch application
+== icon:flask[] Launch application
 
 === With Gradle
 [source,shell,linenums,subs=""]
@@ -279,7 +298,7 @@ image:../../img/training/spring-intro/run-class2.png[]
 
 *This third solution to launch the application is the one recommended when you develop your application*
 
-== Update the welcome page of your app
+== icon:flask[] Update the welcome page of your app
 
 1. Create a new file in `*src/main/resources/static*`. The name will be `*index.html*`
 2. In this file copy the following code

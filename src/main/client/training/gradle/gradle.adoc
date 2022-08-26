@@ -1,4 +1,4 @@
-:doctitle: Gradle in practice (EN)
+:doctitle: Gradle in practice
 :description: Comment construire une application Java interfacée à une base de données et exposant des services REST
 :keywords: Gradle
 :author: Guillaume EHRET - Dev-Mind
@@ -7,6 +7,7 @@
 :teaser: In this training, we will learn how Gradle works and how use it in our projects. It's just a fast presentation of this tool and you will find more informations on official website.
 :imgteaser: ../../img/training/gradle.png
 :toc:
+:icons: font
 
 In this training, we will learn how Gradle works and how use it in our projects.
 It's just a fast presentation of this tool, and you will find more informations on official website https://docs.gradle.org/current/userguide/userguide.html
@@ -72,7 +73,7 @@ Build automation is the act of scripting or automating a wide variety of *tasks*
 ** very verbose (you have to write a lot of XML)
 ** not very flexible (governance and execution)
 
-== Lab : Starting with Gradle
+== icon:flask[] Starting with Gradle
 
 You can install the last version on https://gradle.org/install/
 
@@ -183,7 +184,7 @@ JVM:          11.0.11 (Ubuntu 11.0.11+9-Ubuntu-0ubuntu2.20.10)
 OS:           Linux 5.8.0-63-generic amd64
 ----
 
-== Lab : First example
+== icon:flask[] First example
 
 Clone the Github project https://github.com/Dev-Mind/gradle-demo.git
 
@@ -428,7 +429,7 @@ When inputs and outputs on a gradle tasks have no change, Gradle won't execute t
 image::../../img/training/gradle/1_incremetal.png[Incremental build,width=700, align="center"]
 
 
-== Lab : dependant tasks
+== icon:flask[] dependant tasks
 
 Add these lines to your `build.gradle` file
 
@@ -522,7 +523,7 @@ buildscript {
 
 Each plugin has a documentation
 
-== Lab : Customize tasks
+== icon:flask[] Customize tasks
 
 Open your project `gradle-demo` in IntelliJ and add the following code in `build.gradle`
 
