@@ -1,0 +1,3 @@
+Chargement jar sur https://github.com/graalvm/graalvm-ce-builds/releases
+tar -xzf graalvm-ce-java<version>-linux-amd64-<version>.tar.gz
+~/Application/java/graalvm-ce-java11-22.0.0.2
