@@ -1,4 +1,4 @@
-:doctitle: Spring in practice : database and JPA (EN)
+:doctitle: Spring in practice : database and JPA
 :description: How use a database in your Spring project with Spring Data JPA and a H2 Database
 :keywords: Java, Spring
 :author: Guillaume EHRET - Dev-Mind

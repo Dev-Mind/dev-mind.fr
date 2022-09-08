@@ -89,7 +89,7 @@ public class FriendServiceImpl implements FriendService {
 }
 ----
 
-When you write a test you have to test all the cases.In our example you have to check when the user is nulland when a user is defined and has a birth year
+When you write a test you have to test all the cases.In our example you have to check when the user is null and when a user is defined and has a birth year
 
 In an application this system SUT will interact with other components
 
@@ -387,9 +387,11 @@ Open the file `build.gradle` and add these dependencies
 
 ----
 dependencies {
+    implementation("org.springframework:spring-context-support:5.3.22")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.0")
     testImplementation("org.mockito:mockito-junit-jupiter:4.6.1")
     testImplementation("org.assertj:assertj-core:3.23.1")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.0")
 }
 ----
 
