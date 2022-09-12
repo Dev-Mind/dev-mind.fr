@@ -266,7 +266,7 @@ When you type an URL in the adress bar, your browser send a GET HTTP request. Yo
 
 [source,javascript]
 ----
-{"message":"Hello Guillaume"}
+{"message":"Hello Guillaume
 ----
 
 === Test your service with Swagger
@@ -323,7 +323,6 @@ You can now create BuildingDto, RoomDtoo, HeaterDto and write services which fol
 /api/heaters/{heater_id} (DELETE) delete a heater
 ----
 
-
 [source,java, subs="specialchars"]
 ----
 /api/rooms (GET) send room list
@@ -334,14 +333,376 @@ You can now create BuildingDto, RoomDtoo, HeaterDto and write services which fol
 /api/rooms/{room_id}/switchHeaters switch the room heaters (ON to OFF or inverse)
 ----
 
+<<<
+== RestTemplate
+
+If you need to call remote REST services from your application, you can use the Spring Framework’s RestTemplate class.
+
+image::../../img/training/spring-intro/resttemplate.png[width=600, align="center"]
+
+A Java method for each HTTP method
+
+- *DELETE* : delete(...)
+- *GET* :	getForObject(...)
+- *HEAD* :	headForHeaders(...)
+- *OPTIONS* :	optionsForAllow(...)
+- *POST* : postForObject(...)
+- *PUT* : put(...)
+- *any method* : exchange(...) or execute(...)
+
+=== How use RestTemplate ?
+
+1. You need to create DTOs to serialize inputs and deserialize outputs
+2. Use `RestTemplate` to call the service with the good HTTP method
+
 [source,java, subs="specialchars"]
 ----
-/api/buildings (GET) send building list
-/api/buildings (POST) add a building
-/api/buildings/{building_id} (GET) read a building
-/api/buildings/{building_id} (DELETE) delete a building and all its rooms and all its windows and heaters
+ String result = restTemplate.getForObject(
+         "http://example.com/hotels/{hotel}/bookings/{booking}",
+         String.class,
+         "42",
+         "21");
 ----
 
+will perform a GET on `http://example.com/hotels/42/bookings/21.`
+
+The map variant expands the template based on variable name, and is therefore more useful when using many variables, or when a single variable is used multiple times. For example:
+
+[source,java, subs="specialchars"]
+----
+ Map<String, String> vars = Collections.singletonMap("hotel", "42");
+ String result = restTemplate.getForObject(
+         "http://example.com/hotels/{hotel}/rooms/{hotel}",
+         String.class,
+         vars
+);
+----
+will perform a GET on `http://example.com/hotels/42/rooms/42.`
+
+Since RestTemplate instances often need to be customized before being used, Spring Boot does not provide any single auto-configured RestTemplate bean but a builder to help the creation.
+
+[source,java, subs="specialchars"]
+----
+@Service
+public class SearchService {
+
+    private final RestTemplate restTemplate;
+
+    public AdressSearchService(RestTemplateBuilder restTemplateBuilder) {
+        this.restTemplate = restTemplateBuilder.rootUri("https://example.com").build();
+    }
+
+    public ResponseDto findUsers() {
+        String uri = UriComponentsBuilder.fromUriString("/users/search")
+                                         .queryParam("name", "Guillaume")
+                                         .build()
+                                         .toUriString();
+        return restTemplate.getForObject(uri, ResponseDto.class);
+    }
+}
+----
+will perform a GET on `http://example.com/users/search?name=Guillaume`
+
+<<<
+
+===  icon:flask[] Call a remote REST API
+
+Now we can see how call a remote REST API in a Spring application.
+
+We will test https://adresse.data.gouv.fr/api-doc/adresse
+
+image::../../img/training/spring-intro/ap--gouv.png[width=700, align="center"]
+
+You can test a request in your terminal with the curl tool or in a browser as it's a GET request.
+
+----
+curl "https://api-adresse.data.gouv.fr/search/?q=cours+fauriel+&limit=15"
+----
+
+You have a JSON as result
+
+----
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.402982, 45.426444]
+      },
+      "properties": {
+        "label": "Cours Fauriel 42100 Saint-\u00c9tienne",
+        "score": 0.8910727272727272,
+        "id": "42218_3390",
+        "name": "Cours Fauriel",
+        "postcode": "42100,
+        "city": "Saint-\u00c9tienne",
+        "context": "42, Loire, Auvergne-Rh\u00f4ne-Alpes",
+        "type": "street"
+      }
+    }
+  ],
+  "query": "cours fauriel "
+}
+----
+
+Now you have to implement a service to call the API.
+
+==== Create the DTOs
+
+To help your job you can use these DTOs
+
+* ApiGouvResponseDto describes the API response. Inside you will have a list of...
+* ...ApiGouvFeatureDto. Each feature will have different properties ...
+* ...ApiGouvAdressDto
+
+[source,java, subs="specialchars"]
+----
+public class ApiGouvResponseDto {
+    private String version;
+    private List<ApiGouvFeatureDto> features;
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+    public List<ApiGouvFeatureDto> getFeatures() {
+        return features;
+    }
+
+    public void setFeatures(List<ApiGouvFeatureDto> features) {
+        this.features = features;
+    }
+}
+----
+
+[source,java, subs="specialchars"]
+----
+public class ApiGouvFeatureDto {
+    private String type;
+    private ApiGouvAdressDto properties;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public ApiGouvAdressDto getProperties() {
+        return properties;
+    }
+
+    public void setProperties(ApiGouvAdressDto properties) {
+        this.properties = properties;
+    }
+}
+----
+
+[source,java, subs="specialchars"]
+----
+public class ApiGouvAdressDto {
+    private String id;
+    private String label;
+
+    private String housenumber;
+    private Double score;
+    private String postcode;
+    private String citycode;
+    private String city;
+    private String context;
+    private String type;
+    private Double x;
+    private Double y;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+    }
+
+    public String getHousenumber() {
+        return housenumber;
+    }
+
+    public void setHousenumber(String housenumber) {
+        this.housenumber = housenumber;
+    }
+
+    public Double getScore() {
+        return score;
+    }
+
+    public void setScore(Double score) {
+        this.score = score;
+    }
+
+    public String getPostcode() {
+        return postcode;
+    }
+
+    public void setPostcode(String postcode) {
+        this.postcode = postcode;
+    }
+
+    public String getCitycode() {
+        return citycode;
+    }
+
+    public void setCitycode(String citycode) {
+        this.citycode = citycode;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getContext() {
+        return context;
+    }
+
+    public void setContext(String context) {
+        this.context = context;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Double getX() {
+        return x;
+    }
+
+    public void setX(Double x) {
+        this.x = x;
+    }
+
+    public Double getY() {
+        return y;
+    }
+
+    public void setY(Double y) {
+        this.y = y;
+    }
+}
+----
+
+==== Create the service
+
+Now you are able to write
+
+1. a service called `AdressSearchService`
+2. with a constructor in which you will create the `restTemplate`
+3. add a method to return the `List<ApiGouvAdressDto>`
+4. this method can have a list of String to define the parameters to send to the API
+5. You can build the URI with this code ` UriComponentsBuilder.fromUriString("/search").queryParam("q", params).queryParam("limit", 15).build().toUriString()`
+
+==== Test your service with Swagger
+
+You can expose a new REST endpoint in a controller to use Swagger to test this API
+
+image::../../img/training/spring-intro/adress-api.png[width=800, align="center"]
+
+==== Test your service with a unit test
+
+You can use the @RestClientTest annotation to test REST clients. By default, it auto-configures Jackson, configures a RestTemplateBuilder, and adds support for MockRestServiceServer.
+
+This test should work
+
+[source,java, subs="specialchars"]
+----
+package com.emse.spring.faircorp.service;
+
+import com.emse.spring.faircorp.service.dto.ApiGouvAdressDto;
+import com.emse.spring.faircorp.service.dto.ApiGouvFeatureDto;
+import com.emse.spring.faircorp.service.dto.ApiGouvResponseDto;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.client.RestClientTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.client.MockRestServiceServer;
+import org.springframework.test.web.client.match.MockRestRequestMatchers;
+import org.springframework.test.web.client.response.MockRestResponseCreators;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
+
+@RestClientTest(AdressSearchService.class)
+class AdressSearchServiceTest {
+@Autowired
+private AdressSearchService service;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @Autowired
+    private MockRestServiceServer server;
+
+    @Test
+    void shouldFindAdresses() throws JsonProcessingException {
+        // Arrange
+        ApiGouvResponseDto expectedResponse = simulateApiResponse();
+
+        this.server
+                .expect(requestTo("/search?q=cours+fauriel&limit=15"))
+                .andRespond(withSuccess(objectMapper.writeValueAsString(expectedResponse), MediaType.APPLICATION_JSON));
+
+        // Act
+        List<ApiGouvAdressDto> adresses = this.service.findAdress(List.of("cours", "fauriel"));
+
+        // Assert
+        Assertions
+                .assertThat(adresses)
+                .hasSize(1)
+                .extracting(ApiGouvAdressDto::getCity)
+                .contains("Saint Etienne");
+    }
+
+    private ApiGouvResponseDto simulateApiResponse() {
+        ApiGouvAdressDto expectedAdress = new ApiGouvAdressDto();
+        expectedAdress.setCity("Saint Etienne");
+
+        ApiGouvFeatureDto expectedFeature = new ApiGouvFeatureDto();
+        expectedFeature.setProperties(expectedAdress);
+
+        ApiGouvResponseDto expectedResponse = new ApiGouvResponseDto();
+        expectedResponse.setFeatures(List.of(expectedFeature));
+
+        return expectedResponse;
+    }
+}
+----
 
 == CORS
 
