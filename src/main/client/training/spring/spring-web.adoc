@@ -136,6 +136,8 @@ HTTP requests are handled by the methods of a REST service. In Spring’s approa
 * PUT: edit a resource (sometimes we use only a post request)
 * DELETE: delete a record
 
+=== Wreite a controller
+
 Controllers are the link between the web http clients (browsers, mobiles) and your application. They should be lightweight and call other components in your application to perform actual work (DAO for example).
 
 These components are easily identified by the @RestController annotation.
@@ -152,7 +154,6 @@ This WindowController handles GET requests for `/api/windows` by returning a lis
 
 A complete example to manage windows
 
-[.small]
 [source,java, subs="specialchars"]
 ----
 @RestController // (1)
@@ -217,6 +218,174 @@ public class WindowController {
 * (8) *@PostMapping* indicates that the following method will respond to a POST request (for saving).
 * (9) For an update you don't need to call the DAO save method.
 Method `getById` load the persisted data and all changes on this object (attached to a persistent context) will be updated when the transaction will be commited.
+
+=== Test a controller
+
+To test whether Spring MVC controllers are working as expected, use the @WebMvcTest annotation. @WebMvcTest auto-configures the Spring MVC infrastructure and the Mock MVC component.
+
+- Mock MVC offers a powerful way to quickly test MVC controllers without needing to start a full HTTP server.
+- Annotation @MockBean provides mock implementations for required collaborators in place of the real implementations.
+
+With Mock MVC you can perform requests for each HTTP methods
+
+[source,java, subs="specialchars"]
+----
+// static import of MockMvcRequestBuilders.*
+
+// a post example
+mockMvc.perform(post("/hotels/{id}", 42).accept(MediaType.APPLICATION_JSON));
+
+// you can specify query parameters in URI template style
+mockMvc.perform(get("/hotels").param("thing", "somewhere"));
+----
+
+You can define expectations by appending one or more andExpect(..) calls after performing a request, as the following example shows. As soon as one expectation fails, no other expectations will be asserted.
+
+[source,java, subs="specialchars"]
+----
+// static import of MockMvcRequestBuilders.* and MockMvcResultMatchers.*
+
+mockMvc.perform(get("/accounts/1")).andExpect(status().isOk());
+----
+
+You can use https://goessner.net/articles/JsonPath/index.html#e2[Json path expression] to check your JSON result. And if you want to test your syntax this https://jsonpath.com/[website] will help you.
+
+You can find several example in the WindowController test
+
+[source,java, subs="specialchars"]
+----
+package com.emse.spring.faircorp.web;
+
+import com.emse.spring.faircorp.domain.*;
+import com.emse.spring.faircorp.repository.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.List;
+import java.util.Optional;
+
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.BDDMockito.given;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+@WebMvcTest(WindowController.class)
+class WindowControllerTest {
+@Autowired
+private MockMvc mockMvc;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @MockBean
+    private WindowDao windowDao;
+
+    @MockBean
+    private RoomDao roomDao;
+
+    @Test
+    void shouldLoadWindows() throws Exception {
+        given(windowDao.findAll()).willReturn(List.of(
+                createWindow("window 1"),
+                createWindow("window 2")
+        ));
+
+        mockMvc.perform(get("/api/windows").accept(APPLICATION_JSON))
+                // check the HTTP response
+                .andExpect(status().isOk())
+                // the content can be tested with Json path
+                .andExpect(jsonPath("[*].name").value(containsInAnyOrder("window 1", "window 2")));
+    }
+
+    @Test
+    void shouldLoadAWindowAndReturnNullIfNotFound() throws Exception {
+        given(windowDao.findById(999L)).willReturn(Optional.empty());
+
+        mockMvc.perform(get("/api/windows/999").accept(APPLICATION_JSON))
+                // check the HTTP response
+                .andExpect(status().isOk())
+                // the content can be tested with Json path
+                .andExpect(content().string(""));
+    }
+
+    @Test
+    void shouldLoadAWindow() throws Exception {
+        given(windowDao.findById(999L)).willReturn(Optional.of(createWindow("window 1")));
+
+        mockMvc.perform(get("/api/windows/999").accept(APPLICATION_JSON))
+                // check the HTTP response
+                .andExpect(status().isOk())
+                // the content can be tested with Json path
+                .andExpect(jsonPath("$.name").value("window 1"));
+    }
+
+    @Test
+    void shouldSwitchWindow() throws Exception {
+        Window expectedWindow = createWindow("window 1");
+        Assertions.assertThat(expectedWindow.getWindowStatus()).isEqualTo(WindowStatus.OPEN);
+
+        given(windowDao.findById(999L)).willReturn(Optional.of(expectedWindow));
+
+        mockMvc.perform(put("/api/windows/999/switch").accept(APPLICATION_JSON))
+                // check the HTTP response
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value("window 1"))
+                .andExpect(jsonPath("$.windowStatus").value("CLOSED"));
+    }
+
+    @Test
+    void shouldUpdateWindow() throws Exception {
+        Window expectedWindow = createWindow("window 1");
+        expectedWindow.setId(1L);
+        String json = objectMapper.writeValueAsString(new WindowDto(expectedWindow));
+
+        given(roomDao.getReferenceById(anyLong())).willReturn(expectedWindow.getRoom());
+        given(windowDao.getReferenceById(anyLong())).willReturn(expectedWindow);
+
+        mockMvc.perform(post("/api/windows").content(json).contentType(APPLICATION_JSON_VALUE))
+                // check the HTTP response
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value("window 1"))
+                .andExpect(jsonPath("$.id").value("1"));
+    }
+
+    @Test
+    void shouldCreateWindow() throws Exception {
+        Window expectedWindow = createWindow("window 1");
+        expectedWindow.setId(null);
+        String json = objectMapper.writeValueAsString(new WindowDto(expectedWindow));
+
+        given(roomDao.getReferenceById(anyLong())).willReturn(expectedWindow.getRoom());
+        given(windowDao.save(any())).willReturn(expectedWindow);
+
+        mockMvc.perform(post("/api/windows").content(json).contentType(APPLICATION_JSON_VALUE))
+                // check the HTTP response
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value("window 1"));
+    }
+
+    @Test
+    void shouldDeleteWindow() throws Exception {
+        mockMvc.perform(delete("/api/windows/999"))
+                .andExpect(status().isOk());
+    }
+
+    private Window createWindow(String name) {
+        Room room = new Room("S1", 1);
+        return new Window(name, WindowStatus.OPEN, room);
+    }
+
+}
+----
 
 == icon:flask[] : Create your rest services
 
