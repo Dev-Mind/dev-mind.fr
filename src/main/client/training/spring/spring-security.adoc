@@ -1,0 +1,266 @@
+:doctitle: Spring in practice : Security
+:description: Each app must be secured and Spring is still here to simplify the work
+:keywords: Java, Spring
+:author: Guillaume EHRET - Dev-Mind
+:revdate: 2022-09-23
+:category: Java
+:teaser:  Each app must be secured and Spring is still here to simplify the work
+:imgteaser: ../../img/training/spring-security.png
+:toc:
+:icons: font
+
+== Introduction
+
+https://docs.spring.io/spring-security/reference/index.html[Spring Security] provides comprehensive support for authentication, authorization, and protection against https://docs.spring.io/spring-security/reference/features/exploits/index.html[common exploits].
+
+[.text-center]
+image:../../img/training/spring-security.png[width=800]
+
+The security is a complex subject. We retrieve this complexity in Spring Security
+
+But Spring Security and Spring Boot come with an abstraction to make easier the integration with the main tools and concepts : SSO, OpenID, Oauth, NTLM, LDAP, Kerberos
+
+
+== Authentication
+
+Authentication is how we verify the identity of who is trying to access a particular resource.
+
+[.text-center]
+image:../../img/training/spring-security/authentication.png[width=800]
+
+A common way to authenticate users is to force them to enter a username and password. If user is unknown, app will return a 401 error (Bad authentication)
+
+
+== Authorization
+
+Once authentication is performed we know the identity and can perform authorization.
+
+[.text-center]
+image:../../img/training/spring-security/authorization.png[width=800]
+
+If user has no access to a resource, he will receive a 403 error (Forbidden)
+
+
+== How to install ?
+
+You can use the Spring Boot starters (one for the main libs and one for tests)
+
+[source,java]
+----
+implementation("org.springframework.boot:spring-boot-starter-security")
+testImplementation("org.springframework.security:spring-security-test")
+----
+
+With nothing else, Spring Security will add a basic auth to your application and you can configure the default user in `application.properties`
+
+----
+spring.security.user.name=user
+spring.security.user.password=password
+----
+
+Spring generate this page for you
+
+[.text-center]
+image:../../img/training/spring-security/authent_screen.png[width=600]
+
+You can logout when you try to call
+http://localhost:8080/logout
+
+
+== icon:flask[] : Security level 1
+
+Update your project to be able to secure you app with the default security form (follow the given steps above)
+
+
+== How it works ?
+
+On a Spring web application, Spring Security support is based on Servlet Filters, so it is helpful to look at the role of Filters generally first.
+
+
+=== Web filter
+
+When a request is sent to call a controller, the HTTP request is sent to chain of filters which contains the Filters and the Servlet that should process the HttpServletRequest based on the path of the request URI.
+
+[.text-center]
+image:../../img/training/spring-security/filter.png[width=900]
+
+In a Spring MVC application the Servlet is an instance of DispatcherServlet. The servlet can handle a single HttpServletRequest and HttpServletResponse.
+
+Filters can read the request and stop the filter chain if we have a problem and the filter can also update the response
+
+[source,java]
+----
+public void doFilter(
+        ServletRequest request,
+        ServletResponse response,
+        FilterChain chain) {
+	// do something before the rest of the application
+    chain.doFilter(request, response); // invoke the rest of the application
+    // do something after the rest of the application
+}
+----
+
+Filters can be activated only on a given path URI and you can add different filter chain depending on this path
+
+[.text-center]
+image:../../img/training/spring-security/filter2.png[width=900]
+
+
+And Spring filter will throw an exception if user is not authenticated or if he has no right to access to a resource
+
+[.text-center]
+image:../../img/training/spring-security/filter3.png[width=900]
+
+
+=== Architecture
+
+The security context is hold by a SecurityContextHolder. This object uses a ThreadLocal to store its data (one value by user thread)
+
+[.text-center]
+image:../../img/training/spring-security/architecture.png[width=500]
+
+`SecurityContext` contains an `Authentication` object.
+
+An `Authentication` represents the currently authenticated user.
+
+- `principal` contains the details (often an instance of UserDetails)
+- `credentials` contains the password or the token
+- `authorities` contains the user permissions. These permissions are usually loaded by a UserDetailsService.
+
+An `Authentication` request is processed by an AuthenticationProvider. You can have different  providers in you app. For example,
+
+[.text-center]
+image:../../img/training/spring-security/architecture2.png[width=700]
+
+DaoAuthenticationProvider supports username/password based authentication while JwtAuthenticationProvider supports authenticating a JWT token.
+
+
+== Configuration
+
+We can configure our own `UserDetailsService` to manage the user and their permissions. In this basic example we will use a in memory configuration
+
+[source,java]
+----
+@Configuration
+public class SpringSecurityConfig {
+
+    private static final String ROLE_USER = "USER";
+
+    @Bean
+    public UserDetailsService userDetailsService() {
+        // We create a password encoder
+        PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
+        manager.createUser(
+                User.withUsername("user").password(encoder.encode("myPassword")).roles(ROLE_USER).build()
+        );
+        return manager;
+    }
+}
+----
+
+You can add a `SecurityFilterChain` to secure an http route. The default configuration in Spring Boot is this one
+
+[source, java]
+----
+@Bean
+public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    return http
+        .authorizeRequests(authorize -> authorize.anyRequest().authenticated()) // (1)
+        .formLogin(withDefaults()) // (2)
+        .httpBasic(withDefaults()) // (3)
+        .build();
+}.httpBasic(withDefaults())
+----
+
+<1> Ensures that any request to our application requires the user to be authenticated
+<2> Allows users to authenticate with form based login
+<3> Allows users to authenticate with HTTP Basic authentication
+
+<<<
+
+But you can use several `SecurityFilterChain` to implement different security level. You can add another filter to only let admin user access to the route `/api/**`
+
+[source, java]
+----
+@Bean
+@Order(1) // (1)
+public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    return http
+        .antMatcher("/api/**") // (2)
+        .authorizeRequests(authorize -> authorize.anyRequest().hasRole("ADMIN")) // (3)
+        .formLogin(withDefaults())
+        .httpBasic(withDefaults())
+        .build();
+}
+----
+<1> If you have more than one filter you need to use an annotation `Order` to define the first one to use
+<2> antMatcher states that this HttpSecurity will only be applicable to URLs that start with `/api/`
+<3> we can specify the roles that will really have access to this HTTP route
+
+<<<
+
+== Get the user
+
+The simplest way to retrieve the currently authenticated principal is via a static call to the SecurityContextHolder.
+
+[source, java]
+----
+Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+String currentPrincipalName = authentication.getName();
+----
+
+Alternatively, we can also use the AuthenticationPrincipal annonation
+
+[source, java]
+----
+@Controller
+public class SecurityController {
+
+        @GetMapping(path = "/{id}")
+    public String findUserName(@AuthenticationPrincipal UserDetails userDetails) {
+        return userDetails.getUsername();
+    }
+}
+----
+<<<
+
+== Check permission
+
+You can configure your app to secure yours methods. For that, add annotation `EnableGlobalMethodSecurity`
+
+[source, java]
+----
+@SpringBootApplication
+@EnableGlobalMethodSecurity(securedEnabled = true)
+public class FaircorpApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(FaircorpApplication.class, args);
+    }
+
+}
+----
+
+And you will be able to use @Secured. For example
+
+[source, java]
+----
+@Secured("ROLE_ADMIN") // (1)
+@GetMapping
+public ResponseEntity<String> findAll(@AuthenticationPrincipal UserDetails userDetails) {
+   return ResponseEntity.ok(userDetails.getUsername());
+}
+----
+
+<1> Here we add a constraint on the user role and user must have the role ADMIN
+
+
+<<<
+
+== icon:flask[] : Personalize your configuration
+
+- Implement a custom config to manage your users in your own `UserDetailsService`. You must have one classical user and one admin user
+- Configure security to secure all the routes and to let only admin users see the /api routes
+- Add a new REST endpoint to return the username. This endpoint must be only accessible to an admin user
+
