@@ -1155,7 +1155,7 @@ public void shouldNotFindRoomOpenWindows() {
 
 You have to test and develop :
 
-* a custom DAO linked to room with a method to find a room by name
+* a custom DAO linked to window with a method to find a room by name
 * add a method in WindowDao to delete all windows in a room.
 * add a method in HeaterDao to delete all heaters in a room.
 * you have to develop these methods and their tests
