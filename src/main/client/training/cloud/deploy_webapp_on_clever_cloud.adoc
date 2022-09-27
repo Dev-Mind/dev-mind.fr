@@ -17,24 +17,28 @@ image::../../img/training/clever-cloud.png[width=800]
 
 You Write Code.They Run It.
 
-When you write code, you push sources on Github.Clever Cloud is able to install your Github app
+When you write code, you push sources on Github. Clever Cloud is able to install your app from your Github repository.
 
-Sign in on https://github.com/ with your account.If you haven't an account you have to create one
+Sign in on https://github.com/ with your account. If you haven't an account you have to create one
 
 When you are connected, you can create a new account on https://www.clever-cloud.com/en/
+
+Click on Login button
 
 [.text-center]
 image::../../img/training/cloud/clever-connect0.png[Connection,width=800]
 
+Click on the connect button with Github.
+
 [.text-center]
-image::../../img/training/cloud/clever-connect1.png[Use your github account,width=800]
+image::../../img/training/cloud/clever-connect00.png[Use your github account,width=800]
 
 > It's important to create your account from your Github account. *When you account is created send me your email and I will add you on the common repository*. When you will receive a confirmation email, click on "Join CoursEmse2022" Button
 
 [.text-center]
 image::../../img/training/cloud/mail.png[width=800]
 
-[.small]#EMSE space will be added on your clever cloud environment#
+EMSE space will be added on your clever cloud environment
 
 [.text-center]
 image::../../img/training/cloud/clever0.png[width=800]
@@ -56,19 +60,19 @@ Inside, add a file `gradle.json`.This file will contain
 }
 ----
 
-To know the name of your jar go on folder `./build/libs/`.Push your last changes on your Github repository.Fot the moment, Clevercloud used only Github
+To know the name of your jar go on folder `./build/libs/`. Push your last changes on your Github repository. For the moment, CleverCloud used only Github
 
 You are ready to deploy your app in Clever Cloud.Open https://console.clever-cloud.com/organisations/orga_1e317288-9f24-486c-b843-6f7d6e311917[EMSE Clever Cloud space]
 
 [.text-center]
 image::../../img/training/cloud/clever0.png[Clever Cloud, width=900]
 
-Click on button called *"Create..."* and select *"an application"*.This application will be generated from your Github repository.Select the project to deploy
+Click on button called *"Create..."* and select *"an application"*. This application will be generated from your Github repository. Select the project to deploy
 
 [.text-center]
 image::../../img/training/cloud/clever1.png[Clever Cloud, width=600]
 
-You have to choose the kind of your application.For a Spring Boot application it will be a *Java or Groovy + Gradle* application
+You have to choose the kind of your application. For a Spring Boot application it will be a *Java or Groovy + Gradle* application
 
 [.text-center]
 image::../../img/training/cloud/clever2.png[Clever Cloud]
@@ -78,17 +82,17 @@ The next step is to choose the type and the number of your server.With our free 
 [.text-center]
 image::../../img/training/cloud/clever3.png[Clever Cloud, width=800]
 
-You have to use a specific name.It's important when you have several apps.In our case you have to use `*faircorp-firstname-lastname*`.You must also select in which zone of the world your application will be deployed (you can only select France in this lab).
+You have to use a specific name. It's important when you have several apps.In our case you have to use `*faircorp-firstname-lastname*`. You must also select in which zone of the world your application will be deployed (you can only select France in this lab).
 
 [.text-center]
 image::../../img/training/cloud/clever4.png[Clever Cloud, width=800]
 
-In the next step you can choose if you need a add-on as a database.We don't need to install a database because your app use an embedded H2 database.Click on *I don't need any add-ons* button
+In the next step you can choose if you need an add-on as a database for example. We don't need to install a database because your app use an embedded H2 database. Click on *I don't need any add-ons* button
 
 [.text-center]
 image::../../img/training/cloud/clever5.png[Clever Cloud, width=900]
 
-You can define environment variables.It's not very important in our example.You can click on the *Next* button
+You can define environment variables. It's not very important in our example.You can click on the *Next* button
 
 [.text-center]
 image::../../img/training/cloud/clever6.png[Clever Cloud, width=800]

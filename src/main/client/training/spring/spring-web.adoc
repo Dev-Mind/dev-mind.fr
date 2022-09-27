@@ -136,7 +136,7 @@ HTTP requests are handled by the methods of a REST service. In Spring’s approa
 * PUT: edit a resource (sometimes we use only a post request)
 * DELETE: delete a record
 
-=== Wreite a controller
+=== Write a controller
 
 Controllers are the link between the web http clients (browsers, mobiles) and your application. They should be lightweight and call other components in your application to perform actual work (DAO for example).
 
