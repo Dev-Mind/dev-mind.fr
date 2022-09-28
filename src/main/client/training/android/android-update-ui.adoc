@@ -2,7 +2,7 @@
 :description: In this lesson we will update the main layout to create a welcome screen (EN)
 :keywords: Android
 :author: Guillaume EHRET - Dev-Mind
-:revdate: 2021-10-01
+:revdate: 2022-10-01
 :category: Android
 :teaser: In this lesson we will update the main layout to create a welcome screen  (EN)
 :imgteaser: ../../img/training/android/android-course2.png

@@ -2,7 +2,7 @@
 :description: In this lesson, you will learn how to call a remote API to synchronously read data.
 :keywords: Android
 :author: Guillaume EHRET - Dev-Mind
-:revdate: 2021-10-06
+:revdate: 2022-10-06
 :category: Android
 :teaser: In this lesson, you will learn how to call a remote API to synchronously read data.
 :imgteaser: ../../img/training/android/android-call-remote.png

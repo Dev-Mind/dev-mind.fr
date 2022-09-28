@@ -2,7 +2,7 @@
 :description: Write unit tests in Java
 :keywords: Java, Unit Test, AssertJ, Mockito, Junit
 :author: Guillaume EHRET - Dev-Mind
-:revdate: 2021-10-17
+:revdate: 2022-10-17
 :category: Java
 :teaser:  In this course you will learn how to write a unit test, how to simulate the collaborator behaviors and how to check the results
 :imgteaser: ../../img/training/unit-tests.png

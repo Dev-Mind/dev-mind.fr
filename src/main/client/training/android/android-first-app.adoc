@@ -2,23 +2,24 @@
 :description: A tutorial to start Android development. In this example we develop an Hello World app (EN)
 :keywords: Android
 :author: Guillaume EHRET - Dev-Mind
-:revdate: 2021-09-26
+:revdate: 2022-09-26
 :category: Android
 :teaser: A tutorial to start Android development. In this example we develop an Hello World app (EN)
 :imgteaser: ../../img/training/android/android-course1.png
 :toc:
+:icons: font
 
 The aim of this course is to learn you, how write a simple application for Android and how to run it on your phone.
 To do that, we will develop with Kotlin language.
 If you know Java, everything will be easier with Kotlin.
 
-image::../../img/training/android/android-course1.png[Android course step1]
+image::../../img/training/android/android-course1.png[Android course step1,width=800]
 
 We have a limited number of lesson hours.
 We will therefore quickly go over some concepts.
 If you want to go deeper, you will find more informations in link:android-first-app.html#_resources[resource chapter]
 
-The aim is to be able to develop a simple application to call a REST API developed in Java (Spring) to display building rooms and manage windows in these rooms.It is necessary to ventilate as much as possible rooms, but as winter approaches it will become important to heat the buildings to ensure user comfort.Windows should be open during and after classes, closed at night or in case of heavy rain or severe cold.
+The aim is to be able to develop a simple application to call a REST API developed in Java (Spring) to display building rooms and manage windows in these rooms. It is necessary to ventilate as much as possible rooms, but as winter approaches it will become important to heat the buildings to ensure user comfort .Windows should be open during and after classes, closed at night or in case of heavy rain or severe cold.
 
 == Android studio
 
@@ -38,21 +39,21 @@ sh ./studio.sh
 Follow the wizard and choose a standard installation.
 It's important to do that to download the last version of Android SDK, recent images for Emulator...
 
-image::../../img/training/android/android-studio.png[Follow wizard]
+image::../../img/training/android/android-studio.png[Follow wizard,width=700]
 
 === Update
 
 If you have an existing version of Android Studio on your laptop you should update Android Sdk.
 For that go on menu *Tools > SDK manager*
 
-image::../../img/training/android/android-studio-update1.png[Menu SDK manager]
+image::../../img/training/android/android-studio-update1.png[Menu SDK manager, width=800]
 
-Below on my example, I have 2 versions installed : a fully Android 9.0 and a partial Android 10.0. In my case the better choice is to uncheck these 2 versions and use the last One Android 10.0+ (version 30).
+Below on my example, I have 2 versions installed : a fully Android Tiramisu and a partial Android 12.0.
 
-image::../../img/training/android/android-studio-update2.png[Choose SDK versions]
+image::../../img/training/android/android-studio-update2.png[Choose SDK versions,width=800]
 
 When you develop in Android you should always do it on the last SDK version.
-Google requires you to always target this latest version when you publish apps to the official store.
+Google requires you to always target this latest version when you publish apps to the official store. In our case we have to target the Tiramisu version (API level 33)
 
 == Fundamental concepts
 
@@ -66,37 +67,38 @@ It represents a single screen with a user interface
 * *Content provider* : A content provider manages a shared set of app data that you can store in the file system, in a SQLite database, on the web, or on any other persistent storage location that your app can access.
 
 In this course we will only manipulate activities.
-After you finish your first app, you can learn more about the other app components on the https://developer.android.com/guide/components/fundamentals[Google developper website].
+After you will finish your first app, you can learn more about the other app components on the https://developer.android.com/guide/components/fundamentals[Google developper website].
 
 Let's focus on activities.
-When you click on your app's icon, you will launch the "main" activity.
-This activity is often your home activity from which you will launch other activities
+
+When you click on your app's icon on your phone, you will launch the "main" activity.
+This activity is often your home activity from which you will launch other activities.
 
 An activity interact with an XML resource file where your view content is defined.
 Android allows you to provide different resources for different devices.
 For example, you can create different layouts for different screen sizes.
 The system determines which layout to use based on the screen size of the current device.
 
-image::../../img/training/android/android-activities.png[A view is an activity and an XML file]
+image::../../img/training/android/android-activities.png[A view is an activity and an XML file, width=800]
 
-== A first example
+== icon:flask[] : A first example
 
 In this lab, you will learn how create a new Android project with Android Studio
 
 1. Launch Android Studio. If you need to install it see you on the http://localhost:8080/training/android/android-first-app.html#_android_studio[first chapter]
 2. In the Welcome to Android Studio window, click Start a new Android Studio project. If you have a project already opened, select *File > New > New Project.*
 +
-image::../../img/training/android/android-studio-start.png[Start a new project]
+image::../../img/training/android/android-studio-start.png[Start a new project, width=600]
 +
 3. Android Studio will initialize a new project with an activity.
 It asks you to select a template for this activity.
 In the *Select a Project Template window*, select *Empty Activity* and click Next.
 +
-image::../../img/training/android/android-studio-select-type.png[Select project type]
+image::../../img/training/android/android-studio-select-type.png[Select project type, width=700]
 +
 4. In the `Configure your project` window, complete the following:
 +
-image::../../img/training/android/android-studio-new.png[New project]
+image::../../img/training/android/android-studio-new.png[New project, width=700]
 +
 * Enter _Faircorp_ in the *Name* field.
 * Enter __com.faircorp __in the *Package name* field.
@@ -108,7 +110,7 @@ If you want to target more devices you can select a lower API version.
 If you want to use last Android features you can select higher version.
 You can click on *Help me choose* link to select the good API version
 +
-image::../../img/training/android/android-versions.png[API versions]
+image::../../img/training/android/android-versions.png[API versions, width=700]
 +
 5. Click on *Finish* button.
 
@@ -137,13 +139,13 @@ All activities must be defined inside and one of them will be defined as entry p
 
 [source,xml,subs="none"]
 ----
- <activity android:name=".MainActivity" android:label="@string/app_name"
-           android:theme="@style/AppTheme.NoActionBar">
+ <activity android:name=".MainActivity" android:exported="true">
     <intent-filter>
         <action android:name="android.intent.action.MAIN" />
         <category android:name="android.intent.category.LAUNCHER" />
     </intent-filter>
- </activity>
+    <meta-data android:name="android.app.lib_name" android:value="" />
+</activity>
 ----
 
 === Activity
@@ -184,6 +186,8 @@ NOTE : directory is named java to assure compatibility with old projects or libs
 === Resource files
 
 Resources are the additional files and static content that your code uses, such as images, screen definitions, strings used in interfaces, styles, animation instructions, and more.
+
+image::../../img/training/android/android_resource.png[Resource directories, width=400]
 
 image::../../img/training/android/android-resource1.png[Android resource]
 
@@ -230,22 +234,28 @@ We will see later how to update or create a new layout and include inside widget
 There are two files with this name:
 
 * one for the project, *Project: Faircorp*, and
-* one for the app module, *Module: app.*
+* one for the app module, *Module: Faircorp.app.*
 
 Each module has its own *build.gradle* file, but this project currently has just one module.
 
-If you need to use external libraries you will add them in *build.gradle (Project: Faircorp)* If you want to configure android plugin (APi version, SDK version) you will update *build.gradle (Module: app)*
+If you need to use external libraries you will declare this dependencies in *build.gradle (Mocule: Faircorp.app)* If you want to configure android plugin (APi version, SDK version) you will update *build.gradle (Project: Faircorp)*
+
+The defaultConfig block is important. This is where you have to define
+
+- the min sdk used by the phone that uses your app
+- the target sdk used for the compilation. It's important to use the highest value
+- your code version and the version name. If you need to publish your app on the Google store this number must be incremented at each release.
 
 [source,kotlin,subs="none"]
 ----
 android {
-    compileSdkVersion 31
-    buildToolsVersion "30.0.3"
+    namespace 'com.faircorp'
+    compileSdk 32
 
     defaultConfig {
         applicationId "com.faircorp"
-        minSdkVersion 26
-        targetSdkVersion 31
+        minSdk 26
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -257,6 +267,13 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
     }
 }
 ----
@@ -279,20 +296,32 @@ You need to set up your phone
 * If you go back on *Settings app* and in *System* sectionn you should see a new entry *Developer options*
 * Tap on *Developer options* and scroll down to find and *enable USB debugging*.
 
+Since few versions of Android, you can also pair your phone via your Wifi connection. Your laptop and your phone must use the same Wifi.
+
+- On your laptop go in Android Studio running devices select and choose *Pair devices using Wifi*
+
+image::../../img/training/android/android_pair_wifi1.png[Pair devices using Wifi, width=400]
+
+image::../../img/training/android/android_pair_wifi3.png[Pair devices using Wifi, width=500]
+
+- On your phone, in *Developer options*,  select *Wireless debugging* and *Pair using QR code* and scan the QR code. If everything is OK you should see
+
+image::../../img/training/android/android_pair_wifi2.png[Pair devices using Wifi, width=500]
+
 Now you are ready to run your app
 
 === Configure a virtual device
 
-When you install Android Studio the first time, an AVD (Android Virtual Device) is also installed to simlate a phone. A virtual device is a configuration that defines the characteristics of an Android phone, tablet, Wear OS, Android TV, or Automotive OS device. It's very useful to test an app for every kind of device.
+When you install Android Studio the first time, an AVD (Android Virtual Device) is also installed to simulate a phone. A virtual device is a configuration that defines the characteristics of an Android phone, tablet, Wear OS, Android TV, or Automotive OS device. It's very useful to test an app for every kind of device.
 
-You can add, update or delete your virtual devices on the AVD. Open menu  *Select Tools > AVD Manager.*
+You can add, update or delete your virtual devices on the AVD. Open menu  *Select Tools > Device Manager.*. You can also access this window through a side tab.
 
-image::../../img/training/android/android-avd.png[Android virtual device manager]
+image::../../img/training/android/android_device_manager.png[Android virtual device manager, width=800]
 
 If you click on *Create Virtual Device*, at the bottom of the AVD Manager dialog you will be able to create a device. You can choose device type (TV, phone, auto...), its configuration (OS version, density, size...)
 The Select Hardware page appears.
 
-image::../../img/training/android/android-avd2.png[Create virtual device manager]
+image::../../img/training/android/android_device_manager2.png[Create virtual device manager, width=700]
 
 For more informations you can read https://developer.android.com/studio/run/managing-avds#createavd[this article]
 
@@ -304,11 +333,11 @@ Everything is now ready to test your project.
 2. From the target device drop-down menu, select the AVD or the device, that you want to run your app on.
 3. Click on Run button
 
-image::../../img/training/android/android-run.png[Run application]
+image::../../img/training/android/android-run.png[Run application, width=500]
 
 If everything is OK you should see your first app. It is very simple and not very pretty but we do better in the next chapter
 
-image::../../img/training/android/android-emulator.png[Hello world application]
+image::../../img/training/android/android_emulator2.png[Hello world application, width=500]
 
 To analyze errors you can open the run console on the bottom. This window contains messages send when app is launched with Gradle
 

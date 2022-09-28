@@ -2,7 +2,7 @@
 :description: Deploy your webapp on Clever Cloud (EN)
 :keywords: Gradle, Spring
 :author: Guillaume EHRET - Dev-Mind
-:revdate: 2021-11-18
+:revdate: 2022-11-18
 :category: JAva
 :teaser: Deploy your Spring Boot webapp on Clever Cloud (EN)
 :imgteaser: ../../img/training/clever-cloud.png
@@ -31,7 +31,7 @@ image::../../img/training/cloud/clever-connect0.png[Connection,width=800]
 Click on the connect button with Github.
 
 [.text-center]
-image::../../img/training/cloud/clever-connect00.png[Use your github account,width=800]
+image::../../img/training/cloud/clever-connect00.png[Use your github account,width=500]
 
 > It's important to create your account from your Github account. *When you account is created send me your email and I will add you on the common repository*. When you will receive a confirmation email, click on "Join CoursEmse2022" Button
 

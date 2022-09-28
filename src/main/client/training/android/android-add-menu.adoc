@@ -2,7 +2,7 @@
 :description: In this lesson you will learn how add a menu and launch intent to open internal or external activities
 :keywords: Android
 :author: Guillaume EHRET - Dev-Mind
-:revdate: 2021-10-04
+:revdate: 2022-10-04
 :category: Android
 :teaser: In this lesson you will learn how add a menu and launch intent to open internal or external activities
 :imgteaser: ../../img/training/android/android-add-menu.png
