@@ -1,4 +1,4 @@
-:doctitle: Add a menu in your app (EN)
+:doctitle: Add a menu in your app
 :description: In this lesson you will learn how add a menu and launch intent to open internal or external activities
 :keywords: Android
 :author: Guillaume EHRET - Dev-Mind

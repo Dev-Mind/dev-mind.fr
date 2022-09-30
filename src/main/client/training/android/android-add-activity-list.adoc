@@ -1,4 +1,4 @@
-:doctitle: Add a list activity in your app (EN)
+:doctitle: Add a list activity in your app
 :description: In this lesson you will learn how add an activity to list elements
 :keywords: Android
 :author: Guillaume EHRET - Dev-Mind

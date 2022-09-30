@@ -1,4 +1,4 @@
-:doctitle: Add an activity (EN)
+:doctitle: Add an activity
 :description: In this lesson you will learn how add a new activity in your project and call it
 :keywords: Android
 :author: Guillaume EHRET - Dev-Mind
@@ -9,6 +9,9 @@
 :toc:
 
 In this lesson, you will learn how to create a new View in your app and how to launch it with an Intent
+
+[.text-center]
+image::../../img/training/android/android-add-activity.png[Add activity, width=800]
 
 == Create a new activity
 
@@ -21,10 +24,10 @@ Android Studio automatically does three things:
 * Creates the layout file *activity_window.xml*, which corresponds with the *WindowActivity* file.
 * Adds the required *<activity>* element in *AndroidManifest.xml*.
 +
-3. We will now update *activity_window.xml* to display a window name. Open this file
-4. Add a new TextView with these properties
+3. We will now update *activity_window.xml* to display a window name and a label. Open this file
+4. Add a new TextView to display a label name with these properties
 +
-* *text* : _Window name_
+* *text* : _Window name_ (should be defined in strings.xml)
 * *margin top* 16dp
 * *margin left* 16dp
 5. Add a new TextView below the first one with these properties
@@ -42,9 +45,9 @@ An https://developer.android.com/reference/android/content/Intent[Intent] is an 
 
 The https://developer.android.com/reference/android/content/Intent[Intent] represents an app’s intent to do something. You can use intents for a wide variety of tasks, but in this lesson, your intent starts another activity in the same app.
 
-When you create an Intent you define a context, a target and you can send zero, one or more informations to the target.  An Intent can carry data types as key-value pairs called extras. In this lab you will open *WindowActivity* when a user will click on *MainActivity* button *Open Window*
+image::../../img/training/android/android-intent.png[Intent]
 
-image::../../img/training/android/android-add-activity.png[Intent]
+When you create an Intent you define a context, a target and you can send zero, one or more informations to the target.  An Intent can carry data types as key-value pairs called extras. In this lab you will open *WindowActivity* when a user will click on *MainActivity* button *Open Window*
 
 Update method *openWindow* in *MainActivity* to
 
@@ -54,19 +57,21 @@ Update method *openWindow* in *MainActivity* to
 
 [source,kotlin,subs="specialchars"]
 ----
-const val WINDOW_NAME_PARAM = "com.faircorp.windowname.attribute"
-
 class MainActivity : AppCompatActivity() {
+
+    companion object {
+        const val WINDOW_NAME_PARAM = "com.faircorp.windowname.attribute"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
     }
 
-    /** Called when the user taps the button */
     fun openWindow(view: View) {
+        // Extract value filled in editext identified with txt_window_name id
         val windowName = findViewById<EditText>(R.id.txt_window_name).text.toString()
 
-        // Do something in response to button
         val intent = Intent(this, WindowActivity::class.java).apply {
             putExtra(WINDOW_NAME_PARAM, windowName)
         }
@@ -83,19 +88,19 @@ On the other side on *WindowActivity* you have to
 
 [source,kotlin,subs="specialchars"]
 ----
-const val WINDOW_NAME_PARAM = "com.faircorp.windowname.attribute"
-
 class WindowActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_window)
 
-        val param = intent.getStringExtra(WINDOW_NAME_PARAM)
+        val param = intent.getStringExtra(MainActivity.WINDOW_NAME_PARAM)
         val windowName = findViewById<TextView>(R.id.txt_window_name)
         windowName.text = param
     }
 }
 ----
+
+It's time to test yours changes.
 
 Click *Apply Changes* image:../../img/training/android/android-studio-apply.svg[Apply changes]  in the toolbar to run the app. Type a window name in the text field and click on the button to see the message in the second activity
 

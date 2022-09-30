@@ -1,16 +1,17 @@
-:doctitle: Update UI and refactor welcome layout (EN)
-:description: In this lesson we will update the main layout to create a welcome screen (EN)
+:doctitle: Update UI and refactor welcome layout
+:description: In this lesson we will update the main layout to create a welcome screen
 :keywords: Android
 :author: Guillaume EHRET - Dev-Mind
 :revdate: 2022-10-01
 :category: Android
-:teaser: In this lesson we will update the main layout to create a welcome screen  (EN)
+:teaser: In this lesson we will update the main layout to create a welcome screen
 :imgteaser: ../../img/training/android/android-course2.png
 :toc:
+:icons: font
 
 In this lesson, you will learn how to update a layout with Android Studio
 
-image::../../img/training/android/android-course2.png[Android course step2]
+image::../../img/training/android/android-course2.png[Android course step2, width=800]
 
 == User interface
 
@@ -19,19 +20,21 @@ User interface for an Android app is built as a hierarchy of layouts and widgets
 * The layouts are *ViewGroup objects*, containers that control how their child views are positioned on the screen.
 * Widgets are *View objects*, UI components such as buttons and text boxes.
 
-image::../../img/training/android/android-view-hierarchy.png[View hierarchy]
+image::../../img/training/android/android-view-hierarchy.png[View hierarchy, width=800]
 
 In this new codelab you will update the `hello world` page to create a home page with a welcome message, an image, an edit text and a button.
 
-image::../../img/training/android/android-example.png[First view example]
+image::../../img/training/android/android-example.png[First view example, width=800]
 
-Android provides an XML vocabulary for ViewGroup and View classes, and your UI is defined in XML files.Don't be afraid Android Studio provide a wysiwyg editor.
+Android provides an XML vocabulary for ViewGroup and View classes, and your UI is defined in XML files. Don't be afraid Android Studio provide a wysiwyg editor.
+
+In the last versions of Android, Google introduce a new way to define your UI with https://developer.android.com/jetpack/compose[Jetpack Compose]. With this solution you don't need to write your templates in xml, but this technology is not yet widespread.
 
 == Android Studio Layout Editor
 
 In the Project window, open *app > res > layout > activity_main.xml*. Editor should be displayed
 
-image::../../img/training/android/android-studio-layout.png[Android Studio Layout Editor]
+image::../../img/training/android/android-studio-layout.png[Android Studio Layout Editor, width=900]
 
 1. View mode: View your layout in either code mode (XML editor), Design mode (design view and Blueprint view), or Split mode icon (mix between code and design view)
 2. Palette: Contains various views and view groups that you can drag into your layout.
@@ -47,8 +50,8 @@ image::../../img/training/android/android-studio-layout.png[Android Studio Layou
 For the moment our page contains only one readonly text field.
 
 1. Select it and delete it with *Suppr* key
-2. We will add an image. Copy this xml file link:../../ic_logo.xml[ic_logo.xml] in your directory *_res > drawable*. This file is a vector drawable image. Directory *drawable* contains all your images. Several formats are available (png, jpg...) but the most optimized is a https://developer.android.com/guide/topics/graphics/vector-drawable-resources[Vector drawable]
-3. In *Common Palette* on the left of the screen click on *ImageView* and drag into your layout. A window is opened to select an image. You will choose the imported image *ic_logo.xml*
+2. We will add an image. Copy this xml file https://dev-mind.fr/ic_logo.xml[ic_logo.xml] in your directory *_res > drawable*. This file is a vector drawable image. Directory *drawable* contains all your images. Several formats are available (png, jpg...) but the most optimized is a https://developer.android.com/guide/topics/graphics/vector-drawable-resources[Vector drawable]
+3. In *Common Palette* on the left of the screen click on *ImageView* and drag into your layout. A window is opened to select an image. You will choose the imported image https://dev-mind.fr/ic_logo.xml[ic_logo.xml].
 4. Click on *OK* button to import image in your layout
 5. We will use the *blueprint view* to add constraint to this image, to place it on the top of the screen and define a height. See video below for more detail
 +
@@ -126,7 +129,7 @@ An activity is always associated with a layout file. In link:android-update-ui#_
 
 1. In the file *app > java > com.faircorp > MainActivity*, add the following openWindow() method stub:
 +
-[source,kotlin,subs="none"]
+[source,kotlin,subs="normal"]
 ----
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -153,46 +156,72 @@ You might see an error because Android Studio cannot resolve *View*, *Toast* cla
 * In window name editext fill a name
 * Click on the button you a message should be displayed on the bottom of the screen with the ligt name filled
 
-==  Update app color scheme [optional]
+==  Update app color scheme
 
 As for a web page, you can define a style theme when you develop an Android application. The main them is defined in **app > manifests > AndroidManifest.xml**
 
-By default `@style/AppTheme` follow https://material.io/[material design] specification.
+By default `@style/Theme.Faircorp` follow https://material.io/[material design] specification.
 [source,xml,subs="none"]
 ----
-<application android:allowBackup="true"  android:icon="@mipmap/ic_launcher"
-             android:label="@string/app_name" android:roundIcon="@mipmap/ic_launcher_round"
-             android:theme="@style/AppTheme">
+<application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Faircorp"
+        tools:targetApi="31">
 </application>
 ----
 
-This theme is based on 3 main colors defined in a color resource file
+*File :* *_res > values > themees > theme.xml_* and
 
-*File :* *_res > values > colors.xml_*
+Your theme Theme.Faircorp in this file. You have in reality 2 files because the Google team encourages you to adopt a normal theme and a darker theme in night mode to consume less battery. As a reminder, the lighter the colors, the more your screen consumes and the more your battery is used.
 
 [source,xml]
 ----
 <resources>
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
+    <style name="Theme.Faircorp" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/purple_200</item>
+        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorOnPrimary">@color/black</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/teal_200</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+    </style>
+</resources>
+----
+
+
+*File :* *_res > values > colors.xml_*
+
+Les `@color/...` sont des références à des valeurs renseignées dans ce fichier colors
+
+[source,xml]
+----
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
 </resources>
 ----
 
 1. Go on https://material.io/design/color/the-color-system.html#tools-for-picking-colors[Material color tool] to defined your own app color combination. You define your prmiary color and the tool  is able to compute complementary color
 +
-image::../../img/training/android/android-color.png[Android color]
+image::../../img/training/android/android-color.png[Android color, width=800]
 +
-2. Use for example *1E88E5* for primary color. The new corresponding color scheme will be
-+
-[source,xml]
-----
-<resources>
-    <color name="colorPrimary">#1E88E5</color>
-    <color name="colorPrimaryDark">#0d47a1</color>
-    <color name="colorAccent">#e57b1e</color>
-</resources>
-----
+2. Choose different colors
 +
 3. Run your app to see the new app rendering
 

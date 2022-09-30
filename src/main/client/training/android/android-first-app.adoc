@@ -1,5 +1,5 @@
-:doctitle: A first application in Android (EN)
-:description: A tutorial to start Android development. In this example we develop an Hello World app (EN)
+:doctitle: A first application in Android
+:description: A tutorial to start Android development. In this example we develop an Hello World app
 :keywords: Android
 :author: Guillaume EHRET - Dev-Mind
 :revdate: 2022-09-26

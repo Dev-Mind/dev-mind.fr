@@ -1,4 +1,4 @@
-:doctitle: Call a remote API in Android (EN)
+:doctitle: Call a remote API in Android
 :description: In this lesson, you will learn how to call a remote API to synchronously read data.
 :keywords: Android
 :author: Guillaume EHRET - Dev-Mind
