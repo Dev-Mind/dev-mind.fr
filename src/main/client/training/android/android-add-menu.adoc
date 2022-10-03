@@ -10,6 +10,8 @@
 
 In this lesson you will learn how add a menu and launch intent to open internal or external activities
 
+image::../../img/training/android/android-add-menu.png[Android course step2, width=800]
+
 == Menus
 
 Menus are a common user interface component in many types of applications.A https://developer.android.com/guide/topics/resources/menu-resource[menu] is a resource as style, color, layout...
