@@ -802,7 +802,7 @@ You can use the @RestClientTest annotation to test REST clients. By default, it 
 
 This test should work
 
-[source,java, subs="specialchars"]
+[source,java, subs="none"]
 ----
 package com.emse.spring.faircorp.service;
 
