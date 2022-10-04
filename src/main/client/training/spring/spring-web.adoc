@@ -844,7 +844,7 @@ private AdressSearchService service;
         ApiGouvResponseDto expectedResponse = simulateApiResponse();
 
         this.server
-                .expect(requestTo("/search?q=cours+fauriel&limit=15"))
+                .expect(requestTo("/search?q=cours+fauriel"))
                 .andRespond(withSuccess(objectMapper.writeValueAsString(expectedResponse), MediaType.APPLICATION_JSON));
 
         // Act
