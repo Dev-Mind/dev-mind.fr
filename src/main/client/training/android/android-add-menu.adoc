@@ -14,16 +14,16 @@ image::../../img/training/android/android-add-menu.png[Android course step2, wid
 
 == Menus
 
-Menus are a common user interface component in many types of applications.A https://developer.android.com/guide/topics/resources/menu-resource[menu] is a resource as style, color, layout...
+Menus are a common user interface component in many types of applications. A https://developer.android.com/guide/topics/resources/menu-resource[menu] is a resource as style, color, layout...
 
 image::../../img/training/android/android-resource1.png[Android resource]
 
 Remember, you can provide alternative resources for specific device configurations, by grouping them in specially-named resource directories.
 At runtime, Android uses the appropriate resource based on the current configuration.
 
-It exists different types of menus.In this lesson we will implement a menu in app bar.It's where you should place actions that have a global impact on the app, such as "Compose email", "Settings"...
+It exists different types of menus.In this lesson we will implement a menu in app bar. It's where you should place actions that have a global impact on the app, such as "Compose email", "Settings"...
 
-For all menu types, Android provides a standard XML format to define menu items.Instead of building a menu in your activity's code, you should define a menu and all its items in an XML file.
+For all menu types, Android provides a standard XML format to define menu items. Instead of building a menu in your activity's code, you should define a menu and all its items in an XML file.
 
 Using a menu resource is a good practice for a few reasons:
 
