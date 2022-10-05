@@ -10,7 +10,7 @@
 
 In this lesson, you will learn how to create a new View in your app to list data.
 
-image::../../img/training/android/android-activity-list.png[Create an activity list]
+image::../../img/training/android/android-activity-list.png[Create an activity list, width=800]
 
 == Modelisation
 
@@ -50,9 +50,9 @@ Note: when a value is nullable you need to suffix type with ?. In our example cu
 +
 [source,kotlin,subs="specialchars"]
 ----
-enum class Status { OPEN, CLOSED}
+enum class WindowStatus { OPEN, CLOSED}
 
-data class WindowDto(val id: Long, val name: String, val room: RoomDto, val status: Status)
+data class WindowDto(val id: Long, val name: String, val room: RoomDto, val windowStatus: WindowStatus)
 ----
 +
 5. We will now create a service class to manage these windows. We will write 2 methods : one to find all building windows and a second to load only one window by its id. For the moment we will use fake data. In a next lesson we will learn how call a remote service to load real data.
@@ -71,11 +71,11 @@ class WindowService {
 
         // Fake lights
         val WINDOWS: List<WindowDto> = listOf(
-            WindowDto(1, "Entry Window", ROOMS[0], Status.CLOSED),
-            WindowDto(2, "Back Window", ROOMS[0], Status.CLOSED),
-            WindowDto(3, "Sliding door", ROOMS[1], Status.OPEN),
-            WindowDto(4, "Window 1", ROOMS[2], Status.CLOSED),
-            WindowDto(5, "Window 2", ROOMS[2], Status.CLOSED),
+            WindowDto(1, "Entry Window", ROOMS[0], WindowStatus.CLOSED),
+            WindowDto(2, "Back Window", ROOMS[0], WindowStatus.CLOSED),
+            WindowDto(3, "Sliding door", ROOMS[1], WindowStatus.OPEN),
+            WindowDto(4, "Window 1", ROOMS[2], WindowStatus.CLOSED),
+            WindowDto(5, "Window 2", ROOMS[2], WindowStatus.CLOSED),
         )
     }
 
@@ -124,9 +124,11 @@ video::yflnKerjG0Q[youtube, width=600, height=330]
 ** *marginStart* : _16dp_
 ** *marginTop* : _16dp_
 ** *marginBottom* : _16dp_
+** *layout_width* : _100dp_
 ** *textStyle* : _bold_
 ** *textAppearance* : _@style/TextAppearance.AppCompat.Large_
 ** *capitalize* : _characters_
+** *text* : _empty_
 * A TextView on the right to display window name
 ** *id* : _txt_window_name_
 ** *marginStart* : _16dp_
@@ -134,6 +136,7 @@ video::yflnKerjG0Q[youtube, width=600, height=330]
 ** *marginEnd* : _16dp_
 ** *marginEnd* : _16dp_
 ** *layout_width* : _0dp_
+** *text* : _empty_
 * A last TextView to display window room
 ** *id* : _txt_window_room_
 ** *marginStart* : _16dp_
@@ -143,6 +146,7 @@ video::yflnKerjG0Q[youtube, width=600, height=330]
 ** *layout_width* : _0dp_
 ** *textAppearance* : _@style/TextAppearance.AppCompat.Small_
 ** *capitalize* : _characters_
+** *text* : _empty_
 +
 image::../../img/training/android/android-window-item.png[Android item layout]
 
@@ -183,7 +187,7 @@ class WindowAdapter : RecyclerView.Adapter<WindowAdapter.WindowViewHolder>() { /
         val window = items[position]
         holder.apply {
             name.text = window.name
-            status.text = window.status.toString()
+            status.text = window.windowStatus.toString()
             room.text = window.room.name
         }
     }
@@ -208,7 +212,7 @@ We need to update *WindowsActivity* to initialize the recycler view
 ----
 class WindowsActivity : BasicActivity() {
 
-    val windowService = WindowService() // (1)
+    private val windowService = WindowService() // (1)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -261,7 +265,7 @@ class WindowAdapter(val listener: OnWindowSelectedListener): RecyclerView.Adapte
         val window = items[position]
         holder.apply {
             name.text = window.name
-            status.text = window.status.toString()
+            status.text = window.windowStatus.toString()
             room.text = window.room.name
             itemView.setOnClickListener { listener.onWindowSelected(window.id) } // (1)
         }
@@ -334,4 +338,4 @@ image::../../img/training/android/android-detail.png[Android detail example]
 
 == More...
 
-If you want more explanations about RecyclerViewq you can read this https://codelabs.developers.google.com/codelabs/kotlin-android-training-recyclerview-fundamentals/index.html?index=..%2F..android-kotlin-fundamentals#2[codelabs] made by Google
+If you want more explanations about RecyclerView you can read this https://codelabs.developers.google.com/codelabs/kotlin-android-training-recyclerview-fundamentals/index.html?index=..%2F..android-kotlin-fundamentals#2[codelabs] made by Google

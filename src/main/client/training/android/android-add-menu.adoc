@@ -33,7 +33,7 @@ Using a menu resource is a good practice for a few reasons:
 
 A menu will have different options.An option is a menu item
 
-It's time to test by yourself.We want to add a menu in app bar with different options
+It's time to test by yourself. We want to add a menu in app bar with different options
 
 * a link to open your corporate website (we will open an URL in favorite browser)
 * a link to send you an email (we will open a window to write a new mail in favorite mail app)
@@ -144,4 +144,4 @@ Some examples of action/data pairs :
 +
 11. Click *Apply Changes* image:../../img/training/android/android-studio-apply.svg[Apply changes]  in the toolbar to run the app and test your menu
 
-image::../../img/training/android/android-add-menu.png[Android menu]
+image::../../img/training/android/android-add-menu.png[Android menu, width=800]

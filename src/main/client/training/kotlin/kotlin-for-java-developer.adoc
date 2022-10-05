@@ -1,4 +1,4 @@
-:doctitle: Kotlin for a Java developer (EN)
+:doctitle: Kotlin for a Java developer
 :description: How to start in Kotlin when you know only Java language
 :keywords: Kotlin
 :author: Guillaume EHRET - Dev-Mind
