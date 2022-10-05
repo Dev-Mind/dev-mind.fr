@@ -224,13 +224,13 @@ task('vendor-js', () =>
 // =============================
 // Converts png and jpg in webp
 task('images-webp', () =>
-  src('src/main/client/images/**/*.{png,jpg}')
+  src('src/main/client/img/**/*.{png,jpg}')
     .pipe(webp() as Duplex)
     .pipe(dest('build/.tmp/img'))
 );
 // minify assets
 task('images-minify', () =>
-  src('src/main/client/images/**/*.{svg,png,jpg}')
+  src('src/main/client/img/**/*.{svg,png,jpg}')
     .pipe(imagemin([
       imagemin.gifsicle({interlaced: true}),
       imagemin.mozjpeg({progressive: true}),
@@ -256,7 +256,7 @@ task('images', () =>
 
 // Image post processing is used to copy in dist directory images used without cache busting id
 task('images-logo', () =>
-  src('src/main/client/images/**/logo*.*')
+  src('src/main/client/img/**/logo*.*')
     .pipe(dest('build/dist/img'))
 );
 
@@ -368,7 +368,7 @@ task('watch-adoc', () =>
 task('watch-js', () =>
   watch('src/main/client/**/*.js', series('local-js', 'blog', 'training', 'html', 'cache-busting-dev')));
 task('watch-img', () =>
-  watch('src/main/client/images/**/*', series('images', 'blog', 'training', 'html', 'cache-busting-dev')));
+  watch('src/main/client/img/**/*', series('images', 'blog', 'training', 'html', 'cache-busting-dev')));
 task('watch-template', () =>
   watch('src/main/client/**/*.handlebars', series('blog', 'training', 'html', 'cache-busting-dev')));
 task('watch-backend', () =>

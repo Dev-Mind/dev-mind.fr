@@ -620,7 +620,7 @@ Now you have to implement a service to call the API.
 
 ==== Create the DTOs
 
-To help your job you can use these DTOs
+To help your job you can use these DTOs used to deserialize the returned JSON in Java objects.
 
 * ApiGouvResponseDto describes the API response. Inside you will have a list of...
 * ...ApiGouvFeatureDto. Each feature will have different properties ...
@@ -788,7 +788,13 @@ Now you are able to write
 2. with a constructor in which you will create the `restTemplate`
 3. add a method to return the `List<ApiGouvAdressDto>`
 4. this method can have a list of String to define the parameters to send to the API
-5. You can build the URI with this code ` UriComponentsBuilder.fromUriString("/search").queryParam("q", params).queryParam("limit", 15).build().toUriString()`
+5. You can build the URI with this code
+
+[source,java]
+----
+String params = String.join("+", keys);
+UriComponentsBuilder.fromUriString("/search").queryParam("q", params).queryParam("limit", 15).build().toUriString()`
+----
 
 ==== Test your service with Swagger
 
@@ -843,10 +849,16 @@ private AdressSearchService service;
         // Arrange
         ApiGouvResponseDto expectedResponse = simulateApiResponse();
 
-        this.server
-                .expect(requestTo("/search?q=cours+fauriel"))
-                .andRespond(withSuccess(objectMapper.writeValueAsString(expectedResponse), MediaType.APPLICATION_JSON));
+        String expectedUrl = UriComponentsBuilder
+                .fromUriString("/search")
+                .queryParam("q", "cours+fauriel")
+                .queryParam("limit", 15)
+                .build()
+                .toUriString();
 
+        this.server
+                .expect(requestTo(expectedUrl))
+                .andRespond(withSuccess(objectMapper.writeValueAsString(expectedResponse), MediaType.APPLICATION_JSON));
         // Act
         List<ApiGouvAdressDto> adresses = this.service.findAdress(List.of("cours", "fauriel"));
 
