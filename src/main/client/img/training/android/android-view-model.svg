@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="270mm"
+   height="60mm"
+   viewBox="0 0 270 60"
+   version="1.1"
+   id="svg882"
+   inkscape:version="1.2.1 (0f2f062aeb, 2022-09-21, custom)"
+   sodipodi:docname="android-view-model.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview884"
+     pagecolor="#505050"
+     bordercolor="#ffffff"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     inkscape:deskcolor="#505050"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="1.1893044"
+     inkscape:cx="246.3625"
+     inkscape:cy="231.64801"
+     inkscape:window-width="1920"
+     inkscape:window-height="1136"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs879" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       x="10.801997"
+       y="15.709422"
+       width="66.149796"
+       height="31.159182"
+       ry="2.1370523"
+       fill="#507d70"
+       stroke="#424242"
+       stroke-linejoin="round"
+       stroke-width="1.33261"
+       id="rect324-3"
+       rx="1.8124179"
+       style="stroke-width:1;stroke-dasharray:none"
+       inkscape:export-filename="../a3ca265f/architecture2.png"
+       inkscape:export-xdpi="152"
+       inkscape:export-ydpi="152" />
+    <rect
+       x="101.62746"
+       y="14.27181"
+       width="66.149796"
+       height="31.159182"
+       ry="2.1370523"
+       fill="#507d70"
+       stroke="#424242"
+       stroke-linejoin="round"
+       stroke-width="1.33261"
+       id="rect324-3-7"
+       rx="1.8124179"
+       style="stroke-width:1;stroke-dasharray:none"
+       inkscape:export-filename="../a3ca265f/architecture2.png"
+       inkscape:export-xdpi="152"
+       inkscape:export-ydpi="152" />
+    <text
+       x="113.46269"
+       y="31.246382"
+       fill="#000000"
+       font-family="sans-serif"
+       font-size="10.583px"
+       stroke-width="0.26458"
+       style="font-size:8.46667px;line-height:1.25"
+       xml:space="preserve"
+       id="text352-6-2-9-5"><tspan
+         x="113.46269"
+         y="31.246382"
+         fill="#ffffff"
+         font-family="Lato"
+         font-weight="bold"
+         stroke-width="0.26458"
+         id="tspan350-0-9-22-62"
+         style="font-size:8.46667px">ViewModel</tspan></text>
+    <rect
+       x="191.89687"
+       y="14.502096"
+       width="66.149796"
+       height="31.159182"
+       ry="2.1370523"
+       fill="#507d70"
+       stroke="#424242"
+       stroke-linejoin="round"
+       stroke-width="1.33261"
+       id="rect324-3-7-5"
+       rx="1.8124179"
+       style="stroke-width:1;stroke-dasharray:none"
+       inkscape:export-filename="../a3ca265f/architecture2.png"
+       inkscape:export-xdpi="152"
+       inkscape:export-ydpi="152" />
+    <text
+       x="204.77684"
+       y="35.579922"
+       fill="#000000"
+       font-family="sans-serif"
+       font-size="10.583px"
+       stroke-width="0.26458"
+       style="font-size:6.35px;line-height:1.25"
+       xml:space="preserve"
+       id="text352-6-2-9-3-2"><tspan
+         x="204.77684"
+         y="35.579922"
+         fill="#ffffff"
+         font-family="Lato"
+         font-weight="bold"
+         stroke-width="0.26458"
+         id="tspan350-0-9-22-6-7"
+         style="font-size:6.35px">link to your data </tspan></text>
+    <text
+       x="215.46559"
+       y="28.110405"
+       fill="#000000"
+       font-family="sans-serif"
+       font-size="10.583px"
+       stroke-width="0.26458"
+       style="font-size:8.46667px;line-height:1.25"
+       xml:space="preserve"
+       id="text352-6-2-9-9"><tspan
+         x="215.46559"
+         y="28.110405"
+         fill="#ffffff"
+         font-family="Lato"
+         font-weight="bold"
+         stroke-width="0.26458"
+         id="tspan350-0-9-22-1"
+         style="font-size:8.46667px">Model</tspan></text>
+    <text
+       x="32.331657"
+       y="27.963844"
+       fill="#000000"
+       font-family="sans-serif"
+       font-size="10.583px"
+       stroke-width="0.26458"
+       style="font-size:8.46667px;line-height:1.25"
+       xml:space="preserve"
+       id="text352-6-2-9"><tspan
+         x="32.331657"
+         y="27.963844"
+         fill="#ffffff"
+         font-family="Lato"
+         font-weight="bold"
+         stroke-width="0.26458"
+         id="tspan350-0-9-22"
+         style="font-size:8.46667px">View</tspan></text>
+    <text
+       x="14.988894"
+       y="36.572914"
+       fill="#000000"
+       font-family="sans-serif"
+       font-size="10.583px"
+       stroke-width="0.26458"
+       style="font-size:6.35px;line-height:1.25"
+       xml:space="preserve"
+       id="text352-6-2-9-3"><tspan
+         x="14.988894"
+         y="36.572914"
+         fill="#ffffff"
+         font-family="Lato"
+         font-weight="bold"
+         stroke-width="0.26458"
+         id="tspan350-0-9-22-6"
+         style="font-size:6.35px">Activity or fragment</tspan></text>
+    <path
+       d="m 100.9927,32.038093 -24.666117,0.45477"
+       fill="none"
+       stroke="#424242"
+       id="path354-7-1-4-7-9-4"
+       style="stroke-width:1.6;stroke-dasharray:none" />
+    <path
+       d="m 191.81251,30.408739 -24.66612,0.45477"
+       fill="none"
+       stroke="#424242"
+       id="path354-7-1-4-7-9-4-3"
+       style="stroke-width:1.6;stroke-dasharray:none" />
+  </g>
+</svg>
