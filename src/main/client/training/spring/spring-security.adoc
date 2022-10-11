@@ -170,7 +170,7 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         .formLogin(withDefaults()) // (2)
         .httpBasic(withDefaults()) // (3)
         .build();
-}.httpBasic(withDefaults())
+}
 ----
 
 <1> Ensures that any request to our application requires the user to be authenticated
