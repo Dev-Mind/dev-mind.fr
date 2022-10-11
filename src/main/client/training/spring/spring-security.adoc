@@ -264,3 +264,47 @@ public ResponseEntity<String> findAll(@AuthenticationPrincipal UserDetails userD
 - Configure security to secure all the routes and to let only admin users see the /api routes
 - Add a new REST endpoint to return the username. This endpoint must be only accessible to an admin user
 
+
+== Unit tests
+
+With Spring Security configuration you have to update your controller tests. You have to simulate a user to not receive a 401 or 403 HTTP error.
+
+To simulate a user you can use a Spring Security test annotation called `@WithMockUser`
+
+For example in the following test, you can use this annotation to define a user with a given name or roles
+
+[source, java]
+----
+@Test
+@WithMockUser(username = "admin", roles = "ADMIN")
+void shouldLoadAWindowAndReturnNullIfNotFound() throws Exception {
+given(windowDao.findById(999L)).willReturn(Optional.empty());
+    mockMvc.perform(get("/api/windows/999").accept(APPLICATION_JSON))
+            // check the HTTP response
+            .andExpect(status().isOk())
+            // the content can be tested with Json path
+            .andExpect(content().string(""));
+}
+----
+
+For put, post or delete HTTP methods, Spring Security add a security level and force you to send a CSRF token. You can read more information on the https://docs.spring.io/spring-security/reference/features/exploits/csrf.html[Spring website].
+
+In your test you can configure csrf like on the code below
+
+[source, java]
+----
+@Test
+@WithMockUser(username = "admin", roles = "ADMIN")
+void shouldSwitchWindow() throws Exception {
+Window expectedWindow = createWindow("window 1");
+Assertions.assertThat(expectedWindow.getWindowStatus()).isEqualTo(WindowStatus.OPEN);
+
+    given(windowDao.findById(999L)).willReturn(Optional.of(expectedWindow));
+
+    mockMvc.perform(put("/api/windows/999/switch").accept(APPLICATION_JSON).with(csrf()))
+            // check the HTTP response
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.name").value("window 1"))
+            .andExpect(jsonPath("$.windowStatus").value("CLOSED"));
+}
+----

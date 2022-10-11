@@ -9,13 +9,13 @@
 :toc:
 
 In this lesson, we will learn how to use a database in our application.
-For the moment we need an Internet connection to display data on our screens but we want to be able to display something when a user is offline or when the remote API is not able to respond.
+For the moment we need an Internet connection to display data on our screens but we want to be able to display something when a user is offline or when the remote API is not able to answer.
 
 image::../../img/training/android/android-use-room.png[width=800,align="center"]
 
 Each Android phone has a local SQLite database.
 The Jetpack Room persistence library provides an abstraction layer over SQLite to make the interaction easier.
-Room is an ORM (Object Relational Mapping) library (as the Hibernate).
+Room is an ORM (Object Relational Mapping) library (as the Hibernate for the backend development).
 You have other libraries to do the same but Room has the advantage of being provided by the Google team.
 
 == Configure Room in your project
