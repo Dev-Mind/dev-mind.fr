@@ -278,12 +278,12 @@ For example in the following test, you can use this annotation to define a user 
 @Test
 @WithMockUser(username = "admin", roles = "ADMIN")
 void shouldLoadAWindowAndReturnNullIfNotFound() throws Exception {
-given(windowDao.findById(999L)).willReturn(Optional.empty());
-    mockMvc.perform(get("/api/windows/999").accept(APPLICATION_JSON))
-            // check the HTTP response
-            .andExpect(status().isOk())
-            // the content can be tested with Json path
-            .andExpect(content().string(""));
+    given(windowDao.findById(999L)).willReturn(Optional.empty());
+        mockMvc.perform(get("/api/windows/999").accept(APPLICATION_JSON))
+                // check the HTTP response
+                .andExpect(status().isOk())
+                // the content can be tested with Json path
+                .andExpect(content().string(""));
 }
 ----
 
@@ -296,8 +296,8 @@ In your test you can configure csrf like on the code below
 @Test
 @WithMockUser(username = "admin", roles = "ADMIN")
 void shouldSwitchWindow() throws Exception {
-Window expectedWindow = createWindow("window 1");
-Assertions.assertThat(expectedWindow.getWindowStatus()).isEqualTo(WindowStatus.OPEN);
+    Window expectedWindow = createWindow("window 1");
+    Assertions.assertThat(expectedWindow.getWindowStatus()).isEqualTo(WindowStatus.OPEN);
 
     given(windowDao.findById(999L)).willReturn(Optional.of(expectedWindow));
 
