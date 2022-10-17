@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg width="1322.8" height="680.31" version="1.1" viewBox="0 0 350 180" xmlns="http://www.w3.org/2000/svg">
+ <text x="89.261131" y="114.75728" fill="#000000" font-family="sans-serif" font-size="10.583px" stroke-width=".26458" style="line-height:1.25" xml:space="preserve"><tspan x="89.261131" y="114.75728" fill="#424242" font-family="Lato" font-weight="bold" stroke-width=".26458">...</tspan></text>
+ <rect x="67.362" y="14.003" width="70.181" height="33.549" rx="1.9229" ry="2.301" fill="#507d70" stroke="#424242" stroke-linejoin="round" stroke-width="1.7335"/>
+ <rect x="264.17" y="72.574" width="70.181" height="33.549" rx="1.9229" ry="2.301" fill="#eaa94a" stroke="#424242" stroke-linejoin="round" stroke-width="1.7335"/>
+ <g font-family="sans-serif" font-size="8.4667px">
+  <text x="81.57428" y="29.159401" fill="#000000" stroke-width=".26458" style="line-height:1.25" xml:space="preserve"><tspan x="81.57428" y="29.159401" fill="#ffffff" font-family="Lato" font-size="8.4667px" font-weight="bold" stroke-width=".26458">Spring Boot</tspan></text>
+  <text x="276.66803" y="86.421638" fill="#424242" stroke-width=".26458" style="line-height:1.25" xml:space="preserve"><tspan x="276.66803" y="86.421638"><tspan x="276.66803" y="86.421638" fill="#424242" font-family="Lato" font-size="8.4667px" font-weight="bold" stroke-width=".26458">Configuration</tspan></tspan><tspan x="276.66803" y="97.005013"/></text>
+  <text x="283.91751" y="97.047523" fill="#424242" stroke-width=".26458" style="line-height:1.25" xml:space="preserve"><tspan x="283.91751" y="97.047523"><tspan x="283.91751" y="97.047523" fill="#424242" font-family="Lato" font-size="8.4667px" font-weight="bold" stroke-width=".26458">commune</tspan></tspan></text>
+  <text x="93.500694" y="38.547897" fill="#000000" stroke-width=".26458" style="line-height:1.25" xml:space="preserve"><tspan x="93.500694" y="38.547897" fill="#ffffff" font-family="Lato" font-size="8.4667px" font-weight="bold" stroke-width=".26458">App 1</tspan></text>
+ </g>
+ <rect x="31.962" y="65.28" width="70.181" height="33.549" rx="1.9229" ry="2.301" fill="#507d70" stroke="#424242" stroke-linejoin="round" stroke-width="1.7335"/>
+ <text x="46.173885" y="80.436752" fill="#000000" font-family="sans-serif" font-size="8.4667px" stroke-width=".26458" style="line-height:1.25" xml:space="preserve"><tspan x="46.173885" y="80.436752" fill="#ffffff" font-family="Lato" font-size="8.4667px" font-weight="bold" stroke-width=".26458">Spring Boot</tspan></text>
+ <text x="58.100311" y="89.825241" fill="#000000" font-family="sans-serif" font-size="8.4667px" stroke-width=".26458" style="line-height:1.25" xml:space="preserve"><tspan x="58.100311" y="89.825241" fill="#ffffff" font-family="Lato" font-size="8.4667px" font-weight="bold" stroke-width=".26458">App 1</tspan></text>
+ <rect x="70.061" y="132.37" width="70.181" height="33.549" rx="1.9229" ry="2.301" fill="#507d70" stroke="#424242" stroke-linejoin="round" stroke-width="1.7335"/>
+ <text x="84.273438" y="147.52678" fill="#000000" font-family="sans-serif" font-size="8.4667px" stroke-width=".26458" style="line-height:1.25" xml:space="preserve"><tspan x="84.273438" y="147.52678" fill="#ffffff" font-family="Lato" font-size="8.4667px" font-weight="bold" stroke-width=".26458">Spring Boot</tspan></text>
+ <text x="96.199852" y="156.91527" fill="#000000" font-family="sans-serif" font-size="8.4667px" stroke-width=".26458" style="line-height:1.25" xml:space="preserve"><tspan x="96.199852" y="156.91527" fill="#ffffff" font-family="Lato" font-size="8.4667px" font-weight="bold" stroke-width=".26458">App 1</tspan></text>
+ <g fill="none" stroke="#424242" stroke-width="1.3229">
+  <path d="m139.09 30.635 124.61 43.646"/>
+  <path d="m103.76 82.071 161.2 3.0259"/>
+  <path d="m141.46 149.23 124.21-48.502"/>
+ </g>
+</svg>

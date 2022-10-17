@@ -7,35 +7,65 @@
 <body class="dev-mind">
 {{> _page_header}}
 <main>
-    <div class="dm-block--blog">
-        <devmind-section>
-            {{#articleByYears}}
-                <h1 class="center">Articles {{key}}</h1><br>
-                <div class="dm-blog--container">
-                    <div class="dm-blog--container-article">
-                        {{#value}}
-                            <article class="dm-blog--article-archive"
-                                     onclick="document.location.href='blog/{{dir}}/{{filename}}.html'">
-                                <h2><a href="blog/{{dir}}/{{filename}}.html">{{doctitle}}</a></h2>
-                                <p style="padding: 0;margin: 0">
-                                    <small>{{revdate}}</small>
-                                </p>
-                                <div class="dm-blog--imgteaser"><img class="dm-img--lazyload"
-                                                                     data-src="{{{imgteaser}}}" alt="{{doctitle}}"/>
-                                </div>
-                                <p class="dm-blog--teaser">{{teaser}}</p>
-                                <p style="padding: 0;margin: 0">
-                                    <small>{{keywords}}</small>
-                                </p>
-                            </article>
-                        {{/value}}
-                    </div>
+  <div class="dm-block--blog">
+    <devmind-section>
+      <h1 class="center">Articles</h1><br>
+      <div class="dm-blog--container">
+      <div class="dm-blog--container-article">
+      {{#articleByYears}}
+            {{#value}}
+              <article class="dm-blog--article-archive"
+                       onclick="document.location.href='blog/{{dir}}/{{filename}}.html'">
+                <h2><a href="blog/{{dir}}/{{filename}}.html">{{doctitle}}</a></h2>
+                <p style="padding: 0;margin: 0">
+                  <small>{{revdate}}</small>
+                </p>
+                <div class="dm-blog--imgteaser"><img class="dm-img--lazyload"
+                                                     data-src="{{{imgteaser}}}" alt="{{doctitle}}"/>
                 </div>
-            {{/articleByYears}}
+                <p class="dm-blog--teaser">{{teaser}}</p>
+                <p style="padding: 0;margin: 0">
+                  <small>{{keywords}}</small>
+                </p>
+              </article>
+            {{/value}}
 
-            <a href="rss/blog.xml" alt="Flux RSS" class="btn">Flux RSS</a>
-        </devmind-section>
-    </div>
+      {{/articleByYears}}
+      </div>
+      </div>
+      <a href="rss/blog.xml" alt="Flux RSS" class="btn">Flux RSS</a>
+    </devmind-section>
+  </div>
+
+<!--    <div class="dm-block--blog">-->
+<!--        <devmind-section>-->
+<!--            {{#articleByYears}}-->
+<!--                <h1 class="center">Articles {{key}}</h1><br>-->
+<!--                <div class="dm-blog--container">-->
+<!--                    <div class="dm-blog--container-article">-->
+<!--                        {{#value}}-->
+<!--                            <article class="dm-blog--article-archive"-->
+<!--                                     onclick="document.location.href='blog/{{dir}}/{{filename}}.html'">-->
+<!--                                <h2><a href="blog/{{dir}}/{{filename}}.html">{{doctitle}}</a></h2>-->
+<!--                                <p style="padding: 0;margin: 0">-->
+<!--                                    <small>{{revdate}}</small>-->
+<!--                                </p>-->
+<!--                                <div class="dm-blog--imgteaser"><img class="dm-img--lazyload"-->
+<!--                                                                     data-src="{{{imgteaser}}}" alt="{{doctitle}}"/>-->
+<!--                                </div>-->
+<!--                                <p class="dm-blog--teaser">{{teaser}}</p>-->
+<!--                                <p style="padding: 0;margin: 0">-->
+<!--                                    <small>{{keywords}}</small>-->
+<!--                                </p>-->
+<!--                            </article>-->
+<!--                        {{/value}}-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            {{/articleByYears}}-->
+
+<!--            <a href="rss/blog.xml" alt="Flux RSS" class="btn">Flux RSS</a>-->
+<!--        </devmind-section>-->
+<!--    </div>-->
     {{> _page_footer}}
 </main>
 {{> _html_footer}}
