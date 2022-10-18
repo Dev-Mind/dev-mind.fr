@@ -47,6 +47,6 @@ export class HtmlPage{
     const footer = (await this.document()).getElementById('footer-dm_society');
     expect(footer.textContent).toContain('SARL au capital de 5000');
     expect(footer.textContent).toContain('SIREN : 808 720 759, au RCS de Saint-Etienne');
-    expect(footer.textContent).toContain('@2019 Guillaume EHRET');
+    expect(footer.textContent).toContain('@2022 Guillaume EHRET');
   }
 }
