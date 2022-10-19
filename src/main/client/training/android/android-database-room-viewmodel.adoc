@@ -75,18 +75,7 @@ The value is a blob of data, stored exactly as it was input.
 When working with Room, however, you should only be concerned with the Kotlin types when defining your model classes.
 Mapping the data types in your model class to the ones used in the database is handled automatically.
 
-Create a new class in the package `com.faircorp.model`
-
-[source,kotlin,subs="specialchars"]
-----
-data class Schedule(
-    val id: Int,
-    val name: String,
-    val roomId: Int,
-    val roomName: String,
-    val windowStatus: WindowStatus
-)
-----
+Create a new class in the package `com.faircorp.model` called `Window`
 
 We have to define several things
 
