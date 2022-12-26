@@ -16,7 +16,6 @@ import * as babel from 'gulp-babel';
 import * as uglify from 'gulp-uglify';
 import * as replace from 'gulp-replace';
 import * as revReplace from 'gulp-rev-replace';
-import * as imagemin from 'gulp-imagemin';
 import * as workboxBuild from './node_modules/workbox-build/build/index.js'
 import * as webp from './node_modules/gulp-webp/index.js';
 import {Duplex} from "stream";
@@ -228,19 +227,13 @@ task('images-webp', () =>
     .pipe(webp() as Duplex)
     .pipe(dest('build/.tmp/img'))
 );
-// minify assets
-task('images-minify', () =>
-  src('src/main/client/img/**/*.{svg,png,jpg}')
-    .pipe(imagemin([
-      imagemin.gifsicle({interlaced: true}),
-      imagemin.mozjpeg({progressive: true}),
-      imagemin.optipng(),
-      imagemin.svgo()]))
-    .pipe(size({title: 'images', showFiles: false}))
-    .pipe(dest('build/.tmp/img'))
-);
-// In dev mode copy are just copied
-task('images-dev', () =>
+// Copy images in tmp directory. Before this task was a minification
+// .pipe(imagemin([
+//   imagemin.gifsicle({interlaced: true}),
+//   imagemin.mozjpeg({progressive: true}),
+//   imagemin.optipng(),
+//   imagemin.svgo()]))
+task('images-prepare', () =>
   src('src/main/client/images/**/*.{svg,png,jpg}').pipe(dest('build/.tmp/img'))
 );
 
@@ -377,7 +370,7 @@ task('watch-backend', () =>
 task('watch', parallel('watch-html', 'watch-scss', 'watch-adoc', 'watch-js', 'watch-img', 'watch-template', 'watch-backend'));
 
 task('build', series(
-  'images-minify',
+  'images-prepare',
   'images-webp',
   'styles',
   'blog',
@@ -397,7 +390,7 @@ task('build-backend', series('clean-backend','copy-backend', 'cache-busting-back
 
 task('build-dev', series(
   'clean',
-  'images-dev',
+  'images-prepare',
   'styles',
   'blog',
   'images',
