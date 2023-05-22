@@ -234,7 +234,7 @@ task('images-webp', () =>
 //   imagemin.optipng(),
 //   imagemin.svgo()]))
 task('images-prepare', () =>
-  src('src/main/client/img/**/*.{svg,png,jpg}').pipe(dest('build/.tmp/img'))
+  src('src/main/client/img/**/*.{svg,png,jpg,webp}').pipe(dest('build/.tmp/img'))
 );
 
 // Images generated in image pre processing are renamed with a MD5 (cache busting) and copied in the dist directory
@@ -371,7 +371,7 @@ task('watch', parallel('watch-html', 'watch-scss', 'watch-adoc', 'watch-js', 'wa
 
 task('build', series(
   'images-prepare',
-  'images-webp',
+  //'images-webp',
   'styles',
   'blog',
   'images',
