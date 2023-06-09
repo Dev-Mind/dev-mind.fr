@@ -7,7 +7,7 @@
 :teaser: Pour commencer 2019, DevMibnd offre une application Android pour les amateurs de jeu en société possédant un téléphone Android.
 :imgteaser: :../../img/blog/2019/score_00.png
 
-Les dernières évolutions de la plateforme Android et l'adoption du langage Kotlin m'ont donné envie de créer une https://play.google.com/store/apps/details?id=com.ehret.gamescore[application disponible] à tous sur le store Google. Vous pouvez tester l'application et me faire des retours si vous le souhaitez.
+Les dernières évolutions de la plateforme Android et l'adoption du langage Kotlin m'ont donné envie de créer une https://play.google.com/store/apps/details?id=com.devmind.score[application disponible] à tous sur le store Google. Vous pouvez tester l'application et me faire des retours si vous le souhaitez.
 
 == Pourquoi une application ?
 
