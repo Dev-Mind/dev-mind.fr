@@ -33,7 +33,7 @@ Click on the connect button with Github.
 [.text-center]
 image::../../img/training/cloud/clever-connect00.png[Use your github account,width=500]
 
-> It's important to create your account from your Github account. *When you account is created send me your email and I will add you on the common repository*. When you will receive a confirmation email, click on "Join CoursEmse2022" Button
+> It's important to create your account from your Github account. *When you account is created send me your email and I will add you on the common repository*. When you will receive a confirmation email, click on "Join CoursEmse2023" Button
 
 [.text-center]
 image::../../img/training/cloud/mail.png[width=800]
