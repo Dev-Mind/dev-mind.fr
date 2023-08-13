@@ -1,18 +1,18 @@
-:doctitle: Managing your sources with Git
+:doctitle: Managing your code sources with Git
 :description: Quels sont les outils à installer pour être un développeur full stack, Java Android et Web
-:keywords: Développement, Source
+:keywords: Developement, Source management
 :author: Guillaume EHRET - Dev-Mind
-:revdate: 2022-02-01
+:revdate: 2023-09-03
 :category: Git
 :teaser:  This course presents Git and Github. Git is used to centralize and log the changes on your code.
 :imgteaser: ../../img/training/git.png
 :toc:
 
-This course presents Git & Github.Git is used to centralize and log the changes on your code.
+This course presents https://git-scm.com[Git] & https://github.com/[Github]. Git is used to centralize and log the changes on your code. This is a software. GitHub is a cloud platform built on Git and you can use their services to store, manage, share your code with your co-workers...
 
-image::../../img/training/git.png[Comprendre Git, width=800, align="center"]
+image::../../img/training/git-github.jpg[Comprendre Git, width=800, align="center"]
 
-For information about Git you can find
+For more information about Git you can find
 
 * a summary of the main instructions  https://education.github.com/git-cheat-sheet-education.pdf
 * official documentation https://git-scm.com/docs
@@ -21,7 +21,7 @@ For information about Git you can find
 
 A version control system (VCS: version control system) helps to *manage the history* of the changes made by people, teams, or only one person who collaborate on a project.
 
-When the project evolves people can at any time find an old version of the code.
+When the project evolves, people can at any time find an old version of the code.
 
 Git answers these questions quickly
 
@@ -36,7 +36,7 @@ The sources are stored both on the computer of each contributor of the project, 
 .logo Git
 image::../../img/training/outil/git.svg[Git]
 
-Today, most of the open source or commercial projects developed use Git (90% of developers, according last https://insights.stackoverflow.com/survey/2018#work-_-version-control[stackoverflow] insights).
+Today, most of the open source or commercial projects developed use Git (More than 90% of developers, according https://survey.stackoverflow.co/2022#section-version-control-version-control-systems[stackoverflow] insights).
 
 Git allows access to all files, branches, versions (releases) or tags of a project to authorized people.
 
@@ -48,31 +48,32 @@ image::../../img/training/outil/github.svg[Github]
 .logo Gitlab
 image::../../img/training/outil/gitlab.svg[Gitlab]
 
-This services extend Git and they offer more features like pull requests, code reviews... https://github.com[Github] was the precursor but today https://about.gitlab.com/[Gitlab] is equivalent, and you can use the one you prefer.
-As I had to make a choice for our course I went to Github.
+These services extend Git and offer more features like pull requests, code reviews... https://github.com[Github] was the precursor but today https://about.gitlab.com/[Gitlab] is equivalent, and you can use the one you prefer.
 
-== What did we ever do before ?
+As I had to make a choice for our courses, I choose Github. From now on, I will only talk about Github. Back up your sources regularly. At the end of our courses, you will have to provide me the URGithub URL of your repository which will contain the sources of your project.
 
-Without Git it was difficult to follow the history, we had multiple copies of project
+== What did we do before ?
+
+Before Git, it was difficult to follow the history, especially when we had multiple project copies.
 
 Early solutions, like CSV or SVN (Subversion) were quickly limited.
-It was often awful to refactor your code because of their limitations
+
+
+It was often awful to refactor your code because of their limitations.
 
 == What's a repository ?
 
-> A Git repository contains all the files and directories associated with your project but you they contain also all the history of the modifications made on each one.
+> A Git repository contains all the files and directories associated with your project. It also contains all the history of changes made on each one. You can retrieve any changes made by any developer at any time.
 
-Publishing changes is called a commit.Each commit is linked to another (this is a chained list).Commits can be organized into several parallel branches
+Publishing changes is called a commit. Each commit is linked to another (this is a chained list).
 
-Projects are stand-alone units, and anyone with a copy of the repository can access the entire code and its history.You can do different operations like logging, cloning, branch creation, commit, merging ...
+Commits can be organized into several parallel branches.
+
+Projects are stand-alone units, and anyone with a copy of the repository can access the entire code and its history. You can execute different operations like logging, cloning, branch creation, commit, merging...
 
 .Centralized repository, local repository
 image::../../img/training/outil/git-repo.png[Github, width=800, align="center"]
 
-Generally on a project we have a main branch `main`.And we open different branches in parallel to fix bugs, add new features.These branches are merged on this main branch when they are completes
-
-.Branch Principle
-image::../../img/training/outil/git-branch.png[Github, width=800, align="center"]
 
 == Install Git
 
@@ -97,10 +98,14 @@ To check your install, display the git version in terminal
 ----
 ~$ git --version
 
-git version 2.32.0
+git version 2.34.1
 ----
 
-It's important to provide some information to Git, especially when you push your changes to a centralized repository.
+== First commands
+
+=== Configure Git
+
+It's important to provide some information to Git, especially when you push your changes to a centralized repository. Use the `git config` operation to set your name and your email.
 
 [source,shell,subs="specialchars"]
 ----
@@ -108,7 +113,14 @@ It's important to provide some information to Git, especially when you push your
 ~$ git config --global user.email "guillaume@dev-mind.fr"
 ----
 
-=== Recover a Git project
+By default, Git will create a branch called `master` when you create a new repository with the command `git init`. The terms master and slave are often used in computer industry's. After many protests, these harmful and antiquated terms were no longer considered appropriate. Github used the term `main branch`. To use the same configuration, you can execute
+
+[source,shell,subs="specialchars"]
+----
+~$  git config --global init.defaultBranch main
+----
+
+=== Clone a Git project
 
 Go in your working directory, and in a terminal type
 
@@ -116,17 +128,27 @@ Go in your working directory, and in a terminal type
 ----
 ~$ git clone https://github.com/Dev-Mind/git-demo.git
 ----
+
 The remote project `git-demo` is downloaded on your computer. You get all the history, all the files, all the branches ...
+
+For example you can run these commands
+
+[source,shell]
+----
+~$ cd git-demo
+~$ git log
+----
 
 ===  Initialize a Git repository
 
-It's better to start from 0. Delete the directory to recreate it
+For a new project, it's better to start from 0. Delete the directory to recreate it
 
 [source,shell]
 ----
 ~$ cd ..
 ~$ rm -rf git-demo
 ~$ mkdir git-demo
+~$ cd git-demo
 ----
 
 To link this directory to Git, launch
@@ -137,17 +159,21 @@ To link this directory to Git, launch
 
 Initialized empty Git repository in /home/devmind/Workspace/java/git-demo/.git/
 ----
+
 A `.git` directory has been added and it contains the different files, logs, traces
 
 [source,shell]
-----
-~$ cd git-demo/
+---
 ~$ ls -la
 total 28
 drwxr-xr-x  3 devmind devmind  4096 sept. 26 22:46 .
 drwxr-xr-x 10 devmind devmind  4096 sept. 26 22:46 ..
 drwxr-xr-x  8 devmind devmind  4096 sept. 26 22:46 .git
 ----
+
+
+NOTE: Git will display a warning if you name the default branch master (default configuration). Read the chapter about https://dev-mind.fr/training/outil/git.html#_initialize_a_git_repository[Git configuration] to set another default branch name.
+
 
 === Linking files to Git
 Let's start by creating files in this `git-demo` directory
@@ -161,6 +187,25 @@ Let's start by creating files in this `git-demo` directory
 hello.html  hello.txt  hello.md
 ----
 
+Use `git status` to know the state
+
+[source,shell,subs="specialchars"]
+----
+~$ git status
+
+On branch main
+
+No commits yet
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	hello.html
+	hello.md
+	hello.txt
+
+nothing added to commit but untracked files present (use "git add" to track)
+----
+
 Use the `git add` command to indicate that a new or multiple files will be handled by git.
 
 [source,shell]
@@ -169,14 +214,30 @@ Use the `git add` command to indicate that a new or multiple files will be handl
 ~$ git add .         (2)
 ----
 
-[.small]#1. Adds hello.txt file +
-2. Adds all the files#
+1. Adds hello.txt file
+2. Adds all the files
 
-At this moment, our files are not saved in Git.They are in a staging area.We have only a snapshot of the changes
+At this moment, our files are not saved in Git. They are in a staging area. We have only a snapshot of the changes
+
+[source,shell,subs="specialchars"]
+----
+~$ git status
+
+On branch main
+
+No commits yet
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+	new file:   hello.html
+	new file:   hello.md
+	new file:   hello.txt
+
+----
 
 === Saving modifications
 
-The following command saves the snapshot in the project history and completes the change tracking process.In short, a commit works like taking a photo.We freeze in time what we have done.
+The following command saves the snapshot in the project history and completes the change tracking process. In short, a commit works like taking a photo. We freeze in time what we have done.
 
 [source,shell]
 ----
@@ -202,7 +263,7 @@ image::../../img/training/outil/github_history.png[History]
 
 === Know the current state
 
-We will delete the `hello.txt` file, update` hello.md` and add a `hello.adoc` file
+We will delete the `hello.txt` file, update `hello.md` and add a `hello.adoc` file
 
 [source,shell,linenums,subs=""]
 ----
@@ -218,12 +279,12 @@ Launch the following command to know where Git is
 ~$ git status
 ----
 
-What do you see ?
+Git should indicate that you have a modified file `hello.md` and an untracked file `hello.adoc`
 
 [source,shell]
 ----
 ~$ git add .
-~$  git commit -m "Second commit"
+~$ git commit -m "Second commit"
 
 [main 7b7d8e6] Second commit
  3 files changed, 2 insertions(+), 2 deletions(-)
@@ -234,9 +295,12 @@ What do you see ?
 [source,shell]
 ----
 ~$ git status
+
+On branch main
+nothing to commit, working tree clean
 ----
 
-What do you see ?
+Now all the changes are saved
 
 === See history
 
@@ -270,19 +334,45 @@ We will update a file and run the `diff` command
 ~$ git diff
 ----
 
-You should see, what has been added and removed in the file. When we an (IDE) we will have more visual tools for tracking changes
+You should see, what has been added and removed in the file.
+
+You can use IDE (like IntelliJ) and its visual tools for tracking changes. For example
+
+image::../../img/training/outil/ide_git.png[Github, width=700, align="center"]
 
 === Go back in the history
 
 You can use a `reset` to go back to the state of the last commit
 
+For example
+
 [source,shell]
 ----
+~$ echo "Hello World" > hello.adoc
+~$ git status
+On branch main
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   hello.adoc
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
 ~$ git reset --hard
-~$ git diff
+~$ git status
+On branch main
+nothing to commit, working tree clean
+
 ----
 
 == Working with branches
+
+Generally on a project we have a main branch (generally called `main`). We can open different branches in parallel to fix bugs, add new features.
+
+These branches are merged on the main branch when they are completes. For example when the code will be reviewed by co-coworkers and the app tested by users.
+
+.Branch Principle
+image::../../img/training/outil/git-branch.jpg[Github, width=800, align="center"]
 
 === See the current branch
 
@@ -291,14 +381,15 @@ Run the following command to see the current branch
 [source,shell,linenums,subs=""]
 ----
 ~$ git branch
+feat/hairs
 * main
 ----
 
-Character * shows the current branch
+For the moment we have 2 local branches `feat/hairs` and `main`. Character * shows the current branch.
 
 === Create a branch
 
-A branch is just a name without special characters or spaces.To create a branch we use `git branch [name]`
+A branch is just a name without special characters or spaces. To create a branch we use `git branch [name]`
 
 [source,shell]
 ----
@@ -312,7 +403,7 @@ By default the created branch is not active (it does not have *)
 
 A prefix is often used by convention, when you want to name a branch. for example
 
-* `fix/1233-hair-color`: a branch to correct (fix) a hair color problem. The ticket number of the bug tracker is often indicated
+* `fix/1233-hair-color`: a branch to fix a hair color problem. The ticket number of the bug tracker is often indicated
 * `feat/add-glasses`: a branch to add a feature
 * `chore/upgrade-jquery`: a branch to perform a technical task
 
@@ -323,6 +414,7 @@ A prefix is often used by convention, when you want to name a branch. for exampl
 ----
 ~$ git checkout test
 ~$ git branch
+main
 main
 * test
 ----
@@ -347,7 +439,7 @@ You can launch the following commands
 ~$ git log
 ----
 
-What do you see ?
+As we returned on the `main` branch we don't see the last commit (only present in the `test` branch)
 
 === Compare 2 branches
 
@@ -385,8 +477,8 @@ Date:   Wed Sep 26 23:51:10 2018 +0200
 ...
 ----
 
-[.small]#1. Git indicates the HEAD of the test branch +
-2. Git displays the name of the parent branch ==> `main` and where it is in the history#
+1. Git indicates the HEAD of the test branch
+2. Git displays the name of the parent branch ==> `main` and where it is in the history
 
 You can go back to `main` and create another branch` test2`
 
@@ -435,7 +527,7 @@ You can install a centralized Git repository by using https://github.com/[Github
 2. Once you are logged in on Github,  you can create your first repository
 
 .New project under Github
-image::../../img/training/outil/github_new.png[Nouveau projet sous Github,width=90%]
+image::../../img/training/outil/github_new.png[Nouveau projet sous Github,width=800, align="center"]
 
 Github provides you commands to connect this remote repository to your local repository.
 
@@ -452,7 +544,7 @@ To link your local project type the following commands
 ~$ git push -u origin main                                       (2)
 ----
 
-1. Git adds remote origin to your local project +
+1. Git adds remote origin to your local project
 2. The push command allows to send what you have on the current branch (local main branch) on the server
 
 > If you have a problem to use your login and password in the command line, you can follow this https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token[documentation] to generate an access token.
@@ -511,9 +603,11 @@ You can make changes on the branch and pushed other commits to fix the review re
 Teams can install your updates or continue development
 
 
-=== Conclusion
+== Conclusion
 
-There's still a lot of things to say about Git and Github.Some concepts can be complex like `rebase` or `conflict resolution`.IDEs will simplify some tasks.You can find more resources on the web http://try.github.io/
+There's still a lot of things to say about Git and Github. Some concepts can be complex like `rebase` or `conflict resolution`. IDEs will simplify some tasks.You can find more resources on the web http://try.github.io/
 
-This course is there to give you the basics in order to be able to realize the TP using Git.You are now able to save your sources, to share them, to find them easily from one computer to another.So enjoy with Git
+This course is there to give you the basics in order to be able to realize the TP using Git. You are now able to save your sources, to share them, to find them easily from one computer to another.
+
+So enjoy with Git
 

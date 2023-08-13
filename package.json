@@ -7,9 +7,10 @@
   "author": "Guillaume EHRET <guillaume@dev-mind.fr>",
   "license": "MIT",
   "scripts": {
-    "install": "gulp",
-    "start": "gulp build-backend; tsc; node ./build/app.js && gulp watch-backend",
+    "install": "gulp;gulp build-backend;tsc",
+    "start": "node ./build/app.js",
     "dev": "gulp styles-backend-dev; ts-node-dev --respawn --transpileOnly ./app.ts",
+    "watch": "gulp watch",
     "test": "jest"
   },
   "engines": {
@@ -38,8 +39,8 @@
     "jest": "26.4.2",
     "jsdom": "16.4.0",
     "md5": "2.3.0",
-    "moment": "2.27.0",
-    "mongodb": "3.5.9",
+    "moment": "2.29.4",
+    "mongodb": "3.7.4",
     "morgan": "1.10.0",
     "nodemailer": "6.4.11",
     "serve-static": "1.14.1",

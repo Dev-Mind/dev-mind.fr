@@ -56,11 +56,21 @@ sudo docker-compose up
 sudo docker-compose rm
 ----
 
+To launch a mongosh you can use
+
+[source, shell, subs="none"]
+----
+docker exec -it devmind-mongo mongosh mongodb://localhost:27017
+----
+
 === Initialize DB
 
 On the first install if you want to add a username to access to the db called devminddb
 [source, shell, subs="none"]
 ----
+docker exec -it devmind-mongo mongosh --authenticationDatabase admin --host localhost -u root -p secret devminddb
+db.createUser({user: 'devmind', pwd: 'pass', roles: [{role: 'readWrite', db: 'devminddb'}], passwordDigestor:'server'});
+
 mongo --authenticationDatabase admin --host localhost -u root -p secret devminddb --eval "db.createUser({user: 'devmind', pwd: 'pass', roles: [{role: 'readWrite', db: 'devminddb'}], passwordDigestor:'server'});"
 mongo --authenticationDatabase admin --host localhost -u root -p secret devminddbtest --eval "db.createUser({user: 'devmind', pwd: 'pass', roles: [{role: 'readWrite', db: 'devminddbtest'}], passwordDigestor:'server'});"
 ----
