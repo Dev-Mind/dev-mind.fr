@@ -33,50 +33,76 @@ As of September 2023, Java 19 is the last version, but we will use a Long Term S
 As Java 21 will be too young, we can use libraries that are not yet compatible. So please use the *Java 17 (LTS) version*.
 
 
-=== Open JDK 17 Installation
+=== JDK 17 Installation
 
-All versions are available on this URL https://jdk.java.net/archive/
+Different companies provide a JDK version (Oracle, OpenJDK, Amazon, Microsoft...).
+
+==== Package manager
+
+Today it is recommended to use a package manager, a tool for managing parallel versions of multiple Software Development Kits on most Unix-based systems. We will use https://sdkman.io/[SdkMan].
 
 If you are running Linux (Fedora, CentOS) you can run
 
 [source,shell]
 ----
-~$ sudo yum install java-17-openjdk
+~$ curl -s "https://get.sdkman.io" | bash
+~$ source "$HOME/.sdkman/bin/sdkman-init.sh"
 ----
 
-under Linux (Debian, Ubuntu) you can run in a terminal
-
-[source,shell]
-----
-~$ sudo apt install openjdk-17-jdk
-----
-
-On Ubuntu / Debian you can list the different versions with
+Check the good installation with this command
 
 [source,shell]
 ----
-~$ apt search openjdk
+~$ sdk version
+
+SDKMAN!
+script: 5.18.2
+native: 0.4.2
 ----
 
-If you have several versions of Java on Linux you can use the following command to set the default version
+> SDKMAN requires a bash environment to run. On Windows, it can't be natively installed; you need WSL or MSYS+MinGW. Cygwin is no longer supported.
+
+For Windows, there are two installation routes:
+
+* WSL Approach: Install Windows Subsystem for Linux (WSL) before attempting SDKMAN installation. A basic toolset (bash, zip, unzip, curl) is necessary. Most times, it works out of the box.
+* Git Bash Solution: If you use Git Bash for Windows, you'll need to supplement it with MinGW to have the required toolset for SDKMAN. There are some issues with this approach, but it works for the most part.
+
+==== Java installation
+
+If you are not able to install https://sdkman.io/[SdkMan] you can find a Java version on https://jdk.java.net/archive/
+
+If https://sdkman.io/[SdkMan] is available you can list all the Java version available with this command
 
 [source,shell]
 ----
-~$  update-alternatives --config java
+~$ sdk java list
+----
+
+To install a Java version you can run
+
+[source,shell]
+----
+~$ sdk install java 17.0.8-oracle
+----
+
+You can install different version of Java and you can change the default version with this command
+
+[source,shell]
+----
+~$ sdk default java 17.0.8-oracle
 ----
 
 Check that Java is installed.
+
 For that open a terminal
 
 [source,shell]
 ----
 ~$  java -version
-openjdk version "11.0.11" 2021-04-20
-OpenJDK Runtime Environment (build 11.0.11+9-Ubuntu-0ubuntu2.20.10)
-OpenJDK 64-Bit Server VM (build 11.0.11+9-Ubuntu-0ubuntu2.20.10, mixed mode, sharing)
+java version "17.0.7" 2023-04-18 LTS
+Java(TM) SE Runtime Environment Oracle GraalVM 17.0.7+8.1 (build 17.0.7+8-LTS-jvmci-23.0-b12)
+Java HotSpot(TM) 64-Bit Server VM Oracle GraalVM 17.0.7+8.1 (build 17.0.7+8-LTS-jvmci-23.0-b12, mixed mode, sharing)
 ----
-
-=== Graal VM, JDK 17 Installation
 
 == IDE installation
 

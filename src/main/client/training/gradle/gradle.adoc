@@ -2,7 +2,7 @@
 :description: Comment construire une application Java interfacée à une base de données et exposant des services REST
 :keywords: Gradle
 :author: Guillaume EHRET - Dev-Mind
-:revdate: 2022-08-02
+:revdate: 2023-09-02
 :category: Web
 :teaser: In this training, we will learn how Gradle works and how use it in our projects. It's just a fast presentation of this tool and you will find more informations on official website.
 :imgteaser: ../../img/training/gradle.png
@@ -10,34 +10,39 @@
 :icons: font
 
 In this training, we will learn how Gradle works and how use it in our projects.
+
 It's just a fast presentation of this tool, and you will find more informations on official website https://docs.gradle.org/current/userguide/userguide.html
 
 image::../../img/training/gradle.png[Gradle by Dev-Mind, width=800, align="center"]
 
-Gradle is an open source tool for automating the build of your Java, Kotlin, Android, Web projects... This tool is like Ant and Maven.
+Gradle is an open source tool for automating the build of your Java, Kotlin, Android, Web projects... If you only have a web project, you don't need to use Gradle, but when all your projects are in a mono repository on Git, with heterogeneous languages, it's easier to use a same life cycle tool like Gradle.
+
+Gradle is not the only solution in the ecosystem. You can also use Maven or older tool like Ant.
 
 Gradle has the Ant flexibility and apply many Maven conventions.
-Maven helps to build only one project.
-But Gradle was created to be more flexible, you can build several artifacts.
-That's why the Android community has chosen this tool.
+
+Maven helps to build only one project. But Gradle was created to be more flexible, you can build several artifacts for example. That's why the Android community has chosen this tool. You can define different flavors and build 2 artifacts : one for the free version for example and another one for the paid version.
+
+Java users use both Maven and Gradle. But I choose Gradle for you, because we will use this tool in our Java/Spring project, and in the Android project.
+
 
 == Introduction
 
 *Highly customizable* +
-you have a convention but everything is customizable.
-You can write your scripts in Groovy (default) or in Kotlin (default in the future)
+You have a convention to use the plugins but everything is customizable.
+You can write your scripts in Kotlin (default) or in Groovy (the legacy solution)
 
 *Fast / Incremental build / Cache / Parallel*  +
-Incremental build : Gradle completes reuses outputs from previous executions, processing only inputs that changed, and executing tasks in parallel.
+Incremental build : Gradle reuses outputs from previous executions, processing only inputs that changed. For a fastest build, you can also execute tasks in parallel and you can configure Gradle cache.
 
 *Powerful* +
-Gradle build projects in several languages but its success is linked to Android developers.
+Gradle build projects in several languages but its success is linked to Android developers. Today
 
 *Useful* +
-Based on Ivy and supports Maven, it simplifies the project dependencies (libraries).You can use transitive dependencies
+Based on Ivy and supports Maven, it simplifies the project dependencies (libraries). By the default, the dependency resolution is transitive. If you declare one dependency and if this library depends from another ones, you don't need to declare all the libraries tree because Gradle is able to resolve this task for you.
 
 *JVM foundation* +
-Gradle runs on the JVM and you must have a Java Development Kit (JDK) installed to use it. You can also use Gradle for native projects (Spring native, Quarkus)
+Gradle runs on the JVM and you must have a Java Development Kit (JDK) installed to use it. You can also use Gradle for native projects like Spring native, Micronaut or Quarkus.
 
 *Extensibility* +
 You can extend Gradle to provide your own task types, your own plugins or even your own build model. Android added for example many new build concepts such as flavors and build types.
@@ -47,12 +52,12 @@ Major IDEs allow you to import Gradle builds
 
 == Why a build tool?
 
-Write once, run everywhere
+*Write once, run everywhere*
 
-Build automation is the act of scripting or automating a wide variety of *tasks* that software developers do in their day to day activities such as:
+Build automation is the act of scripting or automating a wide variety of *tasks* that software developers have to do in their day to day activities such as:
 
 - compiling program source code into binary code
-- packaging a compiled program for distribution
+- packaging a compiled program for delivery
 - running automated tests
 - deploying to production systems
 - generating documentation and/or release notes.
@@ -60,33 +65,44 @@ Build automation is the act of scripting or automating a wide variety of *tasks*
 
 == Usage
 
+You can execute Gradle
 * In command line in a terminal
 * In your IDE (development tools to write and execute code) [.small]#NetBeans, Eclipse or IntelliJ (we will use IntelliJ)#
-* Online documentation is very complete https://docs.gradle.org/current/userguide/userguide.html
+
+
+Online documentation is very complete for the main usages https://docs.gradle.org/current/userguide/userguide.html. It's more difficult when you want to create your own plugins. But it's not a problem in our case.
 
 
 == Principle
 
-* Gradle was not the first build tool.In the past we used https://ant.apache.org/[Ant] and after https://maven.apache.org/[Maven]
-* https://ant.apache.org/[Ant] is very powerful, but the configuration is not readable and difficult to use on a project with a lot of people
-* https://maven.apache.org/[Maven] is
-** very verbose (you have to write a lot of XML)
-** not very flexible (governance and execution)
+Gradle was not the first build tool. In the past we used https://ant.apache.org/[Ant] and after https://maven.apache.org/[Maven]
+
+* https://ant.apache.org/[Ant] is very powerful, but you describe your build in an xml file, the configuration is not readable and difficult to use on a project with a lot of people, because you don't have conventions to use this tool.
+* https://maven.apache.org/[Maven] is better but in my opinion Gradle is the best solution because Maven is
+** very verbose (you have to write a lot of thing to configure a build)
+** the project is not very flexible by its governance
+** slower than Gradle: incremental build is present in the last version and the Gradle cache and parallel execution give an advantage to Gradle
 
 == icon:flask[] Starting with Gradle
 
-You can install the last version on https://gradle.org/install/
+You can install the last version on https://gradle.org/install/. If you followed the installation of the package manager https://sdkman.io/[Sdk Man] in the https://dev-mind.fr/training/outil/install-development-environment.html[first lesson], you just have to launch
 
-Gradle runs on all major operating systems and requires only a Java JDK version 8 or higher to be installed.
+[source,shell]
+----
+sdk install gradle 8.2.1
+----
+
+Gradle runs on all major operating systems and requires only a Java JDK version 17 or higher to be installed.
 
 To check, run java -version in a terminal on your laptop:
 
-[source%autofit,bash]
+[source,shell]
 ----
 $ java -version
-openjdk version "11.0.15" 2022-04-19
-OpenJDK Runtime Environment (build 11.0.15+10-Ubuntu-0ubuntu0.22.04.1)
-OpenJDK 64-Bit Server VM (build 11.0.15+10-Ubuntu-0ubuntu0.22.04.1, mixed mode, sharing)
+
+java version "17.0.7" 2023-04-18 LTS
+Java(TM) SE Runtime Environment Oracle GraalVM 17.0.7+8.1 (build 17.0.7+8-LTS-jvmci-23.0-b12)
+Java HotSpot(TM) 64-Bit Server VM Oracle GraalVM 17.0.7+8.1 (build 17.0.7+8-LTS-jvmci-23.0-b12, mixed mode, sharing)
 ----
 
 
@@ -100,7 +116,7 @@ cd gradle-demo
 gradle init
 ----
 
-If you use version >7 you will have to respond to few questions
+If you use a Gradle version > 7, you will have to respond to few questions
 
 [source,shell]
 ----
@@ -112,13 +128,13 @@ Select type of project to generate:
 Enter selection (default: basic) [1..4] 1
 
 Select build script DSL:
-1: Groovy
-2: Kotlin
+1: Kotlin
+2: Groovy
 Enter selection (default: Groovy) [1..2] 1
 
-Generate build using new APIs and behavior (some features may change in the next minor release)? (default: no) [yes, no]                                       yes
+Project name (default: demo): demo
 
-Project name (default: demo):
+Generate build using new APIs and behavior (some features may change in the next minor release)? (default: no) [yes, no] no
 ----
 
 You should have this message after
@@ -137,27 +153,32 @@ Gradle should have generated this tree
 
 [source,shell]
 ----
-|-- build.gradle  (1)
+|-- build.gradle.kts  (1)
+|-- .gitattributes (2)
+|-- .gitignore (2)
 |-- gradle
 |   | -- wrapper
-|       | -- gradle-wrapper.jar  (2)
-|       | -- gradle-wrapper.properties  (3)
-|-- gradlew  (4)
-|-- gradlew.bat
-|-- settings.gradle (5)
+|       | -- gradle-wrapper.jar  (3)
+|       | -- gradle-wrapper.properties  (4)
+|-- gradlew  (5)
+|-- gradlew.bat (5)
+|-- settings.gradle.kts (6)
 ----
 
 (1). Gradle configuration script for the project +
-(2). This jar contains Gradle Wrapper classes and libraries +
-(3). Wrapper configuration file +
-(4). These scripts are used to launch Gradle via the wrapper (2 scripts, one for Unix one for Windows) +
-(5). general configuration file (used to declare Gradle sub modules, and global variables)
+(2). A git init is automatically made on the project generation +
+(3). This jar contains Gradle Wrapper classes and libraries +
+(4). Wrapper configuration file (you find the Gradle version used by the project) +
+(5). These scripts are used to launch Gradle via the wrapper (2 scripts, one for Unix one for Windows) +
+(6). general configuration file (used to declare Gradle sub modules, and global variables)
 
 == Gradle wrapper
 
-When you use a build tool, all team members must use the same version. From one project to another, you can have different versions of the tool (it's difficult to maintain on your computer).
+Team members can have different versions of Gradle on their laptop. But on a project everybody must use the same version.
 
-Gradle wrapper resolves these problems. The recommended way to execute any Gradle build is with the help of the Gradle Wrapper (in short just “Wrapper”). The Wrapper is a script that invokes a declared version of Gradle (it fixes the version used in your project), downloading it beforehand if necessary.
+From one project to another, you can have different versions of the tool (it's difficult to switch the version on your computer).
+
+Gradle wrapper resolves these problems. The recommended way to execute any Gradle build, is with the help of the Gradle Wrapper (in short just “Wrapper”). The Wrapper is a script that invokes a declared version of Gradle (it fixes the version used in your project), downloading it beforehand if necessary.
 
 As a result, developers can get up and running with a Gradle project quickly without having to follow manual installation.
 
@@ -167,21 +188,21 @@ image::../../img/training/gradle/wrapper.png[width=800, align="center"]
 [source,shell]
 ----
 $ ./gradlew -v
-Downloading https://services.gradle.org/distributions/gradle-7.2-bin.zip
+Downloading https://services.gradle.org/distributions/gradle-8.2.1-bin.zip
 ..........10%...........20%...........30%...........40%...........50%...........60%...........70%...........80%...........90%...........100%
 
 ------------------------------------------------------------
-Gradle 7.2
+Gradle 8.2.1
 ------------------------------------------------------------
 
-Build time:   2021-08-17 09:59:03 UTC
-Revision:     a773786b58bb28710e3dc96c4d1a7063628952ad
+Build time:   2023-07-10 12:12:35 UTC
+Revision:     a38ec64d3c4612da9083cc506a1ccb212afeecaa
 
-Kotlin:       1.5.21
-Groovy:       3.0.8
-Ant:          Apache Ant(TM) version 1.10.9 compiled on September 27 2020
-JVM:          11.0.11 (Ubuntu 11.0.11+9-Ubuntu-0ubuntu2.20.10)
-OS:           Linux 5.8.0-63-generic amd64
+Kotlin:       1.8.20
+Groovy:       3.0.17
+Ant:          Apache Ant(TM) version 1.10.13 compiled on January 4 2023
+JVM:          17.0.7 (Oracle Corporation 17.0.7+8-LTS-jvmci-23.0-b12)
+OS:           Linux 5.19.0-50-generic amd64
 ----
 
 == icon:flask[] First example
@@ -208,25 +229,27 @@ You can browse the gradle files as in the tree below
 |      | -- test
 |          | -- java
 |          | -- resources
-|   | -- build.gradle
+|   | -- build.gradle.kts
 |-- gradle
 |   | -- wrapper
 |       | -- gradle-wrapper.jar
 |       | -- gradle-wrapper.properties
+|-- .gitattributes
+|-- .gitignore
+|-- gradle.properties
 |-- gradlew
 |-- gradlew.bat
-|-- settings.gradle
+|-- settings.gradle.kts
 ----
 
-Open the main file called `build.gradle`.
-This is a Java project.
-So we use the plugin provided by Gradle to manage an application written in Java.
+Open the main file called `build.gradle.kts`.
+This is a Java project. So we use the plugin provided by Gradle to manage an application written in Java.
 
 [source,groovy]
 ----
 plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
-    id 'application'
+    application
 }
 
 repositories {
@@ -236,20 +259,22 @@ repositories {
 
 dependencies {
     // Use JUnit Jupiter for testing.
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.7.2'
+    testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
 
     // This dependency is used by the application.
-    implementation 'org.springframework:spring-context:5.2.21.RELEASE'
+    implementation("org.springframework:spring-context:6.0.11")
+}
+
+// Apply a specific Java toolchain to ease working on different environments.
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
 }
 
 application {
     // Define the main class for the application.
-    mainClass = 'com.devmind.gradle.MyApplication'
-}
-
-tasks.named('test') {
-    // Use JUnit Platform for unit tests.
-    useJUnitPlatform()
+    mainClass.set("com.devmind.gradle.MyApplication")
 }
 ----
 
@@ -258,6 +283,7 @@ You can now launch this command
 [source,shell]
 ----
 $ ./gradlew build
+
 BUILD SUCCESSFUL in 7s
 8 actionable tasks: 8 executed
 ----
@@ -296,16 +322,7 @@ Now try to list all available tasks in a command window. Run
 [.code-height]
 [source,shell]
 ----
-$ ./gradlew tasks --all
-----
-
-You should have this output
-
-[.small]
-[.code-height]
-[source,shell]
-----
-$ ./gradlew tasks --all
+$ ./gradlew tasks
 
 > Task :tasks
 
@@ -315,18 +332,18 @@ Tasks runnable from root project 'gradle-demo'
 
 Application tasks
 -----------------
-app:run - Runs this project as a JVM application
+run - Runs this project as a JVM application
 
 Build tasks
 -----------
-app:assemble - Assembles the outputs of this project.
-app:build - Assembles and tests this project.
-app:buildDependents - Assembles and tests this project and all projects that depend on it.
-app:buildNeeded - Assembles and tests this project and all projects it depends on.
-app:classes - Assembles main classes.
-app:clean - Deletes the build directory.
-app:jar - Assembles a jar archive containing the main classes.
-app:testClasses - Assembles test classes.
+assemble - Assembles the outputs of this project.
+build - Assembles and tests this project.
+buildDependents - Assembles and tests this project and all projects that depend on it.
+buildNeeded - Assembles and tests this project and all projects it depends on.
+classes - Assembles main classes.
+clean - Deletes the build directory.
+jar - Assembles a jar archive containing the classes of the 'main' feature.
+testClasses - Assembles test classes.
 
 Build Setup tasks
 -----------------
@@ -335,57 +352,40 @@ wrapper - Generates Gradle wrapper files.
 
 Distribution tasks
 ------------------
-app:assembleDist - Assembles the main distributions
-app:distTar - Bundles the project as a distribution.
-app:distZip - Bundles the project as a distribution.
-app:installDist - Installs the project as a distribution as-is.
+assembleDist - Assembles the main distributions
+distTar - Bundles the project as a distribution.
+distZip - Bundles the project as a distribution.
+installDist - Installs the project as a distribution as-is.
 
 Documentation tasks
 -------------------
-app:javadoc - Generates Javadoc API documentation for the main source code.
+javadoc - Generates Javadoc API documentation for the 'main' feature.
 
 Help tasks
 ----------
 buildEnvironment - Displays all buildscript dependencies declared in root project 'gradle-demo'.
-app:buildEnvironment - Displays all buildscript dependencies declared in project ':app'.
 dependencies - Displays all dependencies declared in root project 'gradle-demo'.
-app:dependencies - Displays all dependencies declared in project ':app'.
 dependencyInsight - Displays the insight into a specific dependency in root project 'gradle-demo'.
-app:dependencyInsight - Displays the insight into a specific dependency in project ':app'.
 help - Displays a help message.
-app:help - Displays a help message.
 javaToolchains - Displays the detected java toolchains.
-app:javaToolchains - Displays the detected java toolchains.
+kotlinDslAccessorsReport - Prints the Kotlin code for accessing the currently available project extensions and conventions.
 outgoingVariants - Displays the outgoing variants of root project 'gradle-demo'.
-app:outgoingVariants - Displays the outgoing variants of project ':app'.
 projects - Displays the sub-projects of root project 'gradle-demo'.
-app:projects - Displays the sub-projects of project ':app'.
 properties - Displays the properties of root project 'gradle-demo'.
-app:properties - Displays the properties of project ':app'.
+resolvableConfigurations - Displays the configurations that can be resolved in root project 'gradle-demo'.
 tasks - Displays the tasks runnable from root project 'gradle-demo' (some of the displayed tasks may belong to subprojects).
-app:tasks - Displays the tasks runnable from project ':app'.
 
 Verification tasks
 ------------------
-app:check - Runs all checks.
-app:test - Runs the unit tests.
+check - Runs all checks.
+test - Runs the test suite.
 
-Other tasks
------------
-app:compileJava - Compiles main Java source.
-app:compileTestJava - Compiles test Java source.
-components - Displays the components produced by root project 'gradle-demo'. [deprecated]
-app:components - Displays the components produced by project ':app'. [deprecated]
-dependentComponents - Displays the dependent components of components in root project 'gradle-demo'. [deprecated]
-app:dependentComponents - Displays the dependent components of components in project ':app'. [deprecated]
-model - Displays the configuration model of root project 'gradle-demo'. [deprecated]
-app:model - Displays the configuration model of project ':app'. [deprecated]
-prepareKotlinBuildScriptModel
-app:processResources - Processes main resources.
-app:processTestResources - Processes test resources.
-app:startScripts - Creates OS specific scripts to run the project as a JVM application.
+To see all tasks and more detail, run gradlew tasks --all
 
-BUILD SUCCESSFUL in 495ms
+To see more detail about a task, run gradlew help --task <task>
+
+BUILD SUCCESSFUL in 1s
+1 actionable task: 1 executed
 ----
 
 == How Gradle works ?
@@ -397,13 +397,14 @@ When you want to manage your project with Gradle, you will define a configuratio
 * how to download dependencies of our project (Java libraries)
 * add or configure your own tasks
 
-Everything is configured via a DSL (Domain Specific Language) written in Groovy or Kotlin
+Everything is configured via a DSL (Domain Specific Language) written in Kotlin (or Groovy)
 
 == Tasks
 
 You have many predefined tasks (provided by plugins)
 
 A task
+
 * defines what to do on a set of resources
 * may depend on one or more tasks.
 
@@ -423,27 +424,28 @@ Tasks themselves consist of:
 
 == Incremental build
 
-When inputs and outputs on a gradle tasks have no change, Gradle won't execute this task and will display *UP-TO-DATE*
+When inputs and outputs on a gradle task have no change, Gradle won't execute this task and will display *UP-TO-DATE*
 
 .Example with JavaCompile task
 image::../../img/training/gradle/1_incremetal.png[Incremental build,width=700, align="center"]
 
 
-== icon:flask[] dependant tasks
+== icon:flask[] Create your own tasks
 
-Add these lines to your `build.gradle` file
+Add these lines to your `build.gradle.kts` file
 
 [source,shell]
 ----
-task hello {
+tasks.create("hello") {
     doLast {
-        println 'Hello'
+        println("Hello")
     }
 }
 
-task world(dependsOn: hello) {
+tasks.create("world") {
+    dependsOn("hello")
     doLast {
-        println 'World'
+        println("World")
     }
 }
 ----
@@ -456,110 +458,117 @@ $ ./gradlew hello
 $ ./gradlew world
 ----
 
-== Life cycle
+== Gradle Life cycle
 
 A Gradle build has 3 steps
 
-*Initialization* +
-Gradle determines which projects are involved in the build. A project can have subprojects. All of them have a build.gradle.
+1. *Initialization* +
+Gradle determines which projects are involved in the build. A project can have subprojects. All of them have a `build.gradle.kts`.
 
-*Configuration* +
-Gradle parses the `build.gradle` configuration file (or more if subprojects). After this step, Gradle has its Directed Acyclic Graphs (DAGs)
+2. *Configuration* +
+Gradle parses the `build.gradle.kts` configuration file (or more if you have some subprojects). After this step, Gradle has built its Directed Acyclic Graphs (DAGs)
 
-*Execution* +
+3. *Execution* +
 Gradle executes one or several tasks (arguments added to `./gradlew`) according to this task graph. Gradle executes tasks one by one in the order defined in the graph.
 
 == Plugins
 
 A plugin provides a task set and entry points to configure this plugin. For example
 
-[source,groovy]
+[source,kotlin]
 ----
 plugins {
-    id 'java'
+    java
 }
 ----
 
 The Java plugin has these tasks
 
 image::../../img/training/gradle/pluginJava.png[Fonctionnement de Gradle,width=100%]
-https://docs.gradle.org/current/userguide/img/javaPluginTasks.png
 
-In the next TP we will use Spring and Spring Boot. We will use Gradle to manage our projects. We will use 2 more plugins
+
+In the next lab, we will use Spring and Spring Boot. We will use Gradle to manage our projects. We will use 2 more plugins
 
 [.code-height]
 [source,shell]
 ----
 buildscript {
     plugins {  (1)
-      id 'org.springframework.boot' version '2.5.4'
-      id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-      id 'java'
+      java
+      id("org.springframework.boot") version "3.1.2"
+      id("io.spring.dependency-management") version "1.1.2"
     }
-
-    group = 'com.devmind.faircorp'
-    version = '0.0.1-SNAPSHOT'
-    sourceCompatibility = '11'
 
     repositories { (2)
       mavenCentral()
     }
 
-    dependencies {
-      implementation 'org.springframework.boot:spring-boot-starter' (3)
-      testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    group = "com.devmind.faircorp"
+    version = "0.0.1-SNAPSHOT"
+
+    java { (3)
+      sourceCompatibility = JavaVersion.VERSION_17
     }
 
-    test {
-      useJUnitPlatform() (4)
+
+    dependencies {
+       implementation("org.springframework.boot:spring-boot-starter") (4)
+       testImplementation("org.springframework.boot:spring-boot-starter-test")
+    }
+
+    tasks.withType<Test> {
+      useJUnitPlatform()
     }
 }
 ----
 
 (1). Gradle plugin used +
 (2). repository used to download plugins or app libraries +
-(3). Application dependencies (libraries used by the project) +
-(4). Personalization of the plugin.
+(3). Personalization of the `java` plugin.
+(4). Application dependencies (libraries used by the project)
 
-Each plugin has a documentation
+You have a lot of free plugin to enrich your build. All of them are available on this URL https://plugins.gradle.org/
 
-== icon:flask[] Customize tasks
+== icon:flask[] Custom tasks and their configurations
 
 Open your project `gradle-demo` in IntelliJ and add the following code in `build.gradle`
 
 [.code-height]
 [source,shell]
 ----
-println 'This is executed during the configuration phase.'
+println("This is executed during the configuration phase.")
 
-task configured {
-    println 'This (configured) is also executed during the configuration phase.'
+tasks.create("configured") {
+    description = "My own configured task"
+    println("This (configured) is also executed during the configuration phase.")
 }
 
-task testWrite {
+tasks.create("testWrite") {
+    description = "My own testWrite task"
     doLast {
-        println 'This (testWrite) is executed during the execution phase.'
+        println("This (testWrite) is executed during the execution phase.")
     }
 }
 
-task testWriteBoth {
+tasks.create("testWriteBoth") {
+    description = "My own testWriteBoth task"
     doFirst {
-        println 'This (testWriteBoth) is executed first during the execution phase.'
+        println("This (testWriteBoth) is executed first during the execution phase.")
     }
     doLast {
-        println 'This (testWriteBoth) is executed last during the execution phase.'
+        println("This (testWriteBoth) is executed last during the execution phase.")
     }
-    println 'This (testWriteBoth) is executed during the configuration phase as well.'
+    println("This (testWriteBoth) is executed during the configuration phase as well.")
 }
 ----
 
-Launch
+Launch the following command to see new tasks
 [source,shell]
 ----
-$ ./gradlew tasks
+$ ./gradlew tasks --all
 ----
 
-Then
+Then you can test your new task
 [source,shell]
 ----
 $ ./gradlew testWrite
@@ -571,13 +580,12 @@ And
 $ ./gradlew testWriteBoth
 ----
 
-Try to understand what happens ?
+Try to understand what happens ? If you are lost I can help you during face-to-face sessions
 
-[.small]
 [.code-height]
 [source,shell]
 ----
-$ ./gradlew tasks
+$ ./gradlew testWrite
 
 > Configure project :
 This is executed during the configuration phase.
@@ -589,27 +597,33 @@ This (testWriteBoth) is executed during the configuration phase as well.
 
 == Dependency management
 
-You have to define the project dependencies in the build.gradle.
+You have to define the project dependencies in the build.gradle.kts
 
-Every dependency declared for a Gradle project applies to a specific scope. For example for a Java project, some dependencies should be used for compiling source code (scope `implementation`) whereas others only need to be available at runtime (scope `runtime`)...
+Every dependency declared for a Gradle project applies to a specific scope. For example for a Java project, some dependencies should be used
 
-[source%autofit,bash]
+* for compiling source code (scope `implementation`)
+* for compiling test code (scope `testImplementation`)
+* for running your code (scope `runtime`)
+* for running your tests (scope `testRuntime`)
+* ...
+
+[source,kotlin]
 ----
 dependencies {
-  implementation 'org.springframework:spring-context:5.2.16.RELEASE'
-  testImplementation 'org.junit.jupiter:junit-jupiter:5.7.2'
-  testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.0'
+    // Use JUnit Jupiter for testing.
+    testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.0")
+
+    // This dependency is used by the application.
+    implementation("org.springframework:spring-context:6.0.11")
 }
 ----
 
-<<<
-
-Many Gradle plugins add pre-defined configurations to your project. The Java plugin, for example, adds configurations
+A scope correspond to a configuration in Gradle. A plugin can add pre-defined configurations to your project. The Java plugin, for example, adds several configurations
 
 .Source : https://docs.gradle.org
 image::../../img/training/gradle/5_dependencies.png[width=1000, align="center"]
 
-<<<
 
 A configuration can extend other configurations to form an inheritance hierarchy. Child configurations inherit the whole set of dependencies declared for any of its parent.
 
@@ -628,7 +642,7 @@ dependencies {
 }
 ----
 
-You can define a project dependency if you have a multiproject configuration
+You can define a project dependency if you have a multi-project configuration
 
 [source, kotlin]
 ----
@@ -637,8 +651,6 @@ dependencies {
 }
 ----
 
-<<<
-
 A module can have dependencies on other modules to work properly, so-called transitive dependencies.  By default, Gradle resolves transitive dependencies automatically.
 
 In some case we can help Gradle to not use this mode, to exclude some dependencies or to force a specific version if we have a conflict
@@ -646,27 +658,23 @@ In some case we can help Gradle to not use this mode, to exclude some dependenci
 [source, kotlin]
 ----
 dependencies {
-    implementation('org.hibernate:hibernate:3.1') {
-        //in case of versions conflict '3.1' version of hibernate wins:
-        force = true
+    implementation("org.hibernate:hibernate:3.1") {
+        exclude(module = "cglib") //by artifact name
+        exclude(group = "org.jmock") //by group
 
-    exclude module: 'cglib' //by artifact name
-    exclude group: 'org.jmock' //by group
-
-    //disabling all transitive dependencies of this dependency
-    transitive = false
-  }
+        //disabling all transitive dependencies of this dependency
+        isTransitive = false
+    }
 }
 ----
 
-<<<
 
 This schema resumes how Gradle download a dependency
 
 image::../../img/training/gradle/dependencies.png[width=800, align="center"]
-<1> Gradle looks in his cache if the dependency is present
-<2> It parses the given remote repository(ies), downloads the dependency and stores it in his cache
-<3> Dependency can be provided to project. If this dependency has another dependencies, Gradle loads them transitively
+(1) Gradle looks in his cache if the dependency is present +
+(2) It parses the given remote repository(ies), downloads the dependency and stores it in his cache +
+(3) Dependency can be provided to project. If this dependency has another dependencies, Gradle loads them transitively
 
 <<<
 
