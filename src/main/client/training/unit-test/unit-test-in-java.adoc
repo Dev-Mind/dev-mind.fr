@@ -2,11 +2,12 @@
 :description: Write unit tests in Java
 :keywords: Java, Unit Test, AssertJ, Mockito, Junit
 :author: Guillaume EHRET - Dev-Mind
-:revdate: 2022-10-17
+:revdate: 2023-09-03
 :category: Java
 :teaser:  In this course you will learn how to write a unit test, how to simulate the collaborator behaviors and how to check the results
 :imgteaser: ../../img/training/unit-tests.png
 :toc:
+:icons: font
 
 In this course you will learn how to write a unit test, how to simulate the collaborator behaviors and how to check the results
 
@@ -14,10 +15,17 @@ image::../../img/training/unit-tests.png[background,width=800, align="center"]
 
 == Software testing
 
+=== Why do we need testing ?
+
+Software testing is very important when you create an application, because it
+
 * checks if the actual results match the expected results
 * helps to identify errors by testing limits
-* helps to not reproduce errors : When a bug occurs, we create a new test case, we fix the bug.. And after each code update, we execute this tests to know if the bug won't occur anymore#
+* helps to not reproduce errors : when a bug occurs, we create a new test case, we fix the bug.. And after each code update, we execute this tests to know if the bug won't occur anymore#
 * helps to know how your code works : tests are often the best documentation to understand how a piece of source code works
+* helps you be more confident when you need to evolve your code: if you have good code coverage by testing, you will identify regressions quickly
+
+=== Why do we need to automate testing ?
 
 You can test your software manually
 
@@ -26,7 +34,15 @@ You can test your software manually
 
 The solution is *to have automatic tests* and code them
 
-image::../../img/training/unit-test/coding.png[width=600, align="center"]
+Manual tests are cheaper on short-term but more expensive on long-term
+
+Automated tests are expensive on short-term but cheaper on long-term
+
+A human will tire when he has to execute the same tests continuously. He will be less conscientious and less attentive. It's not the case for a test program
+
+image::../../img/training/unit-test/systemrobot.png[width=800, align="center"]
+
+=== What are the different types of tests ?
 
 You have different types of tests
 
@@ -37,19 +53,15 @@ You have different types of tests
 * *Unit testing*: We test every units of source code (each class, each methods...).
 * ...
 
+=== How to facilitate the writing of tests?
 
-Manual tests are cheaper on short-term but more expensive on long-term
-
-Automated tests are expensive on short-term but cheaper on long-term
-
-A human will tire when he has to execute the same tests continuously.He will be less conscientious and less attentive.It's not the case for a test program
-
-image::../../img/training/unit-test/systemrobot.png[width=800, align="center"]
+> If you are having trouble writing tests, *your code can/must be improved*. Good code is easily testable code.
 
 
-If you want to facilitate your tests you can apply 2 rules
+If you want to facilitate your tests you can apply several rules
 
-* use *interface* to define the contract to code
+* use *interface* to define the contract to code and to test.
+* when using an object language, it is easy to distribute responsibilities among several classes. Avoid centralizing all your code in a single service class. The less code a class has, the easier it will be to test.
 * use *dependency injection*. This mechanism helps to use for example
 ** a mock object, to simulate the object behavior in a test and
 ** the real implementation in production code
@@ -68,9 +80,9 @@ We are going to take an example with a service interface.
 ----
 public interface FriendService {
    /**
-     * Compute friend age from his birth year
-     */
-    int computeFriendAge(Friend friend);
+    * Compute friend age from his birth year
+    */
+   int computeFriendAge(Friend friend);
 }
 ----
 
@@ -81,7 +93,7 @@ The service implementation is this one
 public class FriendServiceImpl implements FriendService {
     @Override
     public int computeFriendAge(Friend friend) {
-        if(friend == null){
+        if(friend == null) {
             throw new IllegalArgumentException("Friend is required");
         }
         return LocalDate.now().getYear() - friend.getBirthYear();
@@ -89,9 +101,9 @@ public class FriendServiceImpl implements FriendService {
 }
 ----
 
-When you write a test you have to test all the cases.In our example you have to check when the user is null and when a user is defined and has a birth year
+When you write a test you have to test all the cases. In our example you have to check when the user is null and when a user is defined and has a birth year.
 
-In an application this system SUT will interact with other components
+In an application this SUT (System Under Test) will interact with other components
 
 image::../../img/training/unit-test/test2.png[width=800, align="center"]
 
@@ -119,7 +131,7 @@ public class FriendServiceImpl implements FriendService {
 }
 ----
 
-`FriendRepository` and `IntegerComputer` are collaborators
+`FriendRepository` and `IntegerComputer` are 2 collaborators.
 
 
 When you want to write a test of your SUT, you need to simulate the collaborator behaviors.
@@ -128,7 +140,7 @@ image::../../img/training/unit-test/test3.png[width=800, align="center"]
 
 To simulate collabators, you have several possibilities
 
-* *Use a fake object*: You create an object only for your test (it's not a good solution)
+* *Use a fake object*: You create an object only for your test (it's not the best solution)
 * *Use a spy object*: You create a spy from the real implementation of one collaborator. You use a library for that, and you can override the returned values
 * *Use a mock object*: A mock is created via a library from a specified contract (an interface). And you can pre preprogram these objects to return your wanted values during the test
 
@@ -143,13 +155,15 @@ The code to test is not important, it's the black box... you have to focus on in
 
 image::../../img/training/unit-test/test7.png[width=800, align="center"]
 
-Your black box can have inputs (method parameters for example) +
-[.small .small-block]#In your test you will invoke the SUT and you test this one by sending inputs#
+Your black box can have inputs (method parameters for example) : in your test you will invoke the SUT and you test this one by sending inputs
 
-Your black box can return a result or update the system state (we have an output) +
-[.small .small-block]#In your test you will check the result and assert if this result is equals to the expected behavior#
+Your black box can return a result or update the system state (we have an output) : in your test you will check the result and assert if this result is equals to the expected behavior
 
-When you write you can follow the AAA pattern : *arrange /act /assert* [.small .small-block]#Another pattern is Given / When / Then#
+When you write you can follow a pattern
+
+* AAA : arrange /act /assert
+* Behavior-Driven Development : Given / When / Then#
+* ...
 
 image::../../img/training/unit-test/test8.png[width=800, align="center"]
 
@@ -191,13 +205,14 @@ class FriendServiceImplTest {
     @Test // 2.
     public void computeFriendAge() {
         // Arrange
-        Friend friend = new Friend(LocalDate.parse("1951-10-01"), "Sting");
+        LocalDate birthday = LocalDate.parse("1978-06-09");
+        Friend friend = new Friend(birthday, "Bellamy");
 
         // Act
         int age = friendService.computeFriendAge(friend);
 
         // Assert
-        Assertions.assertEquals(71, age); // 3.
+        Assertions.assertEquals(45, age); // 3.
     }
 
     @Test
@@ -208,20 +223,20 @@ class FriendServiceImplTest {
 ----
 
 1. Method annotated with @BeforeEach is executed before each tests (a @AfterEach exists)
-2. Method annotated with @Test is a unit test.
-3. We use assertJ to write assertions
+2. Method annotated with @Test is a unit test method. We write a method for each test case
+3. We use Assertions object provided by Junit to write assertions. Later we will use the object of another library, assertJ
 4. We expect an exception when friend is null. It's important to use an explicit test method name
 
 == Assertions
 
-Assertions methods provided by Junit are not very readable.We prefer to use the https://assertj.github.io/doc/[AssertJ] library
+Assertions methods provided by Junit are not very readable. We prefer to use the https://assertj.github.io/doc/[AssertJ] library
 
 https://assertj.github.io/doc/[AssertJ] provides a fluent API and with this API you always use the method `asserThat`
 
 [source,java, subs="specialchars"]
 ----
-Assertions.assertThat(age).isEqualTo(71);
-Assertions.assertThat(name).isEqualTo("Sting");
+Assertions.assertThat(age).isEqualTo(45);
+Assertions.assertThat(name).isEqualTo("Bellamy");
 ----
 
 With assertJ you can test the exception thrown by a method, its type, its message
@@ -233,7 +248,7 @@ Assertions.assertThatThrownBy(() -> friendService.computeFriendAge(null))
                 .hasMessage("Friend is required");
 ----
 
-If you expected result is a list of friends
+If your expected result is a list of friends
 
 [source,java, subs="specialchars"]
 ----
@@ -262,7 +277,7 @@ AssertJ is IDE friendly and its fluent API can be discovered by completion
 
 image::../../img/training/unit-test/assertj-completion.png[]
 
-You can find more informations on the official website http://joel-costigliola.github.io/assertj
+You can find more informations on the official website https://assertj.github.io/doc/
 
 == Mockito
 
@@ -295,7 +310,7 @@ public class FriendServiceImpl implements FriendService {
 }
 ----
 
-In this code we use `friendRepository`.You have to declare it as a property (1), and declare a constructor to inject an implementation (2)
+In this code we use `friendRepository`. You have to declare it as a property (1), and declare a constructor to inject an implementation (2)
 
 In `FriendServiceImplTest` we will use Mockito to simulate `FriendRepository` and create the class to test `FriendServiceImpl`
 
@@ -354,14 +369,14 @@ You can also return an exception in place of a value. For example
 Mockito.when(friendRepository.findAll()).thenThrow(new IllegalArgumentException("Error"));
 ----
 
-We don't test this Mockito features but you can read the official documentaion to know how
+I won't talk about several features of Mockito, but you can read the official documentation to know how
 
 1. https://static.javadoc.io/org.mockito/mockito-core/2.23.0/org/mockito/Mockito.html#13[Create a Spy] a real object and override its behavior
 2. https://static.javadoc.io/org.mockito/mockito-core/2.23.0/org/mockito/Mockito.html#4[Verify] that a mock was called (it's sometimes usefull when you want to check if a void method was called)
 3. other use cases on https://static.javadoc.io/org.mockito/mockito-core/2.23.0/org/mockito/Mockito.html
 
 
-== Lab : Unit tests
+== icon:flask[] Unit tests
 
 Use Git to clone the following project in a folder in your workspace. Use a terminal and launch this command if you use basic auth in Github
 
@@ -387,15 +402,14 @@ Open the file `build.gradle` and add these dependencies
 
 ----
 dependencies {
-    implementation("org.springframework:spring-context-support:5.3.22")
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.0")
-    testImplementation("org.mockito:mockito-junit-jupiter:4.6.1")
-    testImplementation("org.assertj:assertj-core:3.23.1")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.0")
+    implementation("org.springframework:spring-context-support:6.0.11")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.0")
+    testImplementation("org.mockito:mockito-junit-jupiter:5.4.0")
+    testImplementation("org.assertj:assertj-core:3.24.2")
 }
 ----
 
-You need to refresh you project to update the dependencies in IntelliJ. You can click on the button which appears in your file `build.gradle` when your Gradle synchronisation is not up to date.
+You need to refresh your project to update the dependencies in IntelliJ. You can click on the button which appears in your file `build.gradle.kts` when your Gradle synchronisation is not up to date.
 
 image::../../img/training/unit-test/refresh_gradle1.png[width=600, align="center"]
 
@@ -411,17 +425,17 @@ Write the tests to check the methods `computeFriendAge` and `computeFriendAgeAve
 
 1. Add an annotation `@ExtendWith(MockitoExtension.class)` to be able to use the Mockito injection
 2. Declare 2 properties of type `FriendRepository` (mocked dependency) and `FriendService` (class to test)
-2. In `@BeforeEach` block, create `FriendService` and inject the mock of `FriendRepository`
-3. Write a unit test to compute your age.For that use the pattern AAA
+3. In `@BeforeEach` block, create `FriendService` and inject the mock of `FriendRepository`
+4. Write a unit test to compute your age.For that use the pattern AAA
 ** Arrange => define a Friend object with your firstname and your birthYear
 ** Act => call the method `computeFriendAge`
 ** Assert => check that the result is equal to your age
-4. Execute test (red means fail and green means pass)
-5. Write a second test and verify the exception thrown when you call computeFriendAge with a null friend
-6. Use now Mockito to simulate the `FriendRepository` behavior and write a test to check `computeFriendAgeAverage` method.
-7. Create a new test to check `computeFriendAgeAverage` behavior when `FriendRepository` returns a an empty list of friends.
+5. Execute test (red means fail and green means pass)
+6. Write a second test and verify the exception thrown when you call computeFriendAge with a null friend
+7. Use now Mockito to simulate the `FriendRepository` behavior and write a test to check `computeFriendAgeAverage` method.
+8. Create a new test to check `computeFriendAgeAverage` behavior when `FriendRepository` returns a an empty list of friends.
 
 
 What happens ?
 
-Writing tests help to fix problems. Fix the code of `computeFriendAgeAverage` and return 0 when the list is empty.You can now fix your test
+Writing tests help to fix problems. Fix the code of `computeFriendAgeAverage` and return 0 when the list is empty. You can now fix your test
