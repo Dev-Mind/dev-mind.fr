@@ -60,7 +60,7 @@ video::1ogCfYm9_DA[youtube, width=600, height=330]
 6. We will add a new readonly text below image to introduce our app. In common palette select a *Textview* widget and drag into your layout.
 7. In blueprint view you can add constraints to this textview
 +
-* *text* : _Welcome on faircorp\n the app to manage building windows_
+* *text* : _Welcome on automacorp\n the app to manage building windows_
 * *layout_width* and *layout_height* : _wrap_content_
 * *textSize*: _18 sp_
 * *gravity* : _center_
@@ -101,7 +101,7 @@ This is a string resources file, where you can specify all of your UI strings. I
 [source,xml,subs="none"]
 ----
 <resources>
-    <string name="app_name">Faircorp</string>
+    <string name="app_name">automacorp</string>
 </resources>
 ----
 
@@ -110,11 +110,11 @@ You can launch https://developer.android.com/studio/write/translations-editor[Tr
 [source,xml,subs="none"]
 ----
 <resources>
-    <string name="app_name">Faircorp</string>
-    <string name="app_logo_description">Faircorp logo</string>
+    <string name="app_name">automacorp</string>
+    <string name="app_logo_description">automacorp logo</string>
 
     <string name="act_main_windowname_hint">Ligth name</string>
-    <string name="act_main_welcome">Welcome on faircorp,\n the app to manage building windows</string>
+    <string name="act_main_welcome">Welcome on automacorp,\n the app to manage building windows</string>
     <string name="act_main_open_window">Open window</string>
 </resources>
 ----
@@ -127,7 +127,7 @@ video::a_bwuQvKRTU[youtube, width=600, height=330]
 
 An activity is always associated with a layout file. In link:android-update-ui#_lab_2_update_home_page[Lab 2] we have updated our main activity layout with a logo, a welcome message and a button.  In this lesson, you add some code in *MainActivity* to interact with this button.
 
-1. In the file *app > java > com.faircorp > MainActivity*, add the following openWindow() method stub:
+1. In the file *app > java > com.automacorp > MainActivity*, add the following openWindow() method stub:
 +
 [source,kotlin,subs="normal"]
 ----
@@ -160,7 +160,7 @@ You might see an error because Android Studio cannot resolve *View*, *Toast* cla
 
 As for a web page, you can define a style theme when you develop an Android application. The main them is defined in **app > manifests > AndroidManifest.xml**
 
-By default `@style/Theme.Faircorp` follow https://material.io/[material design] specification.
+By default `@style/Theme.automacorp` follow https://material.io/[material design] specification.
 [source,xml,subs="none"]
 ----
 <application
@@ -171,19 +171,19 @@ By default `@style/Theme.Faircorp` follow https://material.io/[material design] 
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Faircorp"
+        android:theme="@style/Theme.automacorp"
         tools:targetApi="31">
 </application>
 ----
 
 *File :* *_res > values > themees > theme.xml_* and
 
-Your theme Theme.Faircorp in this file. You have in reality 2 files because the Google team encourages you to adopt a normal theme and a darker theme in night mode to consume less battery. As a reminder, the lighter the colors, the more your screen consumes and the more your battery is used.
+Your theme Theme.automacorp in this file. You have in reality 2 files because the Google team encourages you to adopt a normal theme and a darker theme in night mode to consume less battery. As a reminder, the lighter the colors, the more your screen consumes and the more your battery is used.
 
 [source,xml]
 ----
 <resources>
-    <style name="Theme.Faircorp" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.automacorp" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_200</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>

@@ -55,7 +55,7 @@ Inside, add a file `gradle.json`.This file will contain
     "goal": "assemble"
   },
   "deploy": {
-    "jarName": "./build/libs/faircorp-0.0.1-SNAPSHOT.jar"
+    "jarName": "./build/libs/automacorp-0.0.1-SNAPSHOT.jar"
   }
 }
 ----
@@ -82,7 +82,7 @@ The next step is to choose the type and the number of your server.With our free 
 [.text-center]
 image::../../img/training/cloud/clever3.png[Clever Cloud, width=800]
 
-You have to use a specific name. It's important when you have several apps.In our case you have to use `*faircorp-firstname-lastname*`. You must also select in which zone of the world your application will be deployed (you can only select France in this lab).
+You have to use a specific name. It's important when you have several apps.In our case you have to use `*automacorp-firstname-lastname*`. You must also select in which zone of the world your application will be deployed (you can only select France in this lab).
 
 [.text-center]
 image::../../img/training/cloud/clever4.png[Clever Cloud, width=800]

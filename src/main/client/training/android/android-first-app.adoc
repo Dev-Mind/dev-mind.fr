@@ -100,8 +100,8 @@ image::../../img/training/android/android-studio-select-type.png[Select project 
 +
 image::../../img/training/android/android-studio-new.png[New project, width=700]
 +
-* Enter _Faircorp_ in the *Name* field.
-* Enter __com.faircorp __in the *Package name* field.
+* Enter _automacorp_ in the *Name* field.
+* Enter __com.automacorp __in the *Package name* field.
 * If you'd like to place the project in a different folder, change its *Save location*.
 * Select _Kotlin_ from the *Language* drop-down menu.
 * Select the lowest version of Android your app will support in the Minimum SDK field.
@@ -150,7 +150,7 @@ All activities must be defined inside and one of them will be defined as entry p
 
 === Activity
 
-You can see 3 packages `com.faircorp` in Android view.
+You can see 3 packages `com.automacorp` in Android view.
 
 * The first one (not suffixed) contains all your Kotlin files used to write your app and our first activity
 * The second (suffixed with androidTest) contains test files executed to test your app on a device or on an emulator.
@@ -159,7 +159,7 @@ You can see 3 packages `com.faircorp` in Android view.
 Unfortunately we don't have enough time to see how to write these tests.
 But be aware that if you want to create a sustainable application, testing is the best way to limit regressions and make it easier to manage your application over time.
 
-*File :* *_app > java > com.faircorp > MainActivity_*
+*File :* *_app > java > com.automacorp > MainActivity_*
 
 This is the main activity.
 It's the entry point for your app.
@@ -233,12 +233,12 @@ We will see later how to update or create a new layout and include inside widget
 
 There are two files with this name:
 
-* one for the project, *Project: Faircorp*, and
-* one for the app module, *Module: Faircorp.app.*
+* one for the project, *Project: automacorp*, and
+* one for the app module, *Module: automacorp.app.*
 
 Each module has its own *build.gradle* file, but this project currently has just one module.
 
-If you need to use external libraries you will declare this dependencies in *build.gradle (Mocule: Faircorp.app)* If you want to configure android plugin (APi version, SDK version) you will update *build.gradle (Project: Faircorp)*
+If you need to use external libraries you will declare this dependencies in *build.gradle (Mocule: automacorp.app)* If you want to configure android plugin (APi version, SDK version) you will update *build.gradle (Project: automacorp)*
 
 The defaultConfig block is important. This is where you have to define
 
@@ -249,11 +249,11 @@ The defaultConfig block is important. This is where you have to define
 [source,kotlin,subs="none"]
 ----
 android {
-    namespace 'com.faircorp'
+    namespace 'com.automacorp'
     compileSdk 32
 
     defaultConfig {
-        applicationId "com.faircorp"
+        applicationId "com.automacorp"
         minSdk 26
         targetSdk 33
         versionCode 1

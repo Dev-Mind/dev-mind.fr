@@ -83,7 +83,7 @@ image::../../img/training/android/android-menu.png[Add menu resource]
 +
 video::stUhvg3WXUc[youtube, width=600, height=330]
 +
-6. We will attach this menu to activities  *MainActivity*, *WindowActivity* and *WindowsActivity*. To prevent the add on each activity, we will create a parent activity and each activities will inherit from this parent activity. Select package *com.faircorp*, right-click and select *New > Activity > Kotlin File/Class*, fill *BasicActivity*
+6. We will attach this menu to activities  *MainActivity*, *WindowActivity* and *WindowsActivity*. To prevent the add on each activity, we will create a parent activity and each activities will inherit from this parent activity. Select package *com.automacorp*, right-click and select *New > Activity > Kotlin File/Class*, fill *BasicActivity*
 
 7. In this file you can copy this code
 +

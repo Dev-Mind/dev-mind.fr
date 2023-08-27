@@ -27,7 +27,7 @@ Today we can access a multitude of data sources ... and Spring will help us
 
 image::../../img/training/spring-intro/app-data2.png[width=900, align="center"]
 
-How can we persist data in Java?
+How can we persist data in Java? For that we need to use different API and a database
 
 1. a low level standard : *JDBC* (Java Database Connectivity)
 2. an API, *JPA* (Java Persistence API) and frameworks as Hibernate
@@ -36,7 +36,8 @@ How can we persist data in Java?
 
 === JDBC
 
-* common API used by all relational databases
+JDBC (Java Database Connectivity) is the common API used by all relational databases in Java applications.
+
 * each database editor provides its driver (a jar added to your project)
 * you can use a DBMS (DataBase Management System) to define, store, retrieve, and manage the data within a database.
 * a DBMS can be just a cli available on a terminal or a GUI
@@ -46,6 +47,8 @@ In our tests we will use a database written in Java, the H2 database
 
 image::../../img/training/spring-intro/h2-logo.png[width=150px, align="center"]
 
+I choose this database for different reasons.
+
 * Open source, JDBC driver
 * embedded database
 * in memory database (perfect for tests)
@@ -54,17 +57,17 @@ image::../../img/training/spring-intro/h2-logo.png[width=150px, align="center"]
 
 === icon:flask[] Database and SQL
 
-Go in your *FaircorpApplication*. We need to add new Spring Boot starters and the H2 driver in the declared dependencies.
+Go in your `AutomacorpApplication`. We need to add new Spring Boot starters and the H2 driver in the declared dependencies.
 
 [source,groovy, subs="specialchars"]
 ----
-implementation 'org.springframework.boot:spring-boot-starter-data-jpa' // libs to use JPA in your project
-implementation 'com.h2database:h2' // libs to use a H2 database
+implementation("org.springframework.boot:spring-boot-starter-data-jpa") // libs to use JPA in your project
+implementation("com.h2database:h2") // libs to use a H2 database
 ----
 
-Check your `build.gradle` file and update it. Reload your Gradle project to apply changes
+Check your `build.gradle.kts` file and update it. Reload your Gradle project to apply changes. You can use the button image:../../img/training/spring-data/refresh-gradle-btn1.png[width=48] displayed when your Gradle config is updated. Or you can use the button image:../../img/training/spring-data/refresh-gradle-btn2.png[width=40] displayed in the Gradle view.
 
-image::../../img/training/spring-intro/refresh-gradle.png[width=700, align="center"]
+image::../../img/training/spring-data/refresh-gradle.png[align="center"]
 
 Spring Boot analyses jars defined in classpath and Spring is able to auto-configure features as the database, the H2 console...
 
@@ -73,7 +76,7 @@ Add some properties in file `src/main/resources/application.properties` to confi
 [source,properties,subs="specialchars"]
 ----
 # Spring boot : datasource
-spring.datasource.url=jdbc:h2:mem:faircorp;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+spring.datasource.url=jdbc:h2:mem:automacorp;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
 spring.datasource.username=sa
 spring.datasource.password=
 spring.datasource.driverClassName=org.h2.Driver
@@ -86,12 +89,13 @@ spring.h2.console.path=/console
 spring.jpa.database=h2
 ----
 
-You can use the H2 console.
 To verify that everything is fine, launch your app and open this URL in your browser: http://localhost:8080/console
 
 image::../../img/training/spring-intro/h2-console0.png[width=500]
 
 *Use JDBC URL, user, password defined in your `application.properties* and click on *Connect* button.
+
+
 You should access to the console
 
 image::../../img/training/spring-intro/h2-console.png[size=90%]
@@ -159,7 +163,6 @@ image::../../img/training/spring-intro/pool1.png[width=850, align="center"]
 When you want to execute a request in Java you can write
 
 *For an insert*
-[.langage-small]
 [source,java, subs="specialchars"]
 ----
 public void insertSite(Site site) {
@@ -223,7 +226,9 @@ The solution is to work in a transaction. A database transaction symbolizes a un
 * to provide reliable units of work that allow correct recovery from failures and keep a database consistent even in cases of system failure, when execution stops (completely or partially) and many operations upon a database remain uncompleted, with unclear status.
 * To provide isolation between concurrent accesses. If this isolation is not provided, data could be erroneous.
 
-[.langage-small]
+
+We can try to use a transaction in our code
+
 [source,java, subs="specialchars"]
 ----
 public void insertSite(Site site) {
@@ -259,7 +264,7 @@ image::../../img/training/spring-intro/transaction2.png[width=850, align="center
 
 The Java Persistence API (JPA) is a Java application programming interface specification that describes the management of relational data in applications using Java Platform, Standard Edition and Java Platform, Enterprise Edition.
 
-http://hibernate.org/orm/[Hibernate ORM] is the JPA implementation that we’re going to use in this lab.
+http://hibernate.org/orm/[Hibernate ORM] is the JPA implementation that we’re going to use in this lab. we will use Hibernate via https://projects.spring.io/spring-data-jpa/[Spring Data JPA]
 
 We’re going to use https://projects.spring.io/spring-data-jpa/[Spring Data JPA] to store and retrieve data in our relational database.
 
@@ -276,12 +281,12 @@ image::../../img/training/spring-intro/app-data3.png[width=850, align="center"]
 
 {nbsp}
 
-[NOTE.speaker]
---
-Do not confuse https://projects.spring.io/spring-data/[Spring Data] with https://projects.spring.io/spring-data-jpa/[Spring Data JPA]. We can read on in the offical doc that "Spring Data’s mission is to provide a familiar and consistent, Spring-based programming model for data access while still retaining the special traits of the underlying data store. It makes it easy to use data access technologies, relational and non-relational databases, map-reduce frameworks, and cloud-based data services. This is an umbrella project which contains many subprojects that are specific to a given database […​]
+Do not confuse https://projects.spring.io/spring-data/[Spring Data] with https://projects.spring.io/spring-data-jpa/[Spring Data JPA]. We can read on in the offical doc that
 
-Spring Data JPA is part of Spring Data, lets implement JPA based repositories. It makes it easier to build Spring-powered applications that use data access technologies."
---
+> "Spring Data’s mission is to provide a familiar and consistent, Spring-based programming model for data access while still retaining the special traits of the underlying data store. It makes it easy to use data access technologies, relational and non-relational databases, map-reduce frameworks, and cloud-based data services. This is an umbrella project which contains many subprojects that are specific to a given database […​]
+
+> Spring Data JPA is part of Spring Data, lets implement JPA based repositories. It makes it easier to build Spring-powered applications that use data access technologies."
+
 
 === JPA Entity
 
@@ -291,7 +296,7 @@ Let's take the example of a Java class named *Sensor* and see how to use JPA to 
 
 [source,java, subs="specialchars"]
 ----
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity // (1).
 @Table(name = "SP_SENSOR") // (2).
@@ -303,25 +308,25 @@ public class Sensor {
     @Column(nullable=false, length=255)  // (4).
     private String name;
 
-    private String description;
+    @Column(name = "sensor_value") // (5)
+    private Double value;
 
-    @Column(name = "power") // (4).
-    private Integer defaultPowerInWatt;
+    @Column(name = "sensor_type") // (5).
+    @Enumerated(EnumType.STRING) // (6).
+    private SensorType sensorType;
 
-    @Transient // (5).
+    @Transient // (7).
     private Integer notImportant;
 
-    @Enumerated(EnumType.STRING) // (6).
-    private PowerSource powerSource;
-
-    public Sensor() { // (7).
+    public Sensor() { // (8).
     }
 
-    public Sensor(String name) { // (8).
+    public Sensor(SensorType sensorType, String name) { // (9).
         this.name = name;
+        this.sensorType = sensorType;
     }
 
-    public Long getId() { // (9).
+    public Long getId() { // (10).
         return id;
     }
 
@@ -337,20 +342,20 @@ public class Sensor {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    public Double getValue() {
+        return value;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setValue(Double value) {
+        this.value = value;
     }
 
-    public Integer getDefaultPowerInWatt() {
-        return defaultPowerInWatt;
+    public SensorType getSensorType() {
+        return sensorType;
     }
 
-    public void setDefaultPowerInWatt(Integer defaultPowerInWatt) {
-        this.defaultPowerInWatt = defaultPowerInWatt;
+    public void setSensorType(SensorType sensorType) {
+        this.sensorType = sensorType;
     }
 
     public Integer getNotImportant() {
@@ -360,31 +365,24 @@ public class Sensor {
     public void setNotImportant(Integer notImportant) {
         this.notImportant = notImportant;
     }
-
-    public PowerSource getPowerSource() {
-        return powerSource;
-    }
-
-    public void setPowerSource(PowerSource powerSource) {
-        this.powerSource = powerSource;
-    }
 }
 ----
 
 * (1) *@Entity* indicates that this class is an entity managed by Hibernate
 * (2) *@Table(name = "SP_SENSOR")* you can customize the table name (optional if table name = entity name)
-* (3) *@Id* you have always an id annotated with `@javax.persistence.Id` (auto generated in this example). This ID is immutable (as the primary key in the database)
+* (3) *@Id* you have always an id annotated with `@jakarta.persistence.Id` (auto generated in this example). This ID is immutable (as the primary key in the database)
 * (4) *@Column* by default, each property is mapped to a column. You can customize the nullability or the column name.
-* (5) If a property should not be persisted, use *@Transient*
+* (5) You can personalize the column used in the database to store the data
 * (6) *@Enumerated(EnumType.STRING)* Java enum persisted as a String (choose always EnumType.STRING)
-* (7) an entity *must have an empty constructor* (public or protected). +
-[.small .small-block]#An empty constructor is needed to create a new instance via reflection (using Class<T>.newInstance()) by Hibernate which has to instantiate your Entity dynamically. If you don’t provide any additional constructors with arguments for the class, you don’t need to provide an empty constructor because you get one per default. Java always gives you a default invisible empty constructor. If an argument constructor is provided in your class, then jvm will not add the no-argument constructor.#
-* (8) you can add (and you should) a constructor to build an object with all required properties
-* (9) you have to define a getter and a setter for each property
+* (7) If a property should not be persisted, use *@Transient*
+* (8) an entity *must have an empty constructor* (public or protected). +
+[.small .small-block]#An empty constructor is needed to create a new instance via reflection (using `Class<T>.newInstance()`) by Hibernate which has to instantiate your Entity dynamically. If you don’t provide any additional constructors with arguments for the class, you don’t need to provide an empty constructor because you get one per default. Java always gives you a default invisible empty constructor. If an argument constructor is provided in your class, then jvm will not add the no-argument constructor.#
+* (9) you can add (and you should) a constructor to build an object with all required properties
+* (10) you have to define a getter and a setter for each property
 
 === Entity manager
 
-When your app need to launch a query, it will call an https://docs.jboss.org/hibernate/entitymanager/3.6/reference/en/html_single/[EntityManager] to execute it
+When your app need to launch a query, it will call an https://docs.jboss.org/hibernate/orm/6.2/userguide/html_single/Hibernate_User_Guide.html#architecture[EntityManager] to execute it
 
 image::../../img/training/spring-intro/em.png[width=800, align="center"]
 
@@ -431,14 +429,15 @@ public class SiteServiceImpl implements SiteService {
 
 Your services, your components must use a *@Transactional* annotation to work in a transaction.
 
+> Hibernate stores everything read from the database in a first-level cache. This cache is linked to the current transaction.
+
 At the end of the transaction, Hibernate will launch a flush() of this cache
 
 * Calculation of the modifications of the objects contained in this cache
 * Execution of all requests as a result
 * Launching commit() if everything is OK or rollback()
 
-NOTE: Hibernate stores everything read from the database in a first-level cache. This cache is linked to the current transaction. +
-[.small .small-block]#If you do twice a find() on the same instance, it will only be loaded once#
+With the first level of cache, if you execute twice a `find()` on the same instance, it will only be loaded once
 
 === Schema generation
 
@@ -909,9 +908,9 @@ public class SensorCustomDaoImpl implements SensorCustomDao {
 
 == icon:flask[] : JPA
 
-It's time for you to start to build your real application which is able to manage sensors in a building.The management of the sanitary conditions (COVID-19 pandemic, pollution), user comfort, and energy efficiency, require concurrent management of window openings in the École des Mines buildings.
+It's time for you to start building a real application that can manage sensors in a building. The management of sanitary conditions (COVID-19 pandemic, pollution), user comfort and energy efficiency require concurrent management of window openings in the buildings of the École des Mines.
 
-It is necessary to ventilate as much as possible to limit the spread of the cirus and air pollution in general, but as winter approaches it will become important to heat the buildings to ensure user comfort.Windows should be open during and after classes, closed at night or in case of heavy rain or severe cold.Thus the management of the health crisis becomes concurrent with the quest for energy efficiency in the building.
+It is necessary to ventilate as much as possible to limit air pollution, but with the approach of winter it will become important to heat buildings to ensure the comfort of users.
 
 image::../../img/training/spring-intro/tp.png[width="700", align="center"]
 
@@ -921,18 +920,23 @@ image::../../img/training/spring-intro/tp.png[width="700", align="center"]
 - each heater has a name, an `on` or `off` status, possibly a power. +
 - each window has a name, an a status `open` or `closed`
 
+The heater status, the window status and the temperature are measured by external sensors.
 
 === Entity creation
 
-Create a Java enum called *HeaterStatus* in package `com.emse.spring.faircorp.model`. This enum has 2 values : `ON` and `OFF`
+==== Sensor entity
+
+The `Sensor` entity was given https://dev-mind.fr/training/spring/spring-data.html#_jpa_entity[higher] on the page. You can remove the `notImportant` property
+
+Create a Java enum called `SensorType` in package `com.emse.spring.automacorp.model` to define the type of the sensor.
 [source,java, subs="specialchars"]
 ----
-public enum HeaterStatus { ON, OFF}
+public enum SensorType { TEMPERATURE, POWER, STATUS }
 ----
 
-Create another Java enum called *WindowStatus* in package `com.emse.spring.faircorp.model`. This enum has 2 values : `OPEN` and `CLOSED`
+==== Window entity
 
-Create an Entity called *Window* in package `com.emse.spring.faircorp.model` (an entity is a class). You have to use the JPA annotations seen previously.
+Create an Entity called `Window` in package `com.emse.spring.automacorp.model` (an entity is a class). You have to use the JPA annotations seen previously.
 
 You can copy this code. For the moment this entity has no property room because this entity will be created later.
 
@@ -948,13 +952,13 @@ public class Window {
     private String name;
 
     // (5)
-    private WindowStatus windowStatus;
+    private Sensor windowStatus;
 
     public Window() {
     }
 
-    public Window(String name, WindowStatus status) {
-        this.windowStatus = status;
+    public Window(String name, Sensor sensor) {
+        this.windowStatus = sensor;
         this.name = name;
     }
 
@@ -974,11 +978,11 @@ public class Window {
         this.name = name;
     }
 
-    public WindowStatus getWindowStatus() {
+    public Sensor getWindowStatus() {
         return windowStatus;
     }
 
-    public void setWindowStatus(WindowStatus windowStatus) {
+    public void setWindowStatus(Sensor windowStatus) {
         this.windowStatus = windowStatus;
     }
 }
@@ -990,52 +994,58 @@ Use the good annotations to
 * (2) You must give a different name for your table. H2 can't call a table _Window_ because it is a reserved word. So call it RWINDOW
 * (3) Declare this field as the table ID. This ID must to be auto generated
 * (4) This field must be not nullable
-* (5) WindowStatus is also not nullable, and this field is an enumeration (you have to use @Enumerated). You have to add these informations
+* (5) The `windowStatus` is a Sensor. You need to use the good annotation to define the unidirectional association. This field must be not nullable
 
-Write now
-
-* the *Heater* entity with
-** an auto generated id
-** a non nullable String name
-** a nullable Long power
-** a non nullable room
-** a non nullable status (ON, OFF). This field is an enumeration (you have to use @Enumerated).
-** create a constructor with non nullable fields and a default constructor
-* the *Room* entity
-** an auto generated id
-** a non nullable floor (Integer)
-** a non nullable String name
-** a current temperature (Double)
-** a target temperature (Double)
-** a list of heaters. You have to define a bidirectional association between *Room* and *Heater*
-** a list of windows. You have to define a bidirectional association between *Room* and *Window* : update the Window entity constructor to always send the room when a room is created, ie add an argument Room in the Window constructor
-** create a constructor with non nullable fields and a default constructor
+For the moment this entity has no property room because this entity will be created later.
 
 You can start your application. If you updated your configuration (see this link:spring-data.html#_schema_generation[chapter]) you should see in your app logs
 
 ----
-Hibernate: drop table if exists heater CASCADE
-Hibernate: drop table if exists room CASCADE
-Hibernate: drop table if exists room_windows CASCADE
-Hibernate: drop table if exists rwindow CASCADE
-Hibernate: drop sequence if exists hibernate_sequence
-Hibernate: create sequence hibernate_sequence start with 1 increment by 1
-Hibernate: create table heater (id bigint not null, heater_status varchar(255) not null, name varchar(255) not null, power bigint, room_id bigint not null, primary key (id))
-Hibernate: create table room (id bigint not null, current_temperature double, floor integer not null, name varchar(255) not null, target_temperature double, primary key (id))
-Hibernate: create table room_windows (room_id bigint not null, windows_id bigint not null, primary key (room_id, windows_id))
-Hibernate: create table rwindow (id bigint not null, name varchar(255) not null, window_status varchar(255) not null, room_id bigint not null, primary key (id))
-Hibernate: alter table room_windows add constraint UK_ojyqj1kyod1v2m4eoltwj7sfa unique (windows_id)
-Hibernate: alter table heater add constraint FKba10hbsubifukw0monybjx3a0 foreign key (room_id) references room
-Hibernate: alter table room_windows add constraint FKbpyirwvjc67pkk61hnh5qpn6y foreign key (windows_id) references rwindow
-Hibernate: alter table room_windows add constraint FKaihtbjcqqmheg9s19aala347k foreign key (room_id) references room
-Hibernate: alter table rwindow add constraint FK621arbu4dtuis4nf2o3xtapfn foreign key (room_id) references room
+Hibernate: drop table if exists sp_sensor cascade
+Hibernate: drop table if exists sp_window cascade
+Hibernate: drop sequence if exists sp_sensor_seq
+Hibernate: drop sequence if exists sp_window_seq
+Hibernate: create sequence sp_sensor_seq start with 1 increment by 50
+Hibernate: create sequence sp_window_seq start with 1 increment by 50
+Hibernate: create table sp_sensor (sensor_value float(53), id bigint not null, name varchar(255) not null, sensor_type varchar(255) check (sensor_type in ('TEMPERATURE','POWER','STATUS')), primary key (id))
+Hibernate: create table sp_window (id bigint not null, window_status_id bigint not null, name varchar(255) not null, primary key (id))
+Hibernate: alter table if exists sp_window add constraint FKqdj6jbtn59whbpgt93n927yjn foreign key (window_status_id) references sp_sensor
 ----
+
+==== Room entity
+
+Create the *Room* entity with
+
+* an auto generated id
+* a non nullable floor (Integer)
+* a non nullable String name
+* a current temperature (Sensor) the current temperature is measured by a sensor
+* a target temperature (Double)
+* a list of windows. You have to define a bidirectional association between `Room` and `Window` : update the `Window` entity constructor to always send the room when a room is created, ie add an argument `Room` in the `Window` constructor
+* create a constructor with non nullable fields and a default constructor
+
+You can relaunch your application.
 
 Open your H2 console you should see
 
-image::../../img/training/spring-intro/console-example.png[Expected result in H2 console]
+image::../../img/training/spring-data/console-example.png[width=200, Expected result in H2 console]
 
 _If you more tables you forgot to declare a bidirectional association..._
+
+==== Other entities
+
+You can continue the different exercises. If you choose to follow the given subject for your final project and evaluation, you will have to implement later:
+
+* the `Heater` entity with
+** an auto generated id
+** a non nullable String name
+** a nullable Long power
+** a non nullable room
+** a non nullable status. This field is a Sensor.
+** create a constructor with non nullable fields and a default constructor
+* update the room entity to define a list of heaters. You have to define a bidirectional association between `Room` and `Heater` : update the `Heater` entity constructor to always send the room when a room is created, ie add an argument `Room` in the `Heater` constructor
+* the `Building` entity. The building has an outside temperature (a Sensor), and rooms.
+* ...
 
 === Populate data
 
@@ -1045,33 +1055,35 @@ Create a file `data.sql` in `src/main/resources` next to `application.properties
 
 [source,sql]
 ----
-INSERT INTO ROOM(id, name, floor, current_temperature, target_temperature) VALUES(-10, 'Room1', 1, 22.3, 20.0);
-INSERT INTO ROOM(id, name, floor) VALUES(-9, 'Room2', 1);
+INSERT INTO SP_SENSOR(id, name, sensor_value, sensor_type) VALUES(-10, 'Temperature room 2', 21.3, 'TEMPERATURE');
+INSERT INTO SP_SENSOR(id, name, sensor_value, sensor_type) VALUES(-9, 'Window 1 status room 1', 1.0, 'STATUS');
+INSERT INTO SP_SENSOR(id, name, sensor_value, sensor_type) VALUES(-8, 'Window 2 status room 1', 0.0, 'STATUS');
+INSERT INTO SP_SENSOR(id, name, sensor_value, sensor_type) VALUES(-7, 'Window 1 status room 2', 0.0, 'STATUS');
+INSERT INTO SP_SENSOR(id, name, sensor_value, sensor_type) VALUES(-6, 'Window 2 status room 2', 0.0, 'STATUS');
 
-INSERT INTO HEATER(id, heater_status, name, power, room_id) VALUES(-10, 'ON', 'Heater1', 2000, -10);
-INSERT INTO HEATER(id, heater_status, name, power, room_id) VALUES(-9, 'ON', 'Heater2', null, -10);
+INSERT INTO ROOM(id, name, floor) VALUES(-10, 'Room1', 1);
+INSERT INTO ROOM(id, name, floor, current_temperature_id, target_temperature) VALUES(-9, 'Room2', 1, -10, 20.0);
 
-INSERT INTO RWINDOW(id, window_status, name, room_id) VALUES(-10, 'CLOSED', 'Window 1', -10);
-INSERT INTO RWINDOW(id, window_status, name, room_id) VALUES(-9, 'CLOSED', 'Window 2', -10);
-INSERT INTO RWINDOW(id, window_status, name, room_id) VALUES(-8, 'OPEN', 'Window 1', -9);
-INSERT INTO RWINDOW(id, window_status, name, room_id) VALUES(-7, 'CLOSED', 'Window 2', -9);
+INSERT INTO SP_WINDOW(id, window_status_id, name, room_id) VALUES(-10, -9, 'Window 1', -10);
+INSERT INTO SP_WINDOW(id, window_status_id, name, room_id) VALUES(-9, -8, 'Window 2', -10);
+INSERT INTO SP_WINDOW(id, window_status_id, name, room_id) VALUES(-8, -7, 'Window 1', -9);
+INSERT INTO SP_WINDOW(id, window_status_id, name, room_id) VALUES(-7, -6, 'Window 2', -9);
 ----
-
 
 === Dao creation
 
 ==== Simple DAO
-Write now 3 link:spring-data.html#_data_access_object_dao[Spring data DAO] *WindowDao*, *HeaterDao* and *RoomDao* in package `com.emse.spring.faircorp.dao` (interface that extends JpaRepository with the good types for entity and its id)
+Write now 3 link:spring-data.html#_data_access_object_dao[Spring data DAO] `SensorDao`, `WindowDao` and `RoomDao` in package `com.emse.spring.automacorp.dao` (interface that extends JpaRepository with the good types for entity and its id)
 
 
 You're going to write your own DAO methods (for specific requests), you have to create custom interfaces and implementations with your custom methods.
 
-To check *WindowDao*, create a class *WindowDaoTest* in *src/test/java/com.emse.spring.faircorp.dao*
+To check `WindowDao`, create a class `WindowDaoTest` in *src/test/java/com.emse.spring.automacorp.dao*
 
 [source,java, subs="specialchars"]
 ----
-import com.emse.spring.faircorp.model.Window;
-import com.emse.spring.faircorp.model.WindowStatus;
+import com.emse.spring.automacorp.model.Window;
+import com.emse.spring.automacorp.model.WindowStatus;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -1079,35 +1091,38 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@ExtendWith(SpringExtension.class)
-@DataJpaTest
+@DataJpaTest // (1)
 class WindowDaoTest {
-    @Autowired
+    @Autowired // (2)
     private WindowDao windowDao;
 
     @Test
-    public void shouldFindAWindow() {
-        Window window = windowDao.getReferenceById(-10L);
+    public void shouldFindAWindowById() {
+        Window window = windowDao.getReferenceById(-10L); // (3)
         Assertions.assertThat(window.getName()).isEqualTo("Window 1");
-        Assertions.assertThat(window.getWindowStatus()).isEqualTo(WindowStatus.CLOSED);
+        Assertions.assertThat(window.getWindowStatus().getValue()).isEqualTo(1.0);
     }
 }
 ----
 
-Execute your test.
-This test should be green.
-You can write similar tests to test *RoomDao* and *HeaterDao*
+* (1) `DataJpaTest` is a SpringBoot annotation to help the DAO tests. This annotation initialize a in memory database and a Spring context with the objects needed for our tests
+* (2) With this initialization we can inject a Spring Bean, our DAO to test
+* (3) and we can call the DAO to interact with the database
 
-video::a_245NeyCrM[youtube,width=600,height=330]
+Execute your test. This test should be green.
+
+You can write similar tests to test *RoomDao* and *SensorDao*
+
+video::-BtxXL5bA8Q[youtube,width=1000,height=500]
 
 ==== Custom DAO
 
-Create your own interface *WindowDaoCustom* in package `com.emse.spring.faircorp.dao`
+Create your own interface *WindowDaoCustom* in package `com.emse.spring.automacorp.dao`
 
 [source,java,subs="specialchars"]
 ----
 public interface WindowDaoCustom {
-    List<Window> findRoomOpenWindows(Long id);
+    List<Window> findRoomsWithOpenWindows(Long id);
 }
 ----
 
@@ -1117,38 +1132,43 @@ Create your own implementation of *WindowDaoCustom* with your custom methods and
 
 [source,java,subs="specialchars"]
 ----
-public class WindowDaoCustomImpl implements WindowDaoCustom {
+import com.emse.spring.automacorp.model.Window;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 
+import java.util.List;
+
+public class WindowDaoCustomImpl implements WindowDaoCustom {
     @PersistenceContext
     private EntityManager em;
 
     @Override
-    public List<Window> findRoomOpenWindows(Long id) {
-        String jpql = "select w from Window w where w.room.id = :id and w.windowStatus= :status";
+    public List<Window> findRoomsWithOpenWindows(Long id) {
+        String jpql = "select w from Window w inner join w.windowStatus s " +
+                "where w.room.id = :id and s.value > 0.0 order by w.name";
         return em.createQuery(jpql, Window.class)
                 .setParameter("id", id)
-                .setParameter("status", WindowStatus.OPEN)
                 .getResultList();
     }
 }
 ----
 
-You have to test your DAO.When Spring context is loaded, the database is populated with the file `data.sql` and we can test these values.For that update *WindowDaoTest* test and add these methods
+You have to test your DAO. When Spring context is loaded, the database is populated with the file `data.sql` and we can test these values. For that update `WindowDaoTest` test and add these methods
 
 [source,java, subs="specialchars"]
 ----
 @Test
-public void shouldFindRoomOpenWindows() {
-    List<Window> result = windowDao.findRoomOpenWindows(-9L);
+public void shouldFindRoomsWithOpenWindows() {
+    List<Window> result = windowDao.findRoomsWithOpenWindows(-10L);
     Assertions.assertThat(result)
-            .hasSize(1)
-            .extracting("id", "windowStatus")
-            .containsExactly(Tuple.tuple(-8L, WindowStatus.OPEN));
+              .hasSize(1)
+              .extracting("id", "name")
+              .containsExactly(Tuple.tuple(-10L, "Window 1"));
 }
 
 @Test
-public void shouldNotFindRoomOpenWindows() {
-    List<Window> result = windowDao.findRoomOpenWindows(-10L);
+public void shouldNotFindRoomsWithOpenWindows() {
+    List<Window> result = windowDao.findRoomsWithOpenWindows(-9L);
     Assertions.assertThat(result).isEmpty();
 }
 ----
@@ -1157,7 +1177,6 @@ You have to test and develop :
 
 * a custom DAO with a method to find all windows by room name
 * add a method in WindowDao to delete all windows in a room.
-* add a method in HeaterDao to delete all heaters in a room.
 * you have to develop these methods and their tests
 
 To check that window room are deleted you can add this test method in *WindowDaoTest*
@@ -1168,7 +1187,7 @@ To check that window room are deleted you can add this test method in *WindowDao
 public void shouldDeleteWindowsRoom() {
     Room room = roomDao.getById(-10L);
     List<Long> roomIds = room.getWindows().stream().map(Window::getId).collect(Collectors.toList());
-    Assertions.assertThat(roomIds.size()).isEqualTo(2);
+    Assertions.assertThat(roomIds).hasSize(2);
 
     windowDao.deleteByRoom(-10L);
     List<Window> result = windowDao.findAllById(roomIds);
@@ -1177,9 +1196,4 @@ public void shouldDeleteWindowsRoom() {
 }
 ----
 
-When you will finish other lessons you can go back on this chapter and add a new enty to manage a building.
-
-* a building has a set of rooms. This relationship is bidirectional
-* Adds a new DAO BuildingDAO and add a new method to find all the building windows and heaters. You send a building ID and your method should return the list of the windows
-* Adds a unit test to check that everything is OK
 

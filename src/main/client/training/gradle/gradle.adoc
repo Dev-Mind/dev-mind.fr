@@ -502,7 +502,7 @@ buildscript {
       mavenCentral()
     }
 
-    group = "com.devmind.faircorp"
+    group = "com.devmind.automacorp"
     version = "0.0.1-SNAPSHOT"
 
     java { (3)

@@ -20,7 +20,7 @@ You have other libraries to do the same but Room has the advantage of being prov
 
 == Configure Room in your project
 
-1. Open *build.gradle (Module: Faircorp.app)*.
+1. Open *build.gradle (Module: automacorp.app)*.
 2. As Room uses annotations we need to configure Gradle to launch the kotlin annotation processor.
 For that you just have to add a new plugin id `kotlin-kapt`
 +
@@ -75,7 +75,7 @@ The value is a blob of data, stored exactly as it was input.
 When working with Room, however, you should only be concerned with the Kotlin types when defining your model classes.
 Mapping the data types in your model class to the ones used in the database is handled automatically.
 
-Create a new class in the package `com.faircorp.model` called `Window`
+Create a new class in the package `com.automacorp.model` called `Window`
 
 We have to define several things
 
@@ -102,7 +102,7 @@ data class Window(
 }
 ----
 
-In this code we used an enum `WindowStatus`, but this enum is not a known type in the database. We should help Rooms to serialize and deserialize this enum value.Create in the package `com.faircorp.model` a new class `EnumConverters`.
+In this code we used an enum `WindowStatus`, but this enum is not a known type in the database. We should help Rooms to serialize and deserialize this enum value.Create in the package `com.automacorp.model` a new class `EnumConverters`.
 
 [source,kotlin,subs="specialchars"]
 ----
@@ -129,7 +129,7 @@ A DAO (Data Access Object) is a Kotlin class that provides access to the data.
 We will define functions for reading or manipulating data.
 Each function call will perform a SQL command on the database.
 
-Create a new interface called WindowDao in the package `com.faircorp.dao`.
+Create a new interface called WindowDao in the package `com.automacorp.dao`.
 
 If you followed the https://dev-mind.fr/training/spring/spring-data.html[Spring Data] labs, Room is like Spring and it will generate the interface implementation at compile time.
 
@@ -180,7 +180,7 @@ In the second example we use a function argument in the request.
 
 We now need to configure the database in our project. With Room library we have to initialize a RoomDatabase and configure the different entities, the converters and their DAOs.
 
-For that create a new class FaircorpDatabase in `com.faircorp.dao`
+For that create a new class automacorpDatabase in `com.automacorp.dao`
 
 * `@Database` annotation is used to declare all entities. The version number is incremented each time you make a schema change. The app checks this version with the one in the database to determine if and how a migration should be performed.
 * `@TypeConverters` annotation is used to declare all type converters.
@@ -189,18 +189,18 @@ For that create a new class FaircorpDatabase in `com.faircorp.dao`
 ----
 @Database(entities = [Window::class], version = 1)
 @TypeConverters(EnumConverters::class)
-abstract class FaircorpDatabase : RoomDatabase() {
+abstract class automacorpDatabase : RoomDatabase() {
     abstract fun windowDao(): WindowDao
 }
 ----
 
-When using an FaircorpDatabase class, you want to ensure that only one instance of the database exists to prevent race conditions or other potential issues. This is the same thing for all technical objects as yours DAOs. To resolve this problem you can use a dependency injection libray as https://developer.android.com/jetpack/androidx/releases/hilt[Hilt].
+When using an automacorpDatabase class, you want to ensure that only one instance of the database exists to prevent race conditions or other potential issues. This is the same thing for all technical objects as yours DAOs. To resolve this problem you can use a dependency injection libray as https://developer.android.com/jetpack/androidx/releases/hilt[Hilt].
 
-We will use a simpler solution in this lab. Create you own instance of Android `Application` in package `com.faircorp`. When your application is launched, this class will live until the application is terminated.
+We will use a simpler solution in this lab. Create you own instance of Android `Application` in package `com.automacorp`. When your application is launched, this class will live until the application is terminated.
 
 [source,kotlin,subs="specialchars"]
 ----
-class FaircorpApplication : Application() {}
+class AutomacorpApplication : Application() {}
 ----
 
 You need to declare this new class in `AndroidManifest.xml` to launch you own implementation in place of the default one, when your app will be started.
@@ -210,18 +210,18 @@ You need to declare this new class in `AndroidManifest.xml` to launch you own im
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:tools="http://schemas.android.com/tools">
     <application
-        android:name=".FaircorpApplication"
+        android:name=".AutomacorpApplication"
      ...
 ----
 
-Now we will declare ou database in this `FaircorpApplication` class. The database creation can be done with the room builder. You need to declare the global context, your Database class and the db name.
+Now we will declare ou database in this `AutomacorpApplication` class. The database creation can be done with the room builder. You need to declare the global context, your Database class and the db name.
 
 [source,kotlin,subs="specialchars"]
 ----
-class FaircorpApplication : Application() {
+class AutomacorpApplication : Application() {
 
-    val database: FaircorpDatabase by lazy {
-        Room.databaseBuilder(this, FaircorpDatabase::class.java, "faircorpdb")
+    val database: automacorpDatabase by lazy {
+        Room.databaseBuilder(this, automacorpDatabase::class.java, "automacorpdb")
             .build()
     }
 }
@@ -231,7 +231,7 @@ If you need to use a DAO in you code you will be able to use
 
 [source,kotlin,subs="specialchars"]
 ----
-val windowDao = faircorpApplication.database.windowDao()
+val windowDao = AutomacorpApplication.database.windowDao()
 ----
 
 == Use ViewModel object
@@ -258,7 +258,7 @@ The ViewModel class is used to store data related to an app's UI, and is also li
 
 === Create a ViewModel
 
-To create a view model class, create a new class called `WindowViewModel` in a new package called `com.faircorp.viewmodel`. It should only use the `WindowDao` and for the moment we can implment inside the method used to load data
+To create a view model class, create a new class called `WindowViewModel` in a new package called `com.automacorp.viewmodel`. It should only use the `WindowDao` and for the moment we can implment inside the method used to load data
 
 [source,kotlin,subs="specialchars"]
 ----
@@ -290,7 +290,7 @@ class WindowViewModel(private val windowDao: WindowDao) : ViewModel() {
      companion object {
         val factory: ViewModelProvider.Factory = object : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
-                val windowDao = (extras[APPLICATION_KEY] as FaircorpApplication).database.windowDao()
+                val windowDao = (extras[APPLICATION_KEY] as AutomacorpApplication).database.windowDao()
                 return WindowViewModel(windowDao) as T
             }
         }

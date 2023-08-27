@@ -60,7 +60,7 @@ Update method *openWindow* in *MainActivity* to
 class MainActivity : AppCompatActivity() {
 
     companion object {
-        const val WINDOW_NAME_PARAM = "com.faircorp.windowname.attribute"
+        const val WINDOW_NAME_PARAM = "com.automacorp.windowname.attribute"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -233,10 +233,10 @@ You can configure your app to secure yours methods. For that, add annotation `En
 ----
 @SpringBootApplication
 @EnableGlobalMethodSecurity(securedEnabled = true)
-public class FaircorpApplication {
+public class AutomacorpApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(FaircorpApplication.class, args);
+        SpringApplication.run(AutomacorpApplication.class, args);
     }
 
 }

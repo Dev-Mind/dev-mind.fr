@@ -254,10 +254,10 @@ You can find several example in the WindowController test
 
 [source,java, subs="specialchars"]
 ----
-package com.emse.spring.faircorp.web;
+package com.emse.spring.automacorp.web;
 
-import com.emse.spring.faircorp.domain.*;
-import com.emse.spring.faircorp.repository.*;
+import com.emse.spring.automacorp.domain.*;
+import com.emse.spring.automacorp.repository.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -394,7 +394,7 @@ private MockMvc mockMvc;
 
 This is the time to create your first REST controller with Spring.
 
-Create a new class *HelloController* in package `com.emse.spring.faircorp.api`.
+Create a new class *HelloController* in package `com.emse.spring.automacorp.api`.
 
 [.small]
 [source,java, subs="specialchars"]
@@ -810,11 +810,11 @@ This test should work
 
 [source,java]
 ----
-package com.emse.spring.faircorp.service;
+package com.emse.spring.automacorp.service;
 
-import com.emse.spring.faircorp.service.dto.ApiGouvAdressDto;
-import com.emse.spring.faircorp.service.dto.ApiGouvFeatureDto;
-import com.emse.spring.faircorp.service.dto.ApiGouvResponseDto;
+import com.emse.spring.automacorp.service.dto.ApiGouvAdressDto;
+import com.emse.spring.automacorp.service.dto.ApiGouvFeatureDto;
+import com.emse.spring.automacorp.service.dto.ApiGouvResponseDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.api.Assertions;

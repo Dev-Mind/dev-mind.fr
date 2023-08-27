@@ -100,7 +100,7 @@ Use these settings
 * *Project metadata*:
 +
 ** group : `com.emse.spring`
-** artifact & name :  `faircorp`.
+** artifact & name :  `automacorp`.
 ** Packaging : `jar`
 ** Java : `17`
 * *Dependencies*, click on button "ADD DEPENDENCIES"" to choose which sub projects we will use. Choose *Spring Web* and *Spring Boot DevTools*
@@ -124,7 +124,7 @@ File : *> settings.gradle.kts* contains the project name
 
 [source,kotlin]
 ----
-rootProject.name = "faircorp"
+rootProject.name = "automacorp"
 ----
 
 File : *> build.gradle.kts* contains information used by Gradle to build app
@@ -173,39 +173,39 @@ tasks.withType<Test> { // (11)
 
 ==== App files
 
-File : *> src > main > java > com.emse.spring.faircorp.FaircorpApplication*
+File : *> src > main > java > com.emse.spring.automacorp.AutomacorpApplication*
 
 The annotation `@SpringBootApplication` initialize a Spring Boot application. This is your app entry point
 
 [source,java, subs="specialchars"]
 ----
-package com.emse.spring.faircorp;
+package com.emse.spring.automacorp;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class FaircorpApplication {
+public class AutomacorpApplication {
 	public static void main(String[] args) {
-		SpringApplication.run(FaircorpApplication.class, args);
+		SpringApplication.run(AutomacorpApplication.class, args);
 	}
 }
 
 ----
 
-On startup Spring Boot will automatically scan all sub packages, defined below `com.emse.spring.faircorp`.
+On startup Spring Boot will automatically scan all sub packages, defined below `com.emse.spring.automacorp`.
 
 If these packages contain Spring Beans (classes annotated with special annotations like `@Controller`, `@Service` ...), Spring Boot will automatically add them to the Spring context.
 
-File : *> src > main > java > com.emse.spring.faircorp.FaircorpApplicationTests*
+File : *> src > main > java > com.emse.spring.automacorp.AutomacorpApplicationTests*
 
-This class is the test file of your FaircorpApplication. In a good application, all files are tested and verified by unit tests
+This class is the test file of your AutomacorpApplication. In a good application, all files are tested and verified by unit tests
 
 [source,java,subs="specialchars"]
 ----
 @RunWith(SpringRunner.class) // (1)
 @SpringBootTest // (2)
-public class FaircorpApplicationTests {
+public class AutomacorpApplicationTests {
     @Test
     public void contextLoads() {
     }
@@ -216,7 +216,7 @@ public class FaircorpApplicationTests {
 
 You can run this test if you click on green button
 
-image::../../img/training/spring-intro/run-test.png[]
+video::6FlusTFOmRA[youtube, width=700, height=300]
 
 File : *> src > main > resources > application.properties*
 
@@ -235,7 +235,7 @@ It contains all the application properties. For the moment this file is empty
 
 [...]
 2023-08-22T17:15:59.685+02:00  INFO 124158 --- [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
-2023-08-22T17:15:59.697+02:00  INFO 124158 --- [  restartedMain] c.e.spring.faircorp.FaircorpApplication  : Started FaircorpApplication in 1.76 seconds (process running for 2.126)
+2023-08-22T17:15:59.697+02:00  INFO 124158 --- [  restartedMain] c.e.spring.automacorp.AutomacorpApplication  : Started AutomacorpApplication in 1.76 seconds (process running for 2.126)
 2023-08-22T17:16:04.331+02:00  INFO 124158 --- [nio-8085-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
 2023-08-22T17:16:04.332+02:00  INFO 124158 --- [nio-8085-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
 2023-08-22T17:16:04.334+02:00  INFO 124158 --- [nio-8085-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
@@ -288,20 +288,20 @@ image::../../img/training/spring-intro/mvc-run.png[size=80%]
 ----
 
 * This task generate a jar (Java archive) in `build/libs`.
-* jar name is `faircorp-0.0.1-SNAPSHOT.jar`. It contains everything you need to launch the application (conf + libs)
+* jar name is `automacorp-0.0.1-SNAPSHOT.jar`. It contains everything you need to launch the application (conf + libs)
 
 To launch your Spring Boot App you can execute
 
 [source,shell]
 ----
-java -jar build/libs/faircorp-0.0.1-SNAPSHOT.jar
+java -jar build/libs/automacorp-0.0.1-SNAPSHOT.jar
 ----
 
 You can stop your app [Ctrl + c]
 
 === Launch application in dev mode
 
-*com.emse.spring.faircorp.FaircorpApplication* is a bootable class because it contains a main class
+*com.emse.spring.automacorp.AutomacorpApplication* is a bootable class because it contains a main class
 
 [source,java, subs="specialchars"]
 ----
@@ -309,7 +309,8 @@ public static void main(String[] args) { }
 ----
 
 Open this class. You can click on the green button in the margin
-image:../../img/training/spring-intro/run-class.png[]
+
+video::f8mRHwIgxAY[youtube, width=700, height=300]
 
 or use launch configuration in your toolbar image:../../img/training/spring-intro/run-config.png[]
 
@@ -338,6 +339,27 @@ image:../../img/training/spring-intro/run-class2.png[]
 +
 3. Recompile your code or restart your app
 4. Reopen http://localhost:8080 in your browser. You should see your Hello message
+
+If you want to have a nicer page, you can include a CSS library as Bootstrap (see the https://getbootstrap.com/docs/5.3/getting-started/introduction/#cdn-links[CDN links])
+
+[source,html,linenums,subs=""]
+----
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+----
+
+After this import you can use the different CSS components provided by https://getbootstrap.com/[Bootstrap]. To see the result update your page
+
+[source,html,linenums,subs=""]
+----
+<body>
+    <div class="container">
+        <h1>Automacorp</h1>
+        <p class="lead">
+            Welcome on the Automacorp App used to learn Spring.
+        </p>
+    </div>
+</body>
+----
 
 == Understand what's happened
 

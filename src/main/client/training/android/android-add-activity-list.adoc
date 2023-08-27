@@ -31,7 +31,7 @@ A Window is defined by several properties
 
 We are going to create classes to represent windows and rooms.
 
-1. In the *Project window*, right-click the package _com.faircorp_ and select *New > package*.
+1. In the *Project window*, right-click the package _com.automacorp_ and select *New > package*.
 2. New package will be called *model*. Select this package, redo a right-click and select *New > Kotlin File/Class*.
 3. Fill a name. For example *RoomDto* (dto = data transfer object) and create window properties. You can copy this code
 +
@@ -154,7 +154,7 @@ image::../../img/training/android/android-window-item.png[Android item layout]
 
 As we see in link:android-add-activity-list.html#_recyclerview[previous chapter], an adapter manages the view holder objects. The adapter also binds the view holders to their data. It does this by assigning the view holder to a position.
 
-1. In the *Project window*, right-click the package _com.faircorp.model_ and right-click and select *New > Kotlin File/Class*. We will create a new class called *WindowsAdapterView*
+1. In the *Project window*, right-click the package _com.automacorp.model_ and right-click and select *New > Kotlin File/Class*. We will create a new class called *WindowsAdapterView*
 2. You can copy this code inside
 +
 [source,kotlin,subs="specialchars"]
