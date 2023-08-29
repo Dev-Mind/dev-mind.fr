@@ -2,7 +2,7 @@
 :description: How use a database in your Spring project with Spring Data JPA and a H2 Database
 :keywords: Java, Spring
 :author: Guillaume EHRET - Dev-Mind
-:revdate: 2022-10-11
+:revdate: 2023-09-06
 :category: Java
 :teaser:  How use a database in your Spring project with Spring Data JPA and a H2 Database? Hibernate will be the JPA implementation
 :imgteaser: ../../img/training/spring-data.png
@@ -300,7 +300,7 @@ import jakarta.persistence.*;
 
 @Entity // (1).
 @Table(name = "SP_SENSOR") // (2).
-public class Sensor {
+public class SensorEntity {
     @Id // (3).
     @GeneratedValue
     private Long id;
@@ -318,10 +318,10 @@ public class Sensor {
     @Transient // (7).
     private Integer notImportant;
 
-    public Sensor() { // (8).
+    public SensorEntity() { // (8).
     }
 
-    public Sensor(SensorType sensorType, String name) { // (9).
+    public SensorEntity(SensorType sensorType, String name) { // (9).
         this.name = name;
         this.sensorType = sensorType;
     }
@@ -755,25 +755,25 @@ In SQL we select a list of columns belonging to one or more tables. In JPQL we s
 [source,java, subs="specialchars"]
 ----
 // Selection sensors
-select c from Sensor c
+select c from SensorEntity c
 
 // Selection sites linked to a sensor
-select c.site from Sensor c
+select c.site from SensorEntity c
 ----
 
 You can use implicit join
 [.langage-small]
 [source,java, subs="specialchars"]
 ----
-select c from Sensor c where c.site.id = :siteId
+select c from SensorEntity c where c.site.id = :siteId
 ----
 
 Or you can use explicit join
 [.langage-small]
 [source,java, subs="specialchars"]
 ----
-select c from Sensor c join c.site s where s.id = :siteId
-select c from Sensor c left join c.site s where s.id = :siteId
+select c from SensorEntity c join c.site s where s.id = :siteId
+select c from SensorEntity c left join c.site s where s.id = :siteId
 ----
 
 == Data Access Object (DAO)
@@ -787,8 +787,8 @@ An example of Spring Data Jpa repository (DAO)
 [.langage-small]
 [source,java, subs="specialchars"]
 ----
-public interface SensorDao extends JpaRepository<Sensor, Long> {
-    @Query("select c from Sensor c where c.name=:name")
+public interface SensorDao extends JpaRepository<SensorEntity, Long> {
+    @Query("select c from SensorEntity c where c.name=:name")
     Sensor findByName(@Param("name") String name);
 }
 ----
@@ -802,15 +802,15 @@ With Spring Data Jpa, if you respect conventions you don't need to create a DAO 
 [.langage-small]
 [source,java, subs="specialchars"]
 ----
-public interface SensorDao extends JpaRepository<Sensor, String> {
+public interface SensorDao extends JpaRepository<SensorEntity, Long> {
 
-    List<Sensor> findBySiteId(String siteId); // (1).
+    List<SensorEntity> findBySiteId(Long siteId); // (1).
 
-    @Query("select c from Sensor c where c.name=:name")  // (2)
+    @Query("select c from SensorEntity c where c.name=:name")  // (2)
     Sensor findByName(@Param("name") String name);
 
     @Modifying // (3)
-    @Query("delete from Sensor c where c.name = ?1")
+    @Query("delete from SensorEntity c where c.name = ?1")
     void deleteByName(String name);
 }
 ----
@@ -825,40 +825,40 @@ If a method starts by `findBy`, `findDistinctBy`, `countBy`, ...
 +
 [source,java, subs="specialchars"]
 ----
-List<Sensor> findByName(String name);
+List<SensorEntity> findByName(String name);
 ----
 * You can add a property of a property
 +
 [source,java, subs="specialchars"]
 ----
-List<Sensor> findBySiteId(String siteId);
+List<SensorEntity> findBySiteId(String siteId);
 ----
 * You can cumulate criteria
 +
 [source,java, subs="specialchars"]
 ----
-List<Sensor> findByNameAndSiteId(String name, String siteId);
-List<Sensor> findByNameOrSiteId(String name, String siteId);
+List<SensorEntity> findByNameAndSiteId(String name, String siteId);
+List<SensorEntity> findByNameOrSiteId(String name, String siteId);
 ----
 * You can ignore upper or lower case
 +
 [source,java, subs="specialchars"]
 ----
-List<Sensor> findByNameIgnoreCase(String name);
-List<Sensor> findByNameAndSiteIdAllIgnoreCase(String name, String siteId);
+List<SensorEntity> findByNameIgnoreCase(String name);
+List<SensorEntity> findByNameAndSiteIdAllIgnoreCase(String name, String siteId);
 ----
 * You can sort data
 +
 [source,java, subs="specialchars"]
 ----
-List<Sensor> findByNameOrderByNameAsc(String name);
-List<Sensor> findByNameOrderByNameDesc(String name);
+List<SensorEntity> findByNameOrderByNameAsc(String name);
+List<SensorEntity> findByNameOrderByNameDesc(String name);
 ----
 * You can select only one element (if you have for example an unicity constraint). But in this case if several elements are found an exception is thrown
 +
 [source,java, subs="specialchars"]
 ----
-Sensor findByName(String name);
+SensorEntity findByName(String name);
 ----
 
 For more informations read link:https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#repositories.query-methods.details[the documentation] to know more things
@@ -871,7 +871,7 @@ If you need to create your own queries, you have to create a new interface
 [source,java, subs="specialchars"]
 ----
 public interface SensorCustomDao {
-    List<Sensor> findBySiteText(String searchText);
+    List<SensorEntity> findBySiteText(String searchText);
 }
 ----
 
@@ -880,7 +880,7 @@ You need to update the main interface. In our code we will always inject a *Sens
 [.langage-verysmall]
 [source,java, subs="specialchars"]
 ----
-public interface SensorDao extends JpaRepository<Sensor, String>, SensorCustomDao {
+public interface SensorDao extends JpaRepository<SensorEntity, String>, SensorCustomDao {
 }
 ----
 
@@ -895,8 +895,8 @@ public class SensorCustomDaoImpl implements SensorCustomDao {
     private EntityManager em;
 
     @Override
-    public List<Sensor> findBySiteText(String searchText) {
-        return em.createQuery("select c from Sensor c inner join c.site s where lover(s.name) like :searchText",
+    public List<SensorEntity> findBySiteText(String searchText) {
+        return em.createQuery("select c from SensorEntity c inner join c.site s where lover(s.name) like :searchText",
                               Sensor.class)
                  .setParameter("searchText", "%" + searchText.toLowerCase() + "%")
                  .getResultList();
@@ -926,7 +926,7 @@ The heater status, the window status and the temperature are measured by externa
 
 ==== Sensor entity
 
-The `Sensor` entity was given https://dev-mind.fr/training/spring/spring-data.html#_jpa_entity[higher] on the page. You can remove the `notImportant` property
+The `SensorEntity` entity was given https://dev-mind.fr/training/spring/spring-data.html#_jpa_entity[higher] on the page. You can remove the `notImportant` property
 
 Create a Java enum called `SensorType` in package `com.emse.spring.automacorp.model` to define the type of the sensor.
 [source,java, subs="specialchars"]
@@ -936,7 +936,7 @@ public enum SensorType { TEMPERATURE, POWER, STATUS }
 
 ==== Window entity
 
-Create an Entity called `Window` in package `com.emse.spring.automacorp.model` (an entity is a class). You have to use the JPA annotations seen previously.
+Create an Entity called `WindowEntity` in package `com.emse.spring.automacorp.model` (an entity is a class). You have to use the JPA annotations seen previously.
 
 You can copy this code. For the moment this entity has no property room because this entity will be created later.
 
@@ -944,7 +944,7 @@ You can copy this code. For the moment this entity has no property room because 
 ----
 // (1)
 // (2)
-public class Window {
+public class WindowEntity {
     // (3)
     private Long id;
 
@@ -952,12 +952,12 @@ public class Window {
     private String name;
 
     // (5)
-    private Sensor windowStatus;
+    private SensorEntity windowStatus;
 
-    public Window() {
+    public WindowEntity() {
     }
 
-    public Window(String name, Sensor sensor) {
+    public WindowEntity(String name, SensorEntity sensor) {
         this.windowStatus = sensor;
         this.name = name;
     }
@@ -991,10 +991,10 @@ public class Window {
 Use the good annotations to
 
 * (1) Mark this class as a JPA entity
-* (2) You must give a different name for your table. H2 can't call a table _Window_ because it is a reserved word. So call it RWINDOW
+* (2) Give a different name for your table => SP_WINDOW
 * (3) Declare this field as the table ID. This ID must to be auto generated
 * (4) This field must be not nullable
-* (5) The `windowStatus` is a Sensor. You need to use the good annotation to define the unidirectional association. This field must be not nullable
+* (5) The `windowStatus` is a SensorEntity. You need to use the good annotation to define the unidirectional association. This field must be not nullable
 
 For the moment this entity has no property room because this entity will be created later.
 
@@ -1014,21 +1014,21 @@ Hibernate: alter table if exists sp_window add constraint FKqdj6jbtn59whbpgt93n9
 
 ==== Room entity
 
-Create the *Room* entity with
+Create the *RoomEntity* entity with
 
 * an auto generated id
 * a non nullable floor (Integer)
 * a non nullable String name
-* a current temperature (Sensor) the current temperature is measured by a sensor
+* a current temperature (SensorEntity) the current temperature is measured by a sensor
 * a target temperature (Double)
-* a list of windows. You have to define a bidirectional association between `Room` and `Window` : update the `Window` entity constructor to always send the room when a room is created, ie add an argument `Room` in the `Window` constructor
+* a list of windows. You have to define a bidirectional association between `RoomEntity` and `WindowEntity` : update the `Window` entity constructor to always send the room when a room is created, ie add an argument `RoomEntity` in the `WindowEntity` constructor
 * create a constructor with non nullable fields and a default constructor
 
 You can relaunch your application.
 
 Open your H2 console you should see
 
-image::../../img/training/spring-data/console-example.png[width=200, Expected result in H2 console]
+image::../../img/training/spring-data/console-example.png[width="400", align="center"]
 
 _If you more tables you forgot to declare a bidirectional association..._
 
@@ -1036,15 +1036,14 @@ _If you more tables you forgot to declare a bidirectional association..._
 
 You can continue the different exercises. If you choose to follow the given subject for your final project and evaluation, you will have to implement later:
 
-* the `Heater` entity with
+* the `HeaterEntity` entity with
 ** an auto generated id
 ** a non nullable String name
-** a nullable Long power
 ** a non nullable room
 ** a non nullable status. This field is a Sensor.
 ** create a constructor with non nullable fields and a default constructor
-* update the room entity to define a list of heaters. You have to define a bidirectional association between `Room` and `Heater` : update the `Heater` entity constructor to always send the room when a room is created, ie add an argument `Room` in the `Heater` constructor
-* the `Building` entity. The building has an outside temperature (a Sensor), and rooms.
+* update the room entity to define a list of heaters. You have to define a bidirectional association between `RoomEntity` and `HeaterEntity` : update the `HeaterEntity` entity constructor to always send the room when a room is created, ie add an argument `RoomEntity` in the `HeaterEntity` constructor
+* the `BuildingEntity` entity. The building has an outside temperature (a SensorEntity), and rooms.
 * ...
 
 === Populate data
@@ -1061,8 +1060,8 @@ INSERT INTO SP_SENSOR(id, name, sensor_value, sensor_type) VALUES(-8, 'Window 2 
 INSERT INTO SP_SENSOR(id, name, sensor_value, sensor_type) VALUES(-7, 'Window 1 status room 2', 0.0, 'STATUS');
 INSERT INTO SP_SENSOR(id, name, sensor_value, sensor_type) VALUES(-6, 'Window 2 status room 2', 0.0, 'STATUS');
 
-INSERT INTO ROOM(id, name, floor) VALUES(-10, 'Room1', 1);
-INSERT INTO ROOM(id, name, floor, current_temperature_id, target_temperature) VALUES(-9, 'Room2', 1, -10, 20.0);
+INSERT INTO SP_ROOM(id, name, floor) VALUES(-10, 'Room1', 1);
+INSERT INTO SP_ROOM(id, name, floor, current_temperature_id, target_temperature) VALUES(-9, 'Room2', 1, -10, 20.0);
 
 INSERT INTO SP_WINDOW(id, window_status_id, name, room_id) VALUES(-10, -9, 'Window 1', -10);
 INSERT INTO SP_WINDOW(id, window_status_id, name, room_id) VALUES(-9, -8, 'Window 2', -10);
@@ -1098,7 +1097,7 @@ class WindowDaoTest {
 
     @Test
     public void shouldFindAWindowById() {
-        Window window = windowDao.getReferenceById(-10L); // (3)
+        WindowEntity window = windowDao.getReferenceById(-10L); // (3)
         Assertions.assertThat(window.getName()).isEqualTo("Window 1");
         Assertions.assertThat(window.getWindowStatus().getValue()).isEqualTo(1.0);
     }
@@ -1122,7 +1121,7 @@ Create your own interface *WindowDaoCustom* in package `com.emse.spring.automaco
 [source,java,subs="specialchars"]
 ----
 public interface WindowDaoCustom {
-    List<Window> findRoomsWithOpenWindows(Long id);
+    List<WindowEntity> findRoomsWithOpenWindows(Long id);
 }
 ----
 
@@ -1143,10 +1142,10 @@ public class WindowDaoCustomImpl implements WindowDaoCustom {
     private EntityManager em;
 
     @Override
-    public List<Window> findRoomsWithOpenWindows(Long id) {
+    public List<WindowEntity> findRoomsWithOpenWindows(Long id) {
         String jpql = "select w from Window w inner join w.windowStatus s " +
                 "where w.room.id = :id and s.value > 0.0 order by w.name";
-        return em.createQuery(jpql, Window.class)
+        return em.createQuery(jpql, WindowEntity.class)
                 .setParameter("id", id)
                 .getResultList();
     }
@@ -1159,7 +1158,7 @@ You have to test your DAO. When Spring context is loaded, the database is popula
 ----
 @Test
 public void shouldFindRoomsWithOpenWindows() {
-    List<Window> result = windowDao.findRoomsWithOpenWindows(-10L);
+    List<WindowEntity> result = windowDao.findRoomsWithOpenWindows(-10L);
     Assertions.assertThat(result)
               .hasSize(1)
               .extracting("id", "name")
@@ -1168,7 +1167,7 @@ public void shouldFindRoomsWithOpenWindows() {
 
 @Test
 public void shouldNotFindRoomsWithOpenWindows() {
-    List<Window> result = windowDao.findRoomsWithOpenWindows(-9L);
+    List<WindowEntity> result = windowDao.findRoomsWithOpenWindows(-9L);
     Assertions.assertThat(result).isEmpty();
 }
 ----
@@ -1177,6 +1176,7 @@ You have to test and develop :
 
 * a custom DAO with a method to find all windows by room name
 * add a method in WindowDao to delete all windows in a room.
+* a method to close or open all windows in a room
 * you have to develop these methods and their tests
 
 To check that window room are deleted you can add this test method in *WindowDaoTest*
@@ -1185,15 +1185,15 @@ To check that window room are deleted you can add this test method in *WindowDao
 ----
 @Test
 public void shouldDeleteWindowsRoom() {
-    Room room = roomDao.getById(-10L);
+    RoomEntity room = roomDao.getById(-10L);
     List<Long> roomIds = room.getWindows().stream().map(Window::getId).collect(Collectors.toList());
     Assertions.assertThat(roomIds).hasSize(2);
 
     windowDao.deleteByRoom(-10L);
-    List<Window> result = windowDao.findAllById(roomIds);
+    List<WindowEntity> result = windowDao.findAllById(roomIds);
     Assertions.assertThat(result).isEmpty();
 
 }
 ----
 
-
+That's all for the moment. In this course you learnt how to configure and use a database in Spring Boot app.

@@ -21,6 +21,32 @@ The security is a complex subject. We retrieve this complexity in Spring Securit
 But Spring Security and Spring Boot come with an abstraction to make easier the integration with the main tools and concepts : SSO, OpenID, Oauth, NTLM, LDAP, Kerberos
 
 
+== CORS
+
+Today browsers forbid a website to access to resources served by another website defined on a different domain. [.small .small-block]#If you want to call your API on http://localhost:8080 from a webapp you should have this error#
+
+> *Access to fetch at 'http://localhost:8080/api/rooms' from origin 'null' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource. If an opaque response serves your needs, set the request's mode to 'no-cors' to fetch the resource with CORS disabled.*
+
+
+https://en.wikipedia.org/wiki/Cross-origin_resource_sharing[Cross-Origin Resource Sharing] is a mechanism that allows this dialog
+
+To resolve this problem you have to manage CORS headers.
+
+Add annotation `@CrossOrigin` to your `@RestController` to open your API to all other apps
+
+[source,java, subs="specialchars"]
+----
+@CrossOrigin
+----
+
+If your Vue.js app is launched on http://localhost:3010 ou can open your API only for this app
+
+[source,java, subs="specialchars"]
+----
+@CrossOrigin(origins = { "http://localhost:3010" }, maxAge = 3600)
+----
+
+
 == Authentication
 
 Authentication is how we verify the identity of who is trying to access a particular resource.
@@ -173,9 +199,9 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 }
 ----
 
-<1> Ensures that any request to our application requires the user to be authenticated
-<2> Allows users to authenticate with form based login
-<3> Allows users to authenticate with HTTP Basic authentication
+* (1) Ensures that any request to our application requires the user to be authenticated
+* (2) Allows users to authenticate with form based login
+* (3) Allows users to authenticate with HTTP Basic authentication
 
 <<<
 
@@ -194,9 +220,9 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         .build();
 }
 ----
-<1> If you have more than one filter you need to use an annotation `Order` to define the first one to use
-<2> antMatcher states that this HttpSecurity will only be applicable to URLs that start with `/api/`
-<3> we can specify the roles that will really have access to this HTTP route
+* (1) If you have more than one filter you need to use an annotation `Order` to define the first one to use
+* (2) antMatcher states that this HttpSecurity will only be applicable to URLs that start with `/api/`
+* (3) we can specify the roles that will really have access to this HTTP route
 
 <<<
 
@@ -253,7 +279,7 @@ public ResponseEntity<String> findAll(@AuthenticationPrincipal UserDetails userD
 }
 ----
 
-<1> Here we add a constraint on the user role and user must have the role ADMIN
+* (1) Here we add a constraint on the user role and user must have the role ADMIN
 
 
 <<<

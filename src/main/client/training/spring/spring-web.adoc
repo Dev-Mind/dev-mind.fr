@@ -2,7 +2,7 @@
 :description: How write REST services in Spring Web and expose resource to your apps
 :keywords: Java, Spring
 :author: Guillaume EHRET - Dev-Mind
-:revdate: 2022-11-13
+:revdate: 2023-09-07
 :category: Java
 :teaser:  How write REST services in Spring Web and expose resource to your apps
 :imgteaser: ../../img/training/spring-boot.png
@@ -11,7 +11,7 @@
 
 == Introduction
 
-Spring purpose 2 web framework to build an application : the Servlet-based https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#spring-web[Spring MVC] web framework and, in parallel, the https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#spring-webflux[Spring WebFlux] reactive web framework.
+Spring purpose 2 web frameworks to build an application : the Servlet-based https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#spring-web[Spring MVC] web framework and, in parallel, the https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#spring-webflux[Spring WebFlux] reactive web framework.
 
 In this course we will focus on https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#spring-web[Spring MVC] because this framework is the most used.
 
@@ -19,7 +19,7 @@ https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#spr
 
 image::../../img/training/spring-boot.png[width=800, align="center"]
 
-With Spring Web (Spring MVC) you can write screens with a template solution which are used to generate HTML.But we don't use this solution in this course.We will see how to write REST services.However if you are interested you can read https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-view[official documentation].
+With Spring Web (Spring MVC) you can write screens with a template solution which are used to generate HTML. But we don't use this solution in this course. We will see how to write REST services. However if you are interested you can read https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-view[official documentation].
 
 image::../../img/training/spring-intro/spring-mvc.png[width=800, align="center"]
 
@@ -30,82 +30,113 @@ image::../../img/training/spring-intro/mvc-rest.png[width=800, align="center"]
 
 == Data Transfert Object
 
+=== Serialization
+
 A DTO is an object that carries data between processes. Data need to be serializable to go across the HTTP connection
 
 image::../../img/training/spring-intro/dto.png[width=800, align="center"]
 
 Serialization is the process of translating data structures or object into a format that can be transmitted
 
-It’s often just a bunch of fields and the getters and setters for them.
+A DTO is often just a POJO (Plain Old Java Object), a bunch of fields and the getters and setters for them. Since Java 16 you can also use Record objects.
+
+A record is a class that has specific characteristics:
+
+* this is a final class which cannot be enriched by inheritance from another record or from another class
+* each element of the description is encapsulated in a private and final field to guarantee immutability
+* a public getter is proposed for each element
+* a default `equals()` and `hashCode()` methods are provided, but you can override them.
+
 
 [.small]
 [source,java, subs="specialchars"]
 ----
-public class WindowDto {
-    private Long id;
-    private String name;
-    private WindowStatus windowStatus;
-    private String roomName;
-    private Long roomId;
-
-    public WindowDto() {
-    }
-
-    public WindowDto(Window window) {
-        this.id = window.getId();
-        this.name = window.getName();
-        this.windowStatus = window.getWindowStatus();
-        this.roomName = window.getRoom().getName();
-        this.roomId = window.getRoom().getId();
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public WindowStatus getWindowStatus() {
-        return windowStatus;
-    }
-
-    public void setWindowStatus(WindowStatus windowStatus) {
-        this.windowStatus = windowStatus;
-    }
-
-    public String getRoomName() {
-        return roomName;
-    }
-
-    public void setRoomName(String roomName) {
-        this.roomName = roomName;
-    }
-
-    public Long getRoomId() {
-        return roomId;
-    }
-
-    public void setRoomId(Long roomId) {
-        this.roomId = roomId;
-    }
+public record Sensor(Long id, String name, Double value, SensorType sensorType) {
 }
 ----
 
 DTO will be used to transfer and to receive data in our REST controllers (entry point in our Java webapp).
 
-Very often we find a constructor with the entity allowing to build a new instance. *But beware, a DTO must always have an empty constructor*. Libraries used to serialize or deserialize an object use the Java reflection API. In our case we will have a constructor allowing to build a *WindowDto* from *Window* entity.
+=== Mapper
+
+You can define a Record mapper to create a record from an entity
+
+[source,java, subs="specialchars"]
+----
+public class SensorMapper {
+  public static Sensor of(SensorEntity sensor) {
+    return new Sensor(
+        sensor.getId(),
+        sensor.getName(),
+        sensor.getValue(),
+        sensor.getSensorType()
+    );
+  }
+}
+----
 
 image::../../img/training/spring-intro/java-objects.png[width=800, align="center"]
+
+=== icon:flask[] : Create your DTO and their mapper
+
+Create a record object for your respective entities : `SensorEntity`, `WindowEntity`, `RoomEntity`, ...
+
+To prevent cycle in your record you should not map the bidirectional relation between a room and its windows. For example your record for the window can only mapped the room id.
+
+[source,java, subs="specialchars"]
+----
+public record Window(Long id, String name, Sensor windowStatus, Long roomId) {
+}
+----
+
+Create mappers to create a record from an entity
+
+Write a test for each mapper. As I am nice I give you the test of the most complicated mapper
+
+[source,java, subs="specialchars"]
+----
+class RoomMapperTest {
+
+    @Test
+    void shouldMapRoom() {
+        // Arrange
+        SensorEntity currentTemperature = new SensorEntity(SensorType.TEMPERATURE, "Room temperature");
+        currentTemperature.setId(1L);
+        currentTemperature.setValue(24.2);
+
+        RoomEntity roomEntity = new RoomEntity("Room", currentTemperature, 1);
+        roomEntity.setId(1L);
+        roomEntity.setTargetTemperature(22.0);
+
+        SensorEntity windowStatus = new SensorEntity(SensorType.STATUS, "Window status");
+        windowStatus.setId(2L);
+        windowStatus.setValue(0.0);
+
+        WindowEntity windowEntity = new WindowEntity("Window 1", windowStatus, roomEntity);
+        windowEntity.setId(2L);
+        roomEntity.setWindows(Set.of(windowEntity));
+
+        // Act
+        Room room = RoomMapper.of(roomEntity);
+
+        // Assert
+        Room expectedRoom = new Room(
+                1L,
+                "Room",
+                1,
+                new Sensor(1L, "Room temperature", 24.2, SensorType.TEMPERATURE),
+                22.0,
+                List.of(new Window(
+                        2L,
+                        "Window 1",
+                        new Sensor(2L, "Window status", 0.0, SensorType.STATUS),
+                        1L
+                ))
+        );
+        Assertions.assertThat(room).usingRecursiveAssertion().isEqualTo(expectedRoom);
+    }
+}
+----
 
 == HTTP
 
@@ -140,91 +171,96 @@ HTTP requests are handled by the methods of a REST service. In Spring’s approa
 
 Controllers are the link between the web http clients (browsers, mobiles) and your application. They should be lightweight and call other components in your application to perform actual work (DAO for example).
 
-These components are easily identified by the @RestController annotation.
+These components are easily identified by the `@RestController` annotation.
 
 Example of addressable resources
 
-* Retrieve a window list : GET `/api/windows`
-* Retrieve a particular window : GET `/api/windows/{window_id}`
-* Create or update a window : POST `/api/windows`
-* Update a window and update its status : PUT `/api/windows/{window_id}/switch`
-* Delete a window : DELETE `/api/windows/{window_id}`
+* Retrieve a sensor list : GET `/api/sensors`
+* Retrieve a particular sensor : GET `/api/sensors/{sensor_id}`
+* Create a sensor : POST `/api/sensors`
+* Update a sensor : PUT `/api/sensors/{sensor_id}`
+* Delete a sensor : DELETE `/api/sensors/{sensor_id}`
 
-This WindowController handles GET requests for `/api/windows` by returning a list of WindowDto.
+This SensorController handles GET requests for `/api/sensors` by returning a list of Window.
 
-A complete example to manage windows
+A complete example to manage sensors
 
 [source,java, subs="specialchars"]
 ----
 @RestController // (1)
-@RequestMapping("/api/windows") // (2)
+@RequestMapping("/api/sensors") // (2)
 @Transactional // (3)
-public class WindowController {
+public class SensorController {
+    private final SensorDao sensorDao;
 
-    private final WindowDao windowDao;
-    private final RoomDao roomDao;
-
-    public WindowController(WindowDao windowDao, RoomDao roomDao) { // (4)
-        this.windowDao = windowDao;
-        this.roomDao = roomDao;
+    public SensorController(SensorDao sensorDao) {
+        this.sensorDao = sensorDao;
     }
 
     @GetMapping // (5)
-    public List<WindowDto> findAll() {
-        return windowDao.findAll().stream().map(WindowDto::new).collect(Collectors.toList());  // (6)
+    public List<Sensor> findAll() {
+        return sensorDao.findAll()
+                .stream()
+                .map(SensorMapper::of)
+                .sorted(Comparator.comparing(Sensor::name))
+                .collect(Collectors.toList());  // (6)
     }
 
     @GetMapping(path = "/{id}")
-    public WindowDto findById(@PathVariable Long id) {
-        return windowDao.findById(id).map(WindowDto::new).orElse(null); // (7)
-    }
-
-    @PutMapping(path = "/{id}/switch")
-    public WindowDto switchStatus(@PathVariable Long id) {
-        Window window = windowDao.findById(id).orElseThrow(IllegalArgumentException::new);
-        window.setWindowStatus(window.getWindowStatus() == WindowStatus.OPEN ? WindowStatus.CLOSED: WindowStatus.OPEN);
-        return new WindowDto(window);
+    public Sensor findById(@PathVariable Long id) {
+        return sensorDao.findById(id).map(SensorMapper::of).orElse(null); // (7)
     }
 
     @PostMapping // (8)
-    public WindowDto create(@RequestBody WindowDto dto) {
-        // WindowDto must always contain the window room
-        Room room = roomDao.getById(dto.getRoomId());
-        Window window = null;
-        // On creation id is not defined
-        if (dto.getId() == null) {
-            window = windowDao.save(new Window(room, dto.getName(), dto.getWindowStatus()));
+    public ResponseEntity<Sensor> create(@RequestBody Sensor sensor) { // (9)
+        // We have to check that the sensor does not exist
+        if (sensor.id() != null && sensorDao.existsById(sensor.id())) {
+            return ResponseEntity.badRequest().build();
         }
-        else {
-            window = windowDao.getById(dto.getId());  // (9)
-            window.setWindowStatus(dto.getWindowStatus());
-        }
-        return new WindowDto(window);
+        SensorEntity entity = new SensorEntity(sensor.sensorType(), sensor.name());
+        entity.setValue(entity.getValue());
+        sensorDao.save(entity);
+        return ResponseEntity.ok(SensorMapper.of(entity));
     }
+
+    @PutMapping(path = "/{id}")
+    public ResponseEntity<Sensor> update(@PathVariable Long id, @RequestBody Sensor sensor) {
+        SensorEntity entity = sensorDao.findById(id).orElse(null);
+        if (entity == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        entity.setValue(sensor.value());
+        entity.setName(sensor.name());
+        entity.setSensorType(sensor.sensorType());
+        // (10)
+        return ResponseEntity.ok(SensorMapper.of(entity));
+    }
+
 
     @DeleteMapping(path = "/{id}")
     public void delete(@PathVariable Long id) {
-        windowDao.deleteById(id);
+        sensorDao.deleteById(id);
     }
 }
 ----
 
 * (1) *RestController* is a Spring stereotype to mark a class as a rest service
-* (2) *@RequestMapping* is used to define a global URL prefix used to manage a resource (in our example all requests that start with `/api/windows` will be handle by this controller)
-* (3) *@Transactional* is used to delegate a transaction opening to Spring.Spring will initiate a transaction for each entry point of this controller. This is important because with Hibernate you cannot execute a query outside of a transaction.
-* (4) DAOs used by this controller are injected via constructor
-* (5) *@GetMapping* indicates that the following method will respond to a GET request.This method will return a window list. We transform our entities `Window` in `WindowDto`
+* (2) *@RequestMapping* is used to define a global URL prefix used to manage a resource (in our example all requests that start with `/api/sensors` will be handle by this controller)
+* (3) *@Transactional* is used to delegate a transaction opening to Spring. Spring will initiate a transaction for each entry point of this controller. This is important because with Hibernate you cannot execute a query outside of a transaction.
+* (4) DAO used by this controller is injected via constructor
+* (5) *@GetMapping* indicates that the following method will respond to a GET request. This method will return a sensor list. We transform our entities `SensorEntity` in DTO `Sensor`
 * (6) (7) We use https://www.oracle.com/technical-resources/articles/java/ma14-java-se-8-streams.html[Java Stream API] to manipulate our data
-* (8) *@PostMapping* indicates that the following method will respond to a POST request (for saving).
-* (9) For an update you don't need to call the DAO save method.
-Method `getById` load the persisted data and all changes on this object (attached to a persistent context) will be updated when the transaction will be commited.
+* (8) *@PostMapping* indicates that the following method will respond to a POST request (for creation).
+* (9) To return HTTP errors the method return a `ResponseEntity`. This object contains different builders to manipulate the HTTP response
+* (10) *@PutMapping* indicates that the following method will respond to a PUT request (for creation).
+* (11) For an update you don't need to call the DAO save method. The `findById` attach the entity to the persistence context and each update will be updated when the transaction will be commited.
 
 === Test a controller
 
-To test whether Spring MVC controllers are working as expected, use the @WebMvcTest annotation. @WebMvcTest auto-configures the Spring MVC infrastructure and the Mock MVC component.
+To test whether Spring MVC controllers are working as expected, use the `@WebMvcTest` annotation. `@WebMvcTest` auto-configures the Spring MVC infrastructure and the Mock MVC component.
 
 - Mock MVC offers a powerful way to quickly test MVC controllers without needing to start a full HTTP server.
-- Annotation @MockBean provides mock implementations for required collaborators in place of the real implementations.
+- Annotation `@MockBean` provides mock implementations for required collaborators in place of the real implementations.
 
 With Mock MVC you can perform requests for each HTTP methods
 
@@ -250,138 +286,177 @@ mockMvc.perform(get("/accounts/1")).andExpect(status().isOk());
 
 You can use https://goessner.net/articles/JsonPath/index.html#e2[Json path expression] to check your JSON result. And if you want to test your syntax this https://jsonpath.com/[website] will help you.
 
-You can find several example in the WindowController test
+You can find several example in the `SensorController` test
 
 [source,java, subs="specialchars"]
 ----
 package com.emse.spring.automacorp.web;
 
-import com.emse.spring.automacorp.domain.*;
-import com.emse.spring.automacorp.repository.*;
+import com.emse.spring.automacorp.dao.SensorDao;
+import com.emse.spring.automacorp.model.SensorEntity;
+import com.emse.spring.automacorp.model.SensorType;
+import com.emse.spring.automacorp.record.Sensor;
+import com.emse.spring.automacorp.record.SensorMapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.assertj.core.api.Assertions;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.List;
 import java.util.Optional;
 
-import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.BDDMockito.given;
-import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(WindowController.class)
-class WindowControllerTest {
-@Autowired
-private MockMvc mockMvc;
+@WebMvcTest(SensorController.class)
+class SensorControllerTest {
+    // Spring object to mock call to our app
+    @Autowired
+    private MockMvc mockMvc;
 
+    // The serializer used by Spring to send and receive data to/from the REST controller
     @Autowired
     private ObjectMapper objectMapper;
 
+    // We choose to mock the DAO used in the REST controller to limit the scope of our test
     @MockBean
-    private WindowDao windowDao;
+    private SensorDao sensorDao;
 
-    @MockBean
-    private RoomDao roomDao;
+    SensorEntity createSensorEntity(Long id, String name) {
+        // Sensor is recreated before each test
+        SensorEntity sensorEntity = new SensorEntity(SensorType.TEMPERATURE, name);
+        sensorEntity.setId(id);
+        sensorEntity.setValue(24.2);
+        return sensorEntity;
+    }
 
     @Test
-    void shouldLoadWindows() throws Exception {
-        given(windowDao.findAll()).willReturn(List.of(
-                createWindow("window 1"),
-                createWindow("window 2")
+    void shouldFindAll() throws Exception {
+        Mockito.when(sensorDao.findAll()).thenReturn(List.of(
+                createSensorEntity(1L, "Temperature room 1"),
+                createSensorEntity(2L, "Temperature room 2")
         ));
 
-        mockMvc.perform(get("/api/windows").accept(APPLICATION_JSON))
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/sensors").accept(MediaType.APPLICATION_JSON))
                 // check the HTTP response
-                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.status().isOk())
                 // the content can be tested with Json path
-                .andExpect(jsonPath("[*].name").value(containsInAnyOrder("window 1", "window 2")));
+                .andExpect(
+                        MockMvcResultMatchers
+                                .jsonPath("[*].name")
+                                .value(Matchers.containsInAnyOrder("Temperature room 1", "Temperature room 2"))
+                );
     }
 
     @Test
-    void shouldLoadAWindowAndReturnNullIfNotFound() throws Exception {
-        given(windowDao.findById(999L)).willReturn(Optional.empty());
+    void shouldReturnNullWhenFindByUnknownId() throws Exception {
+        Mockito.when(sensorDao.findById(999L)).thenReturn(Optional.empty());
 
-        mockMvc.perform(get("/api/windows/999").accept(APPLICATION_JSON))
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/sensors/999").accept(MediaType.APPLICATION_JSON))
                 // check the HTTP response
-                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.status().isOk())
                 // the content can be tested with Json path
-                .andExpect(content().string(""));
+                .andExpect(MockMvcResultMatchers.content().string(""));
     }
 
     @Test
-    void shouldLoadAWindow() throws Exception {
-        given(windowDao.findById(999L)).willReturn(Optional.of(createWindow("window 1")));
+    void shouldFindById() throws Exception {
+        SensorEntity sensorEntity = createSensorEntity(1L, "Temperature room 1");
+        Mockito.when(sensorDao.findById(999L)).thenReturn(Optional.of(sensorEntity));
 
-        mockMvc.perform(get("/api/windows/999").accept(APPLICATION_JSON))
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/sensors/999").accept(MediaType.APPLICATION_JSON))
                 // check the HTTP response
-                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.status().isOk())
                 // the content can be tested with Json path
-                .andExpect(jsonPath("$.name").value("window 1"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Temperature room 1"));
     }
 
     @Test
-    void shouldSwitchWindow() throws Exception {
-        Window expectedWindow = createWindow("window 1");
-        Assertions.assertThat(expectedWindow.getWindowStatus()).isEqualTo(WindowStatus.OPEN);
+    void shouldNotUpdateUnknownEntity() throws Exception {
+        SensorEntity sensorEntity = createSensorEntity(1L, "Temperature room 1");
+        Sensor expectedSensor = SensorMapper.of(sensorEntity);
+        String json = objectMapper.writeValueAsString(expectedSensor);
 
-        given(windowDao.findById(999L)).willReturn(Optional.of(expectedWindow));
+        Mockito.when(sensorDao.findById(1L)).thenReturn(Optional.empty());
 
-        mockMvc.perform(put("/api/windows/999/switch").accept(APPLICATION_JSON))
+        mockMvc.perform(
+                        MockMvcRequestBuilders
+                                .put("/api/sensors/1")
+                                .content(json)
+                                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                )
                 // check the HTTP response
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("window 1"))
-                .andExpect(jsonPath("$.windowStatus").value("CLOSED"));
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
 
     @Test
-    void shouldUpdateWindow() throws Exception {
-        Window expectedWindow = createWindow("window 1");
-        expectedWindow.setId(1L);
-        String json = objectMapper.writeValueAsString(new WindowDto(expectedWindow));
+    void shouldUpdate() throws Exception {
+        SensorEntity sensorEntity = createSensorEntity(1L, "Temperature room 1");
+        Sensor expectedSensor = SensorMapper.of(sensorEntity);
+        String json = objectMapper.writeValueAsString(expectedSensor);
 
-        given(roomDao.getReferenceById(anyLong())).willReturn(expectedWindow.getRoom());
-        given(windowDao.getReferenceById(anyLong())).willReturn(expectedWindow);
+        Mockito.when(sensorDao.findById(1L)).thenReturn(Optional.of(sensorEntity));
 
-        mockMvc.perform(post("/api/windows").content(json).contentType(APPLICATION_JSON_VALUE))
+        mockMvc.perform(
+                        MockMvcRequestBuilders
+                                .put("/api/sensors/1")
+                                .content(json)
+                                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                )
                 // check the HTTP response
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("window 1"))
-                .andExpect(jsonPath("$.id").value("1"));
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Temperature room 1"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value("1"));
     }
 
     @Test
-    void shouldCreateWindow() throws Exception {
-        Window expectedWindow = createWindow("window 1");
-        expectedWindow.setId(null);
-        String json = objectMapper.writeValueAsString(new WindowDto(expectedWindow));
+    void shouldNotCreateExistingEntity() throws Exception {
+        SensorEntity sensorEntity = createSensorEntity(1L, "Temperature room 1");
+        Sensor expectedSensor = SensorMapper.of(sensorEntity);
+        String json = objectMapper.writeValueAsString(expectedSensor);
 
-        given(roomDao.getReferenceById(anyLong())).willReturn(expectedWindow.getRoom());
-        given(windowDao.save(any())).willReturn(expectedWindow);
+        Mockito.when(sensorDao.existsById(1L)).thenReturn(true);
 
-        mockMvc.perform(post("/api/windows").content(json).contentType(APPLICATION_JSON_VALUE))
+        mockMvc.perform(
+                        MockMvcRequestBuilders
+                                .post("/api/sensors")
+                                .content(json)
+                                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                )
                 // check the HTTP response
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("window 1"));
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
 
     @Test
-    void shouldDeleteWindow() throws Exception {
-        mockMvc.perform(delete("/api/windows/999"))
-                .andExpect(status().isOk());
+    void shouldCreate() throws Exception {
+        SensorEntity sensorEntity = createSensorEntity(1L, "Temperature room 1");
+        Sensor expectedSensor = SensorMapper.of(sensorEntity);
+        String json = objectMapper.writeValueAsString(expectedSensor);
+
+        Mockito.when(sensorDao.existsById(1L)).thenReturn(false);
+        Mockito.when(sensorDao.save(Mockito.any(SensorEntity.class))).thenReturn(sensorEntity);
+
+        mockMvc.perform(
+                        MockMvcRequestBuilders
+                                .post("/api/sensors")
+                                .content(json)
+                                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                )
+                // check the HTTP response
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Temperature room 1"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value("1"));
     }
 
-    private Window createWindow(String name) {
-        Room room = new Room("S1", 1);
-        return new Window(name, WindowStatus.OPEN, room);
+    @Test
+    void shouldDelete() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/sensors/999"))
+                .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
 }
@@ -394,7 +469,7 @@ private MockMvc mockMvc;
 
 This is the time to create your first REST controller with Spring.
 
-Create a new class *HelloController* in package `com.emse.spring.automacorp.api`.
+Create a new class `HelloController` in package `com.emse.spring.automacorp.api`.
 
 [.small]
 [source,java, subs="specialchars"]
@@ -403,24 +478,12 @@ Create a new class *HelloController* in package `com.emse.spring.automacorp.api`
 @RequestMapping("/api/hello")
 @Transactional
 public class HelloController {
-
-
     @GetMapping("/{name}")
-    public MessageDto welcome(@PathVariable String name) {
-        return new MessageDto("Hello " + name);
+    public Message welcome(@PathVariable String name) {
+        return new Message("Hello " + name);
     }
 
-
-    class MessageDto {
-        String message;
-
-        public MessageDto(String message) {
-            this.message = message;
-        }
-
-        public String getMessage() {
-            return message;
-        }
+    public record Message(String message) {
     }
 }
 ----
@@ -435,18 +498,18 @@ When you type an URL in the adress bar, your browser send a GET HTTP request. Yo
 
 [source,javascript]
 ----
-{"message":"Hello Guillaume
+{"message":"Hello Guillaume}
 ----
 
-=== Test your service with Swagger
+=== Test your service with SpringDoc, OpenApi and Swagger UI
 
-With a browser you are limited to GET requests. If you want to test PUT, POST or DELETE HTTP requests, you need another tool. We will use https://swagger.io/[swagger].
+With a browser you are limited to GET requests. If you want to test PUT, POST or DELETE HTTP requests, you need another tool. We will usehttps://springdoc.org/[springdoc].
 
-The advantage of swagger is that it is very well integrated into the Spring world. Update your `build.gradle` file and add these dependencies
+The advantage of swagger is that it is very well integrated into the Spring world. Update your `build.gradle.kts` file and add these dependencies
 
-[source,java, subs="specialchars"]
+[source,kotlin, subs="specialchars"]
 ----
-implementation 'io.springfox:springfox-boot-starter:3.0.0'
+implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
 ----
 
 You also need to add this property in your `application.properties` file
@@ -460,46 +523,49 @@ All your endpoints are available. You can click on one of them to test it
 
 video::f6FUpLs0H_4[youtube, width=600, height=330]
 
-=== Add WindowController
+=== Add SensorController
 
 Read the previous examples and create
 
-* a DTO *WindowDto* and the REST service *WindowController*
+* the REST service `SensorController`
 * a rest service which is able to
-** Retrieve a window list via a GET
-** Retrieve a particular window via a GET
-** Create or update a window via a POST
-** Update a window and switch its status via a PUT
+** Retrieve a sensor list via a GET
+** Retrieve a particular sensor via a GET
+** Create a sensor via a POST
+** Update a sensor via a PUT
 ** Delete a window via a DELETE
 
 Use swagger to test your API
 
-* create a new window
-* list all the window
-* find the window with id `-8`
-* switch its status
-* deletes this window
+* create a new sensor
+* list all the sensor
+* find the sensor with id `-8`
+* update a sensor
+* deletes this sensor
 
 === More Rest service
 
+You can now write `WindowController` and `RoomController`. These routes must be implemented
+
 You can now create BuildingDto, RoomDtoo, HeaterDto and write services which follow this service
 
-[source,java, subs="specialchars"]
+[source,shell, subs="specialchars"]
 ----
-/api/heaters (GET) send heaters list
-/api/heaters (POST) add or update a heater
-/api/heaters/{heater_id} (GET) read a heater
-/api/heaters/{heater_id} (DELETE) delete a heater
+/api/windows (GET) send windows list
+/api/windows (POST) add a window
+/api/windows/{id} (PUT) update a window
+/api/windows/{id} (GET) read a window
+/api/windows/{id} (DELETE) delete a window
 ----
 
-[source,java, subs="specialchars"]
+[source,shell, subs="specialchars"]
 ----
 /api/rooms (GET) send room list
 /api/rooms (POST) add or update a room
 /api/rooms/{room_id} (GET) read a room
 /api/rooms/{room_id} (DELETE) delete a room and all its windows and its heaters
-/api/rooms/{room_id}/switchWindow switch the room windows (OPEN to CLOSED or inverse)
-/api/rooms/{room_id}/switchHeaters switch the room heaters (ON to OFF or inverse)
+/api/rooms/{room_id}/openWindows switch the room windows to OPEN (status != 0)
+/api/rooms/{room_id}/closeWindows switch the room windows to CLOSED (status = 0)
 ----
 
 <<<
@@ -628,155 +694,40 @@ To help your job you can use these DTOs used to deserialize the returned JSON in
 
 [source,java, subs="specialchars"]
 ----
-public class ApiGouvResponseDto {
-    private String version;
-    private List<ApiGouvFeatureDto> features;
+public record ApiGouvResponse(
+    String version,
+    String query,
+    Integer limit,
+    List<ApiGouvFeature> features
+) {
 
-    public String getVersion() {
-        return version;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
-    }
-
-    public List<ApiGouvFeatureDto> getFeatures() {
-        return features;
-    }
-
-    public void setFeatures(List<ApiGouvFeatureDto> features) {
-        this.features = features;
-    }
 }
 ----
 
 [source,java, subs="specialchars"]
 ----
-public class ApiGouvFeatureDto {
-    private String type;
-    private ApiGouvAdressDto properties;
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public ApiGouvAdressDto getProperties() {
-        return properties;
-    }
-
-    public void setProperties(ApiGouvAdressDto properties) {
-        this.properties = properties;
-    }
-}
+public record ApiGouvFeature(
+    String type,
+    ApiGouvAdress properties
+) {
 ----
 
 [source,java, subs="specialchars"]
 ----
-public class ApiGouvAdressDto {
-    private String id;
-    private String label;
+public record ApiGouvAdress(
+    String id,
+    String label,
+    String housenumber,
+    Double score,
+    String postcode,
+    String citycode,
+    String city,
+    String context,
+    String type,
+    Double x,
+    Double y
+) {
 
-    private String housenumber;
-    private Double score;
-    private String postcode;
-    private String citycode;
-    private String city;
-    private String context;
-    private String type;
-    private Double x;
-    private Double y;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getLabel() {
-        return label;
-    }
-
-    public void setLabel(String label) {
-        this.label = label;
-    }
-
-    public String getHousenumber() {
-        return housenumber;
-    }
-
-    public void setHousenumber(String housenumber) {
-        this.housenumber = housenumber;
-    }
-
-    public Double getScore() {
-        return score;
-    }
-
-    public void setScore(Double score) {
-        this.score = score;
-    }
-
-    public String getPostcode() {
-        return postcode;
-    }
-
-    public void setPostcode(String postcode) {
-        this.postcode = postcode;
-    }
-
-    public String getCitycode() {
-        return citycode;
-    }
-
-    public void setCitycode(String citycode) {
-        this.citycode = citycode;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getContext() {
-        return context;
-    }
-
-    public void setContext(String context) {
-        this.context = context;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public Double getX() {
-        return x;
-    }
-
-    public void setX(Double x) {
-        this.x = x;
-    }
-
-    public Double getY() {
-        return y;
-    }
-
-    public void setY(Double y) {
-        this.y = y;
-    }
 }
 ----
 
@@ -810,11 +761,8 @@ This test should work
 
 [source,java]
 ----
-package com.emse.spring.automacorp.service;
+package com.emse.spring.automacorp.adress;
 
-import com.emse.spring.automacorp.service.dto.ApiGouvAdressDto;
-import com.emse.spring.automacorp.service.dto.ApiGouvFeatureDto;
-import com.emse.spring.automacorp.service.dto.ApiGouvResponseDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.api.Assertions;
@@ -825,29 +773,25 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.test.web.client.match.MockRestRequestMatchers;
 import org.springframework.test.web.client.response.MockRestResponseCreators;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
-import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
-
-@RestClientTest(AdressSearchService.class)
+@RestClientTest(AdressSearchService.class) // (1)
 class AdressSearchServiceTest {
-@Autowired
-private AdressSearchService service;
+    @Autowired
+    private AdressSearchService service;
 
     @Autowired
     private ObjectMapper objectMapper;
 
     @Autowired
-    private MockRestServiceServer server;
+    private MockRestServiceServer server; // (2)
 
     @Test
     void shouldFindAdresses() throws JsonProcessingException {
         // Arrange
-        ApiGouvResponseDto expectedResponse = simulateApiResponse();
+        ApiGouvResponse expectedResponse = simulateApiResponse();
 
         String expectedUrl = UriComponentsBuilder
                 .fromUriString("/search")
@@ -857,55 +801,43 @@ private AdressSearchService service;
                 .toUriString();
 
         this.server
-                .expect(requestTo(expectedUrl))
-                .andRespond(withSuccess(objectMapper.writeValueAsString(expectedResponse), MediaType.APPLICATION_JSON));
+                .expect(MockRestRequestMatchers.requestTo(expectedUrl))
+                .andRespond(
+                        MockRestResponseCreators.withSuccess(
+                                objectMapper.writeValueAsString(expectedResponse),
+                                MediaType.APPLICATION_JSON
+                        )
+                );
+
         // Act
-        List<ApiGouvAdressDto> adresses = this.service.findAdress(List.of("cours", "fauriel"));
+        List<ApiGouvAdress> adresses = this.service.searchAdress(List.of("cours", "fauriel"));
 
         // Assert
         Assertions
                 .assertThat(adresses)
                 .hasSize(1)
-                .extracting(ApiGouvAdressDto::getCity)
+                .extracting(ApiGouvAdress::city)
                 .contains("Saint Etienne");
     }
 
-    private ApiGouvResponseDto simulateApiResponse() {
-        ApiGouvAdressDto expectedAdress = new ApiGouvAdressDto();
-        expectedAdress.setCity("Saint Etienne");
+    private ApiGouvResponse simulateApiResponse() {
+        ApiGouvAdress adress = new ApiGouvAdress(
+                "ad1",
+                "Cours Fauriel 42100 Saint-Étienne",
+                "2",
+                0.98,
+                "42100",
+                "42218",
+                "Saint Etienne",
+                "context",
+                "type",
+                0.0,
+                0.0
+                );
 
-        ApiGouvFeatureDto expectedFeature = new ApiGouvFeatureDto();
-        expectedFeature.setProperties(expectedAdress);
-
-        ApiGouvResponseDto expectedResponse = new ApiGouvResponseDto();
-        expectedResponse.setFeatures(List.of(expectedFeature));
-
-        return expectedResponse;
+        ApiGouvFeature feature = new ApiGouvFeature("type", adress);
+        return new ApiGouvResponse("v1", "cours+fauriel", 15, List.of(feature));
     }
 }
 ----
 
-== CORS
-
-Today browsers forbid a website to access to resources served by another website defined on a different domain. [.small .small-block]#If you want to call your API on http://localhost:8080 from a webapp you should have this error#
-
-> *Access to fetch at 'http://localhost:8080/api/rooms' from origin 'null' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource. If an opaque response serves your needs, set the request's mode to 'no-cors' to fetch the resource with CORS disabled.*
-
-
-https://en.wikipedia.org/wiki/Cross-origin_resource_sharing[Cross-Origin Resource Sharing] is a mechanism that allows this dialog
-
-To resolve this problem you have to manage CORS headers.
-
-Add annotation `@CrossOrigin` to your `@RestController` to open your API to all other apps
-
-[source,java, subs="specialchars"]
-----
-@CrossOrigin
-----
-
-If your Vue.js app is launched on http://localhost:3010 ou can open your API only for this app
-
-[source,java, subs="specialchars"]
-----
-@CrossOrigin(origins = { "http://localhost:3010" }, maxAge = 3600)
-----

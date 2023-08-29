@@ -143,9 +143,9 @@ Spring provides https://docs.spring.io/spring-framework/docs/current/reference/h
 
 You must remember
 
-> If an object needs other objects, it does not instantiate itself but they are provided by a factory (in our case Spring).
+> If an object needs other objects, it does not instantiate itself, but they are provided by a factory (in our case Spring).
 
-Therefore we no longer have to find the `new` key word in your code.
+Therefore, we no longer have to find the `new` key word in your code.
 
 The only exception is for objects which contain data : Entity and DTO.
 
@@ -167,7 +167,7 @@ image::../../img/training/spring-intro/java-beans.png[width=800, align=center]
 
 ==== By annotation
 
-In Spring, we can use a stereotype on our classes to defined them as Bean: @Service, @Component, @Repository, @Controller
+In Spring, we can use a stereotype on our classes to defined them as Bean: `@Service`, `@Component`, `@Repository`, `@Controller`
 
 [source,java,subs="specialchars"]
 ----
@@ -182,8 +182,8 @@ public class MyGreetingController {
 }
 ----
 
-Spring Boot is able to scan classpath to auto-detect and auto-configure beans annotated with @Service, @Component, @Repository, or @Controller.
-Each annotation is equivalent, but a sterotype (@Service, @Repository...) helps to understand the object role in your app
+Spring Boot is able to scan classpath to auto-detect and auto-configure beans annotated with `@Service`, `@Component`, `@Repository`, or `@Controller`.
+Each annotation is equivalent, but a sterotype (`@Service`, `@Repository`...) helps to understand the object role in your app
 
 image::../../img/training/spring-intro/java-objects.png[width=1000, align="center"]
 
@@ -191,7 +191,7 @@ image::../../img/training/spring-intro/java-objects.png[width=1000, align="cente
 
 Also, we can create a Spring bean in a configuration bean, when we need to configure it.
 
-The first step is to create a Configuration bean annotated with @Configuration.
+The first step is to create a Configuration bean annotated with `@Configuration`.
 This annotation indicates that the class can be used by the Spring IoC container as a source of bean definitions
 
 [source,java,subs="specialchars"]
@@ -476,9 +476,7 @@ Now, we’re going to test a few cases to understand how a Spring Application re
 Of course, after each case, revert those changes, to get "back to normal". (You can use Git for that)
 
 1. What happens if you comment the @Component / @Service annotation on your _ConsoleGreetingService_?
-
 2. Now, try adding `AnotherConsoleGreetingService` (which says "Bonjour" instead of "Hello"), marked as a component as well. Try again this time after adding a *@Primary* annotation on `ConsoleGreetingService`.
-
 3. Finally, try the following - what happens and why?
 
 [source,java, subs="specialchars"]
