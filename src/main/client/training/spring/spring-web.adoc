@@ -187,6 +187,7 @@ A complete example to manage sensors
 
 [source,java, subs="specialchars"]
 ----
+@CrossOrigin
 @RestController // (1)
 @RequestMapping("/api/sensors") // (2)
 @Transactional // (3)
@@ -212,19 +213,15 @@ public class SensorController {
     }
 
     @PostMapping // (8)
-    public ResponseEntity<Sensor> create(@RequestBody Sensor sensor) { // (9)
-        // We have to check that the sensor does not exist
-        if (sensor.id() != null && sensorDao.existsById(sensor.id())) {
-            return ResponseEntity.badRequest().build();
-        }
+    public ResponseEntity<Sensor> create(@RequestBody SensorCommand sensor) { // (9)
         SensorEntity entity = new SensorEntity(sensor.sensorType(), sensor.name());
         entity.setValue(entity.getValue());
-        sensorDao.save(entity);
-        return ResponseEntity.ok(SensorMapper.of(entity));
+        SensorEntity saved = sensorDao.save(entity);
+        return ResponseEntity.ok(SensorMapper.of(saved));
     }
 
-    @PutMapping(path = "/{id}")
-    public ResponseEntity<Sensor> update(@PathVariable Long id, @RequestBody Sensor sensor) {
+    @PutMapping(path = "/{id}") // (10)
+    public ResponseEntity<Sensor> update(@PathVariable Long id, @RequestBody SensorCommand sensor) {
         SensorEntity entity = sensorDao.findById(id).orElse(null);
         if (entity == null) {
             return ResponseEntity.badRequest().build();
@@ -232,10 +229,9 @@ public class SensorController {
         entity.setValue(sensor.value());
         entity.setName(sensor.name());
         entity.setSensorType(sensor.sensorType());
-        // (10)
+        // (11)
         return ResponseEntity.ok(SensorMapper.of(entity));
     }
-
 
     @DeleteMapping(path = "/{id}")
     public void delete(@PathVariable Long id) {
@@ -254,6 +250,16 @@ public class SensorController {
 * (9) To return HTTP errors the method return a `ResponseEntity`. This object contains different builders to manipulate the HTTP response
 * (10) *@PutMapping* indicates that the following method will respond to a PUT request (for creation).
 * (11) For an update you don't need to call the DAO save method. The `findById` attach the entity to the persistence context and each update will be updated when the transaction will be commited.
+
+Note, that we don't use the same object for an update or a creation. We often use simples command object where all relationships are flatten. Here the command object is this one
+
+[source,java, subs="specialchars"]
+----
+public record SensorCommand(String name, Double value, SensorType sensorType) {
+}
+----
+
+If it's object had a relationship with another (for example a Room). The object for reading will return a complete Room object. The command object would only contain the data necessary to create/update ie a roomId. Sometimes we can use an object specific to creation, another to update.
 
 === Test a controller
 
@@ -379,7 +385,7 @@ class SensorControllerTest {
     @Test
     void shouldNotUpdateUnknownEntity() throws Exception {
         SensorEntity sensorEntity = createSensorEntity(1L, "Temperature room 1");
-        Sensor expectedSensor = SensorMapper.of(sensorEntity);
+        SensorCommand expectedSensor = new SensorCommand(sensorEntity.getName(), sensorEntity.getValue(), sensorEntity.getSensorType());
         String json = objectMapper.writeValueAsString(expectedSensor);
 
         Mockito.when(sensorDao.findById(1L)).thenReturn(Optional.empty());
@@ -397,7 +403,7 @@ class SensorControllerTest {
     @Test
     void shouldUpdate() throws Exception {
         SensorEntity sensorEntity = createSensorEntity(1L, "Temperature room 1");
-        Sensor expectedSensor = SensorMapper.of(sensorEntity);
+        SensorCommand expectedSensor = new SensorCommand(sensorEntity.getName(), sensorEntity.getValue(), sensorEntity.getSensorType());
         String json = objectMapper.writeValueAsString(expectedSensor);
 
         Mockito.when(sensorDao.findById(1L)).thenReturn(Optional.of(sensorEntity));
@@ -415,27 +421,9 @@ class SensorControllerTest {
     }
 
     @Test
-    void shouldNotCreateExistingEntity() throws Exception {
-        SensorEntity sensorEntity = createSensorEntity(1L, "Temperature room 1");
-        Sensor expectedSensor = SensorMapper.of(sensorEntity);
-        String json = objectMapper.writeValueAsString(expectedSensor);
-
-        Mockito.when(sensorDao.existsById(1L)).thenReturn(true);
-
-        mockMvc.perform(
-                        MockMvcRequestBuilders
-                                .post("/api/sensors")
-                                .content(json)
-                                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                )
-                // check the HTTP response
-                .andExpect(MockMvcResultMatchers.status().isBadRequest());
-    }
-
-    @Test
     void shouldCreate() throws Exception {
         SensorEntity sensorEntity = createSensorEntity(1L, "Temperature room 1");
-        Sensor expectedSensor = SensorMapper.of(sensorEntity);
+        SensorCommand expectedSensor = new SensorCommand(sensorEntity.getName(), sensorEntity.getValue(), sensorEntity.getSensorType());
         String json = objectMapper.writeValueAsString(expectedSensor);
 
         Mockito.when(sensorDao.existsById(1L)).thenReturn(false);

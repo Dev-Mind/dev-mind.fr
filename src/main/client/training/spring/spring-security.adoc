@@ -23,14 +23,19 @@ But Spring Security and Spring Boot come with an abstraction to make easier the 
 
 == CORS
 
-Today browsers forbid a website to access to resources served by another website defined on a different domain. [.small .small-block]#If you want to call your API on http://localhost:8080 from a webapp you should have this error#
+Today browsers forbid a website to access to resources served by another website defined on a different domain.
 
-> *Access to fetch at 'http://localhost:8080/api/rooms' from origin 'null' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource. If an opaque response serves your needs, set the request's mode to 'no-cors' to fetch the resource with CORS disabled.*
+If you want to call your API on http://localhost:8080 from a webapp exposed on a different port you should have this error.
 
+```
+Access to fetch at 'http://localhost:8080/api/rooms' from origin 'null' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource. If an opaque response serves your needs, set the request's mode to 'no-cors' to fetch the resource with CORS disabled.
+```
 
 https://en.wikipedia.org/wiki/Cross-origin_resource_sharing[Cross-Origin Resource Sharing] is a mechanism that allows this dialog
 
-To resolve this problem you have to manage CORS headers.
+To resolve this problem you have to manage CORS headers or you install a proxy.
+
+As we won't install a web proxy we will manage CORS in our app
 
 Add annotation `@CrossOrigin` to your `@RestController` to open your API to all other apps
 
@@ -97,6 +102,7 @@ http://localhost:8080/logout
 
 Update your project to be able to secure you app with the default security form (follow the given steps above)
 
+At this step you can connect to your app but several things must be set to continue to use Swagger and run your controller tests. We will fix these problems in the next lab.
 
 == How it works ?
 
@@ -105,12 +111,12 @@ On a Spring web application, Spring Security support is based on Servlet Filters
 
 === Web filter
 
-When a request is sent to call a controller, the HTTP request is sent to chain of filters which contains the Filters and the Servlet that should process the HttpServletRequest based on the path of the request URI.
+When a request is sent to call a controller, the HTTP request is sent to a chain of filters. Activated filters and servlets depend on the path of the request URI.
 
 [.text-center]
 image:../../img/training/spring-security/filter.png[width=900]
 
-In a Spring MVC application the Servlet is an instance of DispatcherServlet. The servlet can handle a single HttpServletRequest and HttpServletResponse.
+In a Spring MVC application you have only one Servlet. This Servlet is an instance of DispatcherServlet. The servlet can handle a single HttpServletRequest and HttpServletResponse.
 
 Filters can read the request and stop the filter chain if we have a problem and the filter can also update the response
 
@@ -120,7 +126,7 @@ public void doFilter(
         ServletRequest request,
         ServletResponse response,
         FilterChain chain) {
-	// do something before the rest of the application
+	  // do something before the rest of the application
     chain.doFilter(request, response); // invoke the rest of the application
     // do something after the rest of the application
 }
@@ -132,7 +138,7 @@ Filters can be activated only on a given path URI and you can add different filt
 image:../../img/training/spring-security/filter2.png[width=900]
 
 
-And Spring filter will throw an exception if user is not authenticated or if he has no right to access to a resource
+Spring Security add several filters. And Spring filter will throw an exception if user is not authenticated or if he has no right to access to a resource
 
 [.text-center]
 image:../../img/training/spring-security/filter3.png[width=900]
@@ -170,7 +176,7 @@ We can configure our own `UserDetailsService` to manage the user and their permi
 @Configuration
 public class SpringSecurityConfig {
 
-    private static final String ROLE_USER = "USER";
+    public static final String ROLE_USER = "USER";
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -190,12 +196,12 @@ You can add a `SecurityFilterChain` to secure an http route. The default configu
 [source, java]
 ----
 @Bean
-public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    return http
-        .authorizeRequests(authorize -> authorize.anyRequest().authenticated()) // (1)
-        .formLogin(withDefaults()) // (2)
-        .httpBasic(withDefaults()) // (3)
-        .build();
+@Order(SecurityProperties.BASIC_AUTH_ORDER)
+SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+			http.authorizeHttpRequests((requests) -> requests.anyRequest().authenticated());
+			http.formLogin(withDefaults());
+			http.httpBasic(withDefaults());
+			return http.build();
 }
 ----
 
@@ -210,19 +216,22 @@ But you can use several `SecurityFilterChain` to implement different security le
 [source, java]
 ----
 @Bean
-@Order(1) // (1)
-public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+@Order(1)
+public SecurityFilterChain filterChain(HttpSecurity http, HandlerMappingIntrospector introspector) throws Exception {
+    MvcRequestMatcher.Builder mvcMatcherBuilder = new MvcRequestMatcher.Builder(introspector).servletPath("/path");
     return http
-        .antMatcher("/api/**") // (2)
-        .authorizeRequests(authorize -> authorize.anyRequest().hasRole("ADMIN")) // (3)
-        .formLogin(withDefaults())
-        .httpBasic(withDefaults())
-        .build();
+            .authorizeHttpRequests((requests) -> requests
+                    .requestMatchers(mvcMatcherBuilder.pattern("/api")).hasRole(ROLE_USER) // (2)
+                    .anyRequest().permitAll() // (3)
+            )
+            .formLogin(withDefaults())
+            .httpBasic(withDefaults())
+            .build();
 }
 ----
 * (1) If you have more than one filter you need to use an annotation `Order` to define the first one to use
-* (2) antMatcher states that this HttpSecurity will only be applicable to URLs that start with `/api/`
-* (3) we can specify the roles that will really have access to this HTTP route
+* (2) requestMatchers states that this HttpSecurity will only be applicable to URLs that start with `/api/`. And for each URL we want an authenticated user with the User role
+* (3) we permit all other requests
 
 <<<
 
@@ -236,16 +245,20 @@ Authentication authentication = SecurityContextHolder.getContext().getAuthentica
 String currentPrincipalName = authentication.getName();
 ----
 
-Alternatively, we can also use the AuthenticationPrincipal annonation
+Alternatively, we can also use the AuthenticationPrincipal annotation.
 
 [source, java]
 ----
-@Controller
+@CrossOrigin
+@RestController
+@RequestMapping("/api/admin/users")
 public class SecurityController {
+    public record User(String username) {
+    }
 
-        @GetMapping(path = "/{id}")
-    public String findUserName(@AuthenticationPrincipal UserDetails userDetails) {
-        return userDetails.getUsername();
+    @GetMapping(path = "/me")
+    public User findUserName(@AuthenticationPrincipal UserDetails userDetails) {
+        return new User(userDetails.getUsername());
     }
 }
 ----
@@ -253,29 +266,14 @@ public class SecurityController {
 
 == Check permission
 
-You can configure your app to secure yours methods. For that, add annotation `EnableGlobalMethodSecurity`
+You can configure your app to secure yours methods. For that, add an annotation `PreAuthorize` where you need to check a user role
 
 [source, java]
 ----
-@SpringBootApplication
-@EnableGlobalMethodSecurity(securedEnabled = true)
-public class AutomacorpApplication {
-
-    public static void main(String[] args) {
-        SpringApplication.run(AutomacorpApplication.class, args);
-    }
-
-}
-----
-
-And you will be able to use @Secured. For example
-
-[source, java]
-----
-@Secured("ROLE_ADMIN") // (1)
-@GetMapping
-public ResponseEntity<String> findAll(@AuthenticationPrincipal UserDetails userDetails) {
-   return ResponseEntity.ok(userDetails.getUsername());
+@PreAuthorize("hasRole('ADMIN')") // 1
+@GetMapping(path = "/me")
+public User findUserName(@AuthenticationPrincipal UserDetails userDetails) {
+    return new User(userDetails.getUsername());
 }
 ----
 
@@ -287,11 +285,13 @@ public ResponseEntity<String> findAll(@AuthenticationPrincipal UserDetails userD
 == icon:flask[] : Personalize your configuration
 
 - Implement a custom config to manage your users in your own `UserDetailsService`. You must have one classical user and one admin user
-- Configure security to secure all the routes and to let only admin users see the /api routes
+- Configure security to secure all the routes exposed with /api. The user must have the role User or Admin to access to our api.
 - Add a new REST endpoint to return the username. This endpoint must be only accessible to an admin user
 
 
 == Unit tests
+
+=== Resolve error 401
 
 With Spring Security configuration you have to update your controller tests. You have to simulate a user to not receive a 401 or 403 HTTP error.
 
@@ -313,8 +313,11 @@ void shouldLoadAWindowAndReturnNullIfNotFound() throws Exception {
 }
 ----
 
+=== Resolve error 403
+
 For put, post or delete HTTP methods, Spring Security add a security level and force you to send a CSRF token. You can read more information on the https://docs.spring.io/spring-security/reference/features/exploits/csrf.html[Spring website].
 
+==== In the tests
 In your test you can configure csrf like on the code below
 
 [source, java]
@@ -334,3 +337,14 @@ void shouldSwitchWindow() throws Exception {
             .andExpect(jsonPath("$.windowStatus").value("CLOSED"));
 }
 ----
+
+==== In the API
+
+You can also disable csrf on your global configuration to be able to use your REST API. To do that add
+
+```
+http.csrf(AbstractHttpConfigurer::disable);
+```
+
+in your `SpringSecurityConfig` when you configure the `SecurityFilterChain` bean
+

@@ -575,7 +575,7 @@ public class Site {
     private String name;
 
     @OneToMany
-    private Set<Sensor> sensors;
+    private Set<Sensor> sensors = Set.of();
 
     // ...
 }
@@ -644,7 +644,7 @@ public class Sensor {
     private String name;
 
     @OneToMany(mappedBy = "sensor")
-    private Set<Measure> measures;
+    private Set<Measure> measures = Set.of();
 }
 ----
 
@@ -729,7 +729,7 @@ Allows you to specify the loading strategy.
 [source,java, subs="specialchars"]
 ----
 @OneToMany(fetch = FetchType.EAGER)
-private Set<Sensor> sensors;
+private Set<Sensor> sensors = Set.of();
 ----
 
 By default, we are in Lazy mode because the goal is to load the minimum of things.  If you navigate in your object and if relations are set in Lazy mode, you have 2 cases
