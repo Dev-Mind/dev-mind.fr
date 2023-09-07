@@ -95,7 +95,10 @@ image::../../img/training/cloud/clever4.png[Clever Cloud, width=800]
 
 In the next step you can choose if you need an add-on as a database for example. We don't need to install a database because your app use an embedded H2 database. Click on *I don't need any add-ons* button
 
-You can define environment variables and it's important for us. We need to override the default Java Version used by Clever Cloud. For that add a new environment variable called `CC_JAVA_VERSION` and with a value equals to 17.
+You can define environment variables and it's important for us. We need to override the default Java Version used by Clever Cloud. For that add a new environment variables called
+
+1. `CC_JAVA_VERSION` and with a value equals to 17.
+2. `PORT` and with a value equals to 8080.
 
 [.text-center]
 image::../../img/training/cloud/clever6.png[Clever Cloud, width=900]
@@ -125,9 +128,6 @@ Define a custom URL to access to your application and click on the star to use i
 
 [.text-center]
 image::../../img/training/cloud/clever8.png[width=900]
-
-[.text-center]
-image::../../img/training/cloud/clever9.png[width=600]
 
 
 Now you can use your app deployed on the Internet. This app will be automatically redeployed, when you will push a new commit on Github. If you have done previous lessons, you should open http://[yourname].cleverapps.io/swagger-ui/index.html

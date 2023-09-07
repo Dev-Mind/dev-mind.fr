@@ -217,11 +217,10 @@ But you can use several `SecurityFilterChain` to implement different security le
 ----
 @Bean
 @Order(1)
-public SecurityFilterChain filterChain(HttpSecurity http, HandlerMappingIntrospector introspector) throws Exception {
-    MvcRequestMatcher.Builder mvcMatcherBuilder = new MvcRequestMatcher.Builder(introspector).servletPath("/path");
+public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     return http
             .authorizeHttpRequests((requests) -> requests
-                    .requestMatchers(mvcMatcherBuilder.pattern("/api")).hasRole(ROLE_USER) // (2)
+                    .requestMatchers(AntPathRequestMatcher.antMatcher("/api/**")).hasRole(ROLE_USER) // (2)
                     .anyRequest().permitAll() // (3)
             )
             .formLogin(withDefaults())
@@ -287,7 +286,7 @@ public User findUserName(@AuthenticationPrincipal UserDetails userDetails) {
 - Implement a custom config to manage your users in your own `UserDetailsService`. You must have one classical user and one admin user
 - Configure security to secure all the routes exposed with /api. The user must have the role User or Admin to access to our api.
 - Add a new REST endpoint to return the username. This endpoint must be only accessible to an admin user
-
+- the H2 console must be also secured and only admins can manage the database via this console
 
 == Unit tests
 
@@ -316,6 +315,17 @@ void shouldLoadAWindowAndReturnNullIfNotFound() throws Exception {
 === Resolve error 403
 
 For put, post or delete HTTP methods, Spring Security add a security level and force you to send a CSRF token. You can read more information on the https://docs.spring.io/spring-security/reference/features/exploits/csrf.html[Spring website].
+
+=== On a web application
+
+If you use the https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API[Fetch API], you can update the headers sent in a request. For example
+
+[source, javascript]
+----
+const headers = new Headers();
+headers.set('Authorization', 'Basic ' + btoa(username + ":" + password));
+const response = await fetch('myurl', {headers});
+----
 
 ==== In the tests
 In your test you can configure csrf like on the code below

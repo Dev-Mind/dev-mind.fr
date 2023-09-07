@@ -2,7 +2,7 @@
 :description: How to start in Kotlin when you know only Java language
 :keywords: Kotlin
 :author: Guillaume EHRET - Dev-Mind
-:revdate: 2022-11-12
+:revdate: 2023-08-12
 :category: Kotlin
 :teaser: How to start in Kotlin when you know only Java language.
 :imgteaser: ../../img/training/learn-kotlin.png
@@ -11,7 +11,7 @@
 In few words Kotlin is
 
 * *Concise* Drastically reduce the amount of boilerplate code
-* *Interoperable* Leverage existing libraries for the JVM, Android, and the browser.You can call Kotlin code in Java or Java code in Kotlin
+* *Interoperable* Leverage existing libraries for the JVM, Android, and the browser. You can call Kotlin code in Java or Java code in Kotlin
 * *Safe* Kotlin tries to help you reduce errors like null pointer exceptions
 
 [.text-center]

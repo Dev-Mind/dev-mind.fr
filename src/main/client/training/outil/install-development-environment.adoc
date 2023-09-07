@@ -6,6 +6,7 @@
 :category: Java, IntelliJ
 :teaser:  The aim of this part is to introduce you to the links and procedure to prepare your Java Web Developer workstation
 :imgteaser: ../../img/training/environnement.png
+:toc:
 
 We want to develop our own applications but how to be effective when we work ? What should I do to start? What software do I need to install? A good craftsman has good tools. It's the same for a software developer..
 
