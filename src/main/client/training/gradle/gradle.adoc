@@ -83,7 +83,7 @@ Gradle was not the first build tool. In the past we used https://ant.apache.org/
 ** the project is not very flexible by its governance
 ** slower than Gradle: incremental build is present in the last version and the Gradle cache and parallel execution give an advantage to Gradle
 
-== icon:flask[] Starting with Gradle
+== Starting with Gradle
 
 You can install the last version on https://gradle.org/install/. If you followed the installation of the package manager https://sdkman.io/[Sdk Man] in the https://dev-mind.fr/training/outil/install-development-environment.html[first lesson], you just have to launch
 
@@ -121,18 +121,33 @@ If you use a Gradle version > 7, you will have to respond to few questions
 [source,shell]
 ----
 Select type of project to generate:
-1: basic
-2: application
-3: library
-4: Gradle plugin
-Enter selection (default: basic) [1..4] 1
+  1: basic
+  2: application
+  3: library
+  4: Gradle plugin
+Enter selection (default: basic) [1..4] 2
 
+Select implementation language:
+  1: C++
+  2: Groovy
+  3: Java
+  4: Kotlin
+  5: Scala
+  6: Swift
+Enter selection (default: Java) [1..6] 3
+
+Generate multiple subprojects for application? (default: no) [yes, no] no
 Select build script DSL:
-1: Kotlin
-2: Groovy
-Enter selection (default: Groovy) [1..2] 1
+  1: Kotlin
+  2: Groovy
+Enter selection (default: Kotlin) [1..2] 1
 
-Project name (default: demo): demo
+Select test framework:
+  1: JUnit 4
+  2: TestNG
+  3: Spock
+  4: JUnit Jupiter
+Enter selection (default: JUnit Jupiter) [1..4] 4
 
 Generate build using new APIs and behavior (some features may change in the next minor release)? (default: no) [yes, no] no
 ----
@@ -153,7 +168,9 @@ Gradle should have generated this tree
 
 [source,shell]
 ----
-|-- build.gradle.kts  (1)
+|-- app
+|   | src
+|   | -- build.gradle.kts  (1)
 |-- .gitattributes (2)
 |-- .gitignore (2)
 |-- gradle
