@@ -170,11 +170,11 @@ image::../../img/blog/2019/android_fg_04.png[Android vs other OS,width=1000]
 
 *Pixel density* is the number of dots per inch (dot per inch ⇒ dpi). Density is important on a device. For example, if you display an image expressed in pixels on 2 screens of different density, you will not have the same rendering.
 
-image::../../img/blog/2019/android_fg_05.png[Pixel density,width=1000]
+image::../../img/blog/2019/android_fg_05.png[Pixel density,width=700]
 
 If we display the same images expressed with the *dp* unit (density-independent pixels) you will have the following result
 
-image::../../img/blog/2019/android_fg_06.png[dp unit,width=1000]
+image::../../img/blog/2019/android_fg_06.png[dp unit,width=700]
 
 The rule is to *never express sizes in px in an application but always in dp* (in the web world we will use the em unit). To express the size of the fonts, you will instead use the unit sp (scalable pixels) which has the advantage of increasing depending on the user accessibility settings.
 
