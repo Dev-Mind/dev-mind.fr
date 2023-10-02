@@ -8,6 +8,7 @@
   "license": "MIT",
   "scripts": {
     "install": "gulp;gulp build-backend;tsc",
+    "images": "gulp images",
     "start": "node ./build/app.js",
     "dev": "gulp styles-backend-dev; ts-node-dev --respawn --transpileOnly ./app.ts",
     "watch": "gulp watch",

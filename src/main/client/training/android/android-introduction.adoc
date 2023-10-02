@@ -23,11 +23,11 @@ Android is today the most used mobile OS in the world.
 
 Nearly https://gs.statcounter.com/os-market-share[70% of users] in Western countries use this platform. In Africa or Asia, Apple's pricing policy means that Android market shares are even stronger and continue to climb.
 
-image::../../img/training/android/intro/android_vs_ios.png[Android usage,width=800]
+image::../../img/training/android/intro/android_vs_ios.png[Android usage,width=800, align="center"]
 
 Doing mobile programming still has an interest. Access to IT (web or other) is increasingly done with https://gs.statcounter.com/platform-market-share/desktop-mobile-tablet[mobiles and tablets].
 
-image::../../img/training/android/intro/desktop_vs_mobile.png[Android in mobile market,width=800]
+image::../../img/training/android/intro/desktop_vs_mobile.png[Android in mobile market,width=800, align="center"]
 
 Android has become the https://gs.statcounter.com/os-market-share[most used OS] worldwide for all systems combined.
 
@@ -39,15 +39,15 @@ Mobility has transformed the devices we used. When you are on a desktop PC or a 
 
 On a mobile you will have more components to help you in this context of mobility: GPS, camera, accelometer, pedometer... We have more and more sensors to interpret the context of use of the device
 
-image::../../img/training/android/intro/sensors.png[Android sensors,width=800]
+image::../../img/training/android/intro/sensors.png[Android sensors,width=800, align="center"]
 
 The price of a device depends on the number and quality of all these sensors. Today Android is present everywhere
 
-image::../../img/training/android/intro/everywhere.png[Android everywhere,width=800]
+image::../../img/training/android/intro/everywhere.png[Android everywhere,width=800, align="center"]
 
 And you have different versions of Android. One for each platform
 
-image::../../img/training/android/intro/platform.png[Android vs other OS,width=1000]
+image::../../img/training/android/intro/platform.png[Android vs other OS,width=1000, align="center"]
 
 ==== When use native programming
 
@@ -65,7 +65,7 @@ Today there are solutions to develop once and deploy either on the web or native
 
 Here is a simplified image of the Android platform
 
-image::../../img/training/android/intro/platform2.png[Android vs other OS,width=800]
+image::../../img/training/android/intro/platform2.png[Android vs other OS,width=800, align="center"]
 
 === Linux kernel
 
@@ -83,7 +83,7 @@ In Android the compiler will create `.dex` files (Dalvik executable). Dalvik was
 
 Today this virtual machine has been replaced by ART (Android Runtime). The transformation into machine language is done when the application is installed: AOT (ahead of time) compilation. As the bytecode is compiled into machine language earlier, applications launch faster and the CPU is less required during execution (and therefore preserves your battery).
 
-image::../../img/blog/2019/android_pf_02.png[Android compilation,width=1000]
+image::../../img/blog/2019/android_pf_02.png[Android compilation,width=1000, align="center"]
 
 I deliberately misused language by indicating that the bytecode was transformed into machine language. This is not really the case. If we really had machine language we would no longer need a VM.
 
@@ -145,7 +145,7 @@ When you start a new development you must make a version choice. In fact you hav
 * define a target version: generally you should always choose the latest version of the OS
 * define a minimum version: you define the minimum version of the OS supported. The compiler is able to alert you when you try to use an API that is not supported
 
-image::../../img/training/android/intro/versions.png[Android versions,width=800]
+image::../../img/training/android/intro/versions.png[Android versions,width=800, align="center"]
 
 Version usage statistics are published regularly on https://developer.android.com/about/dashboards[this dashboard], which compiles the data reported by Google Store (the official source of Android applications).
 
@@ -162,19 +162,19 @@ As a reminder
 
 Android offers a classification linked to the width of a screen.
 
-image::../../img/blog/2019/android_fg_03.png[Android vs other OS,width=1000]
+image::../../img/blog/2019/android_fg_03.png[Android vs other OS,width=1000, align="center"]
 
 As in the web world, you must adapt your UI either by using components and resizable layouts, or by using different layouts depending on the size (in Android you can use fragments)
 
-image::../../img/blog/2019/android_fg_04.png[Android vs other OS,width=1000]
+image::../../img/blog/2019/android_fg_04.png[Android vs other OS,width=1000, align="center"]
 
 *Pixel density* is the number of dots per inch (dot per inch ⇒ dpi). Density is important on a device. For example, if you display an image expressed in pixels on 2 screens of different density, you will not have the same rendering.
 
-image::../../img/blog/2019/android_fg_05.png[Pixel density,width=700]
+image::../../img/blog/2019/android_fg_05.png[Pixel density,width=700, align="center"]
 
 If we display the same images expressed with the *dp* unit (density-independent pixels) you will have the following result
 
-image::../../img/blog/2019/android_fg_06.png[dp unit,width=700]
+image::../../img/blog/2019/android_fg_06.png[dp unit,width=700, align="center"]
 
 The rule is to *never express sizes in px in an application but always in dp* (in the web world we will use the em unit). To express the size of the fonts, you will instead use the unit sp (scalable pixels) which has the advantage of increasing depending on the user accessibility settings.
 
@@ -184,7 +184,7 @@ You will be able to create different resources depending on the size. When you h
 
 We have focused on the 2 biggest differences between devices but we could go further because you also have a big difference in quality and performance in terms of the basic components of a mobile or tablet. You do not have the same components in entry-level devices and more luxurious ones
 
-image::../../img/blog/2019/android_fg_07.png[Hardware Fragmentation,width=1000]
+image::../../img/blog/2019/android_fg_07.png[Hardware Fragmentation,width=1000, align="center"]
 
 To provide a good user experience, you can apply a few simple rules
 

@@ -2,7 +2,7 @@
 :description: A tutorial to start Android development. In this example we develop an Hello World app
 :keywords: Android
 :author: Guillaume EHRET - Dev-Mind
-:revdate: 2022-09-26
+:revdate: 2023-08-27
 :category: Android
 :teaser: A tutorial to start Android development. In this example we develop an Hello World app (EN)
 :imgteaser: ../../img/training/android/android-course1.png
@@ -39,21 +39,32 @@ sh ./studio.sh
 Follow the wizard and choose a standard installation.
 It's important to do that to download the last version of Android SDK, recent images for Emulator...
 
-image::../../img/training/android/android-studio.png[Follow wizard,width=700]
+image::../../img/training/android/firstapp/android-studio.png[Follow wizard,width=700, align="center"]
+
+After the installation, you should have this screen
+
+image::../../img/training/android/firstapp/android-studio1.png[Follow wizard,width=700, align="center"]
+
+If you want to cutomize the display and use the new UI you can
+
+1. click on the customize section on the left
+2. click on the link "All settings..."
+
+image::../../img/training/android/firstapp/android-studio2.png[Follow wizard,width=700, align="center"]
 
 === Update
 
-If you have an existing version of Android Studio on your laptop you should update Android Sdk.
+If you already have a version of Android Studio on your laptop, you should update Android Sdk.
 For that go on menu *Tools > SDK manager*
 
-image::../../img/training/android/android-studio-update1.png[Menu SDK manager, width=800]
+image::../../img/training/android/firstapp/android-studio-update1.png[Menu SDK manager, width=800, align="center"]
 
-Below on my example, I have 2 versions installed : a fully Android Tiramisu and a partial Android 12.0.
+Below on my example, I have 2 versions installed : Android 13.0 Tiramisu. Here I can choose the last version of the API
 
-image::../../img/training/android/android-studio-update2.png[Choose SDK versions,width=800]
+image::../../img/training/android/firstapp/android-studio-update2.png[Choose SDK versions,width=800, align="center"]
 
 When you develop in Android you should always do it on the last SDK version.
-Google requires you to always target this latest version when you publish apps to the official store. In our case we have to target the Tiramisu version (API level 33)
+Google requires you to always target this latest version when you publish apps to the official store. In our case we have to target the Tiramisu version (API level 34)
 
 == Fundamental concepts
 
@@ -67,6 +78,7 @@ It represents a single screen with a user interface
 * *Content provider* : A content provider manages a shared set of app data that you can store in the file system, in a SQLite database, on the web, or on any other persistent storage location that your app can access.
 
 In this course we will only manipulate activities.
+
 After you will finish your first app, you can learn more about the other app components on the https://developer.android.com/guide/components/fundamentals[Google developper website].
 
 Let's focus on activities.
@@ -79,7 +91,9 @@ Android allows you to provide different resources for different devices.
 For example, you can create different layouts for different screen sizes.
 The system determines which layout to use based on the screen size of the current device.
 
-image::../../img/training/android/android-activities.png[A view is an activity and an XML file, width=800]
+image::../../img/training/android/firstapp/android-activities.png[A view is an activity and an XML file, width=800, align="center"]
+
+Note that there is also another important concept in Android development with the https://developer.android.com/guide/fragments?hl=en[fragements]. A Fragment represents a reusable portion of your app's UI. A fragment defines and manages its own layout, has its own lifecycle, and can handle its own input events. Fragments can't live on their own. They must be hosted by an activity.
 
 == icon:flask[] : A first example
 
@@ -88,17 +102,17 @@ In this lab, you will learn how create a new Android project with Android Studio
 1. Launch Android Studio. If you need to install it see you on the http://localhost:8080/training/android/android-first-app.html#_android_studio[first chapter]
 2. In the Welcome to Android Studio window, click Start a new Android Studio project. If you have a project already opened, select *File > New > New Project.*
 +
-image::../../img/training/android/android-studio-start.png[Start a new project, width=600]
+image::../../img/training/android/firstapp/android-studio1.png[Follow wizard,width=700, align="center"]
 +
 3. Android Studio will initialize a new project with an activity.
 It asks you to select a template for this activity.
-In the *Select a Project Template window*, select *Empty Activity* and click Next.
+In the *Select a Project Template window*, select *Empty Views Activity* and click Next.
 +
-image::../../img/training/android/android-studio-select-type.png[Select project type, width=700]
+image::../../img/training/android/firstapp/android-studio-select-type.png[Select project type, width=700, align="center"]
 +
 4. In the `Configure your project` window, complete the following:
 +
-image::../../img/training/android/android-studio-new.png[New project, width=700]
+image::../../img/training/android/firstapp/android-studio-new.png[New project, width=700, align="center"]
 +
 * Enter _automacorp_ in the *Name* field.
 * Enter __com.automacorp __in the *Package name* field.
@@ -110,7 +124,7 @@ If you want to target more devices you can select a lower API version.
 If you want to use last Android features you can select higher version.
 You can click on *Help me choose* link to select the good API version
 +
-image::../../img/training/android/android-versions.png[API versions, width=700]
+image::../../img/training/android/firstapp/android-versions.png[API versions, width=700, align="center"]
 +
 5. Click on *Finish* button.
 
@@ -119,12 +133,12 @@ After some processing time for code generation, the Android Studio main window a
 == Most important files
 
 Now take a moment to review the most important files.
-Android Studio is organized like IntelliJ used during labs about Spring Framework.
+https://developer.android.com/studio[Android Studio] is organized like https://www.jetbrains.com/idea/[IntelliJ], used during labs about Spring Framework. The core of these software are common and made by https://www.jetbrains.com/[Jetbrains].
 
 First, be sure the Project window is open (select *View > Tool Windows > Project*) and the Android view is selected from the drop-down list at the top of that window.
 This Android view let see you the main files of your Android project
 
-image::../../img/training/android/android-view.png[Android view to select file]
+image::../../img/training/android/firstapp/android-view.png[Android view to select file, width=300, align="center"]
 
 You can then see the following files:
 
@@ -133,6 +147,7 @@ You can then see the following files:
 *File :* *_app > manifests > AndroidManifest.xml_*
 
 Manifest file is a kind of id card for your project.
+
 The manifest file describes essential information about your app to the Android build tools, the Android operating system, and Google Play.
 
 All activities must be defined inside and one of them will be defined as entry point for your app (with an intent filter).
@@ -144,7 +159,6 @@ All activities must be defined inside and one of them will be defined as entry p
         <action android:name="android.intent.action.MAIN" />
         <category android:name="android.intent.category.LAUNCHER" />
     </intent-filter>
-    <meta-data android:name="android.app.lib_name" android:value="" />
 </activity>
 ----
 
@@ -156,20 +170,23 @@ You can see 3 packages `com.automacorp` in Android view.
 * The second (suffixed with androidTest) contains test files executed to test your app on a device or on an emulator.
 * The last one (suffixed with test) contains unit test files used to control your code locally at each build
 
-Unfortunately we don't have enough time to see how to write these tests.
+Unfortunately we don't have enough time to see how to write these tests during our labs.
+
 But be aware that if you want to create a sustainable application, testing is the best way to limit regressions and make it easier to manage your application over time.
+
+You can find more information about tests https://developer.android.com/training/testinghere[here].
 
 *File :* *_app > java > com.automacorp > MainActivity_*
 
-This is the main activity.
-It's the entry point for your app.
+This is the main activity and it's the entry point for your app.
+
 When you build and run your app, the system launches an instance of this Activity and loads its layout.
 
-Each activity (as each components in Android) has a lifecyle and you can interact at each step
+Each activity (as each components in Android) has a lifecyle and you can interact at each step (ie you can overload a method to add a behavior or some code in a lifecycle phase).
 
-image::../../img/training/android/android-activity-lifecycle.png[Activity lifecyle]
+image::../../img/training/android/firstapp/android-activity-lifecycle.png[Activity lifecyle]
 
-For example in MainActivity, we declare the XML resource file where your view content is defined (`R.layout.activity_main`)
+For example in `MainActivity`, we declare the XML resource file where your view content is defined (`R.layout.activity_main`)
 
 [source,kotlin,subs="none"]
 ----
@@ -187,21 +204,21 @@ NOTE : directory is named java to assure compatibility with old projects or libs
 
 Resources are the additional files and static content that your code uses, such as images, screen definitions, strings used in interfaces, styles, animation instructions, and more.
 
-image::../../img/training/android/android_resource.png[Resource directories, width=400]
-
-image::../../img/training/android/android-resource1.png[Android resource]
+image::../../img/training/android/firstapp/android-resource1.png[Android resource, width=800, align="center"]
 
 You can provide alternative resources for specific device configurations, by grouping them in specially-named resource directories.
+
 At runtime, Android uses the appropriate resource based on the current configuration.
-For example, you might want to provide a different UI layout depending on the screen size or different strings depending on user language.
+
+For example, you might want to provide a different UI layout depending on the screen size or different strings depending on user language. In this case you will have a default file `app/src/main/res/values/string.xml` and a specific file for France `app/src/main/res/values-fr/string.xml`
 
 *File :* *_app > res > layout > activity_main.xml_*
 
 This XML file defines the layout for the activity's user interface (UI).
+
 Defining the content of a view is like placing widgets (View) in layouts (ViewGroup)
 
-Here we use a constraint layout.
-It contains a TextView element with the text "Hello, World!"
+In the following example, we use a constraint layout. It contains a TextView element with the text "Hello, World!"
 
 [source,xml,subs="none"]
 ----
@@ -234,13 +251,13 @@ We will see later how to update or create a new layout and include inside widget
 There are two files with this name:
 
 * one for the project, *Project: automacorp*, and
-* one for the app module, *Module: automacorp.app.*
+* one for the app module, *Module: app*
 
-Each module has its own *build.gradle* file, but this project currently has just one module.
+Each module has its own *build.gradle.kts* file, but this first project currently has just one module.
 
-If you need to use external libraries you will declare this dependencies in *build.gradle (Mocule: automacorp.app)* If you want to configure android plugin (APi version, SDK version) you will update *build.gradle (Project: automacorp)*
+If you need to use external libraries you can, and you need to declare them in *build.gradle.kts (Module: app)*.
 
-The defaultConfig block is important. This is where you have to define
+You can also configure the `android` plugin (APi version, SDK version).The `defaultConfig` block is important. This is where you have to define
 
 - the min sdk used by the phone that uses your app
 - the target sdk used for the compilation. It's important to use the highest value
@@ -249,25 +266,29 @@ The defaultConfig block is important. This is where you have to define
 [source,kotlin,subs="none"]
 ----
 android {
-    namespace 'com.automacorp'
-    compileSdk 32
+   namespace = "com.automacorp"
+    compileSdk = 33
 
     defaultConfig {
-        applicationId "com.automacorp"
-        minSdk 26
-        targetSdk 33
-        versionCode 1
-        versionName "1.0"
+        applicationId = "com.automacorp"
+        minSdk = 29
+        targetSdk = 33
+        versionCode = 1
+        versionName = "1.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -293,7 +314,7 @@ You need to set up your phone
 * Select item *About phone*.
 * Go to the bottom to *Build number* item
 * Tap on this *Build number* seven times. You should see a message which says that you are now a developer.
-* If you go back on *Settings app* and in *System* sectionn you should see a new entry *Developer options*
+* If you go back on *Settings app* and in *System* section you should see a new entry *Developer options*
 * Tap on *Developer options* and scroll down to find and *enable USB debugging*.
 
 Since few versions of Android, you can also pair your phone via your Wifi connection. Your laptop and your phone must use the same Wifi.
@@ -337,7 +358,7 @@ image::../../img/training/android/android-run.png[Run application, width=500]
 
 If everything is OK you should see your first app. It is very simple and not very pretty but we do better in the next chapter
 
-image::../../img/training/android/android_emulator2.png[Hello world application, width=500]
+image::../../img/training/android/firstapp/android_emulator.png[Hello world application, width=400, align="center"]
 
 To analyze errors you can open the run console on the bottom. This window contains messages send when app is launched with Gradle
 
@@ -351,7 +372,6 @@ image::../../img/training/android/android-error2.png[Logcat view]
 
 About Android you can read
 
-* https://dev-mind.fr/blog/2019/comprendre_programation_android.html[Understand Android development] : article in french
 * https://developer.android.com/[Android developer website] : you will find all resources about Android.
 * https://developer.android.com/courses/kotlin-android-fundamentals/toc[Codelabs] : you can find more detailed examples in these codelabs created by Google training team
 

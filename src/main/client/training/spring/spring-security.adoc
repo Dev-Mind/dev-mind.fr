@@ -244,7 +244,7 @@ Authentication authentication = SecurityContextHolder.getContext().getAuthentica
 String currentPrincipalName = authentication.getName();
 ----
 
-Alternatively, we can also use the AuthenticationPrincipal annotation.
+Alternatively, we can also inject the user via the AuthenticationPrincipal annotation in a web controller.
 
 [source, java]
 ----

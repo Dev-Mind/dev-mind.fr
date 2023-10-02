@@ -100,7 +100,7 @@ Use these settings
 * *Project metadata*:
 +
 ** group : `com.emse.spring`
-** artifact & name :  `automacorp`.
+** artifact & name :  `automacorp`
 ** Packaging : `jar`
 ** Java : `17`
 * *Dependencies*, click on button "ADD DEPENDENCIES"" to choose which sub projects we will use. Choose *Spring Web* and *Spring Boot DevTools*
