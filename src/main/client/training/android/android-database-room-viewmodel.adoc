@@ -2,10 +2,10 @@
 :description: You'll learn about the fundamentals of using Room, including the database class, the DAO, entities, and view models.
 :keywords: Android, database, room
 :author: Guillaume EHRET - Dev-Mind
-:revdate: 2018-09-24
+:revdate: 2023-10-08
 :category: Android, Kotlin
 :teaser:  You'll learn about the fundamentals of using Room, including the database class, the DAO, entities, and view models.
-:imgteaser: ../../img/training/environnement.png
+:imgteaser: ../../img/training/android/android-use-room.png
 :toc:
 
 In this lesson, we will learn how to use a database in our application.

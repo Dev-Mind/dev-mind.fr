@@ -2,7 +2,7 @@
 :description: Présentation de l'écosystème de Spring
 :keywords: Java, Spring
 :author: Guillaume EHRET - Dev-Mind
-:revdate: 2023-09-05
+:revdate: 2023-11-04
 :category: Java
 :teaser:  In this course you will learn one of the main principle of software design, the dependency injection
 :imgteaser: ../../img/training/spring-core.png

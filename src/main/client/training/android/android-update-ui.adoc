@@ -2,7 +2,7 @@
 :description: In this lesson we will update the main layout to create a welcome screen
 :keywords: Android
 :author: Guillaume EHRET - Dev-Mind
-:revdate: 2022-10-01
+:revdate: 2023-10-13
 :category: Android
 :teaser: In this lesson we will update the main layout to create a welcome screen
 :imgteaser: ../../img/training/android/android-course2.png
@@ -24,7 +24,7 @@ image::../../img/training/android/android-view-hierarchy.png[View hierarchy, wid
 
 In this new codelab you will update the `hello world` page to create a home page with a welcome message, an image, an edit text and a button.
 
-image::../../img/training/android/android-example.png[First view example, width=800]
+image::../../img/training/android/updateui/android-example.png[First view example, width=800]
 
 Android provides an XML vocabulary for ViewGroup and View classes, and your UI is defined in XML files. Don't be afraid Android Studio provide a wysiwyg editor.
 
@@ -34,16 +34,16 @@ In the last versions of Android, Google introduce a new way to define your UI wi
 
 In the Project window, open *app > res > layout > activity_main.xml*. Editor should be displayed
 
-image::../../img/training/android/android-studio-layout.png[Android Studio Layout Editor, width=900]
+image::../../img/training/android/updateui/android-studio-layout.png[Android Studio Layout Editor, width=900]
 
-1. View mode: View your layout in either code mode (XML editor), Design mode (design view and Blueprint view), or Split mode icon (mix between code and design view)
-2. Palette: Contains various views and view groups that you can drag into your layout.
-3. Design editor: Edit your layout in Design view, Blueprint view, or both.
-4. Component Tree: Shows the hierarchy of components in your layout. It is sometimes useful to select a given widget
-5. Constraint widget : Helps to place an item in relation to those around it
-6. Attributes: Controls for the selected widget's attributes.
-7. Layout Toolbar: Click these buttons to configure your layout appearance in the editor and change layout attributes as target phone, orientation, light, locale...
-8. Widget Toolbar: Click these buttons to align your view. Button with red cross is useful to clear all widget constraints
+1. *View mode*: View your layout in either code mode (XML editor), Design mode (design view and Blueprint view), or Split mode icon (mix between code and design view)
+2. *Palette*: Contains various views and view groups that you can drag into your layout.
+3. *Design editor*: Edit your layout in Design view, Blueprint view, or both.
+4. *Component Tree*: Shows the hierarchy of components in your layout. It is sometimes useful to select a given widget
+5. *Constraint widget*: Helps to place an item in relation to those around it
+6. *Attributes*: Controls for the selected widget's attributes.
+7. *Layout Toolbar*: Click these buttons to configure your layout appearance in the editor and change layout attributes as target phone, orientation, light, locale...
+8. *Widget Toolbar*: Click these buttons to align your view. Button with red cross is useful to clear all widget constraints
 
 == Update home page
 
@@ -55,7 +55,7 @@ For the moment our page contains only one readonly text field.
 4. Click on *OK* button to import image in your layout
 5. We will use the *blueprint view* to add constraint to this image, to place it on the top of the screen and define a height. See video below for more detail
 +
-video::1ogCfYm9_DA[youtube, width=600, height=330]
+video::XnXLjsZc7ZI[youtube, width=600, height=330]
 +
 6. We will add a new readonly text below image to introduce our app. In common palette select a *Textview* widget and drag into your layout.
 7. In blueprint view you can add constraints to this textview
@@ -66,7 +66,7 @@ video::1ogCfYm9_DA[youtube, width=600, height=330]
 * *gravity* : _center_
 * margin right and left 16dp, margin top 32dp
 +
-video::so6D7SFDYss[youtube, width=600, height=330]
+video::ObG6BlWkLx0[youtube, width=600, height=330]
 +
 8. In *text palette* select a *Plain Text* widget (editable text view) and drag into your layout below your welcome message. This widget should have these properties
 +
@@ -81,8 +81,7 @@ video::so6D7SFDYss[youtube, width=600, height=330]
 * Apply a top, right and left margins and use constraint use constraint to place this widget below welcome message and on the right of your plain text widget
 +
 10. Click on Run button to test your app (see chapter link:android-first-app.html#_run_your_app[Run your app])
-+
-video::l4CyARSHtDQ[youtube, width=600, height=330]
+
 
 
 == Layout errors and strings

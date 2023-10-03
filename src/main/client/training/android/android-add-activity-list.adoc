@@ -2,7 +2,7 @@
 :description: In this lesson you will learn how add an activity to list elements
 :keywords: Android
 :author: Guillaume EHRET - Dev-Mind
-:revdate: 2022-10-05
+:revdate: 2023-10-10
 :category: Android
 :teaser: In this lesson you will learn how add an activity to list elements
 :imgteaser: ../../img/training/android/android-activity-list.png

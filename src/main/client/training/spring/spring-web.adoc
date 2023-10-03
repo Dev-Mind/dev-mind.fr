@@ -2,7 +2,7 @@
 :description: How write REST services in Spring Web and expose resource to your apps
 :keywords: Java, Spring
 :author: Guillaume EHRET - Dev-Mind
-:revdate: 2023-09-07
+:revdate: 2023-11-02
 :category: Java
 :teaser:  How write REST services in Spring Web and expose resource to your apps
 :imgteaser: ../../img/training/spring-boot.png

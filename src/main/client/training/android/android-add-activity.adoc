@@ -2,7 +2,7 @@
 :description: In this lesson you will learn how add a new activity in your project and call it
 :keywords: Android
 :author: Guillaume EHRET - Dev-Mind
-:revdate: 2022-10-02
+:revdate: 2023-10-12
 :category: Android
 :teaser: In this lesson you will learn how add a new activity in your project and call it
 :imgteaser: ../../img/training/android/android-add-activity.png

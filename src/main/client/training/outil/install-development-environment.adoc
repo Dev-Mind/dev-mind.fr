@@ -2,7 +2,7 @@
 :description: Quels sont les outils à installer pour être un développeur full stack, Java Android et Web
 :keywords: Développement, Installation
 :author: Guillaume EHRET - Dev-Mind
-:revdate: 2023-09-01
+:revdate: 2023-11-15
 :category: Java, IntelliJ
 :teaser:  The aim of this part is to introduce you to the links and procedure to prepare your Java Web Developer workstation
 :imgteaser: ../../img/training/environnement.png
