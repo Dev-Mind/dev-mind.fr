@@ -28,7 +28,7 @@ For all menu types, Android provides a standard XML format to define menu items.
 
 Using a menu resource is a good practice for a few reasons:
 
-* It's easier to visualize the menu structure in XML.
+* It's easier to visualize the menu structure
 * It separates the content for the menu from your application's behavioral code.
 * It allows you to create alternative menu configurations for different platform versions, screen sizes, and other configurations by leveraging the app resources framework.
 
@@ -47,32 +47,12 @@ A menu is linked to an activity, and you can use a different menu on 2 activitie
 1. Create an XML file inside your project's *res/menu/* directory. For that in the *Project window*, right-click the app folder and select *New > Android resource file*. You can also use menu *File > New > Android resource file*
 2. In window "New resource File" choose
 +
-* **File name** : mainmenu
+* **File name** : main_menu
 * **Resource type** : menu
 * **Source set** : main
 * **Directory name** : menu
 +
 image::../../img/training/android/menu/android-menu.png[Add menu resource]
-
-TODODOODO
-
-== icon:flask[] : Create a new activity to list data
-
-You need to create an empty activity with just a TextView with a label "Building windows". If you need some helps you can return on link:android-add-activity.html#_lab_7_create_a_new_activity[last lesson]
-
-image::../../img/training/android/android-new-activity.png[Add activity for list windows]
-
-== Create a menu in app bar
-
-1. Create an XML file inside your project's *res/menu/* directory. For that in the *Project window*, right-click the app folder and select *New > Android resource file*. You can also use menu *File > New > Android resource file*
-2. In window "New resource File" choose
-+
-* **File name** : mainmenu
-* **Resource type** : menu
-* **Source set** : main
-* **Directory name** : menu
-+
-image::../../img/training/android/android-menu.png[Add menu resource]
 3. File *res/menu/menu.xml* is opened in menu editor. You can use *palette* to add elements. We will add 3 *Menu Items*. Item element supports several attributes to define an item's appearance and behavior. The main ones are :
 +
 * *id* : an unique resource ID, which allows the application to recognize the item when the user wants to manipulate it in code.
@@ -98,19 +78,19 @@ image::../../img/training/android/android-menu.png[Add menu resource]
 ----
 5. Add 3 menu entries with an *id*, a *title* and option *showAsAction* to the value *never*
 +
-video::stUhvg3WXUc[youtube, width=600, height=330]
+video::AgvtSl7GNiM[youtube, width=600, height=330]
 +
 6. We will attach this menu to activities  *MainActivity*, *WindowActivity* and *WindowsActivity*. To prevent the add on each activity, we will create a parent activity and each activities will inherit from this parent activity. Select package *com.automacorp*, right-click and select *New > Activity > Kotlin File/Class*, fill *BasicActivity*
-
++
 7. In this file you can copy this code
 +
 [source,kotlin,subs="specialchars"]
 ----
 open class BasicActivity : AppCompatActivity()
 ----
-
++
 8. Update *MainActivity*, *WindowActivity* and *WindowsActivity* and replace _AppCompatActivity_ by _BasicActivity_
-
++
 9. We will now activate the menu. Override *onCreateOptionsMenu()* in *BasicActivity*. In this method, you can inflate your menu resource in the Menu provided in the callback
 +
 [source,kotlin,subs="specialchars"]
@@ -118,56 +98,95 @@ open class BasicActivity : AppCompatActivity()
 open class BasicActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater: MenuInflater = menuInflater
-        inflater.inflate(R.menu.menu, menu)
+        inflater.inflate(R.menu.main_menu, menu)
         return true
     }
 }
 ----
-
++
 10. When the user selects an item from the options menu (including action items in the app bar), the system calls your activity's *onOptionsItemSelected()* method. This method passes the MenuItem selected. We will handle each possible values in *BasicActivity* class
 +
 [source,kotlin,subs="specialchars"]
 ----
 override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
-            R.id.menu_windows -> startActivity(
-                Intent(this, WindowsActivity::class.java)
-            )
-            R.id.menu_website -> startActivity(
-                Intent(Intent.ACTION_VIEW, Uri.parse("https://dev-mind.fr"))
-            )
-            R.id.menu_email -> startActivity(
-                Intent(Intent.ACTION_SENDTO, Uri.parse("mailto://guillaume@dev-mind.fr"))
-            )
+    when(item.itemId){
+        R.id.menu_windows -> startActivity(
+            Intent(this, WindowsActivity::class.java)
+        )
+        R.id.menu_website -> startActivity(
+            Intent(Intent.ACTION_VIEW, Uri.parse("https://dev-mind.fr"))
+        )
+        R.id.menu_email -> startActivity(
+            Intent(Intent.ACTION_SENDTO, Uri.parse("mailto://guillaume@dev-mind.fr"))
+        )
 
-        }
-        return super.onContextItemSelected(item)
     }
+    return super.onContextItemSelected(item)
+}
 ----
-+
-An https://developer.android.com/reference/android/content/Inten[intent] is an abstract description of an operation to be performed. It can be used to launch an Activity, a background Service...
-+
-* for te first menu occurence we call another activity in our app (see dedicated link:android-add-activity.html#_lab_8_build_an_intent_to_open_an_activity[lab])
-* then for others we ask to the system to find the best application to resolve an action. In this case we have 2 args to define an https://developer.android.com/reference/android/content/Inten[Intent]
-+
-** *action* : The general action to be performed, such as ACTION_VIEW, ACTION_SENDTO, ACTION_EDIT, ACTION_MAIN, etc.
-** *data* : The data to operate on, such an URL, an email, expressed as a Uri.
-+
+
+To understand the last code you can read the next chapter.
+
+== Intent : new use case
+
+I introduced the Intent concept in https://dev-mind.fr/training/android/android-add-activity.html#_intent_how_communicate_with_other_component[this chapter]. In the first menu item we call another activity in our app, as we already done in the lab https://dev-mind.fr/training/android/android-add-activity.html["Add a new activity"].
+
+An https://developer.android.com/reference/android/content/Inten[intent] is an abstract description of an operation to be performed. It can be used to launch an Activity, a background Service... And you can call one activity in your app or in another app installed on the device. In this case you ask to the system to find the best application to resolve an action.
+
+The first argument for the Intent is the expected action, such as `ACTION_VIEW`, `ACTION_SENDTO`, `ACTION_EDIT`, `ACTION_MAIN`, etc.
+The second one is the data to operate on, such an URL, an email, expressed as a Uri.
+
 Some examples of action/data pairs :
-** *ACTION_VIEW* content://contacts/people/1 : Display information about the person whose identifier is "1".
-** *ACTION_DIAL* tel:123 : Display the phone dialer with the given number filled in.
-** *ACTION_EDIT* content://contacts/people/1 : Edit information about the person whose identifier is "1".
-** ...
-+
-11. Click *Apply Changes* image:../../img/training/android/android-studio-apply.svg[Apply changes]  in the toolbar to run the app and test your menu
 
-image::../../img/training/android/android-add-menu.png[Android menu, width=800]
+* `ACTION_VIEW` content://contacts/people/1 : Display information about the person whose identifier is "1".
+* `ACTION_DIAL` tel:0642434445 : Display the phone dialer with the given number filled in.
+* `ACTION_EDIT` content://contacts/people/1 : Edit information about the person whose identifier is "1".
+* ...
 
-TOTOTOTO
+== icon:flask[] : Test your menu
 
-== Manage back button to return on main activity
+Last version of Android Studio uses Material 3 and the theme `Theme.Material3.DayNight.NoActionBar` so with no action bar by default.
 
-When you are on *WindowActivity* we want to add a button to go back on  *MainActivity*. To do that you need to update *WindowActivity* and add a line to activate option in action bar `supportActionBar?.setDisplayHomeAsUpEnabled(true)`
+So when you launch your app you have no action bar and no menu displayed on the top. Open the files `res/values/themes` (one for the default mode and one for the dark mode).
+
+Update
+
+[source,xml,subs="specialchars"]
+----
+ <style name="Base.Theme.Automacorp" parent="Theme.Material3.DayNight.NoActionBar">
+    <!-- ... -->
+ </style>
+----
+
+and use
+
+[source,xml,subs="specialchars"]
+----
+ <style name="Base.Theme.Automacorp" parent="Theme.Material3.DayNight">
+    <!-- ... -->
+ </style>
+----
+
+If you launch your app you will be able to test your menu
+
+image::../../img/training/android/menu/app-with-menu.png[App with menu, width=300, align="center"]
+
+You can personalize the bar color for that you need to override the toolbarStyle property
+
+[source,xml,subs="specialchars"]
+----
+ <style name="Base.Theme.Automacorp" parent="Theme.Material3.DayNight">
+    <!-- ... -->
+    <item name="toolbarStyle">@style/Theme.Custom.Toolbar</item>
+ </style>
+ <style name="Theme.Custom.Toolbar" parent="Widget.Material3.Toolbar">
+    <item name="android:background">@color/primary</item>
+ </style>
+----
+
+== icon:flask[] : Manage back button to return on main activity
+
+When you are on `WindowActivity` we want to add a button to go back on `MainActivity`. To do that you need to update `WindowActivity` and add a line to activate option in action bar `supportActionBar?.setDisplayHomeAsUpEnabled(true)`
 
 [source,kotlin,subs="specialchars"]
 ----
@@ -189,4 +208,4 @@ You also need to define your activity parent. This definition is made in Android
 <activity android:name=".WindowActivity" android:parentActivityName=".MainActivity"></activity>
 ----
 
-Click *Apply Changes* image:../../img/training/android/android-studio-apply.svg[Apply changes]  in the toolbar to run the app and test back button.
+Click *Apply Changes* image:../../img/training/android/android-studio-apply.svg[Apply changes]  in the toolbar to run the app and test back button. You will be able to add this feature on your other screens.

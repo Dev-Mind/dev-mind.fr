@@ -44,7 +44,7 @@ Android Studio automatically does three things:
 +
 video::ppyIYuRpNWk[youtube, width=600, height=330]
 
-== icon:flask[] : Build an intent to open an activity
+== Intent : how communicate with other component ?
 
 An https://developer.android.com/reference/android/content/Intent[Intent] is an object that provides runtime binding between separate components, such as two activities. These activities can be in the same app or not.
 
@@ -57,6 +57,8 @@ image::../../img/training/android/newactivity/android-intent.png[Intent, width=7
 When you create an Intent you define a context, a target and you can send zero, one or more informations to the target.
 
 An Intent can carry data types as key-value pairs called extras. In this lab you will open *WindowActivity* when a user will click on *MainActivity* button *Open Window*
+
+== icon:flask[] : Build an intent to open an activity
 
 Update method *openWindow* in *MainActivity* to
 
@@ -240,3 +242,9 @@ if (room !=null && room.targetTemperature != null) room.targetTemperature.toStri
 This image below show you an implementation example
 
 image::../../img/training/android/newactivity/android-second-activity.png[Activity room, width=700, align="center"]
+
+== icon:flask[] : Create a new activity to list rooms
+
+You need to create an empty activity with just a TextView with a label "Rooms".
+
+image::../../img/training/android/android-new-activity.png[Add activity for list windows]

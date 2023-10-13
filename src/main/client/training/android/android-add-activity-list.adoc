@@ -8,82 +8,9 @@
 :imgteaser: ../../img/training/android/android-activity-list.png
 :toc:
 
-In this lesson, you will learn how to create a new View in your app to list data.
+In this lesson, you will learn how to populate a list of room in our empty rooms screen.
 
 image::../../img/training/android/android-activity-list.png[Create an activity list, width=800]
-
-== Modelisation
-
-We want to display room window information in our app.
-
-A room is defined by several properties
-
-* an id
-* a name
-* a current temperature (this property can be nullable if no data is available)
-* a target temperature (this property can be nullable if no data is available)
-
-A Window is defined by several properties
-
-* an id
-* a room
-* a status (OPEN, CLOSED)
-
-We are going to create classes to represent windows and rooms.
-
-1. In the *Project window*, right-click the package _com.automacorp_ and select *New > package*.
-2. New package will be called *model*. Select this package, redo a right-click and select *New > Kotlin File/Class*.
-3. Fill a name. For example *RoomDto* (dto = data transfer object) and create window properties. You can copy this code
-+
-[source,kotlin,subs="specialchars"]
-----
-
-data class RoomDto(val id: Long,
-                   val name: String,
-                   val currentTemperature: Double?,
-                   val targetTemperature: Double?)
-----
-+
-Note: when a value is nullable you need to suffix type with ?. In our example currentTemperature can be null, so type is Double? and not Double
-+
-4. Redo same steps to create *WindowDto*
-+
-[source,kotlin,subs="specialchars"]
-----
-enum class WindowStatus { OPEN, CLOSED}
-
-data class WindowDto(val id: Long, val name: String, val room: RoomDto, val windowStatus: WindowStatus)
-----
-+
-5. We will now create a service class to manage these windows. We will write 2 methods : one to find all building windows and a second to load only one window by its id. For the moment we will use fake data. In a next lesson we will learn how call a remote service to load real data.
-+
-[source,kotlin,subs="specialchars"]
-----
-class WindowService {
-
-    companion object {
-        // Fake rooms
-        val ROOMS: List<RoomDto> = listOf(
-            RoomDto(1, "Room EF 6.10", 18.2, 20.0),
-            RoomDto(2, "Hall", 18.2, 18.0),
-            RoomDto(3, "Room EF 7.10", 21.2, 20.0)
-        )
-
-        // Fake windows
-        val WINDOWS: List<WindowDto> = listOf(
-            WindowDto(1, "Entry Window", ROOMS[0], WindowStatus.CLOSED),
-            WindowDto(2, "Back Window", ROOMS[0], WindowStatus.CLOSED),
-            WindowDto(3, "Sliding door", ROOMS[1], WindowStatus.OPEN),
-            WindowDto(4, "Window 1", ROOMS[2], WindowStatus.CLOSED),
-            WindowDto(5, "Window 2", ROOMS[2], WindowStatus.CLOSED),
-        )
-    }
-
-    fun findById(id: Long) = WINDOWS.firstOrNull { it.id == id}
-
-    fun findAll() = WINDOWS.sortedBy { it.name }
-}
-----
 
 == RecyclerView
 
