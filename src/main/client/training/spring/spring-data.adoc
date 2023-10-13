@@ -2,7 +2,7 @@
 :description: How use a database in your Spring project with Spring Data JPA and a H2 Database
 :keywords: Java, Spring
 :author: Guillaume EHRET - Dev-Mind
-:revdate:2023-11-03
+:revdate: 2023-11-03
 :category: Java
 :teaser:  How use a database in your Spring project with Spring Data JPA and a H2 Database? Hibernate will be the JPA implementation
 :imgteaser: ../../img/training/spring-data.png

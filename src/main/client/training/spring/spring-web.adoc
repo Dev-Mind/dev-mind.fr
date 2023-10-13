@@ -215,7 +215,7 @@ public class SensorController {
     @PostMapping // (8)
     public ResponseEntity<Sensor> create(@RequestBody SensorCommand sensor) { // (9)
         SensorEntity entity = new SensorEntity(sensor.sensorType(), sensor.name());
-        entity.setValue(entity.getValue());
+        entity.setValue(sensor.value());
         SensorEntity saved = sensorDao.save(entity);
         return ResponseEntity.ok(SensorMapper.of(saved));
     }

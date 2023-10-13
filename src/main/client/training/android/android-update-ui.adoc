@@ -45,7 +45,7 @@ image::../../img/training/android/updateui/android-studio-layout.png[Android Stu
 7. *Layout Toolbar*: Click these buttons to configure your layout appearance in the editor and change layout attributes as target phone, orientation, light, locale...
 8. *Widget Toolbar*: Click these buttons to align your view. Button with red cross is useful to clear all widget constraints
 
-== Update home page
+== icon:flask[] : Update home page
 
 For the moment our page contains only one readonly text field.
 
@@ -83,16 +83,18 @@ video::ObG6BlWkLx0[youtube, width=600, height=330]
 10. Click on Run button to test your app (see chapter link:android-first-app.html#_run_your_app[Run your app])
 
 
+== icon:flask[] : Layout errors and strings
 
-== Layout errors and strings
+When something is wrong, Android Studio add a warning or an error button on the right of the editor toolbar (red flag on the top right)
 
-When something is wrong, Android Studio add a warning or an error button on the right of the editor toolbar
+image::../../img/training/android/updateui/layout_error.png[Layout error]
 
-image::../../img/training/android/layout_error.png[Layout error]
-
-1. Click on this button to see different problems (a window is opened on the bottom of your screen).
+1. Click on this button to see different problems (a window is opened on the bottom of your screen). +
+image:../../img/training/android/updateui/layout_panel_error.png[Layout error]
 2. You can double click on an item to see the problem and have an explaination. Android studio display also a Fix button to help you to resolve problem
-3. You added a Text Field and a text inside. As your application can be used by different people who speak different languages, you should always use text internalization mechanisms provided by Android.
+
+
+We will try to fix some errors. One of them is `Hardcoded string "Window name", should use `@string` resource`. You added a Text Field and a text inside. As your application can be used by different people who speak different languages, you should always use text internalization mechanisms provided by Android.
 
 Open the Project window and open file *app > res > values > strings.xml*.
 This is a string resources file, where you can specify all of your UI strings. It allows you to manage all of your UI strings in a single location, which makes them easier to find, update, and localize. For the moment you have only one text inside, your app name.
@@ -100,7 +102,7 @@ This is a string resources file, where you can specify all of your UI strings. I
 [source,xml,subs="none"]
 ----
 <resources>
-    <string name="app_name">automacorp</string>
+    <string name="app_name">Automacorp</string>
 </resources>
 ----
 
@@ -112,7 +114,7 @@ You can launch https://developer.android.com/studio/write/translations-editor[Tr
     <string name="app_name">automacorp</string>
     <string name="app_logo_description">automacorp logo</string>
 
-    <string name="act_main_windowname_hint">Ligth name</string>
+    <string name="act_main_windowname_hint">Window name</string>
     <string name="act_main_welcome">Welcome on automacorp,\n the app to manage building windows</string>
     <string name="act_main_open_window">Open window</string>
 </resources>
@@ -120,9 +122,9 @@ You can launch https://developer.android.com/studio/write/translations-editor[Tr
 
 You can now update your layout and yours components to add a string reference for image description and welcome message. To make a reference to a String you have to use the prefix *@string/* followed by the string key
 
-video::a_bwuQvKRTU[youtube, width=600, height=330]
+video::4sYyCAcfWcE[youtube, width=600, height=330]
 
-== Launch action on button click
+== icon:flask[] : Launch action on button click
 
 An activity is always associated with a layout file. In link:android-update-ui#_lab_2_update_home_page[Lab 2] we have updated our main activity layout with a logo, a welcome message and a button.  In this lesson, you add some code in *MainActivity* to interact with this button.
 
@@ -148,18 +150,20 @@ class MainActivity : AppCompatActivity() {
 +
 You might see an error because Android Studio cannot resolve *View*, *Toast* classes or *R*. To clear errors, click the *View* declaration, place your cursor on it, and then press *Alt+Enter*, or *Option+Enter* on a Mac, to perform a Quick Fix. If a menu appears, select *Import class*. Do the same thing for *Toast* and *R* classes. *R* class contains a link to all ressources defined in your app.
 +
-2. Return to the *activity_main.xml* file and select the button in the Layout Editor.  In Attributes window, locate *onClick* property and select *openLight [MainActivity]* from its drop-down list.
+2. If you have an error with `txt_window_name` check your layout and update the id of your `EditTextView`
+3. Return to the *activity_main.xml* file and select the button in the Layout Editor.  In Attributes window, locate *onClick* property and select *openWindow [MainActivity]* from its drop-down list.
 +
-3. You can now relaunch your app,
+4. You can now relaunch your app,
 +
 * In window name editext fill a name
-* Click on the button you a message should be displayed on the bottom of the screen with the ligt name filled
+* Click on the button you a message should be displayed on the bottom of the screen with the window name filled
 
-==  Update app color scheme
+==  icon:flask[] : Update app color scheme
 
 As for a web page, you can define a style theme when you develop an Android application. The main them is defined in **app > manifests > AndroidManifest.xml**
 
-By default `@style/Theme.automacorp` follow https://material.io/[material design] specification.
+By default `@style/Theme.automacorp` follow https://material.io/[material design] specification. You app is configured to use a style `@style/Theme.automacorp`
+
 [source,xml,subs="none"]
 ----
 <application
@@ -175,53 +179,72 @@ By default `@style/Theme.automacorp` follow https://material.io/[material design
 </application>
 ----
 
-*File :* *_res > values > themees > theme.xml_* and
+This file reference
+
+*File :* *_res > values > themes > theme.xml_* and
 
 Your theme Theme.automacorp in this file. You have in reality 2 files because the Google team encourages you to adopt a normal theme and a darker theme in night mode to consume less battery. As a reminder, the lighter the colors, the more your screen consumes and the more your battery is used.
 
+You can see here that your custom them override a https://material.io/[Material] theme `Theme.MaterialComponents.DayNight.DarkActionBar`
+
 [source,xml]
 ----
-<resources>
-    <style name="Theme.automacorp" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_200</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
-        <item name="colorOnPrimary">@color/black</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_200</item>
-        <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Automacorp" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
+
+    <style name="Theme.Automacorp" parent="Base.Theme.Automacorp" />
 </resources>
 ----
-
 
 *File :* *_res > values > colors.xml_*
 
-Les `@color/...` sont des références à des valeurs renseignées dans ce fichier colors
+Ce fichier référence les couleurs utilisées dans votre application
 
 [source,xml]
 ----
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+  <color name="black">#FF000000</color>
+  <color name="white">#FFFFFFFF</color>
 </resources>
 ----
 
-1. Go on https://material.io/design/color/the-color-system.html#tools-for-picking-colors[Material color tool] to defined your own app color combination. You define your prmiary color and the tool  is able to compute complementary color
-+
+The material theme is built on different colors : a primary and a secondary color. You can also override all other additional colors, but today we only will try to use our own color scheme.
+
+The first step is the color choice. For that go on https://m2.material.io/design/color/the-color-system.html#tools-for-picking-colors[Material color tool] to defined your own app color combination. You define your prmiary color and the tool  is able to compute complementary color
+
 image::../../img/training/android/android-color.png[Android color, width=800]
-+
-2. Choose different colors
-+
-3. Run your app to see the new app rendering
+
+I choose this color combination
+
+[source,xml]
+----
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <color name="black">#FF000000</color>
+  <color name="white">#FFFFFFFF</color>
+  <color name="primary">#2979ff</color>
+</resources>
+----
+
+And after that I can update my theme file
+
+[source,xml]
+----
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Automacorp" parent="Theme.Material3.DayNight.NoActionBar">
+        <<item name="colorPrimary">@color/primary</item>
+    </style>
+
+    <style name="Theme.Automacorp" parent="Base.Theme.Automacorp" />
+</resources>
+----
+
+Run your app to see the new app rendering
 
 

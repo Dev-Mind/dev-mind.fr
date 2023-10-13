@@ -7,16 +7,20 @@
 :teaser: In this lesson you will learn how add a new activity in your project and call it
 :imgteaser: ../../img/training/android/android-add-activity.png
 :toc:
+:icons: font
 
 In this lesson, you will learn how to create a new View in your app and how to launch it with an Intent
 
 [.text-center]
-image::../../img/training/android/android-add-activity.png[Add activity, width=800]
+image::../../img/training/android/android-add-activity.png[Add activity, width=900]
 
-== Create a new activity
+== icon:flask[] : Create a new activity
 
 1. In the *Project window*, right-click the app folder and select *New > Activity > Empty Activity*.You can also use menu *File > New > Activity > Empty Activity*
-2. In the *Configure Activity window*, enter a name for our new activity : _WindowActivity_.Leave all other properties set to their defaults and click Finish.
++
+video::f-X8EXSsRYk[youtube, width=600, height=330]
++
+2. In the *Configure Activity window*, enter a name for our new activity : _WindowActivity_. Leave all other properties set to their defaults and click Finish.
 +
 Android Studio automatically does three things:
 +
@@ -31,6 +35,7 @@ Android Studio automatically does three things:
 * *margin top* 16dp
 * *margin left* 16dp
 5. Add a new TextView below the first one with these properties
++
 * *text* : empty
 * *textAppearance* : _@style/TextAppearance.AppCompat.Large_
 * *margin top* 8dp
@@ -39,15 +44,19 @@ Android Studio automatically does three things:
 +
 video::ppyIYuRpNWk[youtube, width=600, height=330]
 
-== Build an intent to open an activity
+== icon:flask[] : Build an intent to open an activity
 
-An https://developer.android.com/reference/android/content/Intent[Intent] is an object that provides runtime binding between separate components, such as two activities. These activities can be in the same app or not. For example if you need to open a web page you won't develop a new browser. You will open this web page in installed browser as Firefox or Chrome.
+An https://developer.android.com/reference/android/content/Intent[Intent] is an object that provides runtime binding between separate components, such as two activities. These activities can be in the same app or not.
+
+For example if you need to open a web page you won't develop a new browser. You will open this web page in installed browser as Firefox or Chrome.
 
 The https://developer.android.com/reference/android/content/Intent[Intent] represents an app’s intent to do something. You can use intents for a wide variety of tasks, but in this lesson, your intent starts another activity in the same app.
 
-image::../../img/training/android/android-intent.png[Intent]
+image::../../img/training/android/newactivity/android-intent.png[Intent, width=700, align="center"]
 
-When you create an Intent you define a context, a target and you can send zero, one or more informations to the target.  An Intent can carry data types as key-value pairs called extras. In this lab you will open *WindowActivity* when a user will click on *MainActivity* button *Open Window*
+When you create an Intent you define a context, a target and you can send zero, one or more informations to the target.
+
+An Intent can carry data types as key-value pairs called extras. In this lab you will open *WindowActivity* when a user will click on *MainActivity* button *Open Window*
 
 Update method *openWindow* in *MainActivity* to
 
@@ -104,28 +113,130 @@ It's time to test yours changes.
 
 Click *Apply Changes* image:../../img/training/android/android-studio-apply.svg[Apply changes]  in the toolbar to run the app. Type a window name in the text field and click on the button to see the message in the second activity
 
-== Manage back button to return on main activity
+== icon:flask[] : Create model to manage room and windows
 
-When you are on *WindowActivity* we want to add a button to go back on  *MainActivity*. To do that you need to update *WindowActivity* and add a line to activate option in action bar `supportActionBar?.setDisplayHomeAsUpEnabled(true)`
+A room is defined by several properties
+
+* an id
+* a name
+* a current temperature (this property can be nullable if no data is available) : in the backend app this value is read by a sensor, but here we just need the value of the current temperature
+* a target temperature (this property can be nullable if no data is available)
+* a list of window : for the moment we won't display these data but we will
+
+A Window is defined by several properties
+
+* an id
+* a room
+* a status : : in the backend app this value is read by a sensor, but here we just need the value OPEN or CLOSED
+
+We are going to create classes to represent windows and rooms.
+
+1. In the *Project window*, right-click the package _com.automacorp_ and select *New > package*.
+2. New package will be called *model*. Select this package, redo a right-click and select *New > Kotlin File/Class*.
+3. Fill a name. For example *RoomDto* (dto = data transfer object) and create window properties. You can copy this code
++
+[source,kotlin,subs="specialchars"]
+----
+
+data class RoomDto(
+    val id: Long,
+    val name: String,
+    val currentTemperature: Double?,
+    val targetTemperature: Double?
+)
+----
++
+Note: when a value is nullable you need to suffix type with ?. In our example currentTemperature can be null, so type is Double? and not Double
++
+4. Redo same steps to create *WindowDto*
++
+[source,kotlin,subs="specialchars"]
+----
+enum class WindowStatus { OPEN, CLOSED}
+
+data class WindowDto(
+    val id: Long,
+    val name: String,
+    val room: RoomDto,
+    val windowStatus: WindowStatus
+)
+----
++
+5. We will now create a service class to manage these windows. We will write 2 methods : one to find all building windows and a second to load only one window by its id. For the moment we will use fake data. In a next lesson we will learn how call a remote service to load real data. This class can be created in the package `com.automacorp.service`
++
+[source,kotlin,subs="specialchars"]
+----
+object WindowService {
+    // Fake rooms
+    val ROOMS: List<RoomDto> = listOf(
+        RoomDto(1, "Room EF 6.10", 18.2, 20.0),
+        RoomDto(2, "Hall", 18.2, 18.0),
+        RoomDto(3, "Room EF 7.10", 21.2, 20.0)
+    )
+
+    // Fake windows
+    val WINDOWS: List<WindowDto> = listOf(
+        WindowDto(1, "Entry Window", ROOMS[0], WindowStatus.CLOSED),
+        WindowDto(2, "Back Window", ROOMS[0], WindowStatus.CLOSED),
+        WindowDto(3, "Sliding door", ROOMS[1], WindowStatus.OPEN),
+        WindowDto(4, "Window 1", ROOMS[2], WindowStatus.CLOSED),
+        WindowDto(5, "Window 2", ROOMS[2], WindowStatus.CLOSED),
+    )
+}
+----
+
+== icon:flask[] : Create a new activity to display the room detail
+
+You can reproduce the firsts steps to create a new activity called `RoomActivity`.
+
+Follow the same steps to create a page to display all the room property.
+
+Create a new button on the home page and a method to open the room with the id equals to 1
+
+The method to add on the `MainActivity` can be this one
 
 [source,kotlin,subs="specialchars"]
 ----
-class WindowActivity : AppCompatActivity() {
+fun openRoom(view: View) {
+   val intent = Intent(this, RoomActivity::class.java).apply {
+       putExtra(ROOM_ID_PARAM, 1L)
+   }
+   startActivity(intent)
+}
+----
+
+The code of the `RoomActivity` can be this one
+
+[source,kotlin,subs="specialchars"]
+----
+class RoomActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_window)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        //...
+        setContentView(R.layout.activity_room)
+
+        val roomId = intent.getLongExtra(MainActivity.ROOM_ID_PARAM, -1)
+        val room = WindowService.ROOMS.firstOrNull {it.id == roomId}
+
+        val roomName = findViewById<TextView>(R.id.txt_room_name)
+        roomName.text = room?.name ?: ""
+
+        val roomCurrentTemperature = findViewById<TextView>(R.id.txt_room_current_temperature)
+        roomCurrentTemperature.text = room?.currentTemperature?.toString() ?: ""
+
+        val roomTargetTemperature = findViewById<TextView>(R.id.txt_room_target_temperature)
+        roomTargetTemperature.text = room?.targetTemperature?.toString() ?: ""
     }
 }
 ----
 
-You also need to define your activity parent. This definition is made in AndroidManifest.xml with property `parentActivityName`
+Note that the Kotlin code `room?.targetTemperature?.toString() ?: ""` is equivalent to
 
-[source,xml,subs="specialchars"]
+[source,kotlin,subs="specialchars"]
 ----
-<activity android:name=".WindowActivity" android:parentActivityName=".MainActivity"></activity>
+if (room !=null && room.targetTemperature != null) room.targetTemperature.toString() else ""
 ----
 
-Click *Apply Changes* image:../../img/training/android/android-studio-apply.svg[Apply changes]  in the toolbar to run the app and test back button.
+This image below show you an implementation example
+
+image::../../img/training/android/newactivity/android-second-activity.png[Activity room, width=700, align="center"]

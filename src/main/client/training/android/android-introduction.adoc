@@ -11,7 +11,7 @@
 
 To understand the specifics of Android development it is important to understand how the platform was built
 
-image::../../img/blog/2019/android_pf_00.png[Android course step1,width=800]
+image::../../img/training/android/intro/android-intro.png[Android course step1,width=800]
 
 == Android ecosystem
 

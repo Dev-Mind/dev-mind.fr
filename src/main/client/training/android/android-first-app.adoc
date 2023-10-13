@@ -299,7 +299,7 @@ android {
 }
 ----
 
-== Launch your application
+== icon:flask[] : Launch your application
 
 In this part you will be able to launch your application on you phone or tablet. If you don't have a device on Android operating system, you can use the emulator embedded in Android Studio.
 
