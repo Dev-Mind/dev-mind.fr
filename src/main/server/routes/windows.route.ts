@@ -1,7 +1,7 @@
 import {Request, Response} from 'express';
 import {BaseRoute} from './base.route';
 import {Router} from 'express-serve-static-core';
-import {Room, Windows} from '../model/windows';
+import {Room} from '../model/windows';
 
 const ROOMS: Array<Room> = [
   {

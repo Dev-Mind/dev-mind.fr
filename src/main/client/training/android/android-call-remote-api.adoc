@@ -7,6 +7,7 @@
 :teaser: In this lesson, you will learn how to call a remote API to synchronously read data.
 :imgteaser: ../../img/training/android/android-call-remote.png
 :toc:
+:icons: font
 
 In this lesson, we will see how to call a remote HTTP API with an external library called https://square.github.io/retrofit/[Retrofit]. https://square.github.io/retrofit/[Retrofit] was not done by Google. But when a library created by the community is widely used, well designed, the Android team does not hesitate to encourage its use.
 
@@ -18,23 +19,20 @@ If you followed the previous code labs to build a Spring application, you will b
 
 For the moment data are static in `com.automacorp.model.WindowService`. Now we will update this service to read data stored on a web server, as a REST web service.
 
-Dev-Mind website expose 2 simple non secured URLs
+Dev-Mind website expose simple non secured URLs to read Rooms ans their windows or heaters. This simple API can be used for this lab
 
+* https://dev-mind.fr/training/android/rooms
+* https://dev-mind.fr/training/android/rooms/id (id must be replaced by the value of a window id)
 * https://dev-mind.fr/training/android/windows
 * https://dev-mind.fr/training/android/windows/id (id must be replaced by the value of a window id)
+* https://dev-mind.fr/training/android/heaters
+* https://dev-mind.fr/training/android/heaters/id (id must be replaced by the value of a window id)
 
-You can also used your own Spring API if you followed Spring course or my implementation avilable on http://automacorp-client-for-android.cleverapps.io/swagger-ui/index.html. This app is secured by basic auth and you can the username `user` and his password `password`.
+You can also used your own Spring API if you followed Spring course or my implementation available on http://automacorp-client-for-android.cleverapps.io/swagger-ui/index.html. This app is secured by basic auth and you can the username `user` and his password `password`.
 
-== Install Retrofit
+== icon:flask[] : Install Retrofit
 
-To get this data into the app, your app needs to
-
-* establish a network connection to remote server which exposes your REST service and
-* communicate with that server, and then
-* receive its response data and
-* parse the data to be usable in your code.
-
-We will use Retrofit to do the first three steps. For the last one we need a converter to deserialize HTTP body. Several converters are available. We will use https://github.com/square/moshi/[Moshi] library
+As I said we need to install Retrofit to call a remote API and we also need another library to serialize/deserialize our Kotlin objects in/from JSON.
 
 1. Open *build.gradle (Module: automacorp.app)*.
 2. In the dependencies block, add 2 lines to load Retrofit and the Moshi converter (versions are available https://github.com/square/retrofit/tags[here])
@@ -44,24 +42,74 @@ We will use Retrofit to do the first three steps. For the last one we need a con
 implementation "com.squareup.retrofit2:retrofit:2.9.0"
 implementation "com.squareup.retrofit2:converter-moshi:2.9.0"
 ----
-+
-3. You also need to update if necessary android plugin configuration to activate support for Java 8 language. Retrofit was written in JDK 8. Update android block and add
-+
-[source,kotlin,subs="specialchars"]
-----
-compileOptions {
-    sourceCompatibility JavaVersion.VERSION_1_8
-    targetCompatibility JavaVersion.VERSION_1_8
-}
-
-kotlinOptions {
-    jvmTarget = JavaVersion.VERSION_1_8.toString()
-}
-----
-+
-4. As you updated your gradle configuration, Android Studio display a message to synchronize your projet. Click on *Sync now*
+3. As you updated your gradle configuration, Android Studio display a message to synchronize your projet. Click on *Sync now*
 +
 image:../../img/training/android/android-gradle-sync.png[Sync Gradle project]
+
+== Retrofit
+
+To interact with a remote HTTP API in Android app, your app needs to
+
+* establish a network connection to remote server which exposes your REST service and
+* communicate with that server, and then
+* receive its response data and
+* parse the data to be usable in your code.
+
+Retrofit was made to do all these steps easily. For the last one, we need a converter to deserialize HTTP body. Several converters are available. We will use https://github.com/square/moshi/[Moshi] library
+
+The mains goal of Retrofit is to turn your HTTP API into a Java interface. For example
+
+[source,kotlin,subs="specialchars"]
+----
+interface WindowApiService {
+    @GET("windows")
+    fun findAll(): Call<List<WindowDto>>
+
+    @GET("windows/{id}")
+    fun findById(@Path("id") id: Long): Call<WindowDto>
+
+    @PUT("windows/{id}")
+    fun updateWindow(@Path("id") id: Long, @Body window: WindowDto): Call<WindowDto>
+
+    //...
+}
+----
+
+Annotations (GET, POST, PUT, DELETE,...) on the interface methods and its parameters indicate how a request will be handled.
+
+A request URL can be updated dynamically using replacement blocks and parameters on the method. A replacement block is an alphanumeric string surrounded by { and }.
+
+You can bind a parameter in path
+[source,kotlin,subs="specialchars"]
+----
+@GET("windows/{id}")
+fun findById(@Path("id") id: Long): Call<WindowDto>
+----
+
+or a parameter in query
+[source,kotlin,subs="specialchars"]
+----
+@GET("windows")
+fun findAll(@Query("sort") sort: String): Call<List<WindowDto>>
+----
+
+An object can be specified for POST or PUT HTTP requests @Body annotation. In this case, Retrofit will use converter defined in your conf to serialize body object in JSON
+
+[source,kotlin,subs="specialchars"]
+----
+@PUT("windows/{id}")
+fun updateWindow(@Path("id") id: Long, @Body window: WindowDto): Call<WindowDto>
+----
+
+You will find more information on https://square.github.io/retrofit/[Retrofit] website
+
+It is the time to test by yourself.
+
+
+
+
+
+
 
 
 
