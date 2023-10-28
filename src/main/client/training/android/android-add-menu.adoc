@@ -70,7 +70,7 @@ image::../../img/training/android/menu/android-menu.png[Add menu resource]
 ----
 <resources>
     <!-- ... -->
-    <string name="menu_windows">Building windows</string>
+    <string name="menu_rooms">Building rooms</string>
     <string name="menu_website">Our website</string>
     <string name="menu_email">Send us an email</string>
     <!-- ... -->
@@ -110,8 +110,8 @@ open class BasicActivity : AppCompatActivity() {
 ----
 override fun onOptionsItemSelected(item: MenuItem): Boolean {
     when(item.itemId){
-        R.id.menu_windows -> startActivity(
-            Intent(this, WindowsActivity::class.java)
+        R.id.menu_rooms -> startActivity(
+            Intent(this, RoomsActivity::class.java)
         )
         R.id.menu_website -> startActivity(
             Intent(Intent.ACTION_VIEW, Uri.parse("https://dev-mind.fr"))

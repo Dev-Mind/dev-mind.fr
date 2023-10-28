@@ -144,7 +144,8 @@ data class RoomDto(
     val id: Long,
     val name: String,
     val currentTemperature: Double?,
-    val targetTemperature: Double?
+    val targetTemperature: Double?,
+    val windows: List<WindowDto>
 )
 ----
 +
@@ -159,7 +160,8 @@ enum class WindowStatus { OPEN, CLOSED}
 data class WindowDto(
     val id: Long,
     val name: String,
-    val room: RoomDto,
+    val roomName: String,
+    val roomId: Long,
     val windowStatus: WindowStatus
 )
 ----
@@ -169,20 +171,52 @@ data class WindowDto(
 [source,kotlin,subs="specialchars"]
 ----
 object WindowService {
-    // Fake rooms
-    val ROOMS: List<RoomDto> = listOf(
-        RoomDto(1, "Room EF 6.10", 18.2, 20.0),
-        RoomDto(2, "Hall", 18.2, 18.0),
-        RoomDto(3, "Room EF 7.10", 21.2, 20.0)
-    )
+    val ROOMS_NAME = listOf("Room EF 6.10", "Hall", "Room EF 7.10")
 
     // Fake windows
     val WINDOWS: List<WindowDto> = listOf(
-        WindowDto(1, "Entry Window", ROOMS[0], WindowStatus.CLOSED),
-        WindowDto(2, "Back Window", ROOMS[0], WindowStatus.CLOSED),
-        WindowDto(3, "Sliding door", ROOMS[1], WindowStatus.OPEN),
-        WindowDto(4, "Window 1", ROOMS[2], WindowStatus.CLOSED),
-        WindowDto(5, "Window 2", ROOMS[2], WindowStatus.CLOSED),
+        WindowDto(
+            id = 1,
+            name = "Entry Window",
+            roomId = 1,
+            roomName = ROOMS_NAME[0],
+            windowStatus = WindowStatus.CLOSED
+        ),
+        WindowDto(
+            id = 2,
+            name = "Back Window",
+            roomId = 1,
+            roomName = ROOMS_NAME[0],
+            windowStatus = WindowStatus.CLOSED
+        ),
+        WindowDto(
+            id = 3,
+            name = "Sliding door",
+            roomId = 2,
+            roomName = ROOMS_NAME[1],
+            windowStatus = WindowStatus.OPEN
+        ),
+        WindowDto(
+            id = 4,
+            name = "Window 1",
+            roomId = 3,
+            roomName = ROOMS_NAME[2],
+            windowStatus = WindowStatus.OPEN
+        ),
+        WindowDto(
+            id = 5,
+            name = "Window 2",
+            roomId = 3,
+            roomName = ROOMS_NAME[2],
+            windowStatus = WindowStatus.CLOSED
+        )
+    )
+
+    // Fake rooms
+    val ROOMS: List<RoomDto> = listOf(
+        RoomDto(1, "Room EF 6.10", 18.2, 20.0, WINDOWS.filter { it.roomId == 1L }),
+        RoomDto(2, "Hall", 18.2, 18.0, WINDOWS.filter { it.roomId == 2L }),
+        RoomDto(3, "Room EF 7.10", 21.2, 20.0, WINDOWS.filter { it.roomId == 3L })
     )
 }
 ----
