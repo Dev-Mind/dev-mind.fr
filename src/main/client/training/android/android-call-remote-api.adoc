@@ -8,13 +8,15 @@
 :imgteaser: ../../img/training/android/android-call-remote.png
 :toc:
 
-In this lesson, we will see how to call a remote HTTP API with https://square.github.io/retrofit/[Retrofit]. https://square.github.io/retrofit/[Retrofit] was not done by Google. But when a library created by the community is good and follows good development practices, the Android team doesn't hesitate to encourage its use.
+In this lesson, we will see how to call a remote HTTP API with an external library called https://square.github.io/retrofit/[Retrofit]. https://square.github.io/retrofit/[Retrofit] was not done by Google. But when a library created by the community is widely used, well designed, the Android team does not hesitate to encourage its use.
 
-image:../../img/training/android/android-call-remote.png[Call an HTTP API with Android]
+image:../../img/training/android/android-call-remote.png[Call an HTTP API with Android,width=800,align="center"]
 
 == Explore API
 
-If you followed the previous codelabs to build a Spring application you will be able to use your own app. You should have an API to list building windows and other to load detailed information on a window. For the moment data are static in *com.automacorp.model.WindowService*. Now we will update this service to read data stored on a web server, as a REST web service.
+If you followed the previous code labs to build a Spring application, you will be able to use your own app. You should have an API to list building rooms and other to load detailed information on a room.
+
+For the moment data are static in `com.automacorp.model.WindowService`. Now we will update this service to read data stored on a web server, as a REST web service.
 
 Dev-Mind website expose 2 simple non secured URLs
 
