@@ -129,7 +129,7 @@ A Window is defined by several properties
 
 * an id
 * a room
-* a status : : in the backend app this value is read by a sensor, but here we just need the value OPEN or CLOSED
+* a status : : in the backend app this value is read by a sensor, but here we just need the value OPENED or CLOSED
 
 We are going to create classes to represent windows and rooms.
 
@@ -155,7 +155,7 @@ Note: when a value is nullable you need to suffix type with ?. In our example cu
 +
 [source,kotlin,subs="specialchars"]
 ----
-enum class WindowStatus { OPEN, CLOSED}
+enum class WindowStatus { OPENED, CLOSED}
 
 data class WindowDto(
     val id: Long,
@@ -170,7 +170,7 @@ data class WindowDto(
 +
 [source,kotlin,subs="specialchars"]
 ----
-object WindowService {
+object RoomService {
     val ROOMS_NAME = listOf("Room EF 6.10", "Hall", "Room EF 7.10")
 
     // Fake windows
@@ -194,15 +194,14 @@ object WindowService {
             name = "Sliding door",
             roomId = 2,
             roomName = ROOMS_NAME[1],
-            windowStatus = WindowStatus.OPEN
+            windowStatus = WindowStatus.OPENED
         ),
         WindowDto(
             id = 4,
             name = "Window 1",
             roomId = 3,
             roomName = ROOMS_NAME[2],
-            windowStatus = WindowStatus.OPEN
-        ),
+            windowStatus = WindowStatus.OPENED
         WindowDto(
             id = 5,
             name = "Window 2",
@@ -252,7 +251,7 @@ class RoomActivity : AppCompatActivity() {
         setContentView(R.layout.activity_room)
 
         val roomId = intent.getLongExtra(MainActivity.ROOM_ID_PARAM, -1)
-        val room = WindowService.ROOMS.firstOrNull {it.id == roomId}
+        val room = RoomService.ROOMS.firstOrNull {it.id == roomId}
 
         val roomName = findViewById<TextView>(R.id.txt_room_name)
         roomName.text = room?.name ?: ""

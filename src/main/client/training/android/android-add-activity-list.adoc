@@ -159,7 +159,7 @@ class RoomsActivity : BasicActivity() {
             recyclerView.adapter = roomsAdapter // (5)
         }
 
-        roomsAdapter.setItems(WindowService.ROOMS)  // (6)
+        roomsAdapter.setItems(RoomService.ROOMS)  // (6)
     }
 }
 ----

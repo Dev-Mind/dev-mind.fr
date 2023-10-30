@@ -14,6 +14,8 @@ In few words Kotlin is
 * *Interoperable* Leverage existing libraries for the JVM, Android, and the browser. You can call Kotlin code in Java or Java code in Kotlin
 * *Safe* Kotlin tries to help you reduce errors like null pointer exceptions
 
+For several years Java has been trying to catch up with Koltin. Kotlin has allowed a questioning of Java but Java will still take a long time to catch up.
+
 [.text-center]
 image::../../img/training/learn-kotlin.png[Learn Kotlin, width=800]
 
@@ -39,7 +41,7 @@ In IntelliJ you can use the contextual menu (right click) to run this class and 
 Hello EMSE I am Guillaume
 ----
 
-With Kotlin you can write to produce the same result
+With Kotlin you can write to produce the same result. You can test your Kotlin code directly in an Internet browser on https://play.kotlinlang.org/
 
 [source,kotlin, subs="specialchars"]
 ----

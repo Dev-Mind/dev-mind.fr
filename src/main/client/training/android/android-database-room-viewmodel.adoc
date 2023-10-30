@@ -20,7 +20,7 @@ You have other libraries to do the same but Room has the advantage of being prov
 
 == Configure Room in your project
 
-1. Open *build.gradle (Module: automacorp.app)*.
+1. Open *build.gradle.kts (Module: automacorp.app)*.
 2. As Room uses annotations we need to configure Gradle to launch the kotlin annotation processor.
 For that you just have to add a new plugin id `kotlin-kapt`
 +

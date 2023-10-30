@@ -246,7 +246,7 @@ We will see later how to update or create a new layout and include inside widget
 
 === Gradle file
 
-*File :* *_Gradle Scripts > build.gradle_*
+*File :* *_Gradle Scripts > build.gradle.kts_*
 
 There are two files with this name:
 
@@ -267,12 +267,12 @@ You can also configure the `android` plugin (APi version, SDK version).The `defa
 ----
 android {
    namespace = "com.automacorp"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.automacorp"
         minSdk = 29
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
