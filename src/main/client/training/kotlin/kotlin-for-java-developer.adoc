@@ -7,6 +7,7 @@
 :teaser: How to start in Kotlin when you know only Java language.
 :imgteaser: ../../img/training/learn-kotlin.png
 :toc:
+:icons: font
 
 In few words Kotlin is
 
@@ -41,7 +42,7 @@ In IntelliJ you can use the contextual menu (right click) to run this class and 
 Hello EMSE I am Guillaume
 ----
 
-With Kotlin you can write to produce the same result. You can test your Kotlin code directly in an Internet browser on https://play.kotlinlang.org/
+With Kotlin you can write to produce the same result.
 
 [source,kotlin, subs="specialchars"]
 ----
@@ -376,6 +377,40 @@ class HelloWorld {
 ----
 
 You can still create the equivalent of an inner class using the `internal inner class` syntax. Once again, the language has chosen to simplify the most common use case.
+
+
+== icon:flask[] : Your first project in Kotlin
+
+To develop these exercices, you can use IntelliJ, Android or this https://play.kotlinlang.org/[website].
+
+1. Create a main function to display the message "Hello Kotlin World" in the console
+2. Create a data class to manage your rooms. You should define
++
+* a non nullable `id` of type `Long`
+* a non nullabe `name` of type `String`
+* a nullabe `currentTemperature` of type `Double` with a default value to null
++
+3. Create an immutable List in your main function with several rooms. If your class is correct the following code will compile
++
+[source, kotlin, subs="specialchars"]
+----
+val rooms = listOf(
+    RoomDto(1, "Room1"),
+    RoomDto(2, "Room2", 20.3),
+    RoomDto(id = 3, name = "Room3", currentTemperature = 20.3),
+    RoomDto(4, "Room4", currentTemperature = 19.3),
+)
+----
++
+4. Display the name of each room in the console. You should use
++
+* a https://kotlinlang.org/docs/collection-transformations.html[map] function to extract the name,
+* a https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.sequences/join-to-string.html[joinToString] function to join all the value in a String with a ',' separator
+* a `println` function to obtain `Room1, Room2, Room3, Room4` in the console
++
+5. Filter the rooms with a temperature greater than 20° and display the result in the console. You should obtain  `Room4`
+6. Declare a nullable variable called mainRoom in your code. Initialize this value with `RoomDto(5, "Room5", currentTemperature = 19.3)`. Display in the console currentTemperature of the room  (To compile your code you should use a `?`)
+7. Create a function to compute the number of characters in a room name. This function must have one nullable room as argument.
 
 == Function extension
 
