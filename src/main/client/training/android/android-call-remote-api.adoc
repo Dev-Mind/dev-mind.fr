@@ -28,22 +28,6 @@ Dev-Mind website expose simple non secured URLs to read Rooms ans their windows 
 
 You can also used your own Spring API if you followed Spring course or my implementation available on https://automacorp.devmind.cleverapps.io/swagger-ui/index.html. This app is secured by basic auth and you can the username `user` and his password `password`.
 
-== icon:flask[] : Install Retrofit
-
-As I said we need to install Retrofit to call a remote API and we also need another library to serialize/deserialize our Kotlin objects in/from JSON.
-
-1. Open *build.gradle.kts (Module: automacorp.app)*.
-2. In the dependencies block, add 2 lines to load Retrofit and the Moshi converter (versions are available https://github.com/square/retrofit/tags[here])
-+
-[source,groovy,subs="specialchars"]
-----
-implementation "com.squareup.retrofit2:retrofit:2.9.0"
-implementation "com.squareup.retrofit2:converter-moshi:2.9.0"
-----
-3. As you updated your gradle configuration, Android Studio display a message to synchronize your projet. Click on *Sync now*
-+
-image:../../img/training/android/android-gradle-sync.png[Sync Gradle project]
-
 == Retrofit
 
 To interact with a remote HTTP API in Android app, your app needs to
@@ -126,7 +110,21 @@ You will find more information on https://square.github.io/retrofit/[Retrofit] w
 
 It is the time to test by yourself.
 
-== icon:flask[] :  Configure Retrofit
+== icon:flask[] : Configure Retrofit
+
+As I said we need to install Retrofit to call a remote API and we also need another library to serialize/deserialize our Kotlin objects in/from JSON.
+
+1. Open *build.gradle.kts (Module: automacorp.app)*.
+2. In the dependencies block, add 2 lines to load Retrofit and the Moshi converter (versions are available https://github.com/square/retrofit/tags[here])
++
+[source,groovy,subs="specialchars"]
+----
+implementation "com.squareup.retrofit2:retrofit:2.9.0"
+implementation "com.squareup.retrofit2:converter-moshi:2.9.0"
+----
+3. As you updated your gradle configuration, Android Studio display a message to synchronize your projet. Click on *Sync now*
++
+image:../../img/training/android/android-gradle-sync.png[Sync Gradle project]
 
 Now you are ready to write the code to call your API.
 
@@ -239,11 +237,7 @@ private fun getUnsafeOkHttpClient(): OkHttpClient.Builder =
 
 == icon:flask[] : Use Retrofit
 
-We can now adapt our code to use this API when we want to display the room list or a room detail.
-
-=== Room list
-
-For the moment, the list of rooms is populated with this code `roomsAdapter.setItems(WindowService.ROOMS)` in your `RoomsActivity`
+We can now adapt our code to use this API when we want to display the room list or a room detail. For the moment, the list of rooms is populated with this code `roomsAdapter.setItems(WindowService.ROOMS)` in your `RoomsActivity`
 
 We can replace this line by this code
 
@@ -467,7 +461,7 @@ fun saveRoom() {
     )
     lifecycleScope.launch(context = Dispatchers.IO) { // (1)
         runCatching {
-            if (roomId == null || roomId == -1L) {
+            if (roomId == null || roomId == 0L) {
                 ApiServices.roomsApiService.save(roomDto).execute()
             } else {
                 ApiServices.roomsApiService.updateRoom(roomId, roomDto).execute()
@@ -488,4 +482,6 @@ fun saveRoom() {
 }
 ----
 
-Now you can call all your remote API.
+Now you can call all your remote API. You can also update your Room detail screen to display the room windows
+
+image:../../img/training/android/remote/room_detail.png[Room detail,width=400,align="center"]

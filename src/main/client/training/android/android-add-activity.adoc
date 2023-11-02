@@ -250,7 +250,7 @@ class RoomActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_room)
 
-        val roomId = intent.getLongExtra(MainActivity.ROOM_ID_PARAM, -1)
+        val roomId = intent.getLongExtra(MainActivity.ROOM_ID_PARAM, 0)
         val room = RoomService.ROOMS.firstOrNull {it.id == roomId}
 
         val roomName = findViewById<TextView>(R.id.txt_room_name)
