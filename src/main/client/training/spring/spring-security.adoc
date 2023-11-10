@@ -353,7 +353,9 @@ void shouldSwitchWindow() throws Exception {
 You can also disable csrf on your global configuration to be able to use your REST API. To do that add
 
 ```
-http.csrf(AbstractHttpConfigurer::disable);
+http
+    .csrf(AbstractHttpConfigurer::disable)
+    .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
 ```
 
 in your `SpringSecurityConfig` when you configure the `SecurityFilterChain` bean
