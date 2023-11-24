@@ -36,7 +36,7 @@ class RoomsAdapter : RecyclerView.Adapter<RoomsAdapter.RoomsViewHolder>() { // (
 
     private val items = mutableListOf<RoomDto>() // (3)
 
-    fun update(rooms: List<RoomDto>) {  // (4)
+    fun setItems(rooms: List<RoomDto>) {  // (4)
         items.clear()
         items.addAll(rooms)
         notifyDataSetChanged()
@@ -151,6 +151,8 @@ class RoomsActivity : BasicActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_rooms)
+
+        val roomsAdapter = RoomAdapdter()
 
         findViewById<RecyclerView>(R.id.list_rooms).also { recyclerView -> // (1)
             recyclerView.layoutManager = LinearLayoutManager(this) // (2)
