@@ -280,4 +280,4 @@ image::../../img/training/android/newactivity/android-second-activity.png[Activi
 
 You need to create an empty activity with just a TextView with a label "Rooms".
 
-image::../../img/training/android/android-new-activity.png[Add activity for list windows]
+image::../../img/training/android/newactivity/android-new-activity.png[Add activity for list windows]
