@@ -369,7 +369,7 @@ package="com.example.snazzyapp">
 
 Each user can accept or reject an app permission request, when this app is installed or when the user update the app settings in the device setting. So generally, you must handle this case and ask the user to reactivate the rights if he wants to use your application. In our case we will not test the authorization and we will consider that the user has accepted this permission.
 
-You can now relaunch your app and you will be able to open the room list without error.For more informations about permissions you can read this https://developer.android.com/guide/topics/permissions/overview[page].
+You can now relaunch your app and you will be able to open the room list without error. For more informations about permissions you can read this https://developer.android.com/guide/topics/permissions/overview[page].
 
 == icon:flask[] : Update the screen to display and update the detail
 
