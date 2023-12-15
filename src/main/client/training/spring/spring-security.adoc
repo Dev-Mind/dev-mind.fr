@@ -360,3 +360,9 @@ http
 
 in your `SpringSecurityConfig` when you configure the `SecurityFilterChain` bean
 
+
+==== Connect your own login page
+
+If nous need to use your own login page, you can configure Spring Security to use it.
+
+You can read this https://docs.spring.io/spring-security/reference/servlet/authentication/passwords/form.html[documentation]
