@@ -2202,10 +2202,10 @@ async-settle@^1.0.0:
   dependencies:
     async-done "^1.2.2"
 
-async@3.2.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/async/-/async-3.2.0.tgz#b3a2685c5ebb641d3de02d161002c60fc9f85720"
-  integrity sha512-TR2mEZFVOj2pLStYxLht7TyfuRzaydfpxr3k9RpHIzMgw7A64dzsdqCxH1WJyQdoe8T10nDXd9wnEigmiuHIZw==
+async@3.2.5:
+  version "3.2.5"
+  resolved "https://registry.yarnpkg.com/async/-/async-3.2.5.tgz#ebd52a8fdaf7a2289a24df399f8d8485c8a46b66"
+  integrity sha512-baNZyqaaLhyLVKm/DlvdW051MSgO6b8eVfIezl9E5PqWxFgzLm/wQntEW4zOytVburDEr0JlALEpdOFwvErLsg==
 
 asynckit@^0.4.0:
   version "0.4.0"
@@ -3724,9 +3724,9 @@ detect-newline@^3.0.0:
   resolved "https://registry.yarnpkg.com/detect-newline/-/detect-newline-3.1.0.tgz#576f5dfc63ae1a192ff192d8ad3af6308991b651"
   integrity sha512-TLz+x/vEXm/Y7P7wn1EJFNLxYpUD4TgMosxY6fAVJUnJMbupHBOncxyWUG9OpTaH9EBD7uFI5LfEgmMOc54DsA==
 
-"devmind-website@https://github.com/Dev-Mind/devmind-website.git#2.1.11":
-  version "2.1.11"
-  resolved "https://github.com/Dev-Mind/devmind-website.git#568a65bf720dde7a7edb3058765a5d7a0a13c738"
+"devmind-website@https://github.com/Dev-Mind/devmind-website.git#2.1.16":
+  version "2.1.14"
+  resolved "https://github.com/Dev-Mind/devmind-website.git#d080eb2ccff181bcb27b77dd3963e2957cc369ce"
   dependencies:
     "@types/gulp" "^4.0.6"
     "@types/through2" "^2.0.36"

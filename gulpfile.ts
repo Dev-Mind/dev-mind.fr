@@ -51,7 +51,11 @@ const website = new DevMindGulpBuilder({
     blog: 'src/main/client/metadata/blog.json',
     html: 'src/main/client/metadata/html.json',
     sitemap: 'src/main/client/metadata/sitemap.json'
-  }
+  },
+  dirNames: [
+    'blog',
+    'training'
+  ]
 });
 // Service worker version is read in a file
 const SW_VERSION_FILE = './version';

@@ -7,15 +7,13 @@
 <meta name="keywords" content="{{#keywords}}{{keywords}}{{/keywords}}">
 <meta name="description" content="{{ description }}">
 
-<link rel="canonical" href="https://dev-mind.fr/{{canonicalUrl}}">
-
 <title>{{ title }}</title>
 
 <meta property="og:title" content="{{ title }}">
 <meta property="og:type" content="website">
-{{#filename}}
-<meta property="og:url" content="https://dev-mind.fr/blog/{{dir}}/{{filename}}.html">
-{{/filename}}
+{{#canonicalUrl}}
+<meta property="og:url" content="https://dev-mind.fr/{{.}}">
+{{/canonicalUrl}}
 <meta property="og:description" content="{{ description }}">
 
 <link rel="icon" href="{{ baseuri }}favicon.ico" type="image/x-icon">
